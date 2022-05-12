@@ -1,7 +1,9 @@
-﻿using Leopotam.EcsLite;
+﻿using System;
+using Gemserk.Leopotam.Ecs;
+using Leopotam.EcsLite;
 using UnityEngine;
 
-public class WeaponSystem : MonoBehaviour, IEcsInitSystem, IEcsRunSystem, IFixedUpdateSystem
+public class WeaponSystem : BaseSystem, IEcsInitSystem, IEcsRunSystem, IFixedUpdateSystem
 {
     public void Init(EcsSystems systems)
     {

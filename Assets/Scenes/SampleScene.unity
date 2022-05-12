@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 1090743139}
   - component: {fileID: 1090743140}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: WeaponSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
