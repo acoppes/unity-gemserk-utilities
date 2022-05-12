@@ -1,8 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Gemserk.Leopotam.Ecs;
-using Leopotam.EcsLite;
+﻿using Gemserk.Leopotam.Ecs;
 using UnityEngine;
+
+public class GameSharedData
+{
+    
+}
 
 public class SampleSceneController : MonoBehaviour
 {
@@ -13,7 +15,8 @@ public class SampleSceneController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        world.Init(this);
+        world.sharedData = new GameSharedData();
+        world.Init();
         
         var entity = world.world.NewEntity();
         var weapons = world.world.GetPool<Weapon>();
