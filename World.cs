@@ -1,4 +1,5 @@
-﻿using Leopotam.EcsLite;
+﻿using System;
+using Leopotam.EcsLite;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
@@ -13,6 +14,10 @@ namespace Gemserk.Leopotam.Ecs
         // public Time time;
         
         public EcsWorld world;
+
+        public object sharedData;
+        
+        public bool autoInitializationOnStart;
     
         private EcsSystems fixedUpdateSystems, updateSystems, lateUpdateSystems;
 
@@ -29,7 +34,15 @@ namespace Gemserk.Leopotam.Ecs
             }
         }
 
-        public void Init(object sharedData = null) {
+        private void Start()
+        {
+            if (autoInitializationOnStart)
+            {
+                Init();
+            }
+        }
+
+        public void Init() {
             world = new EcsWorld ();
 
             fixedUpdateSystems = new EcsSystems(world, sharedData);
