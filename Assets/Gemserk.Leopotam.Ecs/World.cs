@@ -5,7 +5,7 @@ namespace Gemserk.Leopotam.Ecs
 {
     public class World : MonoBehaviour
     {
-        private EcsWorld world;
+        public EcsWorld world;
     
         private EcsSystems fixedUpdateSystems, updateSystems, lateUpdateSystems;
 
