@@ -10,14 +10,13 @@ public class WeaponSystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem
         var filter = systems.GetWorld().Filter<Weapon>().End();
         var weapons = systems.GetWorld().GetPool<Weapon>();
 
-        var sceneController = systems.GetShared<SampleSceneController>();
-        
-        Debug.Log(sceneController.test);
+        // var sceneController = systems.GetShared<SampleSceneController>();
+        // Debug.Log(sceneController.test);
         
         foreach (var entity in filter)
         {
             ref var weapon = ref weapons.Get(entity);
-            weapon.cooldown -= 1;
+            weapon.cooldown -= Time.deltaTime;
             Debug.Log(weapon.cooldown);
 
             if (weapon.cooldown < 0)
