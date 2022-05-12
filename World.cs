@@ -18,12 +18,12 @@ namespace Gemserk.Leopotam.Ecs
             }
         }
 
-        private void Awake () {
+        public void Init(object sharedData = null) {
             world = new EcsWorld ();
 
-            fixedUpdateSystems = new EcsSystems(world);
-            updateSystems = new EcsSystems(world);
-            lateUpdateSystems = new EcsSystems(world);
+            fixedUpdateSystems = new EcsSystems(world, sharedData);
+            updateSystems = new EcsSystems(world, sharedData);
+            lateUpdateSystems = new EcsSystems(world, sharedData);
             
             Register<IFixedUpdateSystem>(fixedUpdateSystems);
             Register<IUpdateSystem>(updateSystems);
