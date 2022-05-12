@@ -5,6 +5,13 @@ namespace Gemserk.Leopotam.Ecs
 {
     public class World : MonoBehaviour
     {
+        // public class Time
+        // {
+        //     public float deltaTime;
+        // }
+        //
+        // public Time time;
+        
         public EcsWorld world;
     
         private EcsSystems fixedUpdateSystems, updateSystems, lateUpdateSystems;
@@ -14,6 +21,10 @@ namespace Gemserk.Leopotam.Ecs
             var systems = GetComponentsInChildren<T>();
             foreach (var system in systems)
             {
+                // if (system is BaseSystem baseSystem)
+                // {
+                //     baseSystem.world = this;
+                // }
                 ecsSystems.Add(system);
             }
         }
@@ -36,15 +47,18 @@ namespace Gemserk.Leopotam.Ecs
     
         private void FixedUpdate()
         {
+            // time.deltaTime = UnityEngine.Time.deltaTime;
             fixedUpdateSystems.Run ();
         }
 
         private void Update () {
+            // time.deltaTime = UnityEngine.Time.deltaTime;
             updateSystems.Run ();
         }
 
         private void LateUpdate()
         {
+            // time.deltaTime = UnityEngine.Time.deltaTime;
             lateUpdateSystems.Run ();
         }
 
