@@ -3,23 +3,17 @@ using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using UnityEngine;
 
-public struct Weapon
+public class WeaponSystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem
 {
-    public float cooldown;
-}
-
-public class WeaponSystem : BaseSystem, IEcsInitSystem, IEcsRunSystem, IFixedUpdateSystem
-{
-    public void Init(EcsSystems systems)
-    {
-        
-    }
-
     public void Run(EcsSystems systems)
     {
         var filter = systems.GetWorld().Filter<Weapon>().End();
         var weapons = systems.GetWorld().GetPool<Weapon>();
 
+        var sceneController = systems.GetShared<SampleSceneController>();
+        
+        Debug.Log(sceneController.test);
+        
         foreach (var entity in filter)
         {
             ref var weapon = ref weapons.Get(entity);
