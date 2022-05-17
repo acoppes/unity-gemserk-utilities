@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace Gemserk.Leopotam.Ecs.Extensions
 {
-    public struct CreateEntity
+    public struct EntityDefinitionComponent
     {
         public IEntityDefinition definition;
-        public List<IEntityInstanceParameter> parameters;
+        public IEnumerable<IEntityInstanceParameter> parameters;
     }
 }
