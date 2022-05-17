@@ -11,7 +11,7 @@ namespace Gemserk.Leopotam.Ecs
 
         // protected World.Time time => world.time;
 
-        protected EcsPool<T> GetComponents<T>() where T : struct
+        protected new EcsPool<T> GetComponents<T>() where T : struct
         {
             return world.world.GetPool<T>();
         }
