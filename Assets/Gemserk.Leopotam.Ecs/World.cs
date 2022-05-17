@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs.Extensions;
 using Leopotam.EcsLite;
 using UnityEngine;
@@ -16,6 +17,8 @@ namespace Gemserk.Leopotam.Ecs
         private EcsSystems fixedUpdateSystems, updateSystems, lateUpdateSystems;
 
         private bool initialized;
+
+        public Action<World, int> onEntityCreated, onEntityDestroyed;
 
         public int NewEntity(IEntityDefinition definition, IEnumerable<IEntityInstanceParameter> parametersList = null)
         {
@@ -161,12 +164,12 @@ namespace Gemserk.Leopotam.Ecs
 
         private void OnEntityCreated(int entity)
         {
-            // throw new System.NotImplementedException();
+            onEntityCreated?.Invoke(this, entity);
         }
         
         private void OnEntityDestroyed(int entity)
         {
-            // throw new System.NotImplementedException();
+            onEntityDestroyed?.Invoke(this, entity);
         }
     }
 }

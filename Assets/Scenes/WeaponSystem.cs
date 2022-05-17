@@ -2,8 +2,35 @@
 using Leopotam.EcsLite;
 using UnityEngine;
 
-public class WeaponSystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem
+public class WeaponSystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem, IEcsInitSystem
 {
+    public void Init(EcsSystems systems)
+    {
+        world.onEntityCreated += OnEntityCreated;
+        world.onEntityDestroyed += OnEntityDestroyed;
+    }
+    
+    private void OnEntityCreated(World world, int entity)
+    {
+        var weapons = world.GetComponents<Weapon>();
+        if (weapons.Has(entity))
+        {
+            ref var weapon = ref weapons.Get(entity);
+            weapon.gameObject = new GameObject(weapon.name);
+        }
+    }
+
+    private void OnEntityDestroyed(World world, int entity)
+    {
+        var weapons = world.GetComponents<Weapon>();
+        if (weapons.Has(entity))
+        {
+            ref var weapon = ref weapons.Get(entity);
+            Destroy(weapon.gameObject);
+            weapon.gameObject = null;
+        }
+    }
+
     public void Run(EcsSystems systems)
     {
         var filter = systems.GetWorld().Filter<Weapon>().Exc<ToDestroy>().End();
@@ -30,4 +57,5 @@ public class WeaponSystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem
             }
         }
     }
+
 }

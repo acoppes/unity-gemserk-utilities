@@ -5,6 +5,11 @@
 * Delta time in shared object
 * Delayed creation /destruction?
   - Delegate to World and use common components for that.
-* Events?
 * Singleton Entities (by name)
   - Where to store the reference (shared data?)
+* Tuples
+  - Dependency Injection of tuples?
+
+## Examples
+
+* Nullify references with events
