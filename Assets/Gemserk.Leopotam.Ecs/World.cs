@@ -1,4 +1,6 @@
-﻿using Leopotam.EcsLite;
+﻿using System.Collections.Generic;
+using Gemserk.Leopotam.Ecs.Extensions;
+using Leopotam.EcsLite;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
@@ -15,11 +17,37 @@ namespace Gemserk.Leopotam.Ecs
 
         private bool initialized;
 
-        public int NewEntity()
+        public int NewEntity(IEntityDefinition definition, IEnumerable<IEntityInstanceParameter> parametersList = null)
         {
-            return world.NewEntity();
+            var entity = world.NewEntity();
+            
+            AddComponent(entity, new EntityDefinitionComponent
+            {
+                definition = definition,
+                parameters = parametersList
+            });
+            
+            definition.Apply(this, entity);
+            
+            if (parametersList != null)
+            {
+                foreach (var parameters in parametersList)
+                {
+                    parameters.Apply(this, entity);
+                }
+            }
+            
+            OnEntityCreated(entity);
+            
+            return entity;
         }
-        
+
+        public void DestroyEntity(int entity)
+        {
+            OnEntityDestroyed(entity);
+            world.DelEntity(entity);
+        }
+
         public void AddComponent<T>(int entity) where T : struct
         {
             world.GetPool<T>().Add(entity);
@@ -131,7 +159,12 @@ namespace Gemserk.Leopotam.Ecs
             }
         }
 
-        public void OnEntityCreated(int entity)
+        private void OnEntityCreated(int entity)
+        {
+            // throw new System.NotImplementedException();
+        }
+        
+        private void OnEntityDestroyed(int entity)
         {
             // throw new System.NotImplementedException();
         }
