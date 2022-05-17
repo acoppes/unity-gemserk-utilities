@@ -19,10 +19,12 @@ public class SampleSceneController : MonoBehaviour
         world.Init();
         
         var entity = world.world.NewEntity();
-        var weapons = world.world.GetPool<Weapon>();
-        ref var weapon = ref weapons.Add (entity);
-        weapon.cooldown = 4;
-        weapon.name = "WEAPON1";
+        
+        world.world.AddComponent(entity, new Weapon
+        {
+            cooldown = 4,
+            name = "WEAPON1"
+        });
     }
 
     // Update is called once per frame

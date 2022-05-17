@@ -12,7 +12,7 @@ public class ToDestroySystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem
         {
             var toDestroy = systems.GetComponent<ToDestroy>(entity);
             Debug.Log($"{toDestroy.val}, {toDestroy.val2}");
-            systems.GetWorld().DelEntity(entity);
+            systems.DelEntity(entity);
         }
     }
 }
