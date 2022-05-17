@@ -1,3 +1,4 @@
+using System.Linq;
 using Leopotam.EcsLite;
 using UnityEngine;
 
@@ -17,10 +18,12 @@ namespace Gemserk.Leopotam.Ecs.Extensions
                 
                 world.AddComponent(entity, new CreateEntity
                 {
-                    definition = gameObject.GetComponent<PrefabEntityDefinition>()
+                    definition = gameObject.GetComponent<PrefabEntityDefinition>(),
+                    parameters = prefabInstance.GetComponentsInChildren<IEntityInstanceParameter>().ToList()
                 });
                 
-                Destroy(prefabInstance.gameObject);
+                prefabInstance.gameObject.SetActive(false);
+                // Destroy(prefabInstance.gameObject);
             }
         }
     }
