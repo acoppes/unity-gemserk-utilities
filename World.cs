@@ -21,6 +21,8 @@ namespace Gemserk.Leopotam.Ecs
     
         private EcsSystems fixedUpdateSystems, updateSystems, lateUpdateSystems;
 
+        private bool initialized;
+
         private void Register<T>(EcsSystems ecsSystems) where T: IEcsSystem
         {
             var systems = GetComponentsInChildren<T>();
@@ -43,6 +45,12 @@ namespace Gemserk.Leopotam.Ecs
         }
 
         public void Init() {
+            
+            if (initialized)
+            {
+                return;
+            }
+            
             world = new EcsWorld ();
 
             fixedUpdateSystems = new EcsSystems(world, sharedData);
@@ -56,6 +64,8 @@ namespace Gemserk.Leopotam.Ecs
             fixedUpdateSystems.Init ();
             updateSystems.Init();
             lateUpdateSystems.Init();
+
+            initialized = true;
         }
     
         private void FixedUpdate()
