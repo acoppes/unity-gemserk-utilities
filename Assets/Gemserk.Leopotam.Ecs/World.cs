@@ -1,18 +1,10 @@
-﻿using System;
-using Leopotam.EcsLite;
+﻿using Leopotam.EcsLite;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
 {
     public class World : MonoBehaviour
     {
-        // public class Time
-        // {
-        //     public float deltaTime;
-        // }
-        //
-        // public Time time;
-        
         public EcsWorld world;
 
         public object sharedData;
@@ -22,6 +14,37 @@ namespace Gemserk.Leopotam.Ecs
         private EcsSystems fixedUpdateSystems, updateSystems, lateUpdateSystems;
 
         private bool initialized;
+
+        public int NewEntity()
+        {
+            return world.NewEntity();
+        }
+        
+        public void AddComponent<T>(int entity) where T : struct
+        {
+            world.GetPool<T>().Add(entity);
+        }
+        
+        public void AddComponent<T>(int entity, T t) where T : struct
+        {
+            ref var newT = ref world.GetPool<T>().Add(entity);
+            newT = t;
+        }
+        
+        public ref T GetComponent<T>(int entity) where T : struct
+        {
+            return ref world.GetPool<T>().Get(entity);
+        }
+        
+        public new EcsPool<T> GetComponents<T>() where T : struct
+        {
+            return world.GetPool<T>();
+        }
+        
+        public EcsWorld.Mask GetFilter<T>() where T : struct
+        {
+            return world.Filter<T>();
+        }
 
         private void Register<T>(EcsSystems ecsSystems) where T: IEcsSystem
         {
@@ -106,6 +129,11 @@ namespace Gemserk.Leopotam.Ecs
                 world.Destroy ();
                 world = null;
             }
+        }
+
+        public void OnEntityCreated(int entity)
+        {
+            // throw new System.NotImplementedException();
         }
     }
 }

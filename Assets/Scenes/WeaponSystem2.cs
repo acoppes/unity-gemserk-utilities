@@ -6,9 +6,9 @@ public class WeaponSystem2 : BaseSystem, IEcsRunSystem, IFixedUpdateSystem
 {
     public void Run(EcsSystems systems)
     {
-        var filter = GetFilter<Weapon>().Exc<ToDestroy>().End();
+        var filter = world.GetFilter<Weapon>().Exc<ToDestroy>().End();
         // var weapons = systems.GetWorld().GetPool<Weapon>();
-        var weapons = GetComponents<Weapon>();
+        var weapons = world.GetComponents<Weapon>();
         
 
         // var sceneController = systems.GetShared<SampleSceneController>();
