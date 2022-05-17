@@ -15,6 +15,11 @@ namespace Gemserk.Leopotam.Ecs.Extensions
                 
                 createEntity.definition.Apply(world, entity);
 
+                foreach (var parameters in createEntity.parameters)
+                {
+                    parameters.Apply(world, entity);
+                }
+
                 // EVENT ON ENTITY CREATED
 
                 world.OnEntityCreated(entity);
