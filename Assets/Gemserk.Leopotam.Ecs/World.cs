@@ -26,10 +26,10 @@ namespace Gemserk.Leopotam.Ecs
             var systems = GetComponentsInChildren<T>();
             foreach (var system in systems)
             {
-                // if (system is BaseSystem baseSystem)
-                // {
-                //     baseSystem.world = this;
-                // }
+                if (system is BaseSystem baseSystem)
+                {
+                    baseSystem.world = this;
+                }
                 ecsSystems.Add(system);
             }
         }

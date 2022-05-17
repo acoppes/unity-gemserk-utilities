@@ -1,13 +1,26 @@
-﻿using UnityEngine;
+﻿using System;
+using Leopotam.EcsLite;
+using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
 {
     public abstract class BaseSystem : MonoBehaviour
     {
-        // public World world;
+        [NonSerialized]
+        public World world;
 
         // protected World.Time time => world.time;
-        
+
+        protected EcsPool<T> GetComponents<T>() where T : struct
+        {
+            return world.world.GetPool<T>();
+        }
+
+        protected EcsWorld.Mask GetFilter<T>() where T : struct
+        {
+            return world.world.Filter<T>();
+        }
+
 #if UNITY_EDITOR
         private void OnValidate()
         {
