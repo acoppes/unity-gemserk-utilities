@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Gemserk.Leopotam.Ecs.Extensions
+namespace Gemserk.Leopotam.Ecs
 {
     public struct EntityDefinitionComponent
     {

@@ -1,5 +1,4 @@
 ﻿using Gemserk.Leopotam.Ecs;
-using Gemserk.Leopotam.Ecs.Extensions;
 using UnityEngine;
 
 public class WeaponDefinition : MonoBehaviour, IEntityDefinition

@@ -1,4 +1,4 @@
-namespace Gemserk.Leopotam.Ecs.Extensions
+namespace Gemserk.Leopotam.Ecs
 {
     public interface IEntityDefinition
     {
