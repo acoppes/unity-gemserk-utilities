@@ -10,7 +10,7 @@ public class WeaponSystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem, IEcsI
         world.onEntityDestroyed += OnEntityDestroyed;
     }
     
-    private void OnEntityCreated(World world, int entity)
+    private static void OnEntityCreated(World world, int entity)
     {
         var weapons = world.GetComponents<Weapon>();
         if (weapons.Has(entity))
@@ -20,7 +20,7 @@ public class WeaponSystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem, IEcsI
         }
     }
 
-    private void OnEntityDestroyed(World world, int entity)
+    private static void OnEntityDestroyed(World world, int entity)
     {
         var weapons = world.GetComponents<Weapon>();
         if (weapons.Has(entity))
@@ -43,7 +43,7 @@ public class WeaponSystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem, IEcsI
         {
             ref var weapon = ref weapons.Get(entity);
             weapon.cooldown -= Time.deltaTime;
-            Debug.Log($"{GetType().Name}, FRAME: {Time.frameCount}, {weapon.name}, {weapon.cooldown}");
+            Debug.Log($"{GetType().Name}, FRAME: {Time.frameCount}, {weapon.name}, {weapon.cooldown}, target:{weapon.target}");
 
             if (weapon.cooldown < 0)
             {

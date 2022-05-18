@@ -9,6 +9,7 @@
   - Where to store the reference (shared data?)
 * Tuples
   - Dependency Injection of tuples?
+* Search for entities?
 
 ## Examples
 

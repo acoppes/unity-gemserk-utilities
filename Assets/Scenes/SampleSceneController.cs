@@ -16,7 +16,7 @@ public class SampleSceneController : MonoBehaviour
     {
         world.sharedData = new GameSharedData();
         world.Init();
-        
+
         // var entity = world.NewEntity();
         //
         // world.AddComponent(entity, new Weapon

@@ -13,5 +13,10 @@ public class WeaponDefinition : MonoBehaviour, IEntityDefinition
             name = gameObject.name,
             cooldown = cooldown
         });
+        
+        world.AddComponent(entity, new TargetComponent
+        {
+            
+        });
     }
 }
