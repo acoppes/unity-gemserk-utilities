@@ -151,6 +151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   world: {fileID: 1676864103}
+  entityDefinition: {fileID: 1857474353711054764, guid: 10f6fed06357f154599b92ad315aa121,
+    type: 3}
 --- !u!4 &247349177
 Transform:
   m_ObjectHideFlags: 0
@@ -540,7 +542,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25ad6cb97dec66d4cad570c40286e9c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  autoInitializationOnStart: 0
 --- !u!4 &1676864104
 Transform:
   m_ObjectHideFlags: 0

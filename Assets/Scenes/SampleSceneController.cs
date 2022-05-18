@@ -17,9 +17,10 @@ public class SampleSceneController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        world.sharedData = new GameSharedData();
         world.Init();
 
+        world.sharedData.sharedData = new GameSharedData();
+        
         // var entity = world.NewEntity();
         //
         // world.AddComponent(entity, new Weapon
