@@ -9,6 +9,10 @@ namespace Gemserk.Leopotam.Ecs
     public class WorldSharedData
     {
         public object sharedData;
+        
+        public readonly IDictionary<string, int> singletonEntities = 
+            new Dictionary<string, int>(StringComparer.InvariantCultureIgnoreCase);
+        
     }
     
     public class World : MonoBehaviour
