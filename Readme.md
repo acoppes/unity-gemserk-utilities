@@ -11,8 +11,9 @@ This is a small project with utilities built over Leopotam ecs to be used for pe
   - Maybe have a way to lightweight create, like Flyweight pattern, quickly create the object but initialize later on real usage. If entity destroyed before, then it was never initialized.
   - For destruction, we could mark the entity with special component and exclude it in systems if necessary, and have a System running for last to complete destroy.
 * Tuples
-  - Dependency Injection of tuples?
+  - Dependency Injection of tuples? (there is an extension for that, have to test it yet)
 * Entity Queries?
+    - This is for quickly searching entities matching some criteria, but not only having or not a component but more like checking if some specific value conditions apply. 
 * Database join?
 * Spawn entities while processing?
     - For example, for firing bullets or for spawning enemies.
