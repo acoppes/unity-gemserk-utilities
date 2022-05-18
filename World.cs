@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs.Extensions;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.UnityEditor;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
@@ -114,10 +115,18 @@ namespace Gemserk.Leopotam.Ecs
             Register<IFixedUpdateSystem>(fixedUpdateSystems);
             Register<IUpdateSystem>(updateSystems);
             Register<ILateUpdateSystem>(lateUpdateSystems);
+            
+#if UNITY_EDITOR
+                // add debug systems for custom worlds here, for example:
+                // .Add (new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem ("events"))
+                updateSystems.Add(new EcsWorldDebugSystem());
+#endif
 
             fixedUpdateSystems.Init ();
             updateSystems.Init();
             lateUpdateSystems.Init();
+            
+            
 
             initialized = true;
         }
