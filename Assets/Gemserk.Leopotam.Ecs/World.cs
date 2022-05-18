@@ -21,7 +21,7 @@ namespace Gemserk.Leopotam.Ecs
 
         public Action<World, int> onEntityCreated, onEntityDestroyed;
 
-        public int NewEntity(IEntityDefinition definition, IEnumerable<IEntityInstanceParameter> parametersList = null)
+        public int CreateEntity(IEntityDefinition definition, IEnumerable<IEntityInstanceParameter> parametersList = null)
         {
             var entity = world.NewEntity();
             

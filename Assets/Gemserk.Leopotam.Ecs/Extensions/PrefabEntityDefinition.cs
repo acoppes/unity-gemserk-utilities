@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Extensions
@@ -6,11 +7,10 @@ namespace Gemserk.Leopotam.Ecs.Extensions
     {
         public void Apply(World world, int entity)
         {
-            var templateParts = GetComponentsInChildren<IEntityDefinition>();
+            var templateParts = GetComponentsInChildren<IEntityDefinition>().ToList();
+            templateParts.Remove(this);
             foreach (var template in templateParts)
             {
-                if (template == this)
-                    continue;
                 template.Apply(world, entity);
             }
         }

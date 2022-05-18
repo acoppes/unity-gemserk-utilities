@@ -1,4 +1,6 @@
-﻿using Gemserk.Leopotam.Ecs;
+﻿using System;
+using Gemserk.Leopotam.Ecs;
+using Gemserk.Leopotam.Ecs.Extensions;
 using UnityEngine;
 
 public class GameSharedData
@@ -9,6 +11,8 @@ public class GameSharedData
 public class SampleSceneController : MonoBehaviour
 {
     public World world;
+
+    public GameObject entityDefinition;
 
     
     // Start is called before the first frame update
@@ -24,5 +28,13 @@ public class SampleSceneController : MonoBehaviour
         //     cooldown = 4,
         //     name = "WEAPON1"
         // });
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Alpha1))
+        {
+            world.CreateEntity(entityDefinition.GetComponentInChildren<IEntityDefinition>());
+        }
     }
 }
