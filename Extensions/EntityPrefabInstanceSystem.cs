@@ -17,7 +17,7 @@ namespace Gemserk.Leopotam.Ecs.Extensions
                 var definitionObject = prefabInstance.entityDefinitionPrefab as GameObject;
                 var definition = definitionObject.GetComponent<PrefabEntityDefinition>();
                 
-                world.NewEntity(definition, parameters);
+                world.CreateEntity(definition, parameters);
 
                 // world.AddComponent(entity, new EntityDefinitionComponent
                 // {
