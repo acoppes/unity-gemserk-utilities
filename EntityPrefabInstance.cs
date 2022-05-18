@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Gemserk.Leopotam.Ecs.Extensions
+namespace Gemserk.Leopotam.Ecs
 {
     public class EntityPrefabInstance : MonoBehaviour
     {

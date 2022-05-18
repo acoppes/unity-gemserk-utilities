@@ -1,8 +1,7 @@
-using System.Linq;
 using Leopotam.EcsLite;
 using UnityEngine;
 
-namespace Gemserk.Leopotam.Ecs.Extensions
+namespace Gemserk.Leopotam.Ecs
 {
     public class EntityPrefabInstanceSystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem
     {
