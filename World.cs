@@ -6,14 +6,17 @@ using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
 {
+    public class WorldSharedData
+    {
+        public object sharedData;
+    }
+    
     public class World : MonoBehaviour
     {
         public EcsWorld world;
 
-        public object sharedData;
-        
-        public bool autoInitializationOnStart;
-    
+        public readonly WorldSharedData sharedData = new WorldSharedData();
+
         private EcsSystems fixedUpdateSystems, updateSystems, lateUpdateSystems;
 
         private bool initialized;
@@ -90,12 +93,9 @@ namespace Gemserk.Leopotam.Ecs
             }
         }
 
-        private void Start()
+        private void Awake()
         {
-            if (autoInitializationOnStart)
-            {
-                Init();
-            }
+            Init();
         }
 
         public void Init() {
@@ -124,8 +124,6 @@ namespace Gemserk.Leopotam.Ecs
             fixedUpdateSystems.Init ();
             updateSystems.Init();
             lateUpdateSystems.Init();
-            
-            
 
             initialized = true;
         }
