@@ -10,7 +10,7 @@ public class ToDestroySystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem
         
         foreach (var entity in filter)
         {
-            var toDestroy = systems.GetComponent<ToDestroy>(entity);
+            var toDestroy = world.GetComponent<ToDestroy>(entity);
             Debug.Log($"{toDestroy.val}, {toDestroy.val2}");
             world.DestroyEntity(entity);
         }

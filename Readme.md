@@ -10,6 +10,8 @@
 * Tuples
   - Dependency Injection of tuples?
 * Search for entities?
+* Database join?
+* Bullets
 
 ## Examples
 

@@ -47,7 +47,7 @@ public class WeaponSystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem, IEcsI
 
             if (weapon.cooldown < 0)
             {
-                systems.AddComponent(entity, new ToDestroy
+                world.AddComponent(entity, new ToDestroy
                 {
                     val = 10,
                     val2 = 20
