@@ -9,7 +9,6 @@ public class WeaponDefinition : MonoBehaviour, IEntityDefinition
     {
         world.AddComponent(entity, new Weapon
         {
-            name = gameObject.name,
             cooldown = cooldown
         });
         

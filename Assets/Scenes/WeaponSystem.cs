@@ -13,10 +13,15 @@ public class WeaponSystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem, IEcsI
     private static void OnEntityCreated(World world, int entity)
     {
         var weapons = world.GetComponents<Weapon>();
+        var singletons = world.GetComponents<SingletonComponent>();
         if (weapons.Has(entity))
         {
             ref var weapon = ref weapons.Get(entity);
-            weapon.gameObject = new GameObject(weapon.name);
+            weapon.gameObject = new GameObject($"WEAPON_{entity}");
+            if (singletons.Has(entity))
+            {
+                weapon.gameObject.name = $"WEAPON_{singletons.Get(entity).name}";
+            }
         }
     }
 
@@ -43,7 +48,7 @@ public class WeaponSystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem, IEcsI
         {
             ref var weapon = ref weapons.Get(entity);
             weapon.cooldown -= Time.deltaTime;
-            Debug.Log($"{GetType().Name}, FRAME: {Time.frameCount}, {weapon.name}, {weapon.cooldown}, target:{weapon.target}");
+            Debug.Log($"{GetType().Name}, FRAME: {Time.frameCount}, {weapon.cooldown}, target:{weapon.target}");
 
             if (weapon.cooldown < 0)
             {
