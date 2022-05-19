@@ -44,9 +44,16 @@ public class WeaponSystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem, IEcsI
         foreach (var entity in weaponsFilter.Value)
         {
             ref var weapon = ref weaponComponents.Value.Get(entity);
-            weapon.cooldown -= Time.deltaTime;
-            
-            // SPAWN BULLET!!
+            weapon.currentCooldown += Time.deltaTime;
+
+            if (weapon.currentCooldown > weapon.cooldown)
+            {
+                var bulletEntity = world.CreateEntity(weapon.bulletDefinition);
+                
+                // get bullet component and set start position and direction
+
+                weapon.currentCooldown -= weapon.cooldown;
+            }
         }
     }
 
