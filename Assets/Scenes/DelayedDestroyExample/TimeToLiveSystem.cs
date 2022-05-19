@@ -3,7 +3,7 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 
-public class TimeToLiveSystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem
+public class TimeToLiveSystem : BaseSystem, IEcsRunSystem
 {
     readonly EcsFilterInject<Inc<TimeToLiveComponent>> timeToLiveFilter = default;
     readonly EcsPoolInject<TimeToLiveComponent> timeToLiveComponents = default;

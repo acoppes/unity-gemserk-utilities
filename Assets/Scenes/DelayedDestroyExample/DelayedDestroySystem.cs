@@ -2,7 +2,7 @@
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 
-public class DelayedDestroySystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem
+public class DelayedDestroySystem : BaseSystem, IEcsRunSystem
 {
     readonly EcsFilterInject<Inc<DelayedDestroyComponent>> delayedDestroyFilter = default;
     // readonly EcsPoolInject<DelayedDestroyComponent> delayedDestroyComponents = default;

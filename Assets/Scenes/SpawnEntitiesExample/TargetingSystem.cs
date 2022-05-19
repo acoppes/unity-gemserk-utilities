@@ -1,7 +1,7 @@
 ﻿using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 
-public class TargetingSystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem, IEcsInitSystem
+public class TargetingSystem : BaseSystem, IEcsRunSystem, IEcsInitSystem
 {
     public void Init(EcsSystems systems)
     {

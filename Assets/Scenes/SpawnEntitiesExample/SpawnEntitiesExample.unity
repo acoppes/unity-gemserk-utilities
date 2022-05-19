@@ -278,7 +278,7 @@ GameObject:
   - component: {fileID: 1018647673}
   - component: {fileID: 1018647674}
   m_Layer: 0
-  m_Name: TargetingSystem - [FIXED UPDATE]
+  m_Name: TargetingSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -295,7 +295,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4197199288377489073}
+  m_Father: {fileID: 4197199288377489072}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1018647674
@@ -321,7 +321,7 @@ GameObject:
   - component: {fileID: 1090743139}
   - component: {fileID: 1090743140}
   m_Layer: 0
-  m_Name: WeaponSystem - [FIXED UPDATE]
+  m_Name: WeaponSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -338,7 +338,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4197199288377489073}
+  m_Father: {fileID: 4197199288377489072}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1090743140
@@ -422,7 +422,7 @@ GameObject:
   - component: {fileID: 1822720271}
   - component: {fileID: 1822720272}
   m_Layer: 0
-  m_Name: DelayedDestroySystem - [FIXED UPDATE]
+  m_Name: DelayedDestroySystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -435,11 +435,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1822720270}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4197199288377489073}
+  m_Father: {fileID: 4197199288377489072}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1822720272
@@ -522,7 +522,7 @@ GameObject:
   - component: {fileID: 1945225365}
   - component: {fileID: 1945225366}
   m_Layer: 0
-  m_Name: TimeToLiveSystem - [FIXED UPDATE]
+  m_Name: TimeToLiveSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -535,11 +535,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1945225364}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4197199288377489073}
+  m_Father: {fileID: 4197199288377489072}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1945225366
@@ -623,9 +623,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eeef975118348b547862dd4c3822cf8c, type: 3}
---- !u!4 &4197199288377489073 stripped
+--- !u!4 &4197199288377489072 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 1990233032753554584, guid: eeef975118348b547862dd4c3822cf8c,
+  m_CorrespondingSourceObject: {fileID: 5648965645169773396, guid: eeef975118348b547862dd4c3822cf8c,
     type: 3}
   m_PrefabInstance: {fileID: 4197199288377489071}
   m_PrefabAsset: {fileID: 0}

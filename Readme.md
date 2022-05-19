@@ -19,7 +19,8 @@ This is a small project with utilities built over Leopotam ecs to be used for pe
   - Maybe have a way to lightweight create, like Flyweight pattern, quickly create the object but initialize later on real usage. If entity destroyed before, then it was never initialized.
   - For destruction, we could mark the entity with special component and exclude it in systems if necessary, and have a System running for last to complete destroy.
 * Tuples
-  - Dependency Injection of tuples? (there is an extension for that, have to test it yet)
+  - ~~Dependency Injection of tuples? (there is an extension for that, have to test it yet)~~
+  - A concept between the filter and the pools? When we programmed Clash of the Olympians we had something like that. 
 * Entity Queries?
     - This is for quickly searching entities matching some criteria, but not only having or not a component but more like checking if some specific value conditions apply. 
 * Database join?
@@ -30,7 +31,7 @@ This is a small project with utilities built over Leopotam ecs to be used for pe
 * Add or Remove entity during update?
   - Not sure if common, normally we would delegate the destruction to another system, like mark it has no more health or the effect is completed and then there is a system to process that.
 
-* Maybe use gameobjects to identify fixed update, update and late update systems and remove that from code. 
+* ~~Maybe use gameobjects to identify fixed update, update and late update systems and remove that from code.~~
 
 ## Examples
 

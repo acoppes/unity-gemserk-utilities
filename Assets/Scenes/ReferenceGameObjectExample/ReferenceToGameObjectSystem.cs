@@ -3,7 +3,7 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 
-public class ReferenceToGameObjectSystem : BaseSystem, IFixedUpdateSystem, IEcsInitSystem
+public class ReferenceToGameObjectSystem : BaseSystem, IEcsInitSystem
 {
     readonly EcsPoolInject<ReferenceToGameObjectComponent> components = default;
     

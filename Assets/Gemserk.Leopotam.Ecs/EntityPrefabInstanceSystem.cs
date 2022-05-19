@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
 {
-    public class EntityPrefabInstanceSystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem
+    public class EntityPrefabInstanceSystem : BaseSystem, IEcsRunSystem
     {
         public void Run(EcsSystems systems)
         {

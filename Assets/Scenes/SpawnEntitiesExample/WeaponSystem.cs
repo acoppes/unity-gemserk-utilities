@@ -3,7 +3,7 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 
-public class WeaponSystem : BaseSystem, IEcsRunSystem, IFixedUpdateSystem
+public class WeaponSystem : BaseSystem, IEcsRunSystem
 {
     readonly EcsFilterInject<Inc<WeaponComponent>, Exc<DelayedDestroyComponent>> weaponsFilter = default;
     readonly EcsPoolInject<WeaponComponent> weaponComponents = default;
