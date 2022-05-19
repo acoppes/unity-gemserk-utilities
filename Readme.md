@@ -35,3 +35,11 @@ This is a small project with utilities built over Leopotam ecs to be used for pe
 ## Examples
 
 * Nullify references with events.
+
+### SpawnEntitiesExample scene
+
+Shows how to dynamically create entities while iterating in a System and to configure stuff. In this case it is a weapon with a cooldown spawning bullets each time that cooldown is ready (no visual stuff)
+
+### ReferenceToGameObjects scene
+
+Shows how to dynamically create and destroy a Unity GameObject and keep data in sync. It is normally useful in the case of having to use a GameObject to use Unity stuff like SpriteRenderer, etc.
