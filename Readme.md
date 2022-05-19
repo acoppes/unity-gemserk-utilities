@@ -44,6 +44,9 @@ Entities can use the NameComponent to identify them by name, to be used in any w
 
 * Improve PrefabInstanceParameters system, it is using FindObjectsOfType right now and that sucks in terms of performance.
 
+* Delayed or triggerable instantiation of PrefabInstance objects. 
+    - Right now they are auto instantiated when the world starts but could be useful to have them there but activate/instantiate during gameplay.
+
 ## Examples
 
 TODO: 
