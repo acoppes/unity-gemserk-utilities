@@ -4,7 +4,7 @@ using Leopotam.EcsLite.Di;
 
 namespace Gemserk.Leopotam.Ecs
 {
-    public class SingletonSystem : BaseSystem, IFixedUpdateSystem, IEcsInitSystem
+    public class SingletonSystem : BaseSystem, IEcsInitSystem
     {
         readonly EcsPoolInject<SingletonComponent> singletons = default;
         

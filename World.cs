@@ -9,7 +9,10 @@ namespace Gemserk.Leopotam.Ecs
 {
     public class World : SingletonBehaviour<World>
     {
-        public EcsWorld world;
+        [SerializeField]
+        private Transform fixedUpdateParent, updateParent, lateUpdateParent;
+        
+        private EcsWorld world;
 
         public readonly WorldSharedData sharedData = new WorldSharedData();
 
@@ -76,9 +79,9 @@ namespace Gemserk.Leopotam.Ecs
             return world.Filter<T>();
         }
 
-        private void Register<T>(EcsSystems ecsSystems) where T: IEcsSystem
+        private void Register(Component systemsParent, EcsSystems ecsSystems)
         {
-            var systems = GetComponentsInChildren<T>();
+            var systems = systemsParent.GetComponentsInChildren<IEcsSystem>();
             foreach (var system in systems)
             {
                 if (system is BaseSystem baseSystem)
@@ -107,9 +110,9 @@ namespace Gemserk.Leopotam.Ecs
             updateSystems = new EcsSystems(world, sharedData);
             lateUpdateSystems = new EcsSystems(world, sharedData);
             
-            Register<IFixedUpdateSystem>(fixedUpdateSystems);
-            Register<IUpdateSystem>(updateSystems);
-            Register<ILateUpdateSystem>(lateUpdateSystems);
+            Register(fixedUpdateParent, fixedUpdateSystems);
+            Register(updateParent, updateSystems);
+            Register(lateUpdateParent, lateUpdateSystems);
             
 #if UNITY_EDITOR
                 // add debug systems for custom worlds here, for example:
