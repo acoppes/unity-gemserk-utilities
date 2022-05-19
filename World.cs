@@ -1,21 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using Leopotam.EcsLite.UnityEditor;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
 {
-    public class WorldSharedData
-    {
-        public object sharedData;
-        
-        public readonly IDictionary<string, int> singletonEntities = 
-            new Dictionary<string, int>(StringComparer.InvariantCultureIgnoreCase);
-        
-    }
-    
-    public class World : MonoBehaviour
+    public class World : SingletonBehaviour<World>
     {
         public EcsWorld world;
 
@@ -125,6 +117,10 @@ namespace Gemserk.Leopotam.Ecs
                 updateSystems.Add(new EcsWorldDebugSystem());
 #endif
 
+            fixedUpdateSystems.Inject();
+            updateSystems.Inject();
+            lateUpdateSystems.Inject();
+            
             fixedUpdateSystems.Init ();
             updateSystems.Init();
             lateUpdateSystems.Init();
@@ -149,7 +145,9 @@ namespace Gemserk.Leopotam.Ecs
             lateUpdateSystems.Run ();
         }
 
-        private void OnDestroy () {
+        protected override void OnDestroy () {
+            base.OnDestroy();
+            
             if (fixedUpdateSystems != null) {
                 fixedUpdateSystems.Destroy ();
                 fixedUpdateSystems = null;
