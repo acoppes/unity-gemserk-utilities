@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
 {
-    public class SingletonInstanceParameter : MonoBehaviour, IEntityInstanceParameter
+    public class NameInstanceParameter : MonoBehaviour, IEntityInstanceParameter
     {
         public string entityName;
         public bool singleton;

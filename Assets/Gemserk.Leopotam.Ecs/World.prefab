@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 3000141855062527526}
   - component: {fileID: 1759997950473417270}
   m_Layer: 0
-  m_Name: SingletonSystem
+  m_Name: SingletonByNameSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

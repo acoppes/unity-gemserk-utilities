@@ -15,6 +15,10 @@ World contains three objects, FixedUpdate, Update and LateUpdate, systems inside
 * World create entity
 * EntityDefinitionComponent (just to keep reference, but can be used to clone) 
 
+### Named entities & Singletons
+
+Entities can use the NameComponent to identify them by name, to be used in any way by the game but they can also be marked as singleton which make them unique so there can't be two entities with the same name marked as singletons. Singleton entities are cached in shared object dictionary and can be accessed by name from there. 
+
 ## Roadmap
 
 * Systems ordering
