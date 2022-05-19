@@ -20,7 +20,7 @@ public class ReferenceToGameObjectSystem : BaseSystem, IEcsInitSystem
             ref var referenceToGameObjectComponent = ref components.Value.Get(entity);
             referenceToGameObjectComponent.gameObject = new GameObject($"GAMEOBJECT_{entity}");
      
-            var singletons = world.GetComponents<SingletonComponent>();
+            var singletons = world.GetComponents<NameComponent>();
             if (singletons.Has(entity))
             {
                 referenceToGameObjectComponent.gameObject.name = $"GAMEOBJECT_{singletons.Get(entity).name}";

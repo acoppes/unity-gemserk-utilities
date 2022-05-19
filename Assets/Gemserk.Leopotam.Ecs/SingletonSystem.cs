@@ -6,7 +6,7 @@ namespace Gemserk.Leopotam.Ecs
 {
     public class SingletonSystem : BaseSystem, IEcsInitSystem
     {
-        readonly EcsPoolInject<SingletonComponent> singletons = default;
+        readonly EcsPoolInject<NameComponent> names = default;
         
         public void Init(EcsSystems systems)
         {
@@ -16,43 +16,47 @@ namespace Gemserk.Leopotam.Ecs
 
         private void OnEntityCreated(World world, int entity)
         {
-            var singletons = this.singletons.Value;
+            var names = this.names.Value;
             
-            if (!singletons.Has(entity))
+            if (!names.Has(entity))
             {
                 return;
             }
             
-            var singleton = singletons.Get(entity);
+            var nameComponent = names.Get(entity);
 
-            var singletonEntities = world.sharedData.singletonEntities;
+            if (!nameComponent.singleton)
+                return;
+
+            var singletonByNameEntities = world.sharedData.singletonByNameEntities;
             
-            if (singletonEntities.ContainsKey(singleton.name))
+            if (singletonByNameEntities.ContainsKey(nameComponent.name))
             {
-                var oldEntity = singletonEntities[singleton.name];
+                var oldEntity = singletonByNameEntities[nameComponent.name];
                 if (oldEntity != entity)
                 {
-                    throw new Exception($"Can't have two entities with same name {singleton.name}");
+                    throw new Exception($"Can't have two entities with same name {nameComponent.name}");
                 }
             }
                 
-            singletonEntities[singleton.name] = entity;
+            singletonByNameEntities[nameComponent.name] = entity;
         }
 
         private void OnEntityDestroyed(World world, int entity)
         {
-            var singletons = this.singletons.Value;
+            var names = this.names.Value;
             
-            if (!singletons.Has(entity))
+            if (!names.Has(entity))
             {
                 return;
             }
             
-            var singletonEntities = world.sharedData.singletonEntities;
+            var singletonByNameEntities = world.sharedData.singletonByNameEntities;
             
-            ref var singleton = ref singletons.Get(entity);
-            singletonEntities.Remove(singleton.name);
-            singleton.name = null;
+            ref var nameComponent = ref names.Get(entity);
+            singletonByNameEntities.Remove(nameComponent.name);
+            nameComponent.name = null;
+            nameComponent.singleton = false;
         }
 
     }
