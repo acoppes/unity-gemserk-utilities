@@ -7,7 +7,7 @@ public class WeaponParameters : MonoBehaviour, IEntityInstanceParameter
     
     public void Apply(World world, int entity)
     {
-        ref var weapon = ref world.GetComponent<Weapon>(entity);
+        ref var weapon = ref world.GetComponent<WeaponComponent>(entity);
         weapon.cooldown += extraCooldown;
     }
 }

@@ -10,8 +10,8 @@ public class WeaponSystem2 : BaseSystem, IEcsRunSystem, IFixedUpdateSystem, IEcs
     
     private void OnEntityDestroyed(World world, int entity)
     {
-        var weaponsFilter = world.GetFilter<Weapon>().End();
-        var weaponComponents = world.GetComponents<Weapon>();
+        var weaponsFilter = world.GetFilter<WeaponComponent>().End();
+        var weaponComponents = world.GetComponents<WeaponComponent>();
 
         foreach (var weapon in weaponsFilter)
         {
@@ -26,9 +26,9 @@ public class WeaponSystem2 : BaseSystem, IEcsRunSystem, IFixedUpdateSystem, IEcs
     
     public void Run(EcsSystems systems)
     {
-        var filter = world.GetFilter<Weapon>().Exc<ToDestroy>().End();
+        var filter = world.GetFilter<WeaponComponent>().Exc<DelayedDestroyComponent>().End();
         // var weapons = systems.GetWorld().GetPool<Weapon>();
-        var weaponComponents = world.GetComponents<Weapon>();
+        var weaponComponents = world.GetComponents<WeaponComponent>();
         // var targetComponents = world.GetComponents<TargetComponent>();
 
         // var sceneController = systems.GetShared<SampleSceneController>();
