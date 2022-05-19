@@ -7,6 +7,8 @@ namespace Gemserk.Leopotam.Ecs
     {
         public void Run(EcsSystems systems)
         {
+            // TODO: optimize this, maybe auto register by prefab instances or maybe there is no system and 
+            // just a factory method called in monobehaviour awake/start.
             var prefabInstances = FindObjectsOfType<EntityPrefabInstance>();
 
             foreach (var prefabInstance in prefabInstances)
@@ -18,14 +20,7 @@ namespace Gemserk.Leopotam.Ecs
                 
                 world.CreateEntity(definition, parameters);
 
-                // world.AddComponent(entity, new EntityDefinitionComponent
-                // {
-                //     definition = definition,
-                //     parameters = prefabInstance.GetComponentsInChildren<IEntityInstanceParameter>().ToList()
-                // });
-                
                 prefabInstance.gameObject.SetActive(false);
-                // Destroy(prefabInstance.gameObject);
             }
         }
     }

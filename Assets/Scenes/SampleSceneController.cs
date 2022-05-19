@@ -9,16 +9,14 @@ public class GameSharedData
 
 public class SampleSceneController : MonoBehaviour
 {
-    public World world;
-
     public GameObject entityDefinition;
 
     
     // Start is called before the first frame update
     void Start()
     {
-        world.Init();
-
+        var world = World.Instance;
+ 
         world.sharedData.sharedData = new GameSharedData();
         
         // var entity = world.NewEntity();
@@ -32,6 +30,8 @@ public class SampleSceneController : MonoBehaviour
 
     private void Update()
     {
+        var world = World.Instance;
+        
         if (Input.GetKeyUp(KeyCode.Alpha1))
         {
             world.CreateEntity(entityDefinition.GetComponentInChildren<IEntityDefinition>());

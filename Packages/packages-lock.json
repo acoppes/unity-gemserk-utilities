@@ -7,6 +7,13 @@
       "dependencies": {},
       "url": "https://package.openupm.com"
     },
+    "com.leoecscommunity.ecslite.di": {
+      "version": "https://github.com/LeoECSCommunity/ecslite-di.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "e70e4f982cb324204f80a60516a4a7dda5620aa3"
+    },
     "com.leoecscommunity.ecslite.unityeditor": {
       "version": "https://github.com/LeoECSCommunity/ecslite-unityeditor.git",
       "depth": 0,

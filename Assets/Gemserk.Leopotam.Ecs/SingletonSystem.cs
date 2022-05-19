@@ -1,10 +1,13 @@
 ﻿using System;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 
 namespace Gemserk.Leopotam.Ecs
 {
     public class SingletonSystem : BaseSystem, IFixedUpdateSystem, IEcsInitSystem
     {
+        readonly EcsPoolInject<SingletonComponent> singletons = default;
+        
         public void Init(EcsSystems systems)
         {
             world.onEntityCreated += OnEntityCreated;
@@ -13,7 +16,7 @@ namespace Gemserk.Leopotam.Ecs
 
         private void OnEntityCreated(World world, int entity)
         {
-            var singletons = world.GetComponents<SingletonComponent>();
+            var singletons = this.singletons.Value;
             
             if (!singletons.Has(entity))
             {
@@ -38,7 +41,7 @@ namespace Gemserk.Leopotam.Ecs
 
         private void OnEntityDestroyed(World world, int entity)
         {
-            var singletons = world.GetComponents<SingletonComponent>();
+            var singletons = this.singletons.Value;
             
             if (!singletons.Has(entity))
             {

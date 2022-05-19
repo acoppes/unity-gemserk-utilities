@@ -2,6 +2,7 @@
   "dependencies": {
     "com.leoecscommunity.ecslite": "1.0.0",
     "com.leoecscommunity.ecslite.unityeditor": "https://github.com/LeoECSCommunity/ecslite-unityeditor.git",
+    "com.leoecscommunity.ecslite.di": "https://github.com/LeoECSCommunity/ecslite-di.git",
     "com.unity.2d.animation": "3.2.6",
     "com.unity.2d.pixel-perfect": "2.1.0",
     "com.unity.2d.psdimporter": "2.1.6",
