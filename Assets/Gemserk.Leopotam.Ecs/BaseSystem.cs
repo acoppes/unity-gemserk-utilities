@@ -13,7 +13,22 @@ namespace Gemserk.Leopotam.Ecs
         {
             if (gameObject.GetComponents<Component>().Length == 2)
             {
-                gameObject.name = GetType().Name;
+                var updateType = string.Empty;
+
+                switch (this)
+                {
+                    case IFixedUpdateSystem _:
+                        updateType = "[FIXED UPDATE]";
+                        break;
+                    case IUpdateSystem _:
+                        updateType = "[UPDATE]";
+                        break;
+                    case ILateUpdateSystem _:
+                        updateType = "[LATE UPDATE]";
+                        break;
+                } 
+                
+                gameObject.name = $"{GetType().Name} - {updateType}";
             }
         }
 #endif

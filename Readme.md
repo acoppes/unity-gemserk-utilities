@@ -2,6 +2,14 @@
 
 This is a small project with utilities built over Leopotam ecs to be used for personal projects like game jams, etc. And in the future, if it useful for someone, to share and collaborate to improve.
 
+## Concepts
+
+### World
+
+### IEntityDefinition
+
+
+
 ## Roadmap
 
 * Systems ordering
@@ -22,6 +30,8 @@ This is a small project with utilities built over Leopotam ecs to be used for pe
 * Add or Remove entity during update?
   - Not sure if common, normally we would delegate the destruction to another system, like mark it has no more health or the effect is completed and then there is a system to process that.
 
+* Maybe use gameobjects to identify fixed update, update and late update systems and remove that from code. 
+
 ## Examples
 
-* Nullify references with events
+* Nullify references with events.

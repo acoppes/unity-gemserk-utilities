@@ -293,7 +293,7 @@ GameObject:
   - component: {fileID: 566369626}
   - component: {fileID: 566369627}
   m_Layer: 0
-  m_Name: ToDestroySystem
+  m_Name: ToDestroySystem - [FIXED UPDATE]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 1018647673}
   - component: {fileID: 1018647674}
   m_Layer: 0
-  m_Name: WeaponSystem2
+  m_Name: WeaponSystem2 - [FIXED UPDATE]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -379,7 +379,7 @@ GameObject:
   - component: {fileID: 1090743139}
   - component: {fileID: 1090743140}
   m_Layer: 0
-  m_Name: WeaponSystem
+  m_Name: WeaponSystem - [FIXED UPDATE]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -484,6 +484,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityName: MyWeapon1
+--- !u!1 &1356473539
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1356473540}
+  - component: {fileID: 1356473541}
+  m_Layer: 0
+  m_Name: WeaponSystem - [FIXED UPDATE]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1356473540
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356473539}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1676864104}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1356473541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356473539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ac4a91e875c434dadb506c50b5e4c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1402323383
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,7 +538,7 @@ GameObject:
   - component: {fileID: 1402323384}
   - component: {fileID: 1402323385}
   m_Layer: 0
-  m_Name: EntityPrefabInstanceSystem
+  m_Name: EntityPrefabInstanceSystem - [FIXED UPDATE]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -525,6 +568,49 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7217ba2347e4457785e359d462b4d2d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1621577143
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1621577144}
+  - component: {fileID: 1621577145}
+  m_Layer: 0
+  m_Name: EmptySystem - [UPDATE]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1621577144
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1621577143}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1676864104}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1621577145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1621577143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d921aa21f51645b091f099ca77a6f602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1676864102
@@ -572,6 +658,8 @@ Transform:
   - {fileID: 1090743139}
   - {fileID: 1018647673}
   - {fileID: 566369626}
+  - {fileID: 1356473540}
+  - {fileID: 1621577144}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -645,7 +733,7 @@ GameObject:
   - component: {fileID: 2099957679}
   - component: {fileID: 2099957680}
   m_Layer: 0
-  m_Name: SingletonSystem
+  m_Name: SingletonSystem - [FIXED UPDATE]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
