@@ -42,6 +42,8 @@ Entities can use the NameComponent to identify them by name, to be used in any w
 
 * ~~Maybe use gameobjects to identify fixed update, update and late update systems and remove that from code.~~
 
+* Improve PrefabInstanceParameters system, it is using FindObjectsOfType right now and that sucks in terms of performance.
+
 ## Examples
 
 TODO: 
@@ -55,3 +57,7 @@ Shows how to dynamically create entities while iterating in a System and to conf
 ### ReferenceToGameObjects scene
 
 Shows how to dynamically create and destroy a Unity GameObject and keep data in sync. It is normally useful in the case of having to use a GameObject to use Unity stuff like SpriteRenderer, etc.
+
+### SingletonEntitiesExample
+
+It shows having multiple entities with the same name but not marked as singletons and then it has two entities marked as singletons which will fail on construction time.
