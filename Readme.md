@@ -1,14 +1,19 @@
 ## Intro
 
-This is a small project with utilities built over Leopotam ecs to be used for personal projects like game jams, etc. And in the future, if it useful for someone, to share and collaborate to improve.
-
-## Concepts
+This is a small project with wrapper utilities built over Leopotam ecs to be used for personal projects like game jams, etc. And in the future, if it useful for someone, to share and collaborate to improve.
 
 ### World
 
-### IEntityDefinition
+World is a wrapper over the Leopotam EcsWorld, and it has a prefab with predefined systems in there. As this is our Unity adaptation of the ecs, we treat systems as game objects with a BaseSystem MonoBehaviours.
 
+World contains three objects, FixedUpdate, Update and LateUpdate, systems inside those objects are updated using the corresponding Untiy update type. 
 
+### Entity Definitions & instance parameters (TODO)
+
+* Entity definition
+* Entity instantiation + parameters
+* World create entity
+* EntityDefinitionComponent (just to keep reference, but can be used to clone) 
 
 ## Roadmap
 
@@ -34,6 +39,8 @@ This is a small project with utilities built over Leopotam ecs to be used for pe
 * ~~Maybe use gameobjects to identify fixed update, update and late update systems and remove that from code.~~
 
 ## Examples
+
+TODO: 
 
 * Nullify references with events.
 
