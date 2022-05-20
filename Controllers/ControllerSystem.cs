@@ -13,8 +13,15 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         {
             foreach (var entity in controllerFilter.Value)
             {
-                var controllerComponent = controllerComponents.Value.Get(entity);
-                controllerComponent.controller?.OnUpdate(Time.deltaTime, world, entity);
+                ref var controllerComponent = ref controllerComponents.Value.Get(entity);
+
+                if (!controllerComponent.intialized)
+                {
+                    controllerComponent.controller.OnInit(world, entity);
+                    controllerComponent.intialized = true;
+                }
+                
+                controllerComponent.controller.OnUpdate(Time.deltaTime, world, entity);
             }
         }
     }
