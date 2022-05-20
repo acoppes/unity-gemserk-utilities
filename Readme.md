@@ -10,14 +10,25 @@ World contains three objects, FixedUpdate, Update and LateUpdate, systems inside
 
 ### Entity Definitions & instance parameters (TODO)
 
-* Entity definition
-* Entity instantiation + parameters
-* World create entity
-* EntityDefinitionComponent (just to keep reference, but can be used to clone) 
+Entity definitions are like a Prototype, Template or Archetype concepts. It provides a customizable way of configuring an entity (add components with data) after instantiation. They are normally implemented in stateless prefabs.
+
+Entity instance is a GameObject meant to instantiate an entity and apply a definition. It allows customizable instance configurations by using the instance parameters, applied after the entity was instantiated and definition was applied (so the components might be already there). They can override data or even add components.  
+
+World wrapper has some methods to create entities by using a definition and parameters.
+
+Entities spawned using the definition and parameters have a component named EntityDefinitionComponent with a reference to those values used to instantiate the entity. It could be used to debug and/or to clone entities (by spawning another with the same values). 
 
 ### Named entities & Singletons
 
 Entities can use the NameComponent to identify them by name, to be used in any way by the game but they can also be marked as singleton which make them unique so there can't be two entities with the same name marked as singletons. Singleton entities are cached in shared object dictionary and can be accessed by name from there. 
+
+### Controllers
+
+Controllers are a basic way of adding custom behaviors to entities, they receive an OnUpdate method with the delta time, world and entity to act on. They are stateless and are normally implemented in prefabs (no instantiation) and reused among multiple entities using the same controller.
+
+### States
+
+States are just a list of states the entity might be on right now, to be used for example for a stun. For now they are just strings in a list and they can be added for some time. A bit basic right now but useful anyway.
 
 ## Roadmap
 
@@ -51,6 +62,7 @@ Entities can use the NameComponent to identify them by name, to be used in any w
 
 TODO: 
 
+* Clone entity by using the definition and parameters.
 * Nullify references with events.
 
 ### SpawnEntitiesExample scene
