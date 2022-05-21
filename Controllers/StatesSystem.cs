@@ -31,7 +31,6 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                     var state = statesComponent.states[stateName];
 
                     state.time += Time.deltaTime;
-                    state.isCompleted = state.time < state.duration;
                 }
             }
         }
