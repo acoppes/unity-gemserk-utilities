@@ -33,7 +33,7 @@ States are just a list of states the entity might be on right now, to be used fo
 ## Roadmap
 
 * Systems ordering
-  - For now, just the gameobjects ordering.
+  - ~~For now, just the gameobjects ordering.~~
   - Could add attributes for update after/before like Unity ecs 
 * Delayed creation /destruction?
   - Maybe have a way to lightweight create, like Flyweight pattern, quickly create the object but initialize later on real usage. If entity destroyed before, then it was never initialized.
@@ -41,6 +41,7 @@ States are just a list of states the entity might be on right now, to be used fo
 * Tuples
   - ~~Dependency Injection of tuples? (there is an extension for that, have to test it yet)~~
   - A concept between the filter and the pools? When we programmed Clash of the Olympians we had something like that. 
+  - Also, could be super useful for Controllers logic.
 * Entity Queries?
     - This is for quickly searching entities matching some criteria, but not only having or not a component but more like checking if some specific value conditions apply. 
 * Database join?
@@ -57,6 +58,10 @@ States are just a list of states the entity might be on right now, to be used fo
 
 * Delayed or triggerable instantiation of PrefabInstance objects. 
     - Right now they are auto instantiated when the world starts but could be useful to have them there but activate/instantiate during gameplay.
+
+* Inject controllers with components?
+
+* Abilities system? (duration, cooldown, is active)
 
 ## Examples
 

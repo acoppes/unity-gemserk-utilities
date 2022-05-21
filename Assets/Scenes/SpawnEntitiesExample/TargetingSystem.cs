@@ -1,14 +1,9 @@
 ﻿using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 
-public class TargetingSystem : BaseSystem, IEcsRunSystem, IEcsInitSystem
+public class TargetingSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler
 {
-    public void Init(EcsSystems systems)
-    {
-        world.onEntityDestroyed += OnEntityDestroyed;
-    }
-    
-    private void OnEntityDestroyed(World world, int entity)
+    public void OnEntityDestroyed(World world, int entity)
     {
         var weaponsFilter = world.GetFilter<WeaponComponent>().End();
         var weaponComponents = world.GetComponents<WeaponComponent>();

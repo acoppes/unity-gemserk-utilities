@@ -3,17 +3,11 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 
-public class ReferenceToGameObjectSystem : BaseSystem, IEcsInitSystem
+public class ReferenceToGameObjectSystem : BaseSystem, IEntityCreatedHandler, IEntityDestroyedHandler
 {
     readonly EcsPoolInject<ReferenceToGameObjectComponent> components = default;
     
-    public void Init(EcsSystems systems)
-    {
-        world.onEntityCreated += OnEntityCreated;
-        world.onEntityDestroyed += OnEntityDestroyed;
-    }
-    
-    private void OnEntityCreated(World world, int entity)
+    public void OnEntityCreated(World world, int entity)
     {
         if (components.Value.Has(entity))
         {
@@ -28,7 +22,7 @@ public class ReferenceToGameObjectSystem : BaseSystem, IEcsInitSystem
         }
     }
 
-    private void OnEntityDestroyed(World world, int entity)
+    public void OnEntityDestroyed(World world, int entity)
     {
         if (components.Value.Has(entity))
         {

@@ -7,6 +7,16 @@ using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
 {
+    public interface IEntityCreatedHandler
+    {
+        void OnEntityCreated(World world, int entity);
+    }
+
+    public interface IEntityDestroyedHandler
+    {
+        void OnEntityDestroyed(World world, int entity);
+    }
+    
     public class World : SingletonBehaviour<World>
     {
         [SerializeField]
@@ -20,7 +30,10 @@ namespace Gemserk.Leopotam.Ecs
 
         private bool initialized;
 
-        public Action<World, int> onEntityCreated, onEntityDestroyed;
+        // public Action<World, int> onEntityCreated, onEntityDestroyed;
+
+        private IList<IEntityCreatedHandler> entityCreatedHandlers = new List<IEntityCreatedHandler>();
+        private IList<IEntityDestroyedHandler> entityDestroyedHandlers = new List<IEntityDestroyedHandler>();
 
         public int CreateEntity(IEntityDefinition definition, IEnumerable<IEntityInstanceParameter> parametersList = null)
         {
@@ -94,6 +107,16 @@ namespace Gemserk.Leopotam.Ecs
                     baseSystem.world = this;
                 }
                 ecsSystems.Add(system);
+
+                if (system is IEntityCreatedHandler entityCreatedHandler)
+                {
+                    entityCreatedHandlers.Add(entityCreatedHandler);
+                }
+
+                if (system is IEntityDestroyedHandler entityDestroyedHandler)
+                {
+                    entityDestroyedHandlers.Add(entityDestroyedHandler);
+                }
             }
         }
 
@@ -180,12 +203,20 @@ namespace Gemserk.Leopotam.Ecs
 
         private void OnEntityCreated(int entity)
         {
-            onEntityCreated?.Invoke(this, entity);
+            foreach (var entityCreatedHandler in entityCreatedHandlers)
+            {
+                entityCreatedHandler.OnEntityCreated(this, entity);
+            }
+            // onEntityCreated?.Invoke(this, entity);
         }
         
         private void OnEntityDestroyed(int entity)
         {
-            onEntityDestroyed?.Invoke(this, entity);
+            foreach (var entityDestroyedHandler in entityDestroyedHandlers)
+            {
+                entityDestroyedHandler.OnEntityDestroyed(this, entity);
+            }
+            // onEntityDestroyed?.Invoke(this, entity);
         }
     }
 }
