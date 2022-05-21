@@ -14,7 +14,7 @@ public class TargetingSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandle
 
             if (weaponComponent.target == entity)
             {
-                weaponComponent.target.SetNull();
+                weaponComponent.target = Entity.NullEntity;
             }
         }
     }

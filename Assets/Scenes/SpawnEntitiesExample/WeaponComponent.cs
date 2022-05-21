@@ -6,7 +6,7 @@ public struct WeaponComponent : IEntityComponent
     public float cooldown;
     public float currentCooldown;
     
-    public EntityReference target;
+    public Entity target;
 
     public IEntityDefinition bulletDefinition;
 }
