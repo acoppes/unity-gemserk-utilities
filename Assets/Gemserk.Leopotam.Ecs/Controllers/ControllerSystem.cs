@@ -17,7 +17,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
 
                 if (!controllerComponent.intialized)
                 {
-                    controllerComponent.controller.OnInit(world, entity);
+                    // controllerComponent.controller.OnInit(world, entity);
                     controllerComponent.intialized = true;
                 }
                 
