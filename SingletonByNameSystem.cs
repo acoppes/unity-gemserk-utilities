@@ -4,17 +4,11 @@ using Leopotam.EcsLite.Di;
 
 namespace Gemserk.Leopotam.Ecs
 {
-    public class SingletonByNameSystem : BaseSystem, IEcsInitSystem
+    public class SingletonByNameSystem : BaseSystem, IEntityCreatedHandler, IEntityDestroyedHandler
     {
         readonly EcsPoolInject<NameComponent> names = default;
-        
-        public void Init(EcsSystems systems)
-        {
-            world.onEntityCreated += OnEntityCreated;
-            world.onEntityDestroyed += OnEntityDestroyed;
-        }
 
-        private void OnEntityCreated(World world, int entity)
+        public void OnEntityCreated(World world, int entity)
         {
             var names = this.names.Value;
             
@@ -42,7 +36,7 @@ namespace Gemserk.Leopotam.Ecs
             singletonByNameEntities[nameComponent.name] = entity;
         }
 
-        private void OnEntityDestroyed(World world, int entity)
+        public void OnEntityDestroyed(World world, int entity)
         {
             var names = this.names.Value;
             

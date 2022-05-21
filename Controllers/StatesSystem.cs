@@ -5,17 +5,12 @@ using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Controllers
 {
-    public class StatesSystem : BaseSystem, IEcsRunSystem, IEcsInitSystem
+    public class StatesSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler
     {
         readonly EcsFilterInject<Inc<StatesComponent>> statesFilter = default;
         readonly EcsPoolInject<StatesComponent> stateComponents = default;
 
-        public void Init(EcsSystems systems)
-        {
-            world.onEntityCreated += OnEntityCreated;
-        }
-
-        private void OnEntityCreated(World world, int entity)
+        public void OnEntityCreated(World world, int entity)
         {
             if (stateComponents.Value.Has(entity))
             {
