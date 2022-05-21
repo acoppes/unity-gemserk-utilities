@@ -22,6 +22,12 @@ Entities spawned using the definition and parameters have a component named Enti
 
 Entities can use the NameComponent to identify them by name, to be used in any way by the game but they can also be marked as singleton which make them unique so there can't be two entities with the same name marked as singletons. Singleton entities are cached in shared object dictionary and can be accessed by name from there. 
 
+### Entity wrapper
+
+It is just a way to have references to entities but with a custom struct which could be extended in the future, for now it is just an int and a static declaration of NullEntity (where null is the entity -1).
+
+## Building logic
+
 ### Controllers
 
 Controllers are a basic way of adding custom behaviors to entities, they receive an OnUpdate method with the delta time, world and entity to act on. They are stateless and are normally implemented in prefabs (no instantiation) and reused among multiple entities using the same controller.
