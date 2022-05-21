@@ -1,29 +1,30 @@
 namespace Gemserk.Leopotam.Ecs
 {
-    public struct EntityReference
+    public struct Entity
     {
+        public static Entity NullEntity = new Entity
+        {
+            entity = -1
+        };
+        
+        public int entity;
+
         public override int GetHashCode()
         {
             return entity;
         }
-
-        public int entity;
-
-        public bool IsNull => entity < 0;
-
-        public void SetNull() => entity = -1;
-        
-        public static implicit operator EntityReference(int entity) => new EntityReference
+   
+        public static implicit operator Entity(int entity) => new Entity
         {
             entity = entity
         };
 
-        public static bool operator ==(EntityReference reference, int entity)
+        public static bool operator ==(Entity reference, int entity)
         {
             return reference.entity == entity;
         }
 
-        public static bool operator !=(EntityReference reference, int entity)
+        public static bool operator !=(Entity reference, int entity)
         {
             return reference != entity;
         }
@@ -37,14 +38,9 @@ namespace Gemserk.Leopotam.Ecs
             return base.Equals(obj);
         }
         
-        public bool Equals(EntityReference other)
+        public bool Equals(Entity other)
         {
             return entity == other.entity;
-        }
-
-        public override string ToString()
-        {
-            return IsNull ? "NULL" : entity.ToString();
         }
     }
 }
