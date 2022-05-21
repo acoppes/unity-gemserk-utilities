@@ -29,12 +29,9 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                 foreach (var stateName in keys)
                 {
                     var state = statesComponent.states[stateName];
-                    
-                    if (state.usesDuration && !state.isCompleted)
-                    {
-                        state.duration -= Time.deltaTime;
-                        state.isCompleted = state.duration < 0;
-                    }
+
+                    state.time += Time.deltaTime;
+                    state.isCompleted = state.time < state.duration;
                 }
             }
         }

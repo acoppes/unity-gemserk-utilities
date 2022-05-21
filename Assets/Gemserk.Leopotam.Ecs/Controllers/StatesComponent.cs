@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Controllers
 {
     public class State
     {
-        public bool usesDuration;
         public float duration;
         public bool isCompleted;
+        public float time;
     }
     
     public struct StatesComponent : IEntityComponent
@@ -18,6 +19,11 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             return states.ContainsKey(stateName);
         }
 
+        public State GetState(string stateName)
+        {
+            return states[stateName];
+        }
+
         public bool IsActive(string stateName)
         {
             var state = states[stateName];
@@ -26,14 +32,16 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         
         public void EnterState(string state)
         {
-            states[state] = new State();
+            states[state] = new State
+            {
+                duration = Mathf.Infinity
+            };
         }
 
         public void EnterState(string state, float duration)
         {
             states[state] = new State
             {
-                usesDuration = true,
                 duration = duration
             };
         }
