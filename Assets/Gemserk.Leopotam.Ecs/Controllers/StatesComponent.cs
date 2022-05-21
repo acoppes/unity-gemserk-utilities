@@ -5,8 +5,6 @@ namespace Gemserk.Leopotam.Ecs.Controllers
 {
     public class State
     {
-        public float duration;
-        public bool isCompleted;
         public float time;
     }
     
@@ -24,25 +22,11 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             return states[stateName];
         }
 
-        public bool IsActive(string stateName)
-        {
-            var state = states[stateName];
-            return !state.isCompleted;
-        }
-        
         public void EnterState(string state)
         {
             states[state] = new State
             {
-                duration = Mathf.Infinity
-            };
-        }
-
-        public void EnterState(string state, float duration)
-        {
-            states[state] = new State
-            {
-                duration = duration
+                
             };
         }
 
