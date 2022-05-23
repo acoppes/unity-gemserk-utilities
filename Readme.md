@@ -8,7 +8,7 @@ World is a wrapper over the Leopotam EcsWorld, and it has a prefab with predefin
 
 World contains three objects, FixedUpdate, Update and LateUpdate, systems inside those objects are updated using the corresponding Untiy update type. 
 
-### Entity Definitions & instance parameters (TODO)
+### Entity Definitions & instance parameters
 
 Entity definitions are like a Prototype, Template or Archetype concepts. It provides a customizable way of configuring an entity (add components with data) after instantiation. They are normally implemented in stateless prefabs.
 
@@ -26,7 +26,7 @@ Entities can use the NameComponent to identify them by name, to be used in any w
 
 It is just a way to have references to entities but with a custom struct which could be extended in the future, for now it is just an int and a static declaration of NullEntity (where null is the entity -1).
 
-## Building logic
+## Behaviours
 
 ### Controllers
 
@@ -74,7 +74,6 @@ States are just a list of states the entity might be on right now, to be used fo
 TODO: 
 
 * Clone entity by using the definition and parameters.
-* Nullify references with events.
 
 ### SpawnEntitiesExample scene
 
