@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,11 @@ namespace Gemserk.Leopotam.Ecs
         public int player;
         public Vector2 position;
         public float range;
+
+        public object extra;
+
+        public Func<TargetingParameters, Target, bool> extraValidation;
+        public Comparison<Target> sorter;
     }
     
     public static class TargetingUtils
@@ -30,31 +36,47 @@ namespace Gemserk.Leopotam.Ecs
             }
             
             // sorting?
-            
-            targets.Sort(delegate(Target a, Target b)
+            var sorter = targeting.sorter;
+
+            if (sorter == null)
             {
-                var distanceA = Vector2.Distance(a.position, targeting.position);
-                var distanceB = Vector2.Distance(b.position, targeting.position);
+                sorter = (a, b) =>
+                {
+                    var distanceA = Vector2.Distance(a.position, targeting.position);
+                    var distanceB = Vector2.Distance(b.position, targeting.position);
 
-                if (distanceA > distanceB)
-                    return 1;
+                    if (distanceA > distanceB)
+                        return 1;
 
-                if (distanceA < distanceB)
-                    return -1;
+                    if (distanceA < distanceB)
+                        return -1;
 
-                return 0;
-            });
+                    return 0;
+                };
+            }
+            
+            targets.Sort(sorter);
             
             return targets;
         }
 
         public static bool ValidateTarget(TargetingParameters targeting, Target target)
         {
+            // TODO: we should add more player options, like alliances, etc
             if (target.player == targeting.player)
+            {
                 return false;
+            }
                 
             if (Vector2.Distance(target.position, targeting.position) > targeting.range)
+            {
                 return false;
+            }
+
+            if (targeting.extraValidation != null && !targeting.extraValidation(targeting, target))
+            {
+                return false;
+            }
 
             return true;
         }

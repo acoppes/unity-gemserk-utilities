@@ -23,6 +23,8 @@ namespace Gemserk.Leopotam.Ecs
         public int entity;
         public int player;
         public Vector2 position;
+        
+        public object extra;
     }
 
     // public struct TargetPosition

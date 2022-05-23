@@ -36,6 +36,10 @@ Controllers are a basic way of adding custom behaviors to entities, they receive
 
 States are just a list of states the entity might be on right now, to be used for example for a stun. For now they are just strings in a list and they can be added for some time. A bit basic right now but useful anyway.
 
+### Target & Targeting
+
+It provides an extensible base to have targets and be able to target them matching some targeting filters.
+
 ## Roadmap
 
 * Systems ordering
@@ -74,6 +78,7 @@ States are just a list of states the entity might be on right now, to be used fo
 TODO: 
 
 * Clone entity by using the definition and parameters.
+* Targeting
 
 ### SpawnEntitiesExample scene
 
