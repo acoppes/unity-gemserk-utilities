@@ -1,8 +1,10 @@
-﻿namespace Gemserk.Leopotam.Ecs.Controllers
+﻿using System.Collections.Generic;
+
+namespace Gemserk.Leopotam.Ecs.Controllers
 {
     public struct ControllerComponent : IEntityComponent
     {
-        public IController controller;
+        public List<IController> controllers;
         public bool intialized;
     }
 }

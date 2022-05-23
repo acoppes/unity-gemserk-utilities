@@ -32,8 +32,8 @@ namespace Gemserk.Leopotam.Ecs
 
         // public Action<World, int> onEntityCreated, onEntityDestroyed;
 
-        private IList<IEntityCreatedHandler> entityCreatedHandlers = new List<IEntityCreatedHandler>();
-        private IList<IEntityDestroyedHandler> entityDestroyedHandlers = new List<IEntityDestroyedHandler>();
+        private readonly IList<IEntityCreatedHandler> entityCreatedHandlers = new List<IEntityCreatedHandler>();
+        private readonly IList<IEntityDestroyedHandler> entityDestroyedHandlers = new List<IEntityDestroyedHandler>();
 
         public int CreateEntity(IEntityDefinition definition, IEnumerable<IEntityInstanceParameter> parametersList = null)
         {
