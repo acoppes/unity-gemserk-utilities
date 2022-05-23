@@ -20,8 +20,11 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                     // controllerComponent.controller.OnInit(world, entity);
                     controllerComponent.intialized = true;
                 }
-                
-                controllerComponent.controller.OnUpdate(Time.deltaTime, world, entity);
+
+                foreach (var controller in controllerComponent.controllers)
+                {
+                    controller.OnUpdate(Time.deltaTime, world, entity);    
+                }
             }
         }
     }
