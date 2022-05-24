@@ -18,6 +18,8 @@ namespace Gemserk.Leopotam.Ecs
         {
             entity = entity
         };
+        
+        public static implicit operator int(Entity entity) => entity.entity;
 
         public static bool operator ==(Entity reference, int entity)
         {
@@ -27,6 +29,16 @@ namespace Gemserk.Leopotam.Ecs
         public static bool operator !=(Entity reference, int entity)
         {
             return reference != entity;
+        }
+        
+        public static bool operator ==(Entity reference, Entity e)
+        {
+            return reference.entity == e.entity;
+        }
+
+        public static bool operator !=(Entity reference, Entity e)
+        {
+            return reference.entity != e.entity;
         }
 
         public override bool Equals(object obj)

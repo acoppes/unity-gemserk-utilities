@@ -218,5 +218,16 @@ namespace Gemserk.Leopotam.Ecs
             }
             // onEntityDestroyed?.Invoke(this, entity);
         }
+
+        public Entity GetEntityByName(string entityName)
+        {
+            
+            if (sharedData.singletonByNameEntities.ContainsKey(entityName))
+            {
+                return sharedData.singletonByNameEntities[entityName];
+            }
+
+            return Entity.NullEntity;
+        }
     }
 }
