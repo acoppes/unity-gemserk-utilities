@@ -4,11 +4,16 @@ using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
 {
+    [Serializable]
     public struct TargetingParameters
     {
+        [NonSerialized]
         // player looking for targets
         public int player;
+        
+        [NonSerialized]
         public Vector2 position;
+        
         public float range;
 
         public object extra;
@@ -19,10 +24,10 @@ namespace Gemserk.Leopotam.Ecs
     
     public static class TargetingUtils
     {
-        public static List<Target> FindTargets(Gemserk.Leopotam.Ecs.World world, TargetingParameters targeting)
+        public static bool FindTargets(Gemserk.Leopotam.Ecs.World world, TargetingParameters targeting, List<Target> targets)
         {
-            var targets = new List<Target>();
             var targetComponents = world.GetComponents<TargetComponent>();
+            var found = false;
 
             foreach (var entity in world.GetFilter<TargetComponent>().End())
             {
@@ -32,6 +37,7 @@ namespace Gemserk.Leopotam.Ecs
                 if (ValidateTarget(targeting, target))
                 {
                     targets.Add(target);
+                    found = true;
                 }
             }
             
@@ -57,7 +63,7 @@ namespace Gemserk.Leopotam.Ecs
             
             targets.Sort(sorter);
             
-            return targets;
+            return found;
         }
 
         public static bool ValidateTarget(TargetingParameters targeting, Target target)
