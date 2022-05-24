@@ -73,6 +73,10 @@ It provides an extensible base to have targets and be able to target them matchi
 
 * Abilities system? (duration, cooldown, is active)
 
+* Coordinates? 2d, 3d or customizable
+  - One idea is to have a way to select which type to use, like 2d isometric or 2d or 3d, and always use 3d coordinates but in a proper way depending the type of coordinates system. 
+  - Another idea is to have like a static conversion type functions (from world and to world) and register that in a static place and all the engine uses that in its functions. The idea is to treat everything as 3d inside the engine but there is a way to convert from/to the game coordinates, if isometric game, then maybe treat z coordinate as the height for example. Maybe provide with the engine some convert functions as examples.
+
 ## Examples
 
 TODO: 
