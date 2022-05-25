@@ -104,7 +104,7 @@ namespace Gemserk.Leopotam.Ecs
 
         public TargetingParameters parameters;
 
-        public List<Target> targets = new ();
+        public List<Target> targets = new List<Target>();
     }
     
     public struct AbilitiesComponent : IEntityComponent
