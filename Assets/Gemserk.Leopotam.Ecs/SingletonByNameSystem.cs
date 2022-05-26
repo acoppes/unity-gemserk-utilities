@@ -45,10 +45,14 @@ namespace Gemserk.Leopotam.Ecs
                 return;
             }
             
-            var singletonByNameEntities = world.sharedData.singletonByNameEntities;
-            
             ref var nameComponent = ref names.Get(entity);
-            singletonByNameEntities.Remove(nameComponent.name);
+            
+            if (nameComponent.singleton) 
+            {
+                var singletonByNameEntities = world.sharedData.singletonByNameEntities;
+                singletonByNameEntities.Remove(nameComponent.name);
+            }
+            
             nameComponent.name = null;
             nameComponent.singleton = false;
         }
