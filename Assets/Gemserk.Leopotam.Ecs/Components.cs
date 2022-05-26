@@ -76,6 +76,7 @@ namespace Gemserk.Leopotam.Ecs
         public IEntityDefinition projectileDefinition;
         
         public Ability.StartType startType;
+        public float CooldownFactor => cooldownCurrent / cooldownTotal;
 
         public void StartRunning()
         {
