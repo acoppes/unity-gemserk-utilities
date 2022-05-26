@@ -73,34 +73,40 @@ namespace GBJAM9.Ecs
 
                     if (!ability.isComplete && ability.runningTime > ability.duration)
                     {
-                        // fire projectile?
-
-                        if (ability.projectileDefinition != null)
-                        {
-                            var projectileEntity = world.CreateEntity(ability.projectileDefinition);
-                            ref var projectileComponent = ref world.GetComponent<ProjectileComponent>(projectileEntity);
-
-                            projectileComponent.startPosition = ability.position;
-                            projectileComponent.startDirection = ability.direction;
-                            
-                            // instantiate target effects in projectile
-                            
-                            // Copy player to for damage later
-                            // projectileController.entity.player.player = e.player.player;
-                            
-                            // Copy damage
-                            // projectileEntity.projectile.damage = weaponData.damage + e.attack.extraDamage;
-                            
-                            // this was for collisions
-                            // if (e.player.player == 0)
-                            // {
-                            //     projectileController.gameObject.layer = playerProjectilesLayer;
-                            // }
-                            // else
-                            // {
-                            //     projectileController.gameObject.layer = enemyProjectilesLayer;
-                            // }
-                        }
+                        // // fire projectile?
+                        //
+                        // if (ability.projectileDefinition != null)
+                        // {
+                        //     var projectileEntity = world.CreateEntity(ability.projectileDefinition);
+                        //     ref var projectileComponent = ref world.GetComponent<ProjectileComponent>(projectileEntity);
+                        //
+                        //     projectileComponent.startPosition = ability.position;
+                        //     projectileComponent.startDirection = ability.direction;
+                        //
+                        //     if (world.HasComponent<PlayerComponent>(projectileEntity))
+                        //     {
+                        //         var player = world.GetComponent<PlayerComponent>(projectileEntity);
+                        //         
+                        //     }
+                        //     
+                        //     // instantiate target effects in projectile
+                        //     
+                        //     // Copy player to for damage later
+                        //     // projectileController.entity.player.player = e.player.player;
+                        //     
+                        //     // Copy damage
+                        //     // projectileEntity.projectile.damage = weaponData.damage + e.attack.extraDamage;
+                        //     
+                        //     // this was for collisions
+                        //     // if (e.player.player == 0)
+                        //     // {
+                        //     //     projectileController.gameObject.layer = playerProjectilesLayer;
+                        //     // }
+                        //     // else
+                        //     // {
+                        //     //     projectileController.gameObject.layer = enemyProjectilesLayer;
+                        //     // }
+                        // }
 
                         ability.isComplete = true;
                     }
