@@ -45,19 +45,27 @@ It provides an extensible base to have targets and be able to target them matchi
 * Systems ordering
   - ~~For now, just the gameobjects ordering.~~
   - Could add attributes for update after/before like Unity ecs 
+
 * Delayed creation /destruction?
   - Maybe have a way to lightweight create, like Flyweight pattern, quickly create the object but initialize later on real usage. If entity destroyed before, then it was never initialized.
   - For destruction, we could mark the entity with special component and exclude it in systems if necessary, and have a System running for last to complete destroy.
+
 * Tuples
   - ~~Dependency Injection of tuples? (there is an extension for that, have to test it yet)~~
   - A concept between the filter and the pools? When we programmed Clash of the Olympians we had something like that. 
   - Also, could be super useful for Controllers logic.
+
 * Entity Queries?
     - This is for quickly searching entities matching some criteria, but not only having or not a component but more like checking if some specific value conditions apply. 
+
 * Database join?
-* Spawn entities while processing?
+
+* ~~Spawn entities while processing?~~
     - For example, for firing bullets or for spawning enemies.
-* Controllers (logic running from outside the systems)
+
+* Controllers
+  - A way to create custom specific logic for entities.
+  - Would be great to have an extensible way of adding custom events, for example, OnDamage(), game could add a system to call that event on all controllers from that entity implementing the OnDamaged interface.
 
 * Add or Remove entity during update?
   - Not sure if common, normally we would delegate the destruction to another system, like mark it has no more health or the effect is completed and then there is a system to process that.
@@ -76,6 +84,37 @@ It provides an extensible base to have targets and be able to target them matchi
 * Coordinates? 2d, 3d or customizable
   - One idea is to have a way to select which type to use, like 2d isometric or 2d or 3d, and always use 3d coordinates but in a proper way depending the type of coordinates system. 
   - Another idea is to have like a static conversion type functions (from world and to world) and register that in a static place and all the engine uses that in its functions. The idea is to treat everything as 3d inside the engine but there is a way to convert from/to the game coordinates, if isometric game, then maybe treat z coordinate as the height for example. Maybe provide with the engine some convert functions as examples.
+
+* Target Effects
+  - A custom way of performing different logics for projectiles. Effects are entities.
+  - It could be an ability or a controller/behaviour attached to the projectile to be performed on collision detection (on impact), while traveling (on tick), when destination reached (on destination) or on time to live expired (on ttl).  For example:
+
+```
+class DamageEffect : IController {
+  
+  float damage;
+
+  onImpact() {
+    if (impact.target) {
+      impact.target.health.Add(damage);
+    }
+  }
+  
+}
+```
+
+  - The workflow would be something like creating the projectile with other effect entities attached already or maybe attaching them in our custom behaviour spawning the projectile. For example:
+
+```
+projectile = createProjectile();
+effect1 = createEffect1();
+effect1.damage = 1;
+projectile.childs.attach(effect1);
+```
+
+
+* Create "disabled" entities to be activated later
+  - The idea behind this is to be able to create an entity, configure it but keep it disabled for future activation (for example, just a delay or maybe for firing projectiles with some effects to be activated later).
 
 ## Examples
 
