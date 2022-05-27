@@ -48,6 +48,11 @@ namespace Gemserk.Leopotam.Ecs
     
     public class Ability
     {
+        // public enum State
+        // {
+        //     
+        // }
+        
         public enum StartType
         {
             Loaded = 0,
@@ -130,5 +135,12 @@ namespace Gemserk.Leopotam.Ecs
         public Vector2 startDirection;
 
         public bool started;
+    }
+
+    public struct ColliderComponent : IEntityComponent
+    {
+        public float radius;
+        public Collider2D[] collisions;
+        public int collisionCount;
     }
 }
