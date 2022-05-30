@@ -166,7 +166,7 @@ namespace Gemserk.Leopotam.Ecs
 
         public bool deathRequest;
 
-        public bool isDeath => current <= 0f;
+        public State state => current <= 0.0f ? State.Death : State.Alive;
 
         public List<Damage> pendingDamages;
 

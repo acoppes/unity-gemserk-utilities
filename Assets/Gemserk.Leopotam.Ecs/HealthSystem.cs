@@ -36,7 +36,7 @@ namespace Gemserk.Leopotam.Ecs
                     healthComponent.current = 0;
                 }
 
-                if (healthComponent.isDeath)
+                if (healthComponent.state == HealthComponent.State.Death)
                 {
                     if (healthComponent.autoDestroyOnDeath)
                     {
