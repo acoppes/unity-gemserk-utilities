@@ -23,7 +23,7 @@ namespace Gemserk.Leopotam.Ecs
     
     public static class TargetingUtils
     {
-        public static bool FindTargets(Gemserk.Leopotam.Ecs.World world, TargetingParameters targeting, List<Target> targets)
+        public static bool FindTargets(World world, TargetingParameters targeting, List<Target> targets)
         {
             var targetComponents = world.GetComponents<TargetComponent>();
             var found = false;
