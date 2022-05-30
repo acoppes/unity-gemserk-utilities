@@ -1,11 +1,12 @@
-using System;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
 {
     public class TargetingDefinition : MonoBehaviour, IEntityDefinition
     {
-        public TargetingParameters targetingParameters;
+        public float range;
+
+        public HealthComponent.State state;
     
         public void Apply(World world, int entity)
         {
@@ -13,13 +14,22 @@ namespace Gemserk.Leopotam.Ecs
             abilitiesComponent.targetings.Add(new Targeting
             {
                 name = gameObject.name,
-                parameters = targetingParameters
+                parameters = GetTargetingParameters()
             });
+        }
+
+        protected virtual TargetingParameters GetTargetingParameters()
+        {
+            return new TargetingParameters
+            {
+                range = range,
+                state = state
+            };
         }
 
         private void OnDrawGizmos()
         {
-            Gizmos.DrawWireSphere(transform.position, targetingParameters.range);
+            Gizmos.DrawWireSphere(transform.position, range);
         }
     }
 }

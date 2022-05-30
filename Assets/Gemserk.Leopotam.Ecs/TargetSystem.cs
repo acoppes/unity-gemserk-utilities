@@ -9,6 +9,7 @@ namespace Gemserk.Leopotam.Ecs
             var targets = world.GetComponents<TargetComponent>();
             var positions = world.GetComponents<PositionComponent>();
             var players = world.GetComponents<PlayerComponent>();
+            var healthComponents = world.GetComponents<HealthComponent>();
             
             foreach (var entity in world.GetFilter<TargetComponent>().Inc<PositionComponent>().End())
             {
@@ -28,6 +29,16 @@ namespace Gemserk.Leopotam.Ecs
                 ref var target = ref targetComponent.target;
                 target.entity = entity;
                 target.player = playerComponent.player;
+            }
+            
+            foreach (var entity in world.GetFilter<TargetComponent>().Inc<HealthComponent>().End())
+            {
+                ref var targetComponent = ref targets.Get(entity);
+                var healthComponent = healthComponents.Get(entity);
+
+                ref var target = ref targetComponent.target;
+                target.entity = entity;
+                target.state = healthComponent.isDeath ? HealthComponent.State.Death : HealthComponent.State.Alive;
             }
         }
     }
