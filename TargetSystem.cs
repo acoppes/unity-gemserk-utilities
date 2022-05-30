@@ -38,7 +38,7 @@ namespace Gemserk.Leopotam.Ecs
 
                 ref var target = ref targetComponent.target;
                 target.entity = entity;
-                target.state = healthComponent.isDeath ? HealthComponent.State.Death : HealthComponent.State.Alive;
+                target.state = healthComponent.state;
             }
         }
     }
