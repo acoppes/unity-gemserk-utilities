@@ -4,17 +4,16 @@ using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
 {
-    [Serializable]
     public struct TargetingParameters
     {
-        [NonSerialized]
         // player looking for targets
         public int player;
         
-        [NonSerialized]
         public Vector2 position;
         
         public float range;
+
+        public HealthComponent.State state;
 
         public object extra;
 
@@ -75,6 +74,11 @@ namespace Gemserk.Leopotam.Ecs
             }
                 
             if (Vector2.Distance(target.position, targeting.position) > targeting.range)
+            {
+                return false;
+            }
+            
+            if ((targeting.state & target.state) == 0)
             {
                 return false;
             }

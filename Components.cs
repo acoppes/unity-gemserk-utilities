@@ -32,6 +32,8 @@ namespace Gemserk.Leopotam.Ecs
         public int entity;
         public int player;
         public Vector2 position;
+
+        public HealthComponent.State state; 
         
         public object extra;
     }
@@ -142,5 +144,32 @@ namespace Gemserk.Leopotam.Ecs
         public float radius;
         public Collider2D[] collisions;
         public int collisionCount;
+    }
+    
+    public struct Damage
+    {
+        public float value;
+    }
+
+    public struct HealthComponent : IEntityComponent
+    {
+        [Flags]
+        public enum State
+        {
+            None = 0,
+            Alive = 1 << 0,
+            Death = 1 << 1,
+        }
+        
+        public float current;
+        public float total;
+
+        public bool deathRequest;
+
+        public bool isDeath => current <= 0f;
+
+        public List<Damage> pendingDamages;
+
+        public bool autoDestroyOnDeath;
     }
 }
