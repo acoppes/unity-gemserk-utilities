@@ -112,9 +112,14 @@ effect1.damage = 1;
 projectile.childs.attach(effect1);
 ```
 
-
 * Create "disabled" entities to be activated later
   - The idea behind this is to be able to create an entity, configure it but keep it disabled for future activation (for example, just a delay or maybe for firing projectiles with some effects to be activated later).
+
+* How to not process entities in some state (like being death)? or to optionally incorporate that in core systems? For example the abilities could process or not while death, but should be an option for that, but that means the concept should be integrated in core.
+  - There are some core states that could be interesting for all systems, like being spawning or death even though they sound like specific game concepts.
+  - It could be delegated to game specific controllers, like onDeath() then disable canMove, etc, but might not escalate well if it is too common more like a feature.
+  - Another way is to delegate to game specific systems, like before but more or less scalable, like having a system to disable movement while death (if entity defined or configured as cant move while death).
+  - In the case of abilities, they could declare something similar to a statesMask and make it a bit more generic when to not execute. They start to sound similar to state controllers (controllers that execute only while some states).
 
 ## Examples
 
