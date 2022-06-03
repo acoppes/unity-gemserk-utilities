@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Leopotam.EcsLite;
 using UnityEngine;
 
-namespace Gemserk.Leopotam.Ecs
+namespace Gemserk.Leopotam.Ecs.Gameplay
 {
     public class HealthSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler
     {
