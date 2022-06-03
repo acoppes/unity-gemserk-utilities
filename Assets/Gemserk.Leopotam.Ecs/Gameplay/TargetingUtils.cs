@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Gemserk.Leopotam.Ecs
+namespace Gemserk.Leopotam.Ecs.Gameplay
 {
     public struct TargetingParameters
     {

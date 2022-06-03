@@ -1,8 +1,7 @@
-using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using UnityEngine;
 
-namespace GBJAM9.Ecs
+namespace Gemserk.Leopotam.Ecs.Gameplay
 {
     public class CollisionSystem : BaseSystem, IEcsRunSystem
     {

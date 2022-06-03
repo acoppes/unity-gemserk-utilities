@@ -1,7 +1,6 @@
-using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 
-namespace GBJAM9.Ecs
+namespace Gemserk.Leopotam.Ecs.Gameplay
 {
     public class TargetingSystem : BaseSystem, IEcsRunSystem
     {
