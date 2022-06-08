@@ -11,8 +11,6 @@ namespace Gemserk.Leopotam.Ecs
         
         public void Init(EcsSystems systems)
         {
-            // prefabInstances = FindObjectsOfType<EntityPrefabInstance>();
-
             for (var i = 0; i < SceneManager.sceneCount; i++)
             {
                 var scene = SceneManager.GetSceneAt(i);
@@ -22,15 +20,10 @@ namespace Gemserk.Leopotam.Ecs
                         rootGameObject.GetComponentsInChildren<EntityPrefabInstance>(true));
                 }
             }
-            
         }
         
         public void Run(EcsSystems systems)
         {
-            // TODO: optimize this, maybe auto register by prefab instances or maybe there is no system and 
-            // just a factory method called in monobehaviour awake/start.
-            // var prefabInstances = FindObjectsOfType<EntityPrefabInstance>();
-
             foreach (var prefabInstance in prefabInstances)
             {
                 if (!prefabInstance.isActiveAndEnabled)
