@@ -42,6 +42,10 @@ It provides an extensible base to have targets and be able to target them matchi
 
 ## Roadmap
 
+* Separate in two projects, core and extras.
+* Read from IEntityDefinition if not PrefabEntityDefiniton in prefab.
+* Change API to use Entity instead of int.
+
 * Systems ordering
   - ~~For now, just the gameobjects ordering.~~
   - Could add attributes for update after/before like Unity ecs 
