@@ -7,7 +7,7 @@ public class ReferenceToGameObjectSystem : BaseSystem, IEntityCreatedHandler, IE
 {
     readonly EcsPoolInject<ReferenceToGameObjectComponent> components = default;
     
-    public void OnEntityCreated(World world, int entity)
+    public void OnEntityCreated(World world, Entity entity)
     {
         if (components.Value.Has(entity))
         {
@@ -22,7 +22,7 @@ public class ReferenceToGameObjectSystem : BaseSystem, IEntityCreatedHandler, IE
         }
     }
 
-    public void OnEntityDestroyed(World world, int entity)
+    public void OnEntityDestroyed(World world, Entity entity)
     {
         if (components.Value.Has(entity))
         {
