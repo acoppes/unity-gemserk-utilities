@@ -8,7 +8,7 @@ namespace Gemserk.Leopotam.Ecs
     {
         readonly EcsPoolInject<NameComponent> names = default;
 
-        public void OnEntityCreated(World world, int entity)
+        public void OnEntityCreated(World world, Entity entity)
         {
             var names = this.names.Value;
             
@@ -36,7 +36,7 @@ namespace Gemserk.Leopotam.Ecs
             singletonByNameEntities[nameComponent.name] = entity;
         }
 
-        public void OnEntityDestroyed(World world, int entity)
+        public void OnEntityDestroyed(World world, Entity entity)
         {
             var names = this.names.Value;
             
