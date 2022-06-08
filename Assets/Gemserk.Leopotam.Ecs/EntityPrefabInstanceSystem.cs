@@ -16,7 +16,12 @@ namespace Gemserk.Leopotam.Ecs
                 var parameters = prefabInstance.GetComponentsInChildren<IEntityInstanceParameter>();
                 
                 var definitionObject = prefabInstance.entityDefinitionPrefab as GameObject;
-                var definition = definitionObject.GetComponent<PrefabEntityDefinition>();
+                IEntityDefinition definition = definitionObject.GetComponent<PrefabEntityDefinition>();
+
+                if (definition == null)
+                {
+                    definition = definitionObject.GetComponentInChildren<IEntityDefinition>();
+                }
                 
                 world.CreateEntity(definition, parameters);
 
