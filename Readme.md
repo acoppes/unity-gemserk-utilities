@@ -43,8 +43,10 @@ It provides an extensible base to have targets and be able to target them matchi
 ## Roadmap
 
 * ~Separate in two projects, core and extras.~
-* Read from IEntityDefinition if not PrefabEntityDefiniton in prefab.
+* ~Read from IEntityDefinition if not PrefabEntityDefiniton in prefab.~
 * ~Change API to use Entity instead of int.~
+* World simplified Filter<T1, T2, T3>
+* ~Base system should be IEcsSystem~
 
 * Systems ordering
   - ~~For now, just the gameobjects ordering.~~
