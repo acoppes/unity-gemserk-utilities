@@ -97,6 +97,35 @@ namespace Gemserk.Leopotam.Ecs
             return world.Filter<T>();
         }
 
+        public EcsFilter Filter<T1>() where T1 : struct
+        {
+            return world.Filter<T1>().End();
+        }
+        
+        public EcsFilter Filter<T1, T2>() 
+            where T1 : struct 
+            where T2 : struct
+        {
+            return world.Filter<T1>().Inc<T2>().End();
+        }
+        
+        public EcsFilter Filter<T1, T2, T3>() 
+            where T1 : struct 
+            where T2 : struct
+            where T3 : struct
+        {
+            return world.Filter<T1>().Inc<T2>().Inc<T3>().End();
+        }
+        
+        public EcsFilter Filter<T1, T2, T3, T4>() 
+            where T1 : struct 
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+        {
+            return world.Filter<T1>().Inc<T2>().Inc<T3>().Inc<T4>().End();
+        }
+
         private void Register(Component systemsParent, EcsSystems ecsSystems)
         {
             var systems = systemsParent.GetComponentsInChildren<IEcsSystem>();
