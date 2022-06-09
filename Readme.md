@@ -50,7 +50,7 @@ It provides an extensible base to have targets and be able to target them matchi
 
 * Systems ordering
   - ~~For now, just the gameobjects ordering.~~
-  - Could add attributes for update after/before like Unity ecs 
+  - Could add attributes for update after/before like Unity ecs and button to call reorder.
 
 * Delayed creation /destruction?
   - Maybe have a way to lightweight create, like Flyweight pattern, quickly create the object but initialize later on real usage. If entity destroyed before, then it was never initialized.
