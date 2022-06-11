@@ -56,7 +56,7 @@
       "url": "https://package.openupm.com",
       "scopes": [
         "com.leoecscommunity.ecslite",
-        "com.gemserk.upmgitpusher"
+        "com.gemserk"
       ]
     }
   ]

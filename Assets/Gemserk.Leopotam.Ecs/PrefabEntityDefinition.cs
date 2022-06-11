@@ -5,7 +5,7 @@ namespace Gemserk.Leopotam.Ecs
 {
     public class PrefabEntityDefinition : MonoBehaviour, IEntityDefinition
     {
-        public void Apply(World world, int entity)
+        public void Apply(World world, Entity entity)
         {
             var subDefinitions = GetComponentsInChildren<IEntityDefinition>().ToList();
             subDefinitions.Remove(this);

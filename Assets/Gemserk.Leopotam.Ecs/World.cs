@@ -9,12 +9,12 @@ namespace Gemserk.Leopotam.Ecs
 {
     public interface IEntityCreatedHandler
     {
-        void OnEntityCreated(World world, int entity);
+        void OnEntityCreated(World world, Entity entity);
     }
 
     public interface IEntityDestroyedHandler
     {
-        void OnEntityDestroyed(World world, int entity);
+        void OnEntityDestroyed(World world, Entity entity);
     }
     
     public class World : SingletonBehaviour<World>
@@ -35,7 +35,7 @@ namespace Gemserk.Leopotam.Ecs
         private readonly IList<IEntityCreatedHandler> entityCreatedHandlers = new List<IEntityCreatedHandler>();
         private readonly IList<IEntityDestroyedHandler> entityDestroyedHandlers = new List<IEntityDestroyedHandler>();
 
-        public int CreateEntity(IEntityDefinition definition, IEnumerable<IEntityInstanceParameter> parametersList = null)
+        public Entity CreateEntity(IEntityDefinition definition, IEnumerable<IEntityInstanceParameter> parametersList = null)
         {
             var entity = world.NewEntity();
             
@@ -60,29 +60,29 @@ namespace Gemserk.Leopotam.Ecs
             return entity;
         }
 
-        public void DestroyEntity(int entity)
+        public void DestroyEntity(Entity entity)
         {
             OnEntityDestroyed(entity);
             world.DelEntity(entity);
         }
 
-        public void AddComponent<T>(int entity) where T : struct
+        public void AddComponent<T>(Entity entity) where T : struct
         {
             world.GetPool<T>().Add(entity);
         }
         
-        public void AddComponent<T>(int entity, T t) where T : struct
+        public void AddComponent<T>(Entity entity, T t) where T : struct
         {
             ref var newT = ref world.GetPool<T>().Add(entity);
             newT = t;
         }
         
-        public ref T GetComponent<T>(int entity) where T : struct
+        public ref T GetComponent<T>(Entity entity) where T : struct
         {
             return ref world.GetPool<T>().Get(entity);
         }
         
-        public bool HasComponent<T>(int entity) where T : struct
+        public bool HasComponent<T>(Entity entity) where T : struct
         {
             return world.GetPool<T>().Has(entity);
         }
@@ -95,6 +95,35 @@ namespace Gemserk.Leopotam.Ecs
         public EcsWorld.Mask GetFilter<T>() where T : struct
         {
             return world.Filter<T>();
+        }
+
+        public EcsFilter Filter<T1>() where T1 : struct
+        {
+            return world.Filter<T1>().End();
+        }
+        
+        public EcsFilter Filter<T1, T2>() 
+            where T1 : struct 
+            where T2 : struct
+        {
+            return world.Filter<T1>().Inc<T2>().End();
+        }
+        
+        public EcsFilter Filter<T1, T2, T3>() 
+            where T1 : struct 
+            where T2 : struct
+            where T3 : struct
+        {
+            return world.Filter<T1>().Inc<T2>().Inc<T3>().End();
+        }
+        
+        public EcsFilter Filter<T1, T2, T3, T4>() 
+            where T1 : struct 
+            where T2 : struct
+            where T3 : struct
+            where T4 : struct
+        {
+            return world.Filter<T1>().Inc<T2>().Inc<T3>().Inc<T4>().End();
         }
 
         private void Register(Component systemsParent, EcsSystems ecsSystems)

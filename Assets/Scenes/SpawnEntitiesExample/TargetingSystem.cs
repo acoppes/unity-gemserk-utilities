@@ -3,7 +3,7 @@ using Leopotam.EcsLite;
 
 public class TargetingSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler
 {
-    public void OnEntityDestroyed(World world, int entity)
+    public void OnEntityDestroyed(World world, Entity entity)
     {
         var weaponsFilter = world.GetFilter<WeaponComponent>().End();
         var weaponComponents = world.GetComponents<WeaponComponent>();

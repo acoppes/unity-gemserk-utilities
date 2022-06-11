@@ -1,9 +1,10 @@
 ﻿using System;
+using Leopotam.EcsLite;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
 {
-    public abstract class BaseSystem : MonoBehaviour
+    public abstract class BaseSystem : MonoBehaviour, IEcsSystem
     {
         [NonSerialized]
         public World world;
