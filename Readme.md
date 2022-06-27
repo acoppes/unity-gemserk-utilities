@@ -43,6 +43,7 @@ It provides an extensible base to have targets and be able to target them matchi
 ## Roadmap
 
 * Link GameObject instance with GameObjectComponent to allow link between entity and GameObject (special cases only).
+* Definitions as ScriptableObjects?
 * Entity factory method from int, something like Entity.Get(int). 
 * ~Separate in two projects, core and extras.~
 * ~Read from IEntityDefinition if not PrefabEntityDefiniton in prefab.~
