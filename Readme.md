@@ -42,14 +42,14 @@ It provides an extensible base to have targets and be able to target them matchi
 
 ## Roadmap
 
-* Link GameObject instance with GameObjectComponent to allow link between entity and GameObject (special cases only).
-* Definitions as ScriptableObjects?
+* ~~Link GameObject instance with GameObjectComponent to allow link between entity and GameObject (special cases only).~~
+* ~~Definitions as ScriptableObjects?~~
 * Entity factory method from int, something like Entity.Get(int). 
-* ~Separate in two projects, core and extras.~
-* ~Read from IEntityDefinition if not PrefabEntityDefiniton in prefab.~
-* ~Change API to use Entity instead of int.~
-* ~World simplified Filter<T1, T2, T3>~
-* ~Base system should be IEcsSystem~
+* ~~Separate in two projects, core and extras.~~
+* ~~Read from IEntityDefinition if not PrefabEntityDefiniton in prefab.~~
+* ~~Change API to use Entity instead of int.~~
+* ~~World simplified Filter<T1, T2, T3>~~
+* ~~Base system should be IEcsSystem~~
 
 * Systems ordering
   - ~~For now, just the gameobjects ordering.~~
@@ -106,7 +106,7 @@ for (var tuple in tuples) {
 
 * ~~Maybe use gameobjects to identify fixed update, update and late update systems and remove that from code.~~
 
-* ~Improve PrefabInstanceParameters system, it is using FindObjectsOfType right now and that sucks in terms of performance.~
+* ~~Improve PrefabInstanceParameters system, it is using FindObjectsOfType right now and that sucks in terms of performance.~~
 
 * Delayed or triggerable instantiation of PrefabInstance objects. 
     - Right now they are auto instantiated when the world starts but could be useful to have them there but activate/instantiate during gameplay.
