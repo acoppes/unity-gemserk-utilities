@@ -7,7 +7,22 @@ namespace Gemserk.Leopotam.Ecs
 {
     public class EntityPrefabInstanceSystem : BaseSystem, IEcsRunSystem, IEcsInitSystem, IEntityDestroyedHandler
     {
+        private class GameObjectLinkParameter : IEntityInstanceParameter
+        {
+            public GameObject gameObject;
+            
+            public void Apply(World world, Entity entity)
+            {
+                world.AddComponent(entity, new GameObjectComponent
+                {
+                    gameObject = gameObject
+                });
+            }
+        }
+        
         private List<EntityPrefabInstance> prefabInstances = new List<EntityPrefabInstance>();
+
+        private List<IEntityInstanceParameter> parameters = new List<IEntityInstanceParameter>();
         
         public void Init(EcsSystems systems)
         {
@@ -52,7 +67,8 @@ namespace Gemserk.Leopotam.Ecs
                     }
                 }
 
-                var parameters = prefabInstance.GetComponentsInChildren<IEntityInstanceParameter>();
+                parameters.Clear();
+                prefabInstance.GetComponentsInChildren(parameters);
 
                 var definition = prefabInstance.entityDefinition.GetInterface<IEntityDefinition>();
                 
@@ -66,19 +82,29 @@ namespace Gemserk.Leopotam.Ecs
                 //     definition = prefabInstance
                 //         .entityDefinition.GetInterface<IEntityDefinition>();
                 // }
+
+                if (prefabInstance.instanceType == EntityPrefabInstance.InstanceType.InstantiateAndLink)
+                {
+                    parameters.Add(new GameObjectLinkParameter
+                    {
+                        gameObject = prefabInstance.gameObject
+                    });
+                }
                 
                 prefabInstance.instance = world.CreateEntity(definition, parameters);
 
                 if (prefabInstance.instanceType == EntityPrefabInstance.InstanceType.InstantiateAndDisable)
                 {
                     prefabInstance.gameObject.SetActive(false);
-                } else if (prefabInstance.instanceType == EntityPrefabInstance.InstanceType.InstantiateAndLink)
-                {
-                    world.AddComponent(prefabInstance.instance, new GameObjectComponent
-                    {
-                        gameObject = prefabInstance.gameObject
-                    });
                 }
+                
+                // else if (prefabInstance.instanceType == EntityPrefabInstance.InstanceType.InstantiateAndLink)
+                // {
+                //     world.AddComponent(prefabInstance.instance, new GameObjectComponent
+                //     {
+                //         gameObject = prefabInstance.gameObject
+                //     });
+                // }
             }
         }
 
