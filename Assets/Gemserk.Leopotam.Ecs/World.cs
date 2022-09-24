@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+#if UNITY_EDITOR
 using Leopotam.EcsLite.UnityEditor;
+#endif
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
