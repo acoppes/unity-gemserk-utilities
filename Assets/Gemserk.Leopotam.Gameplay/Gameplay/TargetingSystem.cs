@@ -2,8 +2,28 @@ using Leopotam.EcsLite;
 
 namespace Gemserk.Leopotam.Ecs.Gameplay
 {
-    public class TargetingSystem : BaseSystem, IEcsRunSystem
+    public class TargetingSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler
     {
+        public void OnEntityDestroyed(World world, Entity destroyedEntity)
+        {
+            if (world.HasComponent<TargetComponent>(destroyedEntity))
+            {
+                var targetComponent = world.GetComponent<TargetComponent>(destroyedEntity);
+                
+                var abilitiesComponents = world.GetComponents<AbilitiesComponent>();
+                
+                foreach (var entity in world.GetFilter<AbilitiesComponent>().End())
+                {
+                    ref var abilitiesComponent = ref abilitiesComponents.Get(entity);
+
+                    foreach (var targeting in abilitiesComponent.targetings)
+                    {
+                        targeting.targets.Remove(targetComponent.target);
+                    }
+                }
+            }
+        }
+            
         public void Run(EcsSystems systems)
         {
             var abilitiesComponents = world.GetComponents<AbilitiesComponent>();
