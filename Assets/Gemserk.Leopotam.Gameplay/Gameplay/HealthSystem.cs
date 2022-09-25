@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Leopotam.EcsLite;
 using UnityEngine;
@@ -22,11 +23,24 @@ namespace Gemserk.Leopotam.Ecs.Gameplay
             foreach (var entity in world.GetFilter<HealthComponent>().End())
             {
                 ref var healthComponent = ref healthComponents.Get(entity);
+
+                healthComponent.invulnerableCurrent -= Time.deltaTime;
                 
-                foreach (var damage in healthComponent.pendingDamages)
+                var previous = healthComponent.current;
+                
+                if (healthComponent.invulnerableCurrent < 0)
                 {
-                    healthComponent.current = Mathf.Clamp(healthComponent.current- damage.value, 
-                        0, healthComponent.total);
+                    foreach (var damage in healthComponent.pendingDamages)
+                    {
+                        healthComponent.current = Mathf.Clamp(healthComponent.current - damage.value,
+                            0, healthComponent.total);
+                    }
+
+                    if (healthComponent.invulnerableTime > 0 &&
+                        Mathf.Abs(previous - healthComponent.current) > Mathf.Epsilon)
+                    {
+                        healthComponent.invulnerableCurrent = healthComponent.invulnerableTime;
+                    }
                 }
                 
                 healthComponent.pendingDamages.Clear();

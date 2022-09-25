@@ -158,6 +158,9 @@ namespace Gemserk.Leopotam.Ecs.Gameplay
         public float current;
         public float total;
 
+        public float invulnerableTime;
+        public float invulnerableCurrent;
+
         public bool deathRequest;
 
         public State state => current <= 0.0f ? State.Death : State.Alive;
