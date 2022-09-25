@@ -4,10 +4,30 @@ using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Controllers
 {
-    public class ControllerSystem : BaseSystem, IEcsRunSystem
+    public class ControllerSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler
     {
         readonly EcsFilterInject<Inc<ControllerComponent>> controllerFilter = default;
         readonly EcsPoolInject<ControllerComponent> controllerComponents = default;
+        
+        public void OnEntityDestroyed(World world, Entity destroyedEntity)
+        {
+            foreach (var entity in controllerFilter.Value)
+            {
+                ref var controllerComponent = ref controllerComponents.Value.Get(entity);
+                
+                if (!controllerComponent.intialized)
+                    continue;
+                
+                foreach (var controller in controllerComponent.controllers)
+                {
+                    if (controller is IEntityDestroyed onEntityDestroyed)
+                    {
+                        controller.Bind(world, entity);
+                        onEntityDestroyed.OnEntityDestroyed(destroyedEntity);
+                    }
+                }
+            }
+        }
 
         public void Run(EcsSystems systems)
         {

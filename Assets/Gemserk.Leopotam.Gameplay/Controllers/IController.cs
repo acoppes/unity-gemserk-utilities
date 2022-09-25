@@ -11,6 +11,11 @@ namespace Gemserk.Leopotam.Ecs.Controllers
     {
         void OnInit();
     }
+    
+    public interface IEntityDestroyed
+    {
+        void OnEntityDestroyed(Entity e);
+    }
 
     public interface IConfigurable
     {
