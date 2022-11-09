@@ -37,13 +37,14 @@ namespace Gemserk.Leopotam.Ecs
         {
 #if UNITY_EDITOR 
             
-            #if UNITY_2019
-            if (UnityEditor.Experimental.SceneManagement.PrefabStageUtility.GetPrefabStage(gameObject) != null)
-                return;
-            #elif UNITY_2020_1_OR_NEWER
+    #if UNITY_2021_1_OR_NEWER
             if ( UnityEditor.SceneManagement.PrefabStageUtility.GetPrefabStage(gameObject) != null)
                 return;
-            #endif
+    #elif UNITY_2019_1_OR_NEWER
+            if (UnityEditor.Experimental.SceneManagement.PrefabStageUtility.GetPrefabStage(gameObject) != null)
+                return;
+    #endif
+            
 #endif
             
             // if there is only one Component in the system?
