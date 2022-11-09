@@ -13,7 +13,7 @@ namespace Gemserk.Leopotam.Ecs.Gameplay
     
     public struct PositionComponent : IEntityComponent
     {
-        public Vector2 value;
+        public Vector3 value;
     }
 
     public struct PlayerComponent : IEntityComponent
