@@ -6,6 +6,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
 {
     public class State
     {
+        public string name;
         public float time;
     }
     
@@ -27,7 +28,8 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         {
             states[state] = new State
             {
-                
+                name = state,
+                time = 0
             };
         }
 
