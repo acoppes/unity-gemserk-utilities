@@ -32,10 +32,10 @@ namespace Gemserk.Leopotam.Ecs
                 _instance = null;
             }
         }
-
+#if UNITY_EDITOR 
         private void OnValidate()
         {
-#if UNITY_EDITOR 
+
             
     #if UNITY_2021_1_OR_NEWER
             if ( UnityEditor.SceneManagement.PrefabStageUtility.GetPrefabStage(gameObject) != null)
@@ -44,12 +44,19 @@ namespace Gemserk.Leopotam.Ecs
             if (UnityEditor.Experimental.SceneManagement.PrefabStageUtility.GetPrefabStage(gameObject) != null)
                 return;
     #endif
+
+            if (!gameObject.scene.IsValid())
+            {
+                return;
+            }
             
-#endif
+
             
             // if there is only one Component in the system?
             if (gameObject.GetComponents<MonoBehaviour>().Length == 1)
                 gameObject.name = InstanceName;
         }
+#endif
+        
     }
 }
