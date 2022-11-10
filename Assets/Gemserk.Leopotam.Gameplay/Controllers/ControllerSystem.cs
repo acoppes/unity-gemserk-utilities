@@ -9,6 +9,8 @@ namespace Gemserk.Leopotam.Ecs.Controllers
     {
         readonly EcsFilterInject<Inc<ControllerComponent>> controllerFilter = default;
         readonly EcsPoolInject<ControllerComponent> controllerComponents = default;
+
+        private readonly List<IController> controllersList = new List<IController>();
         
         public void OnEntityCreated(World world, Entity entity)
         {
@@ -72,7 +74,10 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             {
                 ref var controllerComponent = ref controllerComponents.Value.Get(entity);
                 
-                foreach (var controller in controllerComponent.controllers)
+                controllersList.Clear();
+                controllersList.AddRange(controllerComponent.controllers);
+                
+                foreach (var controller in controllersList)
                 {
                     controller.Bind(world, entity);
 

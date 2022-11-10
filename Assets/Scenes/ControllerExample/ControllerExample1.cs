@@ -11,5 +11,10 @@ public class ControllerExample1 : ControllerBase
     public override void OnUpdate(float dt)
     {
         myValue += testIncrement * dt;
+
+        if (myValue > 50)
+        {
+            world.DestroyEntity(entity);
+        }
     }
 }
