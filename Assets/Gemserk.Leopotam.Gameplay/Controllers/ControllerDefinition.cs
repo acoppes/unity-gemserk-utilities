@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Controllers
@@ -11,7 +10,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         {
             world.AddComponent(entity, new ControllerComponent
             {
-                controllers = controllerObject.GetComponentsInChildren<IController>().ToList()
+                prefab = controllerObject
             });
         }
     }

@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Controllers
 {
     public struct ControllerComponent : IEntityComponent
     {
+        public GameObject prefab;
+        public GameObject instance;
+        
         public List<IController> controllers;
         public bool intialized;
 

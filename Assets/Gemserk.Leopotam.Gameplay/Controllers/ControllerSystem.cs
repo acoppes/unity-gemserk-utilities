@@ -1,13 +1,26 @@
+using System.Collections.Generic;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Controllers
 {
-    public class ControllerSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler
+    public class ControllerSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler, IEntityCreatedHandler
     {
         readonly EcsFilterInject<Inc<ControllerComponent>> controllerFilter = default;
         readonly EcsPoolInject<ControllerComponent> controllerComponents = default;
+        
+        public void OnEntityCreated(World world, Entity entity)
+        {
+            if (world.HasComponent<ControllerComponent>(entity))
+            {
+                ref var controllerComponent = ref world.GetComponent<ControllerComponent>(entity);
+                controllerComponent.instance = Instantiate(controllerComponent.prefab);
+                controllerComponent.instance.name = $"~{controllerComponent.prefab.name}";
+                controllerComponent.controllers = new List<IController>();
+                controllerComponent.instance.GetComponentsInChildren(controllerComponent.controllers);
+            }
+        }
         
         public void OnEntityDestroyed(World world, Entity destroyedEntity)
         {
@@ -26,6 +39,18 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                         onEntityDestroyed.OnEntityDestroyed(destroyedEntity);
                     }
                 }
+            }
+            
+            if (world.HasComponent<ControllerComponent>(destroyedEntity))
+            {
+                var controllerComponent = world.GetComponent<ControllerComponent>(destroyedEntity);
+                if (controllerComponent.instance != null)
+                {
+                    GameObject.Destroy(controllerComponent.instance);
+                }
+
+                controllerComponent.instance = null;
+                controllerComponent.controllers.Clear();
             }
         }
 
@@ -68,5 +93,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                 controllerComponent.onConfigurationPending = false;
             }
         }
+
+
     }
 }
