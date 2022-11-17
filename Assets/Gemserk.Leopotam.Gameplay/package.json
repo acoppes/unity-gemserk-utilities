@@ -1,6 +1,6 @@
 {
     "name": "com.gemserk.leopotamecs.gameplay",
-    "version": "0.0.20",
+    "version": "0.0.21",
     "displayName": "Gemserk Leopotam ECS Gameplay",
     "description": "Gemserk Leopotam ECS Gamplay",
     "unity": "2019.4",
