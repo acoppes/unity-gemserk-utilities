@@ -1,0 +1,21 @@
+{
+    "name": "Gemserk.Leopotam.Gameplay.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e59bf9fc7d5a44b18a819a92edd46163",
+        "GUID:206779980ac58453ea65e900299ccf71",
+        "GUID:1b01e0423096b4f75bee1ef8e3e855bd",
+        "GUID:a22362b82293644e1bbe51356c008d63"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

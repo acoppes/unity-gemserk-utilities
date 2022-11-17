@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Gemserk.Leopotam.Ecs.Controllers;
+using Gemserk.Leopotam.Gameplay.Controllers;
 using UnityEngine;
 
 public class ControllerExample1 : ControllerBase

@@ -1,8 +1,8 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+using Gemserk.Leopotam.Ecs;
 
-namespace Gemserk.Leopotam.Ecs.Controllers
+namespace Gemserk.Leopotam.Gameplay.Controllers
 {
     public class State
     {
@@ -13,6 +13,11 @@ namespace Gemserk.Leopotam.Ecs.Controllers
     public struct StatesComponent : IEntityComponent
     {
         public IDictionary<string, State> states;
+        
+        public HashSet<string> activeStates;
+        public HashSet<string> previousStates;
+        public HashSet<string> statesEntered;
+        public HashSet<string> statesExited;
 
         public bool HasState(string stateName)
         {
@@ -26,6 +31,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
 
         public void EnterState(string state)
         {
+            activeStates.Add(state);
             states[state] = new State
             {
                 name = state,
@@ -35,7 +41,20 @@ namespace Gemserk.Leopotam.Ecs.Controllers
 
         public void ExitState(string state)
         {
+            activeStates.Remove(state);
             states.Remove(state);
+        }
+
+        public static StatesComponent Create()
+        {
+            return new StatesComponent()
+            {
+                states = new Dictionary<string, State>(StringComparer.OrdinalIgnoreCase),
+                activeStates = new HashSet<string>(StringComparer.OrdinalIgnoreCase),
+                previousStates = new HashSet<string>(StringComparer.OrdinalIgnoreCase),
+                statesEntered = new HashSet<string>(StringComparer.OrdinalIgnoreCase),
+                statesExited = new HashSet<string>(StringComparer.OrdinalIgnoreCase),
+            };
         }
     }
 }

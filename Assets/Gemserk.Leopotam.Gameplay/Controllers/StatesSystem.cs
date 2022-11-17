@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using Gemserk.Leopotam.Ecs;
+using Gemserk.Leopotam.Gameplay.Events;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 
-namespace Gemserk.Leopotam.Ecs.Controllers
+namespace Gemserk.Leopotam.Gameplay.Controllers
 {
     public class StatesSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler
     {
@@ -29,8 +31,42 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                 foreach (var stateName in keys)
                 {
                     var state = statesComponent.states[stateName];
-
                     state.time += Time.deltaTime;
+                }
+                
+                statesComponent.statesEntered.Clear();
+                statesComponent.statesEntered.UnionWith(statesComponent.activeStates);
+                statesComponent.statesEntered.ExceptWith(statesComponent.previousStates);
+            
+                statesComponent.statesExited.Clear();
+                statesComponent.statesExited.UnionWith(statesComponent.previousStates);
+                statesComponent.statesExited.ExceptWith(statesComponent.activeStates);
+            
+                statesComponent.previousStates.Clear();
+                statesComponent.previousStates.UnionWith(statesComponent.activeStates);
+            }
+
+            var controllers = world.GetComponents<ControllerComponent>();
+            
+            foreach (var entity in world.GetFilter<StatesComponent>().Inc<ControllerComponent>().End())
+            {
+                var statesComponent = stateComponents.Value.Get(entity);
+                var controllerComponent = controllers.Get(entity);
+
+                foreach (var controller in controllerComponent.controllers)
+                {
+                    if (controller is IStateChanged onStateChanged)
+                    {
+                        if (statesComponent.statesExited.Count > 0)
+                        {
+                            onStateChanged.OnExit();
+                        }
+
+                        if (statesComponent.statesEntered.Count > 0)
+                        {
+                            onStateChanged.OnEnter();
+                        }
+                    }
                 }
             }
         }

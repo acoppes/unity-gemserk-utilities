@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Gemserk.Leopotam.Ecs.Controllers
+namespace Gemserk.Leopotam.Gameplay.Controllers
 {
     public class StateFilter
     {

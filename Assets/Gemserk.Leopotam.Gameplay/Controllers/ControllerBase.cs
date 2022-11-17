@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Gemserk.Leopotam.Ecs;
+using UnityEngine;
 
-namespace Gemserk.Leopotam.Ecs.Controllers
+namespace Gemserk.Leopotam.Gameplay.Controllers
 {
     public abstract class ControllerBase : MonoBehaviour, IController
     {

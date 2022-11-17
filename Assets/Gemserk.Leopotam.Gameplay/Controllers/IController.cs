@@ -1,4 +1,6 @@
-namespace Gemserk.Leopotam.Ecs.Controllers
+using Gemserk.Leopotam.Ecs;
+
+namespace Gemserk.Leopotam.Gameplay.Controllers
 {
     public interface IController
     {
@@ -7,20 +9,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         void OnUpdate(float dt);
     }
 
-    public interface IInit
-    {
-        void OnInit();
-    }
-    
-    public interface IEntityDestroyed
-    {
-        void OnEntityDestroyed(Entity e);
-    }
-
-    public interface IConfigurable
-    {
-        void OnConfigured();
-    }
+   
 
     // public interface IAbilityEvent
     // {
