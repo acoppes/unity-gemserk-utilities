@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 #if UNITY_EDITOR
@@ -248,17 +247,6 @@ namespace Gemserk.Leopotam.Ecs
                 entityDestroyedHandler.OnEntityDestroyed(this, entity);
             }
             // onEntityDestroyed?.Invoke(this, entity);
-        }
-
-        public Entity GetEntityByName(string entityName)
-        {
-            
-            if (sharedData.singletonByNameEntities.ContainsKey(entityName))
-            {
-                return sharedData.singletonByNameEntities[entityName];
-            }
-
-            return Entity.NullEntity;
         }
     }
 }
