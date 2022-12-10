@@ -59,12 +59,12 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
                     {
                         if (statesComponent.statesExited.Count > 0)
                         {
-                            onStateChanged.OnExit();
+                            onStateChanged.OnExitState();
                         }
 
                         if (statesComponent.statesEntered.Count > 0)
                         {
-                            onStateChanged.OnEnter();
+                            onStateChanged.OnEnterState();
                         }
                     }
                 }

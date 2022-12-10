@@ -19,8 +19,8 @@ namespace Gemserk.Leopotam.Gameplay.Events
 
     public interface IStateChanged
     {
-        void OnEnter();
+        void OnEnterState();
         
-        void OnExit();
+        void OnExitState();
     }
 }
