@@ -1,5 +1,4 @@
 ﻿using System;
-using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 
 namespace Gemserk.Leopotam.Ecs
