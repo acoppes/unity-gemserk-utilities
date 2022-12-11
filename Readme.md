@@ -24,7 +24,7 @@ Entities can use the NameComponent to identify them by name, to be used in any w
 
 ### Entity wrapper
 
-It is just a way to have references to entities but with a custom struct which could be extended in the future, for now it is just an int and a static declaration of NullEntity (where null is the entity -1).
+It is a similar to EcsPackedEntity but integrated in our API so we can call things like world.Exist(entity).
 
 ## Behaviours
 
