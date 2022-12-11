@@ -19,11 +19,11 @@ namespace Gemserk.Leopotam.Ecs.Tests
 
             var entity = world.CreateEntity();
             
-            Assert.IsTrue(world.IsValid(entity));
+            Assert.IsTrue(world.Exists(entity));
             
             world.DestroyEntity(entity);
             
-            Assert.IsFalse(world.IsValid(entity));
+            Assert.IsFalse(world.Exists(entity));
             
             var entity2 = world.CreateEntity();
             
