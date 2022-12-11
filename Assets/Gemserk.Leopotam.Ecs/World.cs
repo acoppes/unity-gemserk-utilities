@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 #if UNITY_EDITOR
@@ -31,7 +32,7 @@ namespace Gemserk.Leopotam.Ecs
 
         private bool initialized;
 
-        // public Action<World, int> onEntityCreated, onEntityDestroyed;
+        public Action<World, Entity> onEntityCreated, onEntityDestroyed;
 
         private readonly IList<IEntityCreatedHandler> entityCreatedHandlers = new List<IEntityCreatedHandler>();
         private readonly IList<IEntityDestroyedHandler> entityDestroyedHandlers = new List<IEntityDestroyedHandler>();
@@ -268,7 +269,11 @@ namespace Gemserk.Leopotam.Ecs
             {
                 entityCreatedHandler.OnEntityCreated(this, entity);
             }
-            // onEntityCreated?.Invoke(this, entity);
+
+            if (onEntityCreated != null)
+            {
+                onEntityCreated(this, entity);
+            }
         }
         
         private void OnEntityDestroyed(Entity entity)
@@ -277,7 +282,11 @@ namespace Gemserk.Leopotam.Ecs
             {
                 entityDestroyedHandler.OnEntityDestroyed(this, entity);
             }
-            // onEntityDestroyed?.Invoke(this, entity);
+
+            if (onEntityDestroyed != null)
+            {
+                onEntityDestroyed(this, entity);
+            }
         }
     }
 }
