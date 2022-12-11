@@ -86,7 +86,7 @@ namespace Gemserk.Leopotam.Ecs
                             throw new Exception($"Can't have two entities with same name {nameComponent.name}");
                         }
                     }
-                    singletonByNameEntities[nameComponent.name] = entity;
+                    singletonByNameEntities[nameComponent.name] = this.GetEntity(entity);
                     nameComponent.cachedInSingletonsDictionary = true;
                 }
             }
