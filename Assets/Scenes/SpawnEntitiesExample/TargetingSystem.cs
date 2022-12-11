@@ -38,7 +38,7 @@ public class TargetingSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandle
                 // ref var targetComponent = ref targetComponents.Get(target);
                 if (weapon != target)
                 {
-                    weaponComponent.target = target;
+                    weaponComponent.target = world.GetEntity(target);
                 }
             }
             

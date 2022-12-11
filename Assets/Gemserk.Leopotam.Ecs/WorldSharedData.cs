@@ -19,8 +19,8 @@ namespace Gemserk.Leopotam.Ecs
     {
         public object sharedData;
         
-        public readonly IDictionary<string, int> singletonByNameEntities = 
-            new Dictionary<string, int>(StringComparer.InvariantCultureIgnoreCase);
+        public readonly IDictionary<string, Entity> singletonByNameEntities = 
+            new Dictionary<string, Entity>(StringComparer.InvariantCultureIgnoreCase);
         
     }
 }

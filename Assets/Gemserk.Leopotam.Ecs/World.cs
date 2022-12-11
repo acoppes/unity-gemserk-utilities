@@ -17,13 +17,13 @@ namespace Gemserk.Leopotam.Ecs
     {
         void OnEntityDestroyed(World world, Entity entity);
     }
-    
+
     public class World : SingletonBehaviour<World>
     {
         [SerializeField]
         private Transform fixedUpdateParent, updateParent, lateUpdateParent;
         
-        private EcsWorld world;
+        internal EcsWorld world;
 
         public readonly WorldSharedData sharedData = new WorldSharedData();
 
@@ -38,7 +38,7 @@ namespace Gemserk.Leopotam.Ecs
 
         public Entity CreateEntity(IEntityDefinition definition = null, IEnumerable<IEntityInstanceParameter> parametersList = null)
         {
-            var entity = world.NewEntity();
+            var entity = world.CreateEmptyEntity();
 
             if (definition != null)
             {
@@ -68,6 +68,20 @@ namespace Gemserk.Leopotam.Ecs
         {
             OnEntityDestroyed(entity);
             world.DelEntity(entity);
+        }
+
+        public bool IsValid(Entity entity)
+        {
+            return entity.generation == world.GetEntityGen(entity);
+        }
+
+        public Entity GetEntity(int entity)
+        {
+            return new Entity
+            {
+                entity = entity,
+                generation = world.GetEntityGen(entity)
+            };
         }
 
         public void AddComponent<T>(Entity entity) where T : struct
@@ -171,14 +185,28 @@ namespace Gemserk.Leopotam.Ecs
             updateSystems = new EcsSystems(world, sharedData);
             lateUpdateSystems = new EcsSystems(world, sharedData);
             
-            Register(fixedUpdateParent, fixedUpdateSystems);
-            Register(updateParent, updateSystems);
-            Register(lateUpdateParent, lateUpdateSystems);
+            if (fixedUpdateParent != null)
+            {
+                Register(fixedUpdateParent, fixedUpdateSystems);
+            }
+
+            if (updateParent != null)
+            {
+                Register(updateParent, updateSystems);
+            }
+
+            if (lateUpdateParent != null)
+            {
+                Register(lateUpdateParent, lateUpdateSystems);
+            }
             
 #if UNITY_EDITOR
+            if (Application.isPlaying)
+            {
                 // add debug systems for custom worlds here, for example:
                 // .Add (new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem ("events"))
                 updateSystems.Add(new EcsWorldDebugSystem());
+            }
 #endif
 
             fixedUpdateSystems.Inject();
@@ -234,7 +262,7 @@ namespace Gemserk.Leopotam.Ecs
             }
         }
 
-        private void OnEntityCreated(int entity)
+        private void OnEntityCreated(Entity entity)
         {
             foreach (var entityCreatedHandler in entityCreatedHandlers)
             {
@@ -243,7 +271,7 @@ namespace Gemserk.Leopotam.Ecs
             // onEntityCreated?.Invoke(this, entity);
         }
         
-        private void OnEntityDestroyed(int entity)
+        private void OnEntityDestroyed(Entity entity)
         {
             foreach (var entityDestroyedHandler in entityDestroyedHandlers)
             {

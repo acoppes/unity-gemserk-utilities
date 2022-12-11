@@ -17,7 +17,7 @@ public class TimeToLiveSystem : BaseSystem, IEcsRunSystem
                 
             if (timeToLiveComponent.ttl < 0)
             {
-                world.AddComponent(entity, new DelayedDestroyComponent());
+                world.AddComponent(world.GetEntity(entity), new DelayedDestroyComponent());
             }
         }
     }

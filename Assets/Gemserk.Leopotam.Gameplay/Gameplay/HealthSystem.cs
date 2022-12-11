@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Leopotam.EcsLite;
 using UnityEngine;
@@ -54,7 +53,7 @@ namespace Gemserk.Leopotam.Ecs.Gameplay
                 {
                     if (healthComponent.autoDestroyOnDeath)
                     {
-                        world.DestroyEntity(entity);
+                        world.DestroyEntity(world.GetEntity(entity));
                     }
                 }
             }

@@ -39,7 +39,7 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
                 {
                     if (controller is IEntityDestroyed onEntityDestroyed)
                     {
-                        controller.Bind(world, entity);
+                        controller.Bind(world, world.GetEntity(entity));
                         onEntityDestroyed.OnEntityDestroyed(destroyedEntity);
                     }
                 }
@@ -81,7 +81,7 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
                 
                 foreach (var controller in controllersList)
                 {
-                    controller.Bind(world, entity);
+                    controller.Bind(world, world.GetEntity(entity));
 
                     if (!controllerComponent.intialized && controller is IInit init)
                     {

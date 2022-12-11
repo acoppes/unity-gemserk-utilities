@@ -1,44 +1,51 @@
+using Leopotam.EcsLite;
+
 namespace Gemserk.Leopotam.Ecs
 {
+    public static class EntityWorldExtensions
+    {
+        public static Entity CreateEmptyEntity(this EcsWorld world)
+        {
+            var entity = world.NewEntity();
+            return new Entity()
+            {
+                entity = entity,
+                generation = world.GetEntityGen(entity)
+            };
+        }
+        
+        public static Entity GetEntity(this BaseSystem baseSystem, int entity)
+        {
+            return baseSystem.world.GetEntity(entity);
+        }
+    }
+    
     public struct Entity
     {
         public static Entity NullEntity = new Entity
         {
-            entity = -1
+            entity = -1,
+            generation = -1
         };
         
         public int entity;
+        public short generation;
 
         public override int GetHashCode()
         {
-            return entity;
+            return base.GetHashCode();
         }
-   
-        public static implicit operator Entity(int entity) => new Entity
-        {
-            entity = entity
-        };
-        
+
         public static implicit operator int(Entity entity) => entity.entity;
 
-        public static bool operator ==(Entity reference, int entity)
-        {
-            return reference.entity == entity;
-        }
-
-        public static bool operator !=(Entity reference, int entity)
-        {
-            return reference != entity;
-        }
-        
         public static bool operator ==(Entity reference, Entity e)
         {
-            return reference.entity == e.entity;
+            return reference.entity == e.entity && reference.generation == e.generation;
         }
 
         public static bool operator !=(Entity reference, Entity e)
         {
-            return reference.entity != e.entity;
+            return reference.entity != e.entity || reference.generation != e.generation;
         }
 
         public override bool Equals(object obj)
@@ -53,6 +60,11 @@ namespace Gemserk.Leopotam.Ecs
         public bool Equals(Entity other)
         {
             return entity == other.entity;
+        }
+
+        public override string ToString()
+        {
+            return $"[{entity},{generation}]";
         }
     }
 }
