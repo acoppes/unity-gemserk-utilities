@@ -6,6 +6,8 @@ namespace Gemserk.Leopotam.Ecs
     {
         public string name;
         public bool singleton;
+
+        public bool cachedInSingletonsDictionary;
     }
 
     public struct GameObjectComponent : IEntityComponent
