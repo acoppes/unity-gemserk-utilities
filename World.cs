@@ -70,7 +70,7 @@ namespace Gemserk.Leopotam.Ecs
             world.DelEntity(entity);
         }
 
-        public bool IsValid(Entity entity)
+        public bool Exists(Entity entity)
         {
             return entity.generation == world.GetEntityGen(entity);
         }
