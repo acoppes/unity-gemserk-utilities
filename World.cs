@@ -101,6 +101,15 @@ namespace Gemserk.Leopotam.Ecs
             return ref world.GetPool<T>().Get(entity);
         }
         
+        public bool TryGetComponent<T>(Entity entity, out T component) where T : struct
+        {
+            component = default;
+            if (!HasComponent<T>(entity))
+                return false;
+            component = GetComponent<T>(entity);
+            return true;
+        }
+
         public bool HasComponent<T>(Entity entity) where T : struct
         {
             return world.GetPool<T>().Has(entity);
