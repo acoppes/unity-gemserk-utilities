@@ -1,19 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using Gemserk.Leopotam.Gameplay.Controllers;
-using UnityEngine;
+using Gemserk.Leopotam.Gameplay.Events;
 using UnityEngine.Assertions;
 
-public class ControllerExample1 : ControllerBase, IUpdate
+public class ControllerExample1 : ControllerBase, IUpdate, IInit
 {
     public float myValue;
     public float testIncrement;
+
+    private bool initialized;
+    
+    public void OnInit()
+    {
+        initialized = true;
+    }
     
     public void OnUpdate(float dt)
     {
         var controllerComponent = GetComponent<ControllerComponent>();
         
         Assert.IsNotNull(controllerComponent.instance);
+        Assert.IsTrue(initialized, "Init should be called always before update");
         
         myValue += testIncrement * dt;
 
@@ -22,4 +28,6 @@ public class ControllerExample1 : ControllerBase, IUpdate
             world.DestroyEntity(entity);
         }
     }
+
+
 }
