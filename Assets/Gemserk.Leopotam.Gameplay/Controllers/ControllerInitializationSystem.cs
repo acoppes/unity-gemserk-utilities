@@ -87,6 +87,11 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
                     {
                         init.OnInit();
                     }
+                    
+                    if (controllerComponent.onConfigurationPending && controller is IConfigurable configurable)
+                    {
+                        configurable.OnConfigured();
+                    }
                 }
                 
                 controllerComponent.intialized = true;

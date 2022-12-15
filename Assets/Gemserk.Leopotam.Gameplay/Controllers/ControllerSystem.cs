@@ -26,12 +26,7 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
                 foreach (var controller in controllersList)
                 {
                     controller.Bind(world, world.GetEntity(entity));
-                    
-                    if (controllerComponent.onConfigurationPending && controller is IConfigurable configurable)
-                    {
-                        configurable.OnConfigured();
-                    }
-                    
+
                     if (controller is IUpdate updateable)
                     {
                         updateable.OnUpdate(Time.deltaTime);
