@@ -6,7 +6,7 @@ namespace Gemserk.Leopotam.Gameplay.Events
     {
         void OnInit();
     }
-    
+
     public interface IEntityDestroyed
     {
         void OnEntityDestroyed(Entity e);

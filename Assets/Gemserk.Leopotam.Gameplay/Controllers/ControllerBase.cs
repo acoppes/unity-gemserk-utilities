@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Gemserk.Leopotam.Gameplay.Controllers
 {
-    public abstract class ControllerBase : MonoBehaviour, IController
+    public abstract class ControllerBase : MonoBehaviour, IController, IUpdate
     {
         protected World world;
         protected Entity entity;

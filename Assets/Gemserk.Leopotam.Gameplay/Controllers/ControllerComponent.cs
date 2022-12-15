@@ -14,5 +14,7 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
 
         public bool onConfigurationPending;
         public int configurationVersion;
+        
+        // TODO cache each interface cast
     }
 }

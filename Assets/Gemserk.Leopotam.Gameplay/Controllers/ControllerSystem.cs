@@ -93,7 +93,10 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
                         configurable.OnConfigured();
                     }
                     
-                    controller.OnUpdate(Time.deltaTime);    
+                    if (controller is IUpdate updateable)
+                    {
+                        updateable.OnUpdate(Time.deltaTime);
+                    }
                 }
                 
                 controllerComponent.intialized = true;
