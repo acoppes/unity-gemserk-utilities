@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs;
-using Gemserk.Leopotam.Gameplay.Events;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;

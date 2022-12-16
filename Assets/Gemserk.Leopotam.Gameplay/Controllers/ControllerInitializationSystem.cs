@@ -7,19 +7,38 @@ using UnityEngine;
 
 namespace Gemserk.Leopotam.Gameplay.Controllers
 {
-    public class ControllerInitializationSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler, IEntityCreatedHandler
+    public class ControllerInitializationSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler, 
+        IEntityCreatedHandler, IEcsInitSystem
     {
         readonly EcsFilterInject<Inc<ControllerComponent>> controllerFilter = default;
         readonly EcsPoolInject<ControllerComponent> controllerComponents = default;
-
+        
+        private GameObject instancesParent;
+        
         private readonly List<IController> controllersList = new List<IController>();
         
+        public void Init(EcsSystems systems)
+        {
+            const string parentGameObjectName = "~Controllers";
+            
+            if (instancesParent == null)
+            {
+                instancesParent = GameObject.Find(parentGameObjectName);
+            }
+
+            if (instancesParent == null)
+            {
+                instancesParent = new GameObject(parentGameObjectName);
+            }
+        }
+
         public void OnEntityCreated(World world, Entity entity)
         {
             if (world.HasComponent<ControllerComponent>(entity))
             {
                 ref var controllerComponent = ref world.GetComponent<ControllerComponent>(entity);
                 controllerComponent.instance = Instantiate(controllerComponent.prefab);
+                controllerComponent.instance.transform.parent = instancesParent.transform;
                 controllerComponent.instance.name = $"~{controllerComponent.prefab.name}";
                 controllerComponent.controllers = new List<IController>();
                 controllerComponent.instance.GetComponentsInChildren(controllerComponent.controllers);
@@ -98,7 +117,5 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
                 controllerComponent.onConfigurationPending = false;
             }
         }
-
-
     }
 }

@@ -16,7 +16,7 @@ public class ControllerExample1 : ControllerBase, IUpdate, IInit
     
     public void OnUpdate(float dt)
     {
-        var controllerComponent = GetComponent<ControllerComponent>();
+        var controllerComponent = Get<ControllerComponent>();
         
         Assert.IsNotNull(controllerComponent.instance);
         Assert.IsTrue(initialized, "Init should be called always before update");
