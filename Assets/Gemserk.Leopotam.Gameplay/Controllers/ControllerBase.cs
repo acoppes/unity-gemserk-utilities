@@ -14,9 +14,14 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
             this.entity = entity;
         }
         
-        public new ref T GetComponent<T>() where T : struct
+        public ref T Get<T>() where T : struct
         {
             return ref world.GetComponent<T>(entity);
+        }
+
+        public bool Has<T>() where T : struct
+        {
+            return world.HasComponent<T>(entity);
         }
     }
 }
