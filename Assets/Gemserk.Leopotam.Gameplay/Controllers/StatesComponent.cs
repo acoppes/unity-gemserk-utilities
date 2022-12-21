@@ -12,12 +12,17 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
     
     public struct StatesComponent : IEntityComponent
     {
+        public delegate void StateChangedHandler(StatesComponent statesComponent);
+
         public IDictionary<string, State> states;
         
         public HashSet<string> activeStates;
         public HashSet<string> previousStates;
         public HashSet<string> statesEntered;
         public HashSet<string> statesExited;
+
+        public event StateChangedHandler onStatesEnterEvent;
+        public event StateChangedHandler onStatesExitEvent;
 
         public bool HasState(string stateName)
         {
@@ -55,6 +60,22 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
                 statesEntered = new HashSet<string>(StringComparer.OrdinalIgnoreCase),
                 statesExited = new HashSet<string>(StringComparer.OrdinalIgnoreCase),
             };
+        }
+
+        public void OnStatesEnter()
+        {
+            if (onStatesEnterEvent != null)
+            {
+                onStatesEnterEvent(this);
+            }
+        }
+        
+        public void OnStatesExit()
+        {
+            if (onStatesExitEvent != null)
+            {
+                onStatesExitEvent(this);
+            }
         }
     }
 }

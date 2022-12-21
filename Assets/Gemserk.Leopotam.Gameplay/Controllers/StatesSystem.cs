@@ -36,6 +36,20 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
             statesComponent.previousStates.Clear();
             statesComponent.previousStates.UnionWith(statesComponent.activeStates);
         }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void InvokeStatesCallbacks(StatesComponent statesComponent)
+        {
+            if (statesComponent.statesEntered.Count > 0)
+            {
+                statesComponent.OnStatesEnter();
+            }
+            
+            if (statesComponent.statesExited.Count > 0)
+            {
+                statesComponent.OnStatesExit();
+            }
+        }
 
         public void Run(EcsSystems systems)
         {
@@ -51,6 +65,7 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
                 }
                 
                 UpdateStatesTransitions(statesComponent);
+                InvokeStatesCallbacks(statesComponent);
             }
 
             var controllers = world.GetComponents<ControllerComponent>();
