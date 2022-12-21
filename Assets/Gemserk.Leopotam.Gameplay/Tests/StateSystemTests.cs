@@ -31,7 +31,7 @@ namespace Gemserk.Leopotam.Gameplay.Tests
             Assert.IsTrue(statesComponent.HasState("A"));
             Assert.IsFalse(statesComponent.statesEntered.Contains("A"));
             
-            StatesSystem.UpdateStatesTransitions(statesComponent);
+            StatesTransitionsSystem.UpdateStatesTransitions(statesComponent);
             
             Assert.IsTrue(statesComponent.statesEntered.Contains("A"));
             
@@ -40,7 +40,7 @@ namespace Gemserk.Leopotam.Gameplay.Tests
             Assert.IsFalse(statesComponent.HasState("A"));
             Assert.IsFalse(statesComponent.statesExited.Contains("A"));
 
-            StatesSystem.UpdateStatesTransitions(statesComponent);
+            StatesTransitionsSystem.UpdateStatesTransitions(statesComponent);
             
             Assert.IsTrue(statesComponent.statesExited.Contains("A"));
         }
@@ -56,16 +56,16 @@ namespace Gemserk.Leopotam.Gameplay.Tests
             statesComponent.onStatesEnterEvent += statesHandler.OnStatesEnter;
             statesComponent.onStatesExitEvent += statesHandler.OnStatesExit;
 
-            StatesSystem.UpdateStatesTransitions(statesComponent);
-            StatesSystem.InvokeStatesCallbacks(statesComponent);
+            StatesTransitionsSystem.UpdateStatesTransitions(statesComponent);
+            StatesTransitionsSystem.InvokeStatesCallbacks(statesComponent);
 
             Assert.AreEqual(1, statesHandler.onEnterCalls);
             Assert.AreEqual(0, statesHandler.onExitCalls);
             
             statesComponent.ExitState("A");
             
-            StatesSystem.UpdateStatesTransitions(statesComponent);
-            StatesSystem.InvokeStatesCallbacks(statesComponent);
+            StatesTransitionsSystem.UpdateStatesTransitions(statesComponent);
+            StatesTransitionsSystem.InvokeStatesCallbacks(statesComponent);
             
             Assert.AreEqual(1, statesHandler.onEnterCalls);
             Assert.AreEqual(1, statesHandler.onExitCalls);

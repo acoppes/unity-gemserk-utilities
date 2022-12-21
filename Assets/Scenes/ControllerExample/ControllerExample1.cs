@@ -1,4 +1,3 @@
-using System.Linq;
 using Gemserk.Leopotam.Gameplay.Controllers;
 using Gemserk.Leopotam.Gameplay.Events;
 using UnityEngine;
@@ -19,6 +18,7 @@ public class ControllerExample1 : ControllerBase, IUpdate, IInit, IStateChanged
     public void OnUpdate(float dt)
     {
         var controllerComponent = Get<ControllerComponent>();
+        var statesComponent = Get<StatesComponent>();
         
         Assert.IsNotNull(controllerComponent.instance);
         Assert.IsTrue(initialized, "Init should be called always before update");
@@ -28,6 +28,14 @@ public class ControllerExample1 : ControllerBase, IUpdate, IInit, IStateChanged
         if (myValue > 50)
         {
             world.DestroyEntity(entity);
+        }
+
+        if (statesComponent.TryGetState("State1", out var state))
+        {
+            Debug.Log(state.time);
+            Debug.Log(state.updateCount);
+            
+            statesComponent.ExitState("State1");
         }
     }
 
