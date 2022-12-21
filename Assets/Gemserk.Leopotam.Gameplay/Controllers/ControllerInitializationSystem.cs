@@ -45,6 +45,9 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
 
                 var entityReference = controllerComponent.instance.AddComponent<EntityReference>();
                 entityReference.entity = entity;
+
+                controllerComponent.stateChangedListeners = new List<IStateChanged>();
+                controllerComponent.instance.GetComponentsInChildren(controllerComponent.stateChangedListeners);
             }
         }
         
@@ -97,7 +100,7 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
             foreach (var entity in controllerFilter.Value)
             {
                 ref var controllerComponent = ref controllerComponents.Value.Get(entity);
-                
+
                 controllersList.Clear();
                 controllersList.AddRange(controllerComponent.controllers);
                 

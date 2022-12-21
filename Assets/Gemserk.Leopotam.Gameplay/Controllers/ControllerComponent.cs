@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs;
+using Gemserk.Leopotam.Gameplay.Events;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Gameplay.Controllers
@@ -16,5 +17,7 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
         public int configurationVersion;
         
         // TODO cache each interface cast
+
+        public List<IStateChanged> stateChangedListeners;
     }
 }

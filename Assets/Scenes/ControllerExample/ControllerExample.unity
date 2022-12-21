@@ -654,6 +654,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 5647849095806919359, guid: eeef975118348b547862dd4c3822cf8c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6648697719622424230, guid: eeef975118348b547862dd4c3822cf8c,
         type: 3}
       propertyPath: m_RootOrder
@@ -663,6 +668,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ~World
+      objectReference: {fileID: 0}
+    - target: {fileID: 8550877404756445861, guid: eeef975118348b547862dd4c3822cf8c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eeef975118348b547862dd4c3822cf8c, type: 3}

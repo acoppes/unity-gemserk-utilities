@@ -1,8 +1,10 @@
+using System.Linq;
 using Gemserk.Leopotam.Gameplay.Controllers;
 using Gemserk.Leopotam.Gameplay.Events;
+using UnityEngine;
 using UnityEngine.Assertions;
 
-public class ControllerExample1 : ControllerBase, IUpdate, IInit
+public class ControllerExample1 : ControllerBase, IUpdate, IInit, IStateChanged
 {
     public float myValue;
     public float testIncrement;
@@ -30,4 +32,15 @@ public class ControllerExample1 : ControllerBase, IUpdate, IInit
     }
 
 
+    public void OnEnterState()
+    {
+        var statesComponent = Get<StatesComponent>();
+        Debug.Log($"ENTERED STATES: {string.Join(",", statesComponent.statesEntered)}");
+    }
+
+    public void OnExitState()
+    {
+        var statesComponent = Get<StatesComponent>();
+        Debug.Log($"EXIT STATES: {string.Join(",", statesComponent.statesExited)}");
+    }
 }

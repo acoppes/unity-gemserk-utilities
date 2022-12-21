@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Gemserk.Leopotam.Ecs;
-using Gemserk.Leopotam.Gameplay.Events;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
@@ -68,32 +66,6 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
                 UpdateStatesTransitions(statesComponent);
                 InvokeStatesCallbacks(statesComponent);
             }
-
-            var controllers = world.GetComponents<ControllerComponent>();
-            
-            foreach (var entity in world.GetFilter<StatesComponent>().Inc<ControllerComponent>().End())
-            {
-                var statesComponent = stateComponents.Value.Get(entity);
-                var controllerComponent = controllers.Get(entity);
-
-                foreach (var controller in controllerComponent.controllers)
-                {
-                    if (controller is IStateChanged onStateChanged)
-                    {
-                        if (statesComponent.statesExited.Count > 0)
-                        {
-                            onStateChanged.OnExitState();
-                        }
-
-                        if (statesComponent.statesEntered.Count > 0)
-                        {
-                            onStateChanged.OnEnterState();
-                        }
-                    }
-                }
-            }
         }
-
-
     }
 }
