@@ -34,6 +34,11 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
         {
             return states[stateName];
         }
+        
+        public bool TryGetState(string stateName, out State state)
+        {
+            return states.TryGetValue(stateName, out state);
+        }
 
         public void EnterState(string state)
         {
