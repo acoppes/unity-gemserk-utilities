@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Leopotam.Gameplay.Events;
 using Leopotam.EcsLite;
@@ -21,6 +22,21 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void UpdateStatesTransitions(StatesComponent statesComponent)
+        {
+            statesComponent.statesEntered.Clear();
+            statesComponent.statesEntered.UnionWith(statesComponent.activeStates);
+            statesComponent.statesEntered.ExceptWith(statesComponent.previousStates);
+            
+            statesComponent.statesExited.Clear();
+            statesComponent.statesExited.UnionWith(statesComponent.previousStates);
+            statesComponent.statesExited.ExceptWith(statesComponent.activeStates);
+            
+            statesComponent.previousStates.Clear();
+            statesComponent.previousStates.UnionWith(statesComponent.activeStates);
+        }
+
         public void Run(EcsSystems systems)
         {
             foreach (var entity in statesFilter.Value)
@@ -34,16 +50,7 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
                     state.time += Time.deltaTime;
                 }
                 
-                statesComponent.statesEntered.Clear();
-                statesComponent.statesEntered.UnionWith(statesComponent.activeStates);
-                statesComponent.statesEntered.ExceptWith(statesComponent.previousStates);
-            
-                statesComponent.statesExited.Clear();
-                statesComponent.statesExited.UnionWith(statesComponent.previousStates);
-                statesComponent.statesExited.ExceptWith(statesComponent.activeStates);
-            
-                statesComponent.previousStates.Clear();
-                statesComponent.previousStates.UnionWith(statesComponent.activeStates);
+                UpdateStatesTransitions(statesComponent);
             }
 
             var controllers = world.GetComponents<ControllerComponent>();

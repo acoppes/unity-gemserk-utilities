@@ -12,7 +12,7 @@ namespace Gemserk.Leopotam.Ecs.Tests
         }
         
         [Test]
-        public void ComponentShouldBeModified_After_TryGetComponent()
+        public void World_GetComponentAPI_Tests()
         {
             // Use the Assert class to test conditions
             var gameObject = new GameObject();
