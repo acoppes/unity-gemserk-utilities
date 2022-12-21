@@ -8,20 +8,11 @@ using UnityEngine;
 
 namespace Gemserk.Leopotam.Gameplay.Controllers
 {
-    public class StatesSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler, IEntityDestroyedHandler
+    public class StatesSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler
     {
         readonly EcsFilterInject<Inc<StatesComponent>> statesFilter = default;
         readonly EcsPoolInject<StatesComponent> stateComponents = default;
 
-        public void OnEntityCreated(World world, Entity entity)
-        {
-            if (stateComponents.Value.Has(entity))
-            {
-                ref var statesComponent = ref stateComponents.Value.Get(entity);
-                statesComponent.states = new Dictionary<string, State>();
-            }
-        }
-        
         public void OnEntityDestroyed(World world, Entity entity)
         {
             if (stateComponents.Value.Has(entity))
@@ -71,6 +62,7 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
                 {
                     var state = statesComponent.states[stateName];
                     state.time += Time.deltaTime;
+                    state.updateCount++;
                 }
                 
                 UpdateStatesTransitions(statesComponent);
