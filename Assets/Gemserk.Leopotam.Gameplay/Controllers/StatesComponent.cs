@@ -62,6 +62,12 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
             };
         }
 
+        public void ClearCallbacks()
+        {
+            onStatesEnterEvent = null;
+            onStatesExitEvent = null;
+        }
+
         public void OnStatesEnter()
         {
             if (onStatesEnterEvent != null)

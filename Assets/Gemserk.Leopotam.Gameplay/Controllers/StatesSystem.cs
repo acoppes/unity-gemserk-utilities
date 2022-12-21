@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Gemserk.Leopotam.Gameplay.Controllers
 {
-    public class StatesSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler
+    public class StatesSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler, IEntityDestroyedHandler
     {
         readonly EcsFilterInject<Inc<StatesComponent>> statesFilter = default;
         readonly EcsPoolInject<StatesComponent> stateComponents = default;
@@ -19,6 +19,15 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
             {
                 ref var statesComponent = ref stateComponents.Value.Get(entity);
                 statesComponent.states = new Dictionary<string, State>();
+            }
+        }
+        
+        public void OnEntityDestroyed(World world, Entity entity)
+        {
+            if (stateComponents.Value.Has(entity))
+            {
+                ref var statesComponent = ref stateComponents.Value.Get(entity);
+                statesComponent.ClearCallbacks();
             }
         }
 
@@ -92,6 +101,7 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
                 }
             }
         }
+
 
     }
 }
