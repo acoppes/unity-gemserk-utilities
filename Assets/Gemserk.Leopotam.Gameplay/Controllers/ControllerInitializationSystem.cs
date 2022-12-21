@@ -40,14 +40,15 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
                 controllerComponent.instance = Instantiate(controllerComponent.prefab);
                 controllerComponent.instance.transform.parent = instancesParent.transform;
                 controllerComponent.instance.name = $"~{controllerComponent.prefab.name}";
+                
                 controllerComponent.controllers = new List<IController>();
                 controllerComponent.instance.GetComponentsInChildren(controllerComponent.controllers);
 
-                var entityReference = controllerComponent.instance.AddComponent<EntityReference>();
-                entityReference.entity = entity;
-
                 controllerComponent.stateChangedListeners = new List<IStateChanged>();
                 controllerComponent.instance.GetComponentsInChildren(controllerComponent.stateChangedListeners);
+                
+                var entityReference = controllerComponent.instance.AddComponent<EntityReference>();
+                entityReference.entity = entity;
             }
         }
         
@@ -56,16 +57,16 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
             foreach (var entity in controllerFilter.Value)
             {
                 ref var controllerComponent = ref controllerComponents.Value.Get(entity);
-                
-                if (!controllerComponent.intialized)
-                    continue;
-                
-                foreach (var controller in controllerComponent.controllers)
+
+                if (controllerComponent.intialized)
                 {
-                    if (controller is IEntityDestroyed onEntityDestroyed)
+                    foreach (var controller in controllerComponent.controllers)
                     {
-                        controller.Bind(world, world.GetEntity(entity));
-                        onEntityDestroyed.OnEntityDestroyed(destroyedEntity);
+                        if (controller is IEntityDestroyed onEntityDestroyed)
+                        {
+                            controller.Bind(world, world.GetEntity(entity));
+                            onEntityDestroyed.OnEntityDestroyed(destroyedEntity);
+                        }
                     }
                 }
             }
@@ -80,6 +81,7 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
 
                 controllerComponent.instance = null;
                 controllerComponent.controllers.Clear();
+                controllerComponent.stateChangedListeners.Clear();
             }
         }
 
