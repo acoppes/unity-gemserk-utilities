@@ -42,6 +42,9 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
                 controllerComponent.instance.name = $"~{controllerComponent.prefab.name}";
                 controllerComponent.controllers = new List<IController>();
                 controllerComponent.instance.GetComponentsInChildren(controllerComponent.controllers);
+
+                var entityReference = controllerComponent.instance.AddComponent<EntityReference>();
+                entityReference.entity = entity;
             }
         }
         
