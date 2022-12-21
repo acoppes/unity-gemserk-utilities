@@ -8,6 +8,7 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
     {
         public string name;
         public float time;
+        public int updateCount;
     }
     
     public struct StatesComponent : IEntityComponent

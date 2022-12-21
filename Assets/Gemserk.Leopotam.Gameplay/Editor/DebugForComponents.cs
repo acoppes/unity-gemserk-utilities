@@ -17,7 +17,7 @@ namespace Gemserk.Leopotam.Gameplay.Editor
                 EditorGUI.indentLevel++;
                 foreach (var state in states.states)
                 {
-                    EditorGUILayout.LabelField($"{state.Key}");
+                    EditorGUILayout.LabelField($"{state.Value.name} || {state.Value.time:0.00} || {state.Value.updateCount}");
                 }
                 EditorGUI.indentLevel--;
                 EditorGUI.indentLevel--;
