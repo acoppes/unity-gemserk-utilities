@@ -42,5 +42,16 @@ namespace Gemserk.Leopotam.Ecs.Tests
             var otherTestComponent = world.GetComponent<TestComponent>(entity);
             Assert.AreEqual(54, otherTestComponent.value);
         }
+        
+        [Test]
+        public void Exists_ShouldReturnFalse_ForNullEntity()
+        {
+            var gameObject = new GameObject();
+            var world = gameObject.AddComponent<World>();
+            
+            world.Init();
+
+            Assert.IsFalse(world.Exists(Entity.NullEntity));
+        }
     }
 }
