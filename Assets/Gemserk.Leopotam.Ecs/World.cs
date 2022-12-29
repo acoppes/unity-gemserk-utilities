@@ -73,6 +73,9 @@ namespace Gemserk.Leopotam.Ecs
 
         public bool Exists(Entity entity)
         {
+            if (entity == Entity.NullEntity)
+                return false;
+            
             return entity.generation == world.GetEntityGen(entity);
         }
 
