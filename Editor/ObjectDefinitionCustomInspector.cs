@@ -26,19 +26,27 @@ namespace Gemserk.Leopotam.Ecs.Editor
             // add buttons for each kind of ientitydefinitions serializable
             foreach (var type in entityComponentDefinitionTypes)
             {
-                if (objectEntityDefinition.componentDefinitions.Count(c => c.GetType() == type) > 0)
+                if (objectEntityDefinition.componentDefinitions
+                        .Where(c => c != null)
+                        .Count(c => c.GetType() == type) > 0)
+                {
+                    continue;
+                }
+
+                if (type.IsAbstract)
                 {
                     continue;
                 }
                 
-                if (GUILayout.Button($"Add {type.Name}"))
+                if (GUILayout.Button($"Add {type.Name.Replace("Definition", "")}"))
                 {
                     var componentDefinition = (IEntityComponentDefinition) Activator.CreateInstance(type);
                     objectEntityDefinition.componentDefinitions.Add(componentDefinition);
                     EditorUtility.SetDirty(objectEntityDefinition);
+                    AssetDatabase.SaveAssetIfDirty(objectEntityDefinition);
+                    
                 }
             }
-            
         }
     }
 }

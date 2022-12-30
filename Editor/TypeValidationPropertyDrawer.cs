@@ -42,8 +42,6 @@ namespace Gemserk.Leopotam.Ecs.Editor
                     Debug.Log($"Invalid object, not an {typeToValidate.Name}.");
                 }
             }
-            
-            
         }
     }
 }
