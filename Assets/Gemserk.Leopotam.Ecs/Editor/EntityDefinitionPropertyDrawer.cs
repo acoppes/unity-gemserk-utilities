@@ -8,6 +8,12 @@ namespace Gemserk.Leopotam.Ecs.Editor
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            if (property.propertyType != SerializedPropertyType.ObjectReference)
+            {
+                EditorGUI.LabelField(position, $"Invalid usage of TypeValidation for field \"{label.text}\", use with Object references.");
+                return;
+            }
+            
             var typeToValidate = (attribute as TypeValidationAttribute).typeToValidate;
             
             EditorGUI.BeginChangeCheck();

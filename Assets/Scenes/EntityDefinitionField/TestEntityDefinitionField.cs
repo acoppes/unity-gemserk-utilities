@@ -10,8 +10,9 @@ public class TestEntityDefinitionField : MonoBehaviour
     public GameObject gameObjectDefinition;
     
     public Object definitionNoCheck1;
-    
-    
+
+    public int test;
+
     [TypeValidation(typeof(IEntityDefinition))]
     public Object objectDefinition2;
 
