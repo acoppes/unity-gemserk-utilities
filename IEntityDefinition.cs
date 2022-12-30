@@ -4,4 +4,9 @@ namespace Gemserk.Leopotam.Ecs
     {
         void Apply(World world, Entity entity);
     }
+    
+    public interface IEntityComponentDefinition
+    {
+        void Apply(World world, Entity entity);
+    }
 }
