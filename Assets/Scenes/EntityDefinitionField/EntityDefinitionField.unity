@@ -152,9 +152,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ce8e965ed40431e993ca1982c595d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  componentDefinitions: []
+  componentDefinitions:
+  - id: 0
+  - id: 1
   references:
     version: 1
+    00000000:
+      type: {class: PositionDefinition, ns: , asm: Assembly-CSharp}
+      data:
+        name: Position
+        position: {x: 0, y: 0, z: 0}
+    00000001:
+      type: {class: MovementDefinition, ns: , asm: Assembly-CSharp}
+      data:
+        name: Movement
+        speed: 0
 --- !u!4 &366144213
 Transform:
   m_ObjectHideFlags: 0
@@ -279,14 +291,6 @@ MonoBehaviour:
   objectDefinition2: {fileID: 11400000, guid: 12d81de5d502fc042b12cdd68d211f38, type: 2}
   gameObjectDefinition2: {fileID: 0}
   definitionNoCheck2: {fileID: 11400000, guid: 12d81de5d502fc042b12cdd68d211f38, type: 2}
-  testReferences:
-  - id: 0
-  references:
-    version: 1
-    00000000:
-      type: {class: MyDefinition, ns: , asm: Assembly-CSharp}
-      data:
-        speed: 0
 --- !u!4 &1062367872
 Transform:
   m_ObjectHideFlags: 0
