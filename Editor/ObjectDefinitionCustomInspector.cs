@@ -22,10 +22,15 @@ namespace Gemserk.Leopotam.Ecs.Editor
             base.OnInspectorGUI();
 
             var objectEntityDefinition = target as ObjectEntityDefinition;
-            
+
             // add buttons for each kind of ientitydefinitions serializable
             foreach (var type in entityComponentDefinitionTypes)
             {
+                if (objectEntityDefinition.componentDefinitions.Count(c => c.GetType() == type) > 0)
+                {
+                    continue;
+                }
+                
                 if (GUILayout.Button($"Add {type.Name}"))
                 {
                     var componentDefinition = (IEntityComponentDefinition) Activator.CreateInstance(type);
