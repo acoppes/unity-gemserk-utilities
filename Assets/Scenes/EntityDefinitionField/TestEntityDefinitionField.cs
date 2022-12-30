@@ -12,4 +12,13 @@ public class TestEntityDefinitionField : MonoBehaviour
     public Object definitionNoCheck1;
     
     
+    [TypeValidation(typeof(IEntityDefinition))]
+    public Object objectDefinition2;
+
+    [TypeValidation(typeof(IEntityDefinition))]
+    public GameObject gameObjectDefinition2;
+    
+    public Object definitionNoCheck2;
+    
+    
 }

@@ -228,7 +228,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectDefinition: {fileID: 11400000, guid: 12d81de5d502fc042b12cdd68d211f38, type: 2}
   gameObjectDefinition: {fileID: 0}
-  definitionNoCheck1: {fileID: 2130531308}
+  definitionNoCheck1: {fileID: 11400000, guid: 12d81de5d502fc042b12cdd68d211f38, type: 2}
+  objectDefinition2: {fileID: 11400000, guid: 12d81de5d502fc042b12cdd68d211f38, type: 2}
+  gameObjectDefinition2: {fileID: 0}
+  definitionNoCheck2: {fileID: 11400000, guid: 12d81de5d502fc042b12cdd68d211f38, type: 2}
 --- !u!4 &1062367872
 Transform:
   m_ObjectHideFlags: 0
