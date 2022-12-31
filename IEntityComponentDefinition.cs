@@ -1,6 +1,6 @@
 namespace Gemserk.Leopotam.Ecs
 {
-    public interface IEntityDefinition
+    public interface IEntityComponentDefinition
     {
         void Apply(World world, Entity entity);
     }

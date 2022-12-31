@@ -21,10 +21,9 @@ namespace Gemserk.Leopotam.Ecs.Editor
         {
             // base.OnInspectorGUI();
 
-            var objectEntityDefinition = target as ObjectEntityDefinition;
+            DrawDefaultInspector();
 
-            var serializedProperty = serializedObject.FindProperty("componentDefinitions");
-            EditorGUILayout.PropertyField(serializedProperty);
+            var objectEntityDefinition = target as ObjectEntityDefinition;
 
             // var componentDefinitions = objectEntityDefinition.componentDefinitions;
             //

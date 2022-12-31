@@ -12,7 +12,19 @@ namespace Gemserk.Leopotam.Ecs
         {
             foreach (var componentDefinition in componentDefinitions)
             {
+                var definitionBase = componentDefinition as EntityComponentDefinitionBase;
+                
+                if (definitionBase != null)
+                {
+                    definitionBase.gameObject = gameObject;
+                }
+                
                 componentDefinition.Apply(world, entity);
+                
+                if (definitionBase != null)
+                {
+                    definitionBase.gameObject = null;
+                }
             }
         }
     }
