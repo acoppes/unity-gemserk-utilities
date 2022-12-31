@@ -19,9 +19,19 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
+            // base.OnInspectorGUI();
 
             var objectEntityDefinition = target as ObjectEntityDefinition;
+
+            var serializedProperty = serializedObject.FindProperty("componentDefinitions");
+            EditorGUILayout.PropertyField(serializedProperty);
+
+            // var componentDefinitions = objectEntityDefinition.componentDefinitions;
+            //
+            // foreach (var componentDefinition in componentDefinitions)
+            // {
+            //     
+            // }
 
             // add buttons for each kind of ientitydefinitions serializable
             foreach (var type in entityComponentDefinitionTypes)
