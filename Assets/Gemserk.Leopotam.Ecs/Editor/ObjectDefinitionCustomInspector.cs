@@ -14,7 +14,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
         
         private void OnEnable()
         {
-            entityComponentDefinitionTypes = TypeCache.GetTypesDerivedFrom<IEntityComponentDefinition>().ToList();
+            entityComponentDefinitionTypes = TypeCache.GetTypesDerivedFrom<IComponentDefinition>().ToList();
         }
 
         public override void OnInspectorGUI()
@@ -49,7 +49,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 
                 if (GUILayout.Button($"Add {type.Name.Replace("Definition", "")}"))
                 {
-                    var componentDefinition = (IEntityComponentDefinition) Activator.CreateInstance(type);
+                    var componentDefinition = (IComponentDefinition) Activator.CreateInstance(type);
                     objectEntityDefinition.componentDefinitions.Add(componentDefinition);
                     EditorUtility.SetDirty(objectEntityDefinition);
                     AssetDatabase.SaveAssetIfDirty(objectEntityDefinition);

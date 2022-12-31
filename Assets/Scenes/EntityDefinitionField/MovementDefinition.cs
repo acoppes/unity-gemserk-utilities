@@ -6,7 +6,7 @@ public struct MyMovementComponent : IEntityComponent
     public int speed;
 }
 
-public class MovementDefinition : EntityComponentDefinitionBase
+public class MovementDefinition : ComponentDefinitionBase
 {
     public int speed;
     

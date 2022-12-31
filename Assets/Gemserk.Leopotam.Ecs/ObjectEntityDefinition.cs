@@ -6,13 +6,13 @@ namespace Gemserk.Leopotam.Ecs
     public class ObjectEntityDefinition : MonoBehaviour, IEntityDefinition
     {
         [SerializeReference]
-        public List<IEntityComponentDefinition> componentDefinitions = new List<IEntityComponentDefinition>();
+        public List<IComponentDefinition> componentDefinitions = new List<IComponentDefinition>();
 
         public void Apply(World world, Entity entity)
         {
             foreach (var componentDefinition in componentDefinitions)
             {
-                var definitionBase = componentDefinition as EntityComponentDefinitionBase;
+                var definitionBase = componentDefinition as ComponentDefinitionBase;
                 
                 if (definitionBase != null)
                 {
