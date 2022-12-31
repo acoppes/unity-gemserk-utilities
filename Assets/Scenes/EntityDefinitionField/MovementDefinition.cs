@@ -1,13 +1,20 @@
 using System;
 using Gemserk.Leopotam.Ecs;
 
-[Serializable]
+public struct MyMovementComponent : IEntityComponent
+{
+    public int speed;
+}
+
 public class MovementDefinition : EntityComponentDefinitionBase
 {
-    public bool speed;
+    public int speed;
     
-    public void Apply(World world, Entity entity)
+    public override void Apply(World world, Entity entity)
     {
-        
+        world.AddComponent(entity, new MyMovementComponent()
+        {
+            speed = speed
+        });
     }
 }
