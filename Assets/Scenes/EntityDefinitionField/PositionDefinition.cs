@@ -1,14 +1,20 @@
 using System;
 using Gemserk.Leopotam.Ecs;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
-[Serializable]
-public class PositionDefinition : EntityComponentDefinitionBase
+namespace Scenes.EntityDefinitionField
 {
-    public Vector3 value;
-    
-    public void Apply(World world, Entity entity)
+    [MovedFrom(false, "", "Assembly-CSharp", "PositionDefinition")]
+    [Serializable]
+    public class PositionDefinition : EntityComponentDefinitionBase
     {
+        public Vector3 value;
+    
+        public void Apply(World world, Entity entity)
+        {
         
+        }
     }
 }
+
