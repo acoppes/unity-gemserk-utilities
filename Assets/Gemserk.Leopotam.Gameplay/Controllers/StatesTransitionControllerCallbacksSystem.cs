@@ -15,14 +15,17 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
                 var statesComponent = stateComponents.Get(entity);
                 var controllerComponent = controllers.Get(entity);
 
-                foreach (var stateChanged in controllerComponent.stateChangedListeners)
+                if (statesComponent.statesExited.Count > 0)
                 {
-                    if (statesComponent.statesExited.Count > 0)
+                    foreach (var stateChanged in controllerComponent.stateChangedListeners)
                     {
                         stateChanged.OnExitState();
                     }
-
-                    if (statesComponent.statesEntered.Count > 0)
+                }
+                
+                if (statesComponent.statesEntered.Count > 0)
+                {
+                    foreach (var stateChanged in controllerComponent.stateChangedListeners)
                     {
                         stateChanged.OnEnterState();
                     }

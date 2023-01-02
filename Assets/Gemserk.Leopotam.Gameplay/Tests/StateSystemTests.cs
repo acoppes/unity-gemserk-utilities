@@ -108,8 +108,6 @@ namespace Gemserk.Leopotam.Gameplay.Tests
             
             StatesTransitionsSystem.UpdateStatesTransitions(statesComponent);
             StatesTransitionsSystem.InvokeStatesCallbacks(statesComponent);
-            
-            
         }
     }
 }
