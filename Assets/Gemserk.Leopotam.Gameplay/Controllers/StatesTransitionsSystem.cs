@@ -38,14 +38,14 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void InvokeStatesCallbacks(StatesComponent statesComponent)
         {
-            if (statesComponent.statesEntered.Count > 0)
-            {
-                statesComponent.OnStatesEnter();
-            }
-            
             if (statesComponent.statesExited.Count > 0)
             {
                 statesComponent.OnStatesExit();
+            }
+            
+            if (statesComponent.statesEntered.Count > 0)
+            {
+                statesComponent.OnStatesEnter();
             }
         }
 

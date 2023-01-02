@@ -1,4 +1,5 @@
-﻿using Gemserk.Leopotam.Gameplay.Controllers;
+﻿using System;
+using Gemserk.Leopotam.Gameplay.Controllers;
 using NUnit.Framework;
 
 namespace Gemserk.Leopotam.Gameplay.Tests
@@ -18,6 +19,24 @@ namespace Gemserk.Leopotam.Gameplay.Tests
             public void OnStatesExit(StatesComponent states)
             {
                 onExitCalls++;
+            }
+        }
+        
+        public class StatesHandleExitFirstMock
+        {
+            public bool exitCalled;
+
+            public void OnStatesEnter(StatesComponent states)
+            {
+                if (exitCalled)
+                    return;
+                
+                throw new Exception("Exit must be called first");
+            }
+
+            public void OnStatesExit(StatesComponent states)
+            {
+                exitCalled = true;
             }
         }
         
@@ -69,6 +88,28 @@ namespace Gemserk.Leopotam.Gameplay.Tests
             
             Assert.AreEqual(1, statesHandler.onEnterCalls);
             Assert.AreEqual(1, statesHandler.onExitCalls);
+        }
+        
+        [Test]
+        public void ExitStates_Before_EnterStates()
+        {
+            var statesComponent = StatesComponent.Create();
+            var statesHandler = new StatesHandleExitFirstMock();
+            
+            statesComponent.onStatesEnterEvent += statesHandler.OnStatesEnter;
+            statesComponent.onStatesExitEvent += statesHandler.OnStatesExit;
+            
+            statesComponent.EnterState("A");
+            
+            StatesTransitionsSystem.UpdateStatesTransitions(statesComponent);
+            
+            statesComponent.ExitState("A");
+            statesComponent.EnterState("B");
+            
+            StatesTransitionsSystem.UpdateStatesTransitions(statesComponent);
+            StatesTransitionsSystem.InvokeStatesCallbacks(statesComponent);
+            
+            
         }
     }
 }
