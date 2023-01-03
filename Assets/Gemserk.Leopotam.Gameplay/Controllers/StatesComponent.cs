@@ -22,6 +22,8 @@ namespace Gemserk.Leopotam.Gameplay.Controllers
         public HashSet<string> statesEntered;
         public HashSet<string> statesExited;
 
+        public bool debugTransitions;
+
         public event StateChangedHandler onStatesEnterEvent;
         public event StateChangedHandler onStatesExitEvent;
 
