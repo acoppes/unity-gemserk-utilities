@@ -1,8 +1,8 @@
 {
-    "name": "com.gemserk.leopotamecs.gameplay",
+    "name": "com.gemserk.leopotamecs",
     "version": "0.2.3",
-    "displayName": "Gemserk Leopotam ECS Gameplay",
-    "description": "Gemserk Leopotam ECS Gamplay",
+    "displayName": "com.gemserk.leopotamecs",
+    "description": "Gemserk Leopotam ECS Extensions",
     "unity": "2021.3",
     "unityRelease": "16f1",
     "author": {
