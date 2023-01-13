@@ -1,3 +1,14 @@
 {
-	"name": "Gemserk.Gameplay"
+    "name": "Gemserk.Gameplay",
+    "rootNamespace": "Gemserk.Gameplay",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

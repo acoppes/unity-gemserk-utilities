@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using Gemserk.Gameplay;
+using UnityEditor;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Editor
