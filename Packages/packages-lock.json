@@ -6,6 +6,12 @@
       "source": "embedded",
       "dependencies": {}
     },
+    "com.gemserk.gameplay": {
+      "version": "file:com.gemserk.gameplay",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.gemserk.leopotamecs": {
       "version": "file:com.gemserk.leopotamecs",
       "depth": 0,

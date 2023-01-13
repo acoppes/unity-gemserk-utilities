@@ -1,0 +1,14 @@
+{
+    "name": "com.gemserk.gameplay",
+    "version": "0.0.1",
+    "displayName": "com.gemserk.gameplay",
+    "description": "Gemserk Editor Utilities for gameplay",
+    "unity": "2021.3",
+    "unityRelease": "16f1",
+    "author": {
+      "name": "acoppes",
+      "email": "ariel.coppes@gmail.com",
+      "url": "https://blog.gemserk.com"
+    }
+  }
+  
