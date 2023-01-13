@@ -4,7 +4,9 @@
       "version": "file:com.gemserk.actions",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {}
+      "dependencies": {
+        "com.mackysoft.serializereference-extensions": "1.1.7"
+      }
     },
     "com.gemserk.aseprite": {
       "version": "file:com.gemserk.aseprite",
@@ -57,6 +59,13 @@
       "source": "git",
       "dependencies": {},
       "hash": "2a8af59a6e15ecbd34783d32dbb37059e663e7f6"
+    },
+    "com.mackysoft.serializereference-extensions": {
+      "version": "https://github.com/mackysoft/Unity-SerializeReferenceExtensions.git?path=Assets/MackySoft/MackySoft.SerializeReferenceExtensions",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "aedc9ba82497ee62bf5a802876e88a39a6f73831"
     },
     "com.unity.2d.animation": {
       "version": "7.0.9",
