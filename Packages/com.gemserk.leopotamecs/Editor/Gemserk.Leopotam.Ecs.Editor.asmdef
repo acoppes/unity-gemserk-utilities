@@ -1,6 +1,6 @@
 {
     "name": "Gemserk.Leopotam.Ecs.Editor",
-    "rootNamespace": "",
+    "rootNamespace": "Gemserk.Leopotam.Ecs.Editor",
     "references": [
         "GUID:8a30ab9d6b0ad574a9ffb703fc3225bb",
         "GUID:e59bf9fc7d5a44b18a819a92edd46163",

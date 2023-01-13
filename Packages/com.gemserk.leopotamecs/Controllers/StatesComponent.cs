@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Gemserk.Leopotam.Ecs;
 
-namespace Gemserk.Leopotam.Gameplay.Controllers
+namespace Gemserk.Leopotam.Ecs.Controllers
 {
     public class State
     {

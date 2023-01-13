@@ -4,23 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Gameplay
-{ 
-    public struct LookingDirection : IEntityComponent
-    {
-        public Vector2 value;
-        public bool disableIndicator;
-    }
-    
-    public struct PositionComponent : IEntityComponent
-    {
-        public Vector3 value;
-    }
-
-    public struct PlayerComponent : IEntityComponent
-    {
-        public int player;
-    }
-
+{
     public struct Target
     {
         public int entity;

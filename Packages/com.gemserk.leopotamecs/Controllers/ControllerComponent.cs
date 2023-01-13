@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using Gemserk.Leopotam.Ecs;
-using Gemserk.Leopotam.Gameplay.Events;
+using Gemserk.Leopotam.Ecs.Events;
 using UnityEngine;
 
-namespace Gemserk.Leopotam.Gameplay.Controllers
+namespace Gemserk.Leopotam.Ecs.Controllers
 {
     public struct ControllerComponent : IEntityComponent
     {

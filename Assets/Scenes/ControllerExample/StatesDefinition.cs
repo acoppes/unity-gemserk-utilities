@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs;
-using Gemserk.Leopotam.Gameplay.Controllers;
+using Gemserk.Leopotam.Ecs.Controllers;
 using UnityEngine;
 
 public class StatesDefinition : MonoBehaviour, IEntityDefinition

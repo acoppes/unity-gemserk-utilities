@@ -1,9 +1,8 @@
-using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite.UnityEditor;
 using UnityEditor;
 using UnityEngine;
 
-namespace Gemserk.Leopotam.Gameplay.Editor
+namespace Gemserk.Leopotam.Ecs.Editor
 {
     [CustomEditor(typeof(EntityReference))]
     [CanEditMultipleObjects]

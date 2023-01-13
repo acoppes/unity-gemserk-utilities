@@ -1,5 +1,5 @@
-using Gemserk.Leopotam.Gameplay.Controllers;
-using Gemserk.Leopotam.Gameplay.Events;
+using Gemserk.Leopotam.Ecs.Controllers;
+using Gemserk.Leopotam.Ecs.Events;
 using UnityEngine;
 using UnityEngine.Assertions;
 

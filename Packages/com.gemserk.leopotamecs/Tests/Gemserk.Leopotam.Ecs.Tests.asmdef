@@ -1,6 +1,6 @@
 {
     "name": "Gemserk.Leopotam.Ecs.Tests",
-    "rootNamespace": "",
+    "rootNamespace": "Gemserk.Leopotam.Ecs.Tests",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",

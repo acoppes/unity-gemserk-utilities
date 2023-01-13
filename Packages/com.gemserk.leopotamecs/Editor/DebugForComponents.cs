@@ -1,8 +1,8 @@
-using Gemserk.Leopotam.Gameplay.Controllers;
+using Gemserk.Leopotam.Ecs.Controllers;
 using Leopotam.EcsLite.UnityEditor;
 using UnityEditor;
 
-namespace Gemserk.Leopotam.Gameplay.Editor
+namespace Gemserk.Leopotam.Ecs.Editor
 {
     public static class DebugForComponents
     {

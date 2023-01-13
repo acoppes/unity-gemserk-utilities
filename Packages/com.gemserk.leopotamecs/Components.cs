@@ -14,4 +14,19 @@ namespace Gemserk.Leopotam.Ecs
     {
         public GameObject gameObject;
     }
+    
+    public struct LookingDirection : IEntityComponent
+    {
+        public Vector3 value;
+    }
+    
+    public struct PositionComponent : IEntityComponent
+    {
+        public Vector3 value;
+    }
+
+    public struct PlayerComponent : IEntityComponent
+    {
+        public int player;
+    }
 }
