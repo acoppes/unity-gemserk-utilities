@@ -1,11 +1,11 @@
 ﻿using Gemserk.Actions;
 using UnityEngine;
 
-public class MyTriggerCondition : MonoBehaviour, ITrigger.ICondition
+public class MyTriggerCondition : TriggerCondition
 {
     public bool evaluate;
     
-    public bool Evaluate()
+    public override bool Evaluate()
     {
         return evaluate;
     }

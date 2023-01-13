@@ -9,6 +9,9 @@ namespace Gemserk.Actions
         public readonly Trigger trigger = new ();
 
         public ITrigger.ExecutionState State => trigger.State;
+
+        [NonSerialized]
+        public Transform eventsParent, conditionsParent, actionsParent;
         
         private void Awake()
         {
@@ -44,9 +47,9 @@ namespace Gemserk.Actions
 
         private void OnValidate()
         {
-            transform.FindOrCreateFolder("Events");
-            transform.FindOrCreateFolder("Conditions");
-            transform.FindOrCreateFolder("Actions");
+            eventsParent = transform.FindOrCreateFolder("Events");
+            conditionsParent = transform.FindOrCreateFolder("Conditions");
+            actionsParent = transform.FindOrCreateFolder("Actions");
         }
     }
 }

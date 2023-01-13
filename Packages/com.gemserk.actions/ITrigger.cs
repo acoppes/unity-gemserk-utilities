@@ -22,7 +22,7 @@ namespace Gemserk.Actions
 
         public interface IEvent
         {
-            // ?
+            
         }
     
         public interface ICondition

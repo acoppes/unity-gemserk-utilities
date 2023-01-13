@@ -1,11 +1,11 @@
 using Gemserk.Actions;
 using UnityEngine;
 
-public class MyTriggerAction : MonoBehaviour, ITrigger.IAction
+public class MyTriggerAction : TriggerAction
 {
     public float value1;
     
-    public ITrigger.ExecutionResult Execute()
+    public override ITrigger.ExecutionResult Execute()
     {
         Debug.Log($"VALUE: {value1}");
         return ITrigger.ExecutionResult.Completed;
