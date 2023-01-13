@@ -1,0 +1,14 @@
+{
+    "name": "com.gemserk.aseprite",
+    "version": "0.0.1",
+    "displayName": "com.gemserk.aseprite",
+    "description": "Gemserk Editor Utilities for Aseprite",
+    "unity": "2021.3",
+    "unityRelease": "16f1",
+    "author": {
+      "name": "acoppes",
+      "email": "ariel.coppes@gmail.com",
+      "url": "https://blog.gemserk.com"
+    }
+  }
+  
