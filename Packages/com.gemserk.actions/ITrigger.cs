@@ -17,7 +17,7 @@ namespace Gemserk.Actions
         
         public interface IAction
         {
-            ExecutionResult Execute();
+            ExecutionResult Execute(object activator = null);
         }
 
         public interface IEvent
@@ -27,7 +27,7 @@ namespace Gemserk.Actions
     
         public interface ICondition
         {
-            bool Evaluate();
+            bool Evaluate(object activator = null);
         }
         
         public ExecutionState State { get; }
@@ -36,7 +36,7 @@ namespace Gemserk.Actions
         
         ExecutionResult Execute();
 
-        void QueueExecution();
+        void QueueExecution(object activator = null);
         
         void StartExecution();
         

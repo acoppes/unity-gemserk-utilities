@@ -10,8 +10,6 @@ namespace Gemserk.Actions
 
         public ITrigger.ExecutionState State => trigger.State;
 
-        // public Transform eventsParent, conditionsParent, actionsParent;
-        
         private void Awake()
         {
             GetComponentsInChildren(false, trigger.events);
@@ -29,9 +27,9 @@ namespace Gemserk.Actions
             return trigger.Execute();
         }
 
-        public void QueueExecution()
+        public void QueueExecution(object activator = null)
         {
-            trigger.QueueExecution();
+            trigger.QueueExecution(activator);
         }
 
         public void StartExecution()

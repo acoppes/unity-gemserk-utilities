@@ -10,11 +10,13 @@ namespace Gemserk.Actions
 
         public int executingAction;
 
-        public int pendingExecutions;
+        public readonly List<object> pendingExecutions = new List<object>();
 
         private ITrigger.ExecutionState state;
         
         public ITrigger.ExecutionState State => state;
+
+        private object currentActivator => pendingExecutions.Count > 0 ? pendingExecutions[0] : null;
         
         public bool Evaluate()
         {
@@ -22,7 +24,7 @@ namespace Gemserk.Actions
 
             foreach (var condition in conditions)
             {
-                if (!condition.Evaluate())
+                if (!condition.Evaluate(currentActivator))
                 {
                     result = false;
                     break;
@@ -32,9 +34,11 @@ namespace Gemserk.Actions
             return result;
         }
 
-        public void QueueExecution()
+        public void QueueExecution(object activator = null)
         {
-            pendingExecutions++;
+            pendingExecutions.Add(activator);
+            
+            // pendingExecutions++;
             
             if (state == ITrigger.ExecutionState.Waiting)
             {
@@ -51,12 +55,13 @@ namespace Gemserk.Actions
         public void CompleteCurrentExecution()
         {
             executingAction = 0;
-            pendingExecutions--;
+            pendingExecutions.RemoveAt(0);
+            
+            // pendingExecutions--;
 
-            if (pendingExecutions <= 0)
+            if (pendingExecutions.Count == 0)
             {
                 state = ITrigger.ExecutionState.Waiting;
-                pendingExecutions = 0;
             }
             else
             {
@@ -69,7 +74,7 @@ namespace Gemserk.Actions
             while (executingAction < actions.Count)
             {
                 var action = actions[executingAction];
-                var result = action.Execute();
+                var result = action.Execute(currentActivator);
                 
                 if (result == ITrigger.ExecutionResult.Running)
                 {

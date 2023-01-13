@@ -54,8 +54,10 @@ namespace Gemserk.Actions.Editor
             EditorGUILayout.BeginVertical();
             // show 
             EditorGUI.BeginDisabledGroup(true);
+            
             EditorGUILayout.LabelField("State", trigger.State.ToString());
-            EditorGUILayout.IntField("Pending Executions", trigger.pendingExecutions);
+            EditorGUILayout.IntField("Pending Executions", trigger.pendingExecutions.Count);
+
             if (trigger.actions.Count > 0)
             {
                 var actionObject = trigger.actions[trigger.executingAction] as MonoBehaviour;
