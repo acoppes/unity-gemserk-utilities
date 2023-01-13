@@ -10,8 +10,7 @@ namespace Gemserk.Actions
 
         public ITrigger.ExecutionState State => trigger.State;
 
-        [NonSerialized]
-        public Transform eventsParent, conditionsParent, actionsParent;
+        // public Transform eventsParent, conditionsParent, actionsParent;
         
         private void Awake()
         {
@@ -43,13 +42,6 @@ namespace Gemserk.Actions
         public void CompleteCurrentExecution()
         {
             trigger.CompleteCurrentExecution();
-        }
-
-        private void OnValidate()
-        {
-            eventsParent = transform.FindOrCreateFolder("Events");
-            conditionsParent = transform.FindOrCreateFolder("Conditions");
-            actionsParent = transform.FindOrCreateFolder("Actions");
         }
     }
 }

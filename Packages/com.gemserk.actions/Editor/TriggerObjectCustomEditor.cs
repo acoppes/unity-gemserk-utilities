@@ -66,11 +66,14 @@ namespace Gemserk.Actions.Editor
             EditorGUILayout.EndVertical();
 
             // show events, conditions and actions
+
+            var eventsParent = triggerObject.transform.FindOrCreateFolder("Events");
+            var conditionsParent = triggerObject.transform.FindOrCreateFolder("Conditions");
+            var actionsParent = triggerObject.transform.FindOrCreateFolder("Actions");
             
-            DrawTriggerButtons("Events", eventTypes, triggerObject.eventsParent);
-            DrawTriggerButtons("Conditions", conditionTypes, triggerObject.conditionsParent);
-            DrawTriggerButtons("Actions", actionTypes, triggerObject.actionsParent);
-            
+            DrawTriggerButtons("Events", eventTypes, eventsParent);
+            DrawTriggerButtons("Conditions", conditionTypes, conditionsParent);
+            DrawTriggerButtons("Actions", actionTypes, actionsParent);
             
             if (Application.isPlaying)
             {
