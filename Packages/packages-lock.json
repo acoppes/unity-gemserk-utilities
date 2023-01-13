@@ -24,12 +24,6 @@
       "source": "embedded",
       "dependencies": {}
     },
-    "com.gemserk.leopotamecs.gameplay": {
-      "version": "file:com.gemserk.leopotamecs.gameplay",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
     "com.gemserk.upmgitpusher": {
       "version": "0.0.19",
       "depth": 0,

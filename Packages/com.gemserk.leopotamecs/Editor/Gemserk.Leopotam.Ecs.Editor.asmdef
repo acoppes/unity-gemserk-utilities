@@ -2,7 +2,10 @@
     "name": "Gemserk.Leopotam.Ecs.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:8a30ab9d6b0ad574a9ffb703fc3225bb"
+        "GUID:8a30ab9d6b0ad574a9ffb703fc3225bb",
+        "GUID:e59bf9fc7d5a44b18a819a92edd46163",
+        "GUID:206779980ac58453ea65e900299ccf71",
+        "GUID:a22362b82293644e1bbe51356c008d63"
     ],
     "includePlatforms": [
         "Editor"

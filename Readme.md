@@ -13,5 +13,3 @@ List of packages:
     - Git url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.gameplay
 * Leopotam ECS Extensions
     - Git url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.leopotamecs
-* Leopotam ECS Gameplay Extensions
-    - Git url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.leopotamecs.gameplay
