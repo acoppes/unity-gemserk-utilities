@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbfe7457aef4086a5ef9412b6e3c396, type: 3}
   m_Name: UpmPublishData
   m_EditorClassIdentifier: 
-  disabled: 0
+  disabled: 1
   packageFiles:
-  - {fileID: 4900000, guid: ea846d69f7816174da51aad942b327e8, type: 3}
-  - {fileID: 4900000, guid: fa4248f89054c427e896fbebaf9801f7, type: 3}
+  - {fileID: 8385607101436470782, guid: ea846d69f7816174da51aad942b327e8, type: 3}
+  - {fileID: 8385607101436470782, guid: fa4248f89054c427e896fbebaf9801f7, type: 3}
