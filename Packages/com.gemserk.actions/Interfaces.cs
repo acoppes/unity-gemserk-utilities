@@ -5,6 +5,7 @@ namespace Gemserk.Actions
         public enum ExecutionState
         {
             Waiting,
+            PendingExecution,
             Executing
         }
         
@@ -35,8 +36,10 @@ namespace Gemserk.Actions
         
         ExecutionResult Execute();
 
+        void QueueExecution();
+        
         void StartExecution();
         
-        void StopExecution();
+        void CompleteCurrentExecution();
     }
 }

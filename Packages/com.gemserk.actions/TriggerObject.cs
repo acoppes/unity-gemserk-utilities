@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Gemserk.Actions
 {
     public class TriggerObject : MonoBehaviour, ITrigger
     {
-        private readonly Trigger trigger = new Trigger();
+        [NonSerialized]
+        public readonly Trigger trigger = new ();
 
         public ITrigger.ExecutionState State => trigger.State;
         
@@ -25,14 +27,19 @@ namespace Gemserk.Actions
             return trigger.Execute();
         }
 
+        public void QueueExecution()
+        {
+            trigger.QueueExecution();
+        }
+
         public void StartExecution()
         {
             trigger.StartExecution();
         }
 
-        public void StopExecution()
+        public void CompleteCurrentExecution()
         {
-            trigger.StopExecution();
+            trigger.CompleteCurrentExecution();
         }
 
         private void OnValidate()

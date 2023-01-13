@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Gemserk.Actions
 {
     public class TriggerSystem : MonoBehaviour
     {
-        private List<ITrigger> triggers = new List<ITrigger>();
+        private List<ITrigger> triggers = new ();
 
         private void Awake()
         {
@@ -17,7 +16,7 @@ namespace Gemserk.Actions
         {
             foreach (var trigger in triggers)
             {
-                if (trigger.State == ITrigger.ExecutionState.Waiting)
+                if (trigger.State == ITrigger.ExecutionState.PendingExecution)
                 {
                     if (trigger.Evaluate())
                     {
@@ -29,7 +28,7 @@ namespace Gemserk.Actions
                 {
                     if (trigger.Execute() == ITrigger.ExecutionResult.Completed)
                     {
-                        trigger.StopExecution();
+                        trigger.CompleteCurrentExecution();
                     }
                 }
             }

@@ -4,13 +4,13 @@ namespace Gemserk.Actions
 {
     public class Trigger : ITrigger
     {
-        public readonly List<ITrigger.IEvent> events = new List<ITrigger.IEvent>();
-        public readonly List<ITrigger.ICondition> conditions = new List<ITrigger.ICondition>();
-        public readonly List<ITrigger.IAction> actions = new List<ITrigger.IAction>();
+        public readonly List<ITrigger.IEvent> events = new();
+        public readonly List<ITrigger.ICondition> conditions = new();
+        public readonly List<ITrigger.IAction> actions = new();
 
-        private int executingAction;
+        public int executingAction;
 
-        // private int pendingExecutions;
+        public int pendingExecutions;
 
         private ITrigger.ExecutionState state;
         
@@ -31,17 +31,37 @@ namespace Gemserk.Actions
             
             return result;
         }
-        
+
+        public void QueueExecution()
+        {
+            pendingExecutions++;
+            
+            if (state == ITrigger.ExecutionState.Waiting)
+            {
+                state = ITrigger.ExecutionState.PendingExecution;
+            }
+        }
+
         public void StartExecution()
         {
             state = ITrigger.ExecutionState.Executing;
             executingAction = 0;
         }
 
-        public void StopExecution()
+        public void CompleteCurrentExecution()
         {
-            state = ITrigger.ExecutionState.Waiting;
             executingAction = 0;
+            pendingExecutions--;
+
+            if (pendingExecutions <= 0)
+            {
+                state = ITrigger.ExecutionState.Waiting;
+                pendingExecutions = 0;
+            }
+            else
+            {
+                state = ITrigger.ExecutionState.PendingExecution;
+            }
         }
 
         public ITrigger.ExecutionResult Execute()
