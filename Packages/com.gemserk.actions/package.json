@@ -9,8 +9,5 @@
     "name": "acoppes",
     "email": "ariel.coppes@gmail.com",
     "url": "https://blog.gemserk.com"
-  },
-  "dependencies": {
-    "com.mackysoft.serializereference-extensions": "1.1.7"
   }
 }
