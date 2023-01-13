@@ -1,0 +1,1 @@
+A system of Triggers that given an Event it executes a list of Actions when a list of Conditions are true. It is heavily inspired in RTS engines, mainly in [Starcraft 2 Editor](https://s2editor-guides.readthedocs.io/Classic_Tutorials/02_Trigger_Module/1/).
