@@ -1,8 +1,8 @@
 ﻿using System;
-using Gemserk.Leopotam.Gameplay.Controllers;
+using Gemserk.Leopotam.Ecs.Controllers;
 using NUnit.Framework;
 
-namespace Gemserk.Leopotam.Gameplay.Tests
+namespace Gemserk.Leopotam.Ecs.Tests
 {
     public class StateSystemTests
     {

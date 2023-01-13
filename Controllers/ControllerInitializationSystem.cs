@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using Gemserk.Leopotam.Ecs;
-using Gemserk.Leopotam.Gameplay.Events;
+using Gemserk.Leopotam.Ecs.Events;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 
-namespace Gemserk.Leopotam.Gameplay.Controllers
+namespace Gemserk.Leopotam.Ecs.Controllers
 {
     public class ControllerInitializationSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler, 
         IEntityCreatedHandler, IEcsInitSystem

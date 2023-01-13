@@ -1,6 +1,4 @@
-using Gemserk.Leopotam.Ecs;
-
-namespace Gemserk.Leopotam.Gameplay.Controllers
+namespace Gemserk.Leopotam.Ecs.Controllers
 {
     public interface IUpdate
     {

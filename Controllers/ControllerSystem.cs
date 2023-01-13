@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
 
-namespace Gemserk.Leopotam.Gameplay.Controllers
+namespace Gemserk.Leopotam.Ecs.Controllers
 {
     public class ControllerSystem : BaseSystem, IEcsRunSystem
     {

@@ -1,6 +1,4 @@
-﻿using Gemserk.Leopotam.Ecs;
-
-namespace Gemserk.Leopotam.Gameplay.Events
+﻿namespace Gemserk.Leopotam.Ecs.Events
 {
     public interface IInit
     {

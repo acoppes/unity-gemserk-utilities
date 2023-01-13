@@ -1,7 +1,6 @@
-﻿using Gemserk.Leopotam.Ecs;
-using Leopotam.EcsLite;
+﻿using Leopotam.EcsLite;
 
-namespace Gemserk.Leopotam.Gameplay.Controllers
+namespace Gemserk.Leopotam.Ecs.Controllers
 {
     public class StatesTransitionControllerCallbacksSystem : BaseSystem, IEcsRunSystem
     {
