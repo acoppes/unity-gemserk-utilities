@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Gemserk.Leopotam.Ecs.Editor
+namespace Gemserk.Gameplay.Editor
 {
     [CustomPropertyDrawer(typeof(TypeValidationAttribute), true)]
     public class TypeValidationPropertyDrawer: PropertyDrawer
