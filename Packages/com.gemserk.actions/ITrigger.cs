@@ -32,7 +32,7 @@ namespace Gemserk.Actions
         
         public ExecutionState State { get; }
 
-        bool Evaluate();
+        // bool Evaluate();
         
         ExecutionResult Execute();
 

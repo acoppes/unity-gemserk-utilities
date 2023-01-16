@@ -18,7 +18,7 @@ namespace Gemserk.Actions
 
         private object currentActivator => pendingExecutions.Count > 0 ? pendingExecutions[0] : null;
         
-        public bool Evaluate()
+        private bool Evaluate()
         {
             var result = true;
 
@@ -36,9 +36,12 @@ namespace Gemserk.Actions
 
         public void QueueExecution(object activator = null)
         {
-            pendingExecutions.Add(activator);
+            if (!Evaluate())
+            {
+                return;
+            }
             
-            // pendingExecutions++;
+            pendingExecutions.Add(activator);
             
             if (state == ITrigger.ExecutionState.Waiting)
             {
@@ -56,8 +59,6 @@ namespace Gemserk.Actions
         {
             executingAction = 0;
             pendingExecutions.RemoveAt(0);
-            
-            // pendingExecutions--;
 
             if (pendingExecutions.Count == 0)
             {

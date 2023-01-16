@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testOptionalFields:
-    checkAliveType: 1
+    checkAliveType: 0
     aliveType: 0
 --- !u!4 &983723223
 Transform:
