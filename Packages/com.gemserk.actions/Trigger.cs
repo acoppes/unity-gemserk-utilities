@@ -34,6 +34,16 @@ namespace Gemserk.Actions
             return result;
         }
 
+        public void ForceQueueExecution(object activator = null)
+        {
+            pendingExecutions.Add(activator);
+            
+            if (state == ITrigger.ExecutionState.Waiting)
+            {
+                state = ITrigger.ExecutionState.PendingExecution;
+            }
+        }
+
         public void QueueExecution(object activator = null)
         {
             if (!Evaluate())

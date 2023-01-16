@@ -79,9 +79,14 @@ namespace Gemserk.Actions.Editor
             
             if (Application.isPlaying)
             {
-                if (GUILayout.Button("Trigger Execution"))
+                if (GUILayout.Button("Trigger (checks conditions)"))
                 {
                     triggerObject.QueueExecution();
+                }
+                
+                if (GUILayout.Button("Force Execution"))
+                {
+                    triggerObject.ForceQueueExecution();
                 }
             }
         }
