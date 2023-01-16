@@ -17,11 +17,6 @@ namespace Gemserk.Actions
             GetComponentsInChildren(false, trigger.actions);
         }
 
-        // public bool Evaluate()
-        // {
-        //     return trigger.Evaluate();
-        // }
-
         public ITrigger.ExecutionResult Execute()
         {
             return trigger.Execute();

@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-
-namespace Gemserk.Actions
+﻿namespace Gemserk.Actions
 {
-    public abstract class TriggerCondition : MonoBehaviour, ITrigger.ICondition
+    public abstract class TriggerCondition : TriggerElement, ITrigger.ICondition
     {
         public abstract bool Evaluate(object activator = null);
     }

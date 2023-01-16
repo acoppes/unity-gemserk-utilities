@@ -165,7 +165,7 @@ GameObject:
   - component: {fileID: 158776055}
   - component: {fileID: 158776056}
   m_Layer: 0
-  m_Name: MyTriggerAction
+  m_Name: Debug(0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -257,7 +257,7 @@ GameObject:
   - component: {fileID: 333040959}
   - component: {fileID: 333040960}
   m_Layer: 0
-  m_Name: MyTriggerAction
+  m_Name: Debug(2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -302,7 +302,7 @@ GameObject:
   - component: {fileID: 517786426}
   - component: {fileID: 517786427}
   m_Layer: 0
-  m_Name: MyTriggerCondition
+  m_Name: True
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -394,7 +394,7 @@ GameObject:
   - component: {fileID: 611142738}
   - component: {fileID: 611142739}
   m_Layer: 0
-  m_Name: MyTriggerCondition
+  m_Name: True
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -427,7 +427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20ac6d4ee9de4de5b80d61b59855f7c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  evaluate: 0
+  evaluate: 1
 --- !u!1 &675152935
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,7 +554,7 @@ GameObject:
   - component: {fileID: 802243068}
   - component: {fileID: 802243069}
   m_Layer: 0
-  m_Name: Conditions
+  m_Name: True
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -600,7 +600,7 @@ GameObject:
   - component: {fileID: 815914827}
   - component: {fileID: 815914828}
   m_Layer: 0
-  m_Name: MyTriggerAction (2)
+  m_Name: Debug(10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -692,7 +692,7 @@ GameObject:
   - component: {fileID: 1137911461}
   - component: {fileID: 1137911462}
   m_Layer: 0
-  m_Name: MyTriggerAction
+  m_Name: Debug(5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -726,6 +726,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value1: 5
+--- !u!1 &1410220021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1410220022}
+  - component: {fileID: 1410220023}
+  m_Layer: 0
+  m_Name: Debug(2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1410220022
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410220021}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1630149525}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1410220023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410220021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb7549a4fd4080842968f1a03a68652b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  value1: 2
 --- !u!1 &1454233597
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,6 +920,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 158776055}
+  - {fileID: 1410220022}
   m_Father: {fileID: 594908270}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1035,7 +1081,7 @@ GameObject:
   - component: {fileID: 1997903271}
   - component: {fileID: 1997903272}
   m_Layer: 0
-  m_Name: MyTriggerAction (1)
+  m_Name: Debug(5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

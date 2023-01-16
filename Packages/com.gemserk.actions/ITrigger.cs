@@ -32,8 +32,6 @@ namespace Gemserk.Actions
         
         public ExecutionState State { get; }
 
-        // bool Evaluate();
-        
         ExecutionResult Execute();
 
         void QueueExecution(object activator = null);

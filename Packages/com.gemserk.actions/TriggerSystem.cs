@@ -19,11 +19,6 @@ namespace Gemserk.Actions
                 if (trigger.State == ITrigger.ExecutionState.PendingExecution)
                 {
                     trigger.StartExecution();
-                    
-                    // if (trigger.Evaluate())
-                    // {
-                    //     trigger.StartExecution();
-                    // }
                 }
 
                 if (trigger.State == ITrigger.ExecutionState.Executing)
