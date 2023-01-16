@@ -232,7 +232,7 @@ namespace Gemserk.Leopotam.Ecs
 
             initialized = true;
         }
-    
+
         private void FixedUpdate()
         {
             // time.deltaTime = UnityEngine.Time.deltaTime;
