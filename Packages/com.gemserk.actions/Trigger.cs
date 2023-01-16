@@ -18,13 +18,13 @@ namespace Gemserk.Actions
 
         private object currentActivator => pendingExecutions.Count > 0 ? pendingExecutions[0] : null;
         
-        private bool Evaluate()
+        private bool Evaluate(object activator = null)
         {
             var result = true;
 
             foreach (var condition in conditions)
             {
-                if (!condition.Evaluate(currentActivator))
+                if (!condition.Evaluate(activator))
                 {
                     result = false;
                     break;
@@ -46,7 +46,7 @@ namespace Gemserk.Actions
 
         public void QueueExecution(object activator = null)
         {
-            if (!Evaluate())
+            if (!Evaluate(activator))
             {
                 return;
             }
