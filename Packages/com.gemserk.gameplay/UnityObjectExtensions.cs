@@ -1,20 +1,20 @@
 ﻿using UnityEngine;
 
-namespace Gemserk.Leopotam.Ecs
+namespace Gemserk.Gameplay
 {
     public static class UnityObjectExtensions
     {
-        public static T GetInterface<T>(this UnityEngine.Object unityObject) where T : class
+        public static T GetInterface<T>(this UnityEngine.Object obj) where T : class
         {
-            if (unityObject is T t)
+            if (obj is T t)
                 return t;
 
-            if (unityObject is GameObject go)
+            if (obj is GameObject go)
             {
                 return go.GetComponentInChildren<T>();
             }
 
-            if (unityObject is MonoBehaviour monoBehaviour)
+            if (obj is MonoBehaviour monoBehaviour)
             {
                 return monoBehaviour.GetComponentInChildren<T>();
             }
