@@ -10,11 +10,19 @@ namespace Gemserk.Actions
 
         public ITrigger.ExecutionState State => trigger.State;
 
+        private Transform eventsParent;
+        private Transform conditionsParent;
+        private Transform actionsParent;
+        
         private void Awake()
         {
-            GetComponentsInChildren(false, trigger.events);
-            GetComponentsInChildren(false, trigger.conditions);
-            GetComponentsInChildren(false, trigger.actions);
+            eventsParent = transform.Find("Events");
+            conditionsParent = transform.Find("Conditions");
+            actionsParent = transform.Find("Actions");
+
+            eventsParent.gameObject.GetComponentsInChildrenDepth1(false, true, trigger.events);
+            conditionsParent.gameObject.GetComponentsInChildrenDepth1(false, true, trigger.conditions);
+            actionsParent.gameObject.GetComponentsInChildrenDepth1(false, true, trigger.actions);
         }
 
         public ITrigger.ExecutionResult Execute()
