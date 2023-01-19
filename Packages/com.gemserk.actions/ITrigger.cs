@@ -35,6 +35,8 @@ namespace Gemserk.Actions
         ExecutionResult Execute();
 
         void QueueExecution(object activator = null);
+
+        void ForceQueueExecution(object activator = null);
         
         void StartExecution();
         
