@@ -9,6 +9,7 @@ namespace Gemserk.Actions
         public readonly List<ITrigger.IAction> actions = new();
 
         public int executingAction;
+        public int executionTimes;
 
         public readonly List<object> pendingExecutions = new List<object>();
 
@@ -69,6 +70,8 @@ namespace Gemserk.Actions
         {
             executingAction = 0;
             pendingExecutions.RemoveAt(0);
+
+            executionTimes++;
 
             if (pendingExecutions.Count == 0)
             {

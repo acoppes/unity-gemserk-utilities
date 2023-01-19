@@ -76,7 +76,8 @@ namespace Gemserk.Actions.Editor
             
             EditorGUILayout.LabelField("State", trigger.State.ToString());
             EditorGUILayout.IntField("Pending Executions", trigger.pendingExecutions.Count);
-
+            EditorGUILayout.IntField("Completed Executions", trigger.executionTimes);
+            
             if (trigger.actions.Count > 0)
             {
                 var actionObject = trigger.actions[trigger.executingAction] as MonoBehaviour;
