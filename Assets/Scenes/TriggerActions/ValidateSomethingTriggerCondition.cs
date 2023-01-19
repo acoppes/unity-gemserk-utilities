@@ -1,6 +1,6 @@
 ﻿using Gemserk.Actions;
 
-public class MyTriggerCondition : TriggerCondition
+public class ValidateSomethingTriggerCondition : TriggerCondition
 {
     public bool evaluate;
 

@@ -1,7 +1,7 @@
 ﻿using Gemserk.Actions;
 using UnityEngine;
 
-public class MyTriggerEvent : TriggerEvent
+public class OnSomethingTriggerEvent : TriggerEvent
 {
     [ContextMenu("Trigger Execution")]
     public void TriggerExecution()

@@ -42,6 +42,12 @@ namespace Gemserk.Actions.Editor
                     var editorAttribute = attributes[0] as TriggerEditorAttribute;
                     buttonName = editorAttribute.editorName;
                 }
+                else
+                {
+                    buttonName = buttonName.Replace("TriggerCondition", "");
+                    buttonName = buttonName.Replace("TriggerEvent", "");
+                    buttonName = buttonName.Replace("TriggerAction", "");
+                }
                 
                 if (GUILayout.Button(buttonName))
                 {
