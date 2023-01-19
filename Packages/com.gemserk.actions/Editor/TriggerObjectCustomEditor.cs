@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -30,7 +32,18 @@ namespace Gemserk.Actions.Editor
             {
                 if (type.IsAbstract)
                     continue;
-                if (GUILayout.Button(type.Name))
+
+                var buttonName = type.Name;
+                
+                var attributes = type.GetCustomAttributes(typeof(TriggerEditorAttribute)).ToList();
+
+                if (attributes.Count > 0)
+                {
+                    var editorAttribute = attributes[0] as TriggerEditorAttribute;
+                    buttonName = editorAttribute.editorName;
+                }
+                
+                if (GUILayout.Button(buttonName))
                 {
                     var newActionObject = new GameObject(type.Name);
                     newActionObject.AddComponent(type);

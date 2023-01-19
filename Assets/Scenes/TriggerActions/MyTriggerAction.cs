@@ -1,6 +1,7 @@
 using Gemserk.Actions;
 using UnityEngine;
 
+[TriggerEditor("MyAction()")]
 public class MyTriggerAction : TriggerAction
 {
     public float value1;
