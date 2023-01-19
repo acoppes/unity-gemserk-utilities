@@ -1,7 +1,7 @@
 {
     "name": "Gemserk.Actions",
     "rootNamespace": "Gemserk.Actions",
-    "references": [],
+    "references": ["GUID:4e1753c824c9e8d4199df6741dacfb88"],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
