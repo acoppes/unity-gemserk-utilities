@@ -9,6 +9,8 @@ namespace Gemserk.Leopotam.Ecs
         [NonSerialized]
         public World world;
 
+        protected float dt => Time.deltaTime;
+
 #if UNITY_EDITOR
         private void OnValidate()
         {
