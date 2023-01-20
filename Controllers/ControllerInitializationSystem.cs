@@ -38,7 +38,8 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                 ref var controllerComponent = ref world.GetComponent<ControllerComponent>(entity);
                 controllerComponent.instance = Instantiate(controllerComponent.prefab);
                 controllerComponent.instance.transform.parent = instancesParent.transform;
-                controllerComponent.instance.name = $"~{controllerComponent.prefab.name}";
+
+                controllerComponent.instance.name = $"{controllerComponent.prefab.name}";
                 
                 controllerComponent.controllers = new List<IController>();
                 controllerComponent.instance.GetComponentsInChildren(controllerComponent.controllers);
