@@ -8,7 +8,7 @@ namespace Gemserk.Actions.Editor
     {
         public override void OnInspectorGUI()
         {
-            // DrawDefaultInspector();
+            DrawDefaultInspector();
 
             var triggerSystem = target as TriggerSystem;
             

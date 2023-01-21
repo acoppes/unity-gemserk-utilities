@@ -5,6 +5,16 @@ namespace Gemserk.Actions
 {
     public class TriggerSystem : MonoBehaviour
     {
+        public enum UpdateType
+        {
+            FixedUpdate = 0,
+            Update = 1,
+            LateUpdate = 2,
+            Script = 3
+        }
+
+        public UpdateType updateType = UpdateType.Update;
+        
         private List<ITrigger> triggers = new ();
 
         private void Awake()
@@ -12,7 +22,28 @@ namespace Gemserk.Actions
             GetComponentsInChildren(triggers);
         }
 
+        private void FixedUpdate()
+        {
+            if (updateType != UpdateType.FixedUpdate)
+                return;
+            UpdateTriggers();
+        }
+        
         private void Update()
+        {
+            if (updateType != UpdateType.Update)
+                return;
+            UpdateTriggers();
+        }
+
+        private void LateUpdate()
+        {
+            if (updateType != UpdateType.LateUpdate) 
+                return;
+            UpdateTriggers();
+        }
+        
+        private void UpdateTriggers()
         {
             foreach (var trigger in triggers)
             {
