@@ -12,7 +12,7 @@ World contains three objects, FixedUpdate, Update and LateUpdate, systems inside
 
 Entity definitions are like a Prototype, Template or Archetype concepts. It provides a customizable way of configuring an entity (add components with data) after instantiation. They are normally implemented in stateless prefabs.
 
-Entity instance is a GameObject meant to instantiate an entity and apply a definition. It allows customizable instance configurations by using the instance parameters, applied after the entity was instantiated and definition was applied (so the components might be already there). They can override data or even add components.  
+Entity instance is a GameObject used to instantiate an entity and apply a definition. It allows customizable instance configurations by using the instance parameters, applied after the entity was instantiated and definition was applied (so the components might be already there). They can override data or even add components.  
 
 World wrapper has some methods to create entities by using a definition and parameters.
 
@@ -36,28 +36,10 @@ Controllers are a basic way of adding custom behaviors to entities, they receive
 
 States are just a list of states the entity might be on right now, to be used for example for a stun. For now they are just strings in a list and they can be added for some time. A bit basic right now but useful anyway.
 
-### Target & Targeting
 
-It provides an extensible base to have targets and be able to target them matching some targeting filters.
+## Future
 
-## Roadmap
-
-* ~~Link GameObject instance with GameObjectComponent to allow link between entity and GameObject (special cases only).~~
-* ~~Definitions as ScriptableObjects?~~
-* Entity factory method from int, something like Entity.Get(int). 
-* ~~Separate in two projects, core and extras.~~
-* ~~Read from IEntityDefinition if not PrefabEntityDefiniton in prefab.~~
-* ~~Change API to use Entity instead of int.~~
-* ~~World simplified Filter<T1, T2, T3>~~
-* ~~Base system should be IEcsSystem~~
-
-* Systems ordering
-  - ~~For now, just the gameobjects ordering.~~
-  - Could add attributes for update after/before like Unity ecs and button to call reorder.
-
-* Delayed creation /destruction?
-  - Maybe have a way to lightweight create, like Flyweight pattern, quickly create the object but initialize later on real usage. If entity destroyed before, then it was never initialized.
-  - For destruction, we could mark the entity with special component and exclude it in systems if necessary, and have a System running for last to complete destroy.
+A list of ideas to improve the wrapper.
 
 * Tuples
   - The objective is to reduce code and merge filter and component pools.
@@ -94,9 +76,6 @@ for (var tuple in tuples) {
 
 * Database join?
 
-* ~~Spawn entities while processing?~~
-    - For example, for firing bullets or for spawning enemies.
-
 * Controllers
   - A way to create custom specific logic for entities.
   - Would be great to have an extensible way of adding custom events, for example, OnDamage(), game could add a system to call that event on all controllers from that entity implementing the OnDamaged interface.
@@ -104,16 +83,10 @@ for (var tuple in tuples) {
 * Add or Remove entity during update?
   - Not sure if common, normally we would delegate the destruction to another system, like mark it has no more health or the effect is completed and then there is a system to process that.
 
-* ~~Maybe use gameobjects to identify fixed update, update and late update systems and remove that from code.~~
-
-* ~~Improve PrefabInstanceParameters system, it is using FindObjectsOfType right now and that sucks in terms of performance.~~
-
 * Delayed or triggerable instantiation of PrefabInstance objects. 
     - Right now they are auto instantiated when the world starts but could be useful to have them there but activate/instantiate during gameplay.
 
 * Inject controllers with components?
-
-* Abilities system? (duration, cooldown, is active)
 
 * Coordinates? 2d, 3d or customizable
   - One idea is to have a way to select which type to use, like 2d isometric or 2d or 3d, and always use 3d coordinates but in a proper way depending the type of coordinates system. 
