@@ -22,26 +22,29 @@ namespace Gemserk.Gameplay.Editor
 
                 foreach (var asset in importedAssets)
                 {
-                    shouldRegenerate = asset.StartsWith(objectListAsset.path); // && asset.EndsWith(".prefab");
+                    shouldRegenerate = asset.StartsWith(objectListAsset.path);
+                    
+                    if (!string.IsNullOrEmpty(objectListAsset.validExtension))
+                    {
+                        shouldRegenerate = shouldRegenerate 
+                                           && asset.EndsWith(objectListAsset.validExtension);
+                    }
                 }
                 
                 foreach (var asset in deletedAssets)
                 {
-                    shouldRegenerate = asset.StartsWith(objectListAsset.path); // && asset.EndsWith(".prefab");
+                    shouldRegenerate = asset.StartsWith(objectListAsset.path);
+
+                    if (!string.IsNullOrEmpty(objectListAsset.validExtension))
+                    {
+                        shouldRegenerate = shouldRegenerate 
+                                           && asset.EndsWith(objectListAsset.validExtension);
+                    }
                 }
 
                 if (shouldRegenerate)
                 {
-                    objectListAsset.assets.Clear();
-
-                    objectListAsset.assets = AssetDatabase.FindAssets("t:Object", new[]
-                        {
-                            objectListAsset.path
-                        })
-                        .Select(AssetDatabase.GUIDToAssetPath)
-                        .Select(AssetDatabase.LoadAssetAtPath<Object>).ToList();
-
-                    EditorUtility.SetDirty(objectListAsset);
+                    objectListAsset.Reload();
                 }
                 
                 AssetDatabase.SaveAssetIfDirty(objectListAsset);    
