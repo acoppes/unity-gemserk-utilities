@@ -20,25 +20,27 @@ namespace Gemserk.Gameplay.Editor
 
                 var shouldRegenerate = false;
 
-                foreach (var asset in importedAssets)
+                var regex = objectListAsset.regex;
+                
+                foreach (var assetPath in importedAssets)
                 {
-                    shouldRegenerate = asset.StartsWith(objectListAsset.path);
+                    shouldRegenerate = assetPath.StartsWith(objectListAsset.path);
                     
-                    if (!string.IsNullOrEmpty(objectListAsset.validExtension))
+                    if (!string.IsNullOrEmpty(objectListAsset.pattern))
                     {
                         shouldRegenerate = shouldRegenerate 
-                                           && asset.EndsWith(objectListAsset.validExtension);
+                                           && regex.IsMatch(assetPath);
                     }
                 }
                 
-                foreach (var asset in deletedAssets)
+                foreach (var assetPath in deletedAssets)
                 {
-                    shouldRegenerate = asset.StartsWith(objectListAsset.path);
+                    shouldRegenerate = assetPath.StartsWith(objectListAsset.path);
 
-                    if (!string.IsNullOrEmpty(objectListAsset.validExtension))
+                    if (!string.IsNullOrEmpty(objectListAsset.pattern))
                     {
                         shouldRegenerate = shouldRegenerate 
-                                           && asset.EndsWith(objectListAsset.validExtension);
+                                           && regex.IsMatch(assetPath);
                     }
                 }
 

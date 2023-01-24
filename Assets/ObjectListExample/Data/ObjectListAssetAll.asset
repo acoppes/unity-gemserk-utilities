@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06baa28165f4d3981010dd3927ac75b, type: 3}
   m_Name: ObjectListAssetAll
   m_EditorClassIdentifier: 
-  path: Assets/Prefabs/ObjectSet
-  validExtension: 
+  path: Assets/ObjectListExample/ObjectSet
+  pattern: .*
   defaultComparison: 5
   assets:
   - {fileID: 5903315019730724771, guid: fc30e0f57d63d1a47a9e05db53442b41, type: 3}

@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f06baa28165f4d3981010dd3927ac75b, type: 3}
-  m_Name: ObjectListAssetOnlyPrefabs
+  m_Name: ObjectListAssetOnlySignals
   m_EditorClassIdentifier: 
-  path: Assets/Prefabs/ObjectSet
-  validExtension: prefab
+  path: Assets/ObjectListExample/ObjectSet
+  pattern: .*\.signal
   defaultComparison: 5
   assets:
-  - {fileID: 5903315019730724771, guid: fc30e0f57d63d1a47a9e05db53442b41, type: 3}
-  - {fileID: 5903315019730724771, guid: 8ec21874d219a954784f93298f0ae8f4, type: 3}
-  - {fileID: 5903315019730724771, guid: b6aae2d44b51a9a44b2fb8d62be50a73, type: 3}
+  - {fileID: 11400000, guid: 4daa566506a91254bba8b850662789d0, type: 2}
+  - {fileID: 11400000, guid: 16d432137c3537742af9b40364c316ad, type: 2}

@@ -16,9 +16,9 @@ namespace Gemserk.Gameplay.Editor
                 })
                 .Select(AssetDatabase.GUIDToAssetPath);
 
-            if (!string.IsNullOrEmpty(objectListAsset.validExtension))
+            if (!string.IsNullOrEmpty(objectListAsset.pattern))
             {
-                paths = paths.Where(p => p.EndsWith(objectListAsset.validExtension));
+                paths = paths.Where(p => objectListAsset.regex.IsMatch(p));
             }
 
             objectListAsset.assets = paths

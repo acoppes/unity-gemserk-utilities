@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -12,7 +13,9 @@ namespace Gemserk.Gameplay
         public string path;
 
         [Tooltip("Leave empty to allow all objects")]
-        public string validExtension;
+        public string pattern = ".*";
+
+        public Regex regex => new Regex(pattern);
 
         [Tooltip("Used for GetByName methods")]
         public StringComparison defaultComparison = StringComparison.OrdinalIgnoreCase;
