@@ -46,7 +46,8 @@ namespace Gemserk.Gameplay.Editor
 
                 if (shouldRegenerate)
                 {
-                    objectListAsset.Reload();
+                    objectListAsset.objectList?.Reload();
+                    EditorUtility.SetDirty(objectListAsset);
                 }
                 
                 AssetDatabase.SaveAssetIfDirty(objectListAsset);    

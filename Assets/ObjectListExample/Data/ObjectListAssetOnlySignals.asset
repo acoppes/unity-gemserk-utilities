@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06baa28165f4d3981010dd3927ac75b, type: 3}
   m_Name: ObjectListAssetOnlySignals
   m_EditorClassIdentifier: 
-  path: Assets/ObjectListExample/ObjectSet
-  pattern: .*\.signal
-  defaultComparison: 5
-  assets:
-  - {fileID: 11400000, guid: 4daa566506a91254bba8b850662789d0, type: 2}
-  - {fileID: 11400000, guid: 16d432137c3537742af9b40364c316ad, type: 2}
+  objectList:
+    path: Assets/ObjectListExample/ObjectSet
+    pattern: .*\.signal
+    nameComparison: 5
+    assets:
+    - {fileID: 11400000, guid: 4daa566506a91254bba8b850662789d0, type: 2}
+    - {fileID: 11400000, guid: 16d432137c3537742af9b40364c316ad, type: 2}

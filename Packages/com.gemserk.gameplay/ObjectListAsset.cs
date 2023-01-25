@@ -8,40 +8,34 @@ using Object = UnityEngine.Object;
 namespace Gemserk.Gameplay
 {
     [CreateAssetMenu(menuName = "Gemserk/Object List", fileName = "ObjectListAsset", order = 0)]
-    public class ObjectListAsset : ScriptableObject
+    public class ObjectListAsset : ScriptableObject, IObjectList
     {
-        public string path;
-
-        [Tooltip("Leave empty to allow all objects")]
-        public string pattern = ".*";
-
-        public Regex regex => new Regex(pattern);
-
-        [Tooltip("Used for GetByName methods")]
-        public StringComparison defaultComparison = StringComparison.OrdinalIgnoreCase;
+        public ObjectList objectList = new ObjectList();
         
-        public List<Object> assets = new List<Object>();
+        public string path => objectList.path;
+
+        public string pattern => objectList.pattern;
+
+        public Regex regex => objectList.regex;
 
         public T FindByName<T>(string name) where T : Object
         {
-            return assets.FirstOrDefault(obj => obj.name.Equals(name, defaultComparison)) as T;
+            return objectList.FindByName<T>(name);
         }
         
         public void CollectByName<T>(string name, List<T> results) where T : Object
         {
-            results.AddRange(assets.OfType<T>().Where(obj => obj.name.Equals(name, defaultComparison)));
+            objectList.CollectByName(name, results);
         }
         
         public void Collect<T>(List<T> results) where T : Object
         {
-            results.AddRange(assets.OfType<T>());
+            objectList.Collect(results);
         }
         
         public List<T> Get<T>() where T : Object
         {
-            var results = new List<T>();
-            Collect(results);
-            return results;
+            return objectList.Get<T>();
         }
     }
 }

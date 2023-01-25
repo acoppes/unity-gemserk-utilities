@@ -15,8 +15,9 @@ namespace Gemserk.Gameplay.Editor
             if (!Application.isPlaying)
             {
                 if (GUILayout.Button("Reload"))
-                {   
-                    objectListAsset.Reload();
+                {
+                    objectListAsset.objectList?.Reload();
+                    EditorUtility.SetDirty(objectListAsset);
                 }
             }
         }

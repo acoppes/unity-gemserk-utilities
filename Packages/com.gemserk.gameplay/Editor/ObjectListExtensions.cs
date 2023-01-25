@@ -6,25 +6,24 @@ namespace Gemserk.Gameplay.Editor
 {
     public static class ObjectListExtensions
     {
-        public static void Reload(this ObjectListAsset objectListAsset)
+        public static void Reload(this ObjectList objectList)
         {
-            objectListAsset.assets.Clear();
+            objectList.assets.Clear();
             
             var paths = AssetDatabase.FindAssets("t:Object", new[]
                 {
-                    objectListAsset.path
+                    objectList.path
                 })
                 .Select(AssetDatabase.GUIDToAssetPath);
 
-            if (!string.IsNullOrEmpty(objectListAsset.pattern))
+            if (!string.IsNullOrEmpty(objectList.pattern))
             {
-                paths = paths.Where(p => objectListAsset.regex.IsMatch(p));
+                paths = paths.Where(p => objectList.regex.IsMatch(p));
             }
 
-            objectListAsset.assets = paths
+            objectList.assets = paths
                 .Select(AssetDatabase.LoadAssetAtPath<Object>)
                 .ToList();
-            EditorUtility.SetDirty(objectListAsset);
         }
     }
 }
