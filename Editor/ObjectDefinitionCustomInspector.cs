@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Editor
 {
-    [CustomEditor(typeof(ObjectEntityDefinition))]
+    [CustomEditor(typeof(ObjectEntityDefinition), true)]
     public class ObjectDefinitionCustomInspector : UnityEditor.Editor
     {
         private List<Type> entityComponentDefinitionTypes;
