@@ -1,8 +1,7 @@
-﻿using Gemserk.Gameplay;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-namespace Gemserk.Gameplay.Editor
+namespace Gemserk.Utilities.Editor
 {
     [CustomPropertyDrawer(typeof(TypeValidationAttribute), true)]
     public class TypeValidationPropertyDrawer: PropertyDrawer

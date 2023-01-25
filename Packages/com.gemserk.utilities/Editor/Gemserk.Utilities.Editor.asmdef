@@ -1,6 +1,6 @@
 {
-    "name": "Gemserk.Gameplay.Editor",
-    "rootNamespace": "Gemserk.Gameplay.Editor",
+    "name": "Gemserk.Utilities.Editor",
+    "rootNamespace": "Gemserk.Utilities.Editor",
     "references": [
         "GUID:4e1753c824c9e8d4199df6741dacfb88"
     ],

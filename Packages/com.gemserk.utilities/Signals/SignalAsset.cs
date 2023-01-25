@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Gemserk.Gameplay.Signals
+namespace Gemserk.Utilities.Signals
 {
     [CreateAssetMenu(menuName = "Gemserk/Gameplay/Signal")]
     public class SignalAsset : ScriptableObject, ISignal

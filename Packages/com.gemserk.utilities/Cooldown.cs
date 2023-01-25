@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Gemserk.Gameplay
+namespace Gemserk.Utilities
 {
     [Serializable]
     public struct Cooldown

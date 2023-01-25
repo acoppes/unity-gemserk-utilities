@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Gemserk.Gameplay.Editor
+namespace Gemserk.Utilities.Editor
 {
     [CustomEditor(typeof(ObjectListAsset), true)]
     public class ObjectListCustomEditor : UnityEditor.Editor

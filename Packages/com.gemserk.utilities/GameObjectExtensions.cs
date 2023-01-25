@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Gemserk.Gameplay
+namespace Gemserk.Utilities
 {
     public static class GameObjectExtensions
     {

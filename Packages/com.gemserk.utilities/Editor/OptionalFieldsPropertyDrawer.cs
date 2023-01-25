@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Gemserk.Gameplay.Editor
+namespace Gemserk.Utilities.Editor
 {
     [CustomPropertyDrawer(typeof(OptionalFieldsAttribute))]
     public class OptionalFieldsPropertyDrawer : PropertyDrawer

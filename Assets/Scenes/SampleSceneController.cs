@@ -1,5 +1,4 @@
-﻿using System;
-using Gemserk.Leopotam.Ecs;
+﻿using Gemserk.Leopotam.Ecs;
 using UnityEngine;
 
 public class GameSharedData

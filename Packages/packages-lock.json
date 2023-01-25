@@ -12,12 +12,6 @@
       "source": "embedded",
       "dependencies": {}
     },
-    "com.gemserk.gameplay": {
-      "version": "file:com.gemserk.gameplay",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
     "com.gemserk.leopotamecs": {
       "version": "file:com.gemserk.leopotamecs",
       "depth": 0,
@@ -30,6 +24,12 @@
       "source": "registry",
       "dependencies": {},
       "url": "https://package.openupm.com"
+    },
+    "com.gemserk.utilities": {
+      "version": "file:com.gemserk.utilities",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
     },
     "com.leoecscommunity.ecslite": {
       "version": "1.0.0",

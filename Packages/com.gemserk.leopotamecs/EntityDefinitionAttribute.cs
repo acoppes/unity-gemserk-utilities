@@ -1,5 +1,5 @@
 using System;
-using Gemserk.Gameplay;
+using Gemserk.Utilities;
 
 namespace Gemserk.Leopotam.Ecs
 {

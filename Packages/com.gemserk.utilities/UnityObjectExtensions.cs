@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Gemserk.Gameplay
+namespace Gemserk.Utilities
 {
     public static class UnityObjectExtensions
     {

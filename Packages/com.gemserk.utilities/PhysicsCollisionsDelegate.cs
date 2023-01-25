@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Gemserk.Gameplay
+namespace Gemserk.Utilities
 {
     public class PhysicsCollisionsDelegate : MonoBehaviour
     {

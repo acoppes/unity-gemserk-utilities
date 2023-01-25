@@ -1,6 +1,6 @@
 {
-    "name": "Gemserk.Gameplay",
-    "rootNamespace": "Gemserk.Gameplay",
+    "name": "Gemserk.Utilities",
+    "rootNamespace": "Gemserk.Utilities",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

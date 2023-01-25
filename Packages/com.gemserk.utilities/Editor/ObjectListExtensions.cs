@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Gemserk.Gameplay.Editor
+namespace Gemserk.Utilities.Editor
 {
     public static class ObjectListExtensions
     {

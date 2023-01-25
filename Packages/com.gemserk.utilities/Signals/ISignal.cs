@@ -1,4 +1,4 @@
-﻿namespace Gemserk.Gameplay.Signals
+﻿namespace Gemserk.Utilities.Signals
 {
     public interface ISignal
     {

@@ -2,7 +2,7 @@
 using UnityEngine.Pool;
 using Object = UnityEngine.Object;
 
-namespace Gemserk.Gameplay
+namespace Gemserk.Utilities
 {
     public class GameObjectPool : IObjectPool<GameObject>
     {

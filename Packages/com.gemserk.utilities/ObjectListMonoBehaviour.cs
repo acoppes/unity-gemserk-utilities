@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Gemserk.Gameplay
+namespace Gemserk.Utilities
 {
     public class ObjectListMonoBehaviour : MonoBehaviour, IObjectList
     {

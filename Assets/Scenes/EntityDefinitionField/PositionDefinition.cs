@@ -1,7 +1,4 @@
-using System;
 using Gemserk.Leopotam.Ecs;
-using Gemserk.Leopotam.Ecs.Gameplay;
-using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
 namespace Scenes.EntityDefinitionField

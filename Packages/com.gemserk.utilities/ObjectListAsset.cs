@@ -2,7 +2,7 @@
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Gemserk.Gameplay
+namespace Gemserk.Utilities
 {
     [CreateAssetMenu(menuName = "Gemserk/Object List", fileName = "ObjectListAsset", order = 0)]
     public class ObjectListAsset : ScriptableObject, IObjectList

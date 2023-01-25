@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using UnityEditor;
-using UnityEngine;
 
-namespace Gemserk.Gameplay.Editor
+namespace Gemserk.Utilities.Editor
 {
     public class ObjectListAssetPostProcessor : AssetPostprocessor
     {

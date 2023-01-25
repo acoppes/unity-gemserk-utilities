@@ -1,5 +1,4 @@
 ﻿using Gemserk.Leopotam.Ecs;
-using UnityEngine;
 
 public struct WeaponComponent : IEntityComponent
 {
