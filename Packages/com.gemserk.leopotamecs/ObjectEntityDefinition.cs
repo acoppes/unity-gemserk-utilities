@@ -8,7 +8,7 @@ namespace Gemserk.Leopotam.Ecs
         [SerializeReference]
         public List<IComponentDefinition> componentDefinitions = new List<IComponentDefinition>();
 
-        public void Apply(World world, Entity entity)
+        public virtual void Apply(World world, Entity entity)
         {
             foreach (var componentDefinition in componentDefinitions)
             {
