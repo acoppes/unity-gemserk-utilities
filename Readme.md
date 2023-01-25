@@ -10,6 +10,6 @@ List of packages:
     - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.aseprite
 * Gameplay Utilities
     - General utilities
-    - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.gameplay
+    - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.utilities
 * Leopotam ECS Extensions
     - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.leopotamecs
