@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Gemserk.Gameplay
 {
-    [CreateAssetMenu(menuName = "Gemserk/Object List", fileName = "ObjectListAsset", order = 0)]
-    public class ObjectListAsset : ScriptableObject, IObjectList
+    public class ObjectListMonoBehaviour : MonoBehaviour, IObjectList
     {
         public ObjectList objectList = new ObjectList();
 

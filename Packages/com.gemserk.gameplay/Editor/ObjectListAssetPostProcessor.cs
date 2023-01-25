@@ -15,18 +15,18 @@ namespace Gemserk.Gameplay.Editor
             
             foreach (var objectListAsset in objectListAssets)
             {
-                if (string.IsNullOrEmpty(objectListAsset.path))
+                if (string.IsNullOrEmpty(objectListAsset.objectList.path))
                     continue;
 
                 var shouldRegenerate = false;
 
-                var regex = objectListAsset.regex;
+                var regex = objectListAsset.objectList.regex;
                 
                 foreach (var assetPath in importedAssets)
                 {
-                    shouldRegenerate = assetPath.StartsWith(objectListAsset.path);
+                    shouldRegenerate = assetPath.StartsWith(objectListAsset.objectList.path);
                     
-                    if (!string.IsNullOrEmpty(objectListAsset.pattern))
+                    if (!string.IsNullOrEmpty(objectListAsset.objectList.pattern))
                     {
                         shouldRegenerate = shouldRegenerate 
                                            && regex.IsMatch(assetPath);
@@ -35,9 +35,9 @@ namespace Gemserk.Gameplay.Editor
                 
                 foreach (var assetPath in deletedAssets)
                 {
-                    shouldRegenerate = assetPath.StartsWith(objectListAsset.path);
+                    shouldRegenerate = assetPath.StartsWith(objectListAsset.objectList.path);
 
-                    if (!string.IsNullOrEmpty(objectListAsset.pattern))
+                    if (!string.IsNullOrEmpty(objectListAsset.objectList.pattern))
                     {
                         shouldRegenerate = shouldRegenerate 
                                            && regex.IsMatch(assetPath);

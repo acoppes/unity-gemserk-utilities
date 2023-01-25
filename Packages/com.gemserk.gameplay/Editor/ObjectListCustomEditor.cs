@@ -22,4 +22,24 @@ namespace Gemserk.Gameplay.Editor
             }
         }
     }
+    
+    [CustomEditor(typeof(ObjectListMonoBehaviour), true)]
+    public class ObjectListMonoBehaviourCustomEditor : UnityEditor.Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            DrawDefaultInspector();
+
+            var objectListAsset = target as ObjectListMonoBehaviour;
+            
+            if (!Application.isPlaying)
+            {
+                if (GUILayout.Button("Reload"))
+                {
+                    objectListAsset.objectList?.Reload();
+                    EditorUtility.SetDirty(objectListAsset);
+                }
+            }
+        }
+    }
 }
