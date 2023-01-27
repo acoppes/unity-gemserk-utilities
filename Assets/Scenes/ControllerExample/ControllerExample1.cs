@@ -1,5 +1,6 @@
 using Gemserk.Leopotam.Ecs.Controllers;
 using Gemserk.Leopotam.Ecs.Events;
+using Gemserk.Utilities;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -8,6 +9,8 @@ public class ControllerExample1 : ControllerBase, IUpdate, IInit, IStateChanged
     public float myValue;
     public float testIncrement;
 
+    public Cooldown cooldown;
+    
     private bool initialized;
     
     public void OnInit()
