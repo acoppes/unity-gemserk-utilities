@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Runtime.CompilerServices;
+using UnityEngine;
 
 namespace Gemserk.Utilities
 {
@@ -20,6 +21,12 @@ namespace Gemserk.Utilities
         public static Vector3 ToVector3(this Vector2 v)
         {
             return new Vector3(v.x, v.y, 0);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float DistanceSqr(this Vector2 v, Vector2 otherVector)
+        {
+            return (v - otherVector).SqrMagnitude();
         }
     }
 }
