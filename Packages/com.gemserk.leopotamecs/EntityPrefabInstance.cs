@@ -10,7 +10,8 @@ namespace Gemserk.Leopotam.Ecs
         {
             // InstantiateAndDestroy = 0,
             InstantiateAndDisable = 0,
-            InstantiateAndLink = 2 
+            InstantiateAndLink = 2,
+            InstantiateAndDestroy = 3
         }
         
         [FormerlySerializedAs("entityDefinitionPrefab")] 
@@ -20,5 +21,19 @@ namespace Gemserk.Leopotam.Ecs
         public Entity instance = Entity.NullEntity;
 
         public InstanceType instanceType = InstanceType.InstantiateAndDisable;
+
+        private void Awake()
+        {
+            var world = World.Instance;
+
+            if (world != null)
+            {
+                var instanceEntity = world.CreateEntity();
+                world.AddComponent(instanceEntity, new EntityPrefabComponent()
+                {
+                    prefabInstance = this
+                });
+            }
+        }
     }
 }
