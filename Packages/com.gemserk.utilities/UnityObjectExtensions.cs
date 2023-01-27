@@ -4,7 +4,7 @@ namespace Gemserk.Utilities
 {
     public static class UnityObjectExtensions
     {
-        public static T GetInterface<T>(this UnityEngine.Object obj) where T : class
+        public static T GetInterface<T>(this System.Object obj) where T : class
         {
             if (obj is T t)
                 return t;
