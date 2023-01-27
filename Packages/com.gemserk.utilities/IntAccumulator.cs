@@ -7,13 +7,13 @@ namespace Gemserk.Utilities
         public int current;
         public int total;
 
-        public void Increase(int i)
+        public void Increase(int i = 1)
         {
             current += i;
             current = Mathf.Clamp(current, 0, total);
         }
         
-        public void Decrease(int i)
+        public void Decrease(int i = 1)
         {
             current -= i;
             current = Mathf.Clamp(current, 0, total);
