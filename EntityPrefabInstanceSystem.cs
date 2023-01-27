@@ -6,7 +6,12 @@ using UnityEngine.SceneManagement;
 
 namespace Gemserk.Leopotam.Ecs
 {
-    public class EntityPrefabInstanceSystem : BaseSystem, IEcsRunSystem, IEcsInitSystem, IEntityDestroyedHandler
+    public struct EntityPrefabComponent
+    {
+        public EntityPrefabInstance prefabInstance;
+    }
+    
+    public class EntityPrefabInstanceSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler
     {
         private class GameObjectLinkParameter : IEntityInstanceParameter
         {
@@ -21,23 +26,8 @@ namespace Gemserk.Leopotam.Ecs
             }
         }
         
-        private List<EntityPrefabInstance> prefabInstances = new List<EntityPrefabInstance>();
+        private readonly List<IEntityInstanceParameter> parameters = new List<IEntityInstanceParameter>();
 
-        private List<IEntityInstanceParameter> parameters = new List<IEntityInstanceParameter>();
-        
-        public void Init(EcsSystems systems)
-        {
-            for (var i = 0; i < SceneManager.sceneCount; i++)
-            {
-                var scene = SceneManager.GetSceneAt(i);
-                foreach (var rootGameObject in scene.GetRootGameObjects())
-                {
-                    prefabInstances.AddRange(
-                        rootGameObject.GetComponentsInChildren<EntityPrefabInstance>(true));
-                }
-            }
-        }
-        
         public void OnEntityDestroyed(World world, Entity entity)
         {
             if (world.HasComponent<GameObjectComponent>(entity))
@@ -53,13 +43,13 @@ namespace Gemserk.Leopotam.Ecs
         
         public void Run(EcsSystems systems)
         {
-            foreach (var prefabInstance in prefabInstances)
+            var entityPrefabComponents = world.GetComponents<EntityPrefabComponent>();
+            
+            foreach (var entity in world.GetFilter<EntityPrefabComponent>().End())
             {
-                if (!prefabInstance.isActiveAndEnabled)
-                {
-                    continue;
-                }
-                
+                var entityPrefabComponent = entityPrefabComponents.Get(entity);
+                var prefabInstance = entityPrefabComponent.prefabInstance;
+
                 if (prefabInstance.instanceType == EntityPrefabInstance.InstanceType.InstantiateAndLink)
                 {
                     if (prefabInstance.instance != Entity.NullEntity)
@@ -73,17 +63,6 @@ namespace Gemserk.Leopotam.Ecs
 
                 var definition = prefabInstance.entityDefinition.GetInterface<IEntityDefinition>();
                 
-                // IEntityDefinition definition = prefabInstance
-                //     .entityDefinition.GetInterface<PrefabEntityDefinition>();
-                //
-                // // IEntityDefinition definition = definitionObject.GetComponent<PrefabEntityDefinition>();
-                //
-                // if (definition == null)
-                // {
-                //     definition = prefabInstance
-                //         .entityDefinition.GetInterface<IEntityDefinition>();
-                // }
-
                 if (prefabInstance.instanceType == EntityPrefabInstance.InstanceType.InstantiateAndLink)
                 {
                     parameters.Add(new GameObjectLinkParameter
@@ -99,17 +78,13 @@ namespace Gemserk.Leopotam.Ecs
                     prefabInstance.gameObject.SetActive(false);
                 }
                 
-                // else if (prefabInstance.instanceType == EntityPrefabInstance.InstanceType.InstantiateAndLink)
-                // {
-                //     world.AddComponent(prefabInstance.instance, new GameObjectComponent
-                //     {
-                //         gameObject = prefabInstance.gameObject
-                //     });
-                // }
+                if (prefabInstance.instanceType == EntityPrefabInstance.InstanceType.InstantiateAndDestroy)
+                {
+                    Object.Destroy(prefabInstance.gameObject);
+                }
+                
+                world.DestroyEntity(world.GetEntity(entity));
             }
         }
-
-
-
     }
 }
