@@ -9,7 +9,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
     public class ControllerInitializationSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler, 
         IEntityCreatedHandler, IEcsInitSystem
     {
-        readonly EcsFilterInject<Inc<ControllerComponent>> controllerFilter = default;
+        readonly EcsFilterInject<Inc<ControllerComponent>, Exc<DisabledComponent>> controllerFilter = default;
         readonly EcsPoolInject<ControllerComponent> controllerComponents = default;
         
         private GameObject instancesParent;
