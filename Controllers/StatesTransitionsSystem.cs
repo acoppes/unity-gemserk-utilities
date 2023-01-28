@@ -7,7 +7,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
 {
     public class StatesTransitionsSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler
     {
-        readonly EcsFilterInject<Inc<StatesComponent>> statesFilter = default;
+        readonly EcsFilterInject<Inc<StatesComponent>, Exc<DisabledComponent>> statesFilter = default;
         readonly EcsPoolInject<StatesComponent> stateComponents = default;
 
         public void OnEntityDestroyed(World world, Entity entity)

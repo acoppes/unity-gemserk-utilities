@@ -9,7 +9,10 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             var controllers = world.GetComponents<ControllerComponent>();
             var stateComponents = world.GetComponents<StatesComponent>();
             
-            foreach (var entity in world.GetFilter<StatesComponent>().Inc<ControllerComponent>().End())
+            foreach (var entity in world.GetFilter<StatesComponent>()
+                         .Inc<ControllerComponent>()
+                         .Exc<DisabledComponent>()
+                         .End())
             {
                 var statesComponent = stateComponents.Get(entity);
                 var controllerComponent = controllers.Get(entity);

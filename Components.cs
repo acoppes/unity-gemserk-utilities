@@ -29,4 +29,9 @@ namespace Gemserk.Leopotam.Ecs
     {
         public int player;
     }
+
+    public struct DisabledComponent : IEntityComponent
+    {
+        
+    }
 }

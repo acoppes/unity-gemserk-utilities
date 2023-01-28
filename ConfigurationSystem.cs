@@ -17,7 +17,9 @@ namespace Gemserk.Leopotam.Ecs
         public void Run(EcsSystems systems)
         {
             var configurations = world.GetComponents<ConfigurationComponent>();
-            foreach (var entity in world.GetFilter<ConfigurationComponent>().End())
+            foreach (var entity in world.GetFilter<ConfigurationComponent>()
+                         .Exc<DisabledComponent>()
+                         .End())
             {
                 ref var configuration = ref configurations.Get(entity);
                 if (configuration.reconfigure)
