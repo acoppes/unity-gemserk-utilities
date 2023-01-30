@@ -18,6 +18,18 @@
       "source": "embedded",
       "dependencies": {}
     },
+    "com.gemserk.triggers.extensions": {
+      "version": "file:com.gemserk.triggers.extensions",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.gemserk.utilities": "0.0.1",
+        "com.gemserk.triggers": "0.0.1",
+        "com.mackysoft.serializereference-extensions": "1.1.7",
+        "com.leoecscommunity.ecslite": "1.0.0",
+        "com.gemserk.leopotamecs": "0.2.3"
+      }
+    },
     "com.gemserk.upmgitpusher": {
       "version": "0.0.19",
       "depth": 0,
