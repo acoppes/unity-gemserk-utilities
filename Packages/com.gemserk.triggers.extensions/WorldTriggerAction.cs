@@ -1,7 +1,6 @@
 using Gemserk.Leopotam.Ecs;
-using Gemserk.Triggers;
 
-namespace Beatemup.Triggers
+namespace Gemserk.Triggers
 {
     public abstract class WorldTriggerAction : TriggerAction
     {

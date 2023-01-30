@@ -1,9 +1,8 @@
 ﻿using Gemserk.Leopotam.Ecs;
-using Gemserk.Triggers;
 using Gemserk.Triggers.Queries;
 using MyBox;
 
-namespace Beatemup.Triggers
+namespace Gemserk.Triggers
 {
     public class QueryTriggerCondition : TriggerCondition
     {
