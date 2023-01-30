@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Gemserk.Actions
+namespace Gemserk.Triggers
 {
     public class Trigger : ITrigger
     {

@@ -1,4 +1,5 @@
 ﻿using Gemserk.Actions;
+using Gemserk.Triggers;
 
 public class ValidateSomethingTriggerCondition : TriggerCondition
 {

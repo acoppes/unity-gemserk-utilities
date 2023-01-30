@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "com.gemserk.actions": {
-      "version": "file:com.gemserk.actions",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
     "com.gemserk.aseprite": {
       "version": "file:com.gemserk.aseprite",
       "depth": 0,
@@ -14,6 +8,12 @@
     },
     "com.gemserk.leopotamecs": {
       "version": "file:com.gemserk.leopotamecs",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.gemserk.triggers": {
+      "version": "file:com.gemserk.triggers",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}

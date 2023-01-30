@@ -1,4 +1,4 @@
-namespace Gemserk.Actions
+namespace Gemserk.Triggers
 {
     public interface ITrigger
     {

@@ -1,6 +1,6 @@
 ﻿using Gemserk.Utilities;
 
-namespace Gemserk.Actions
+namespace Gemserk.Triggers
 {
     public abstract class TriggerCondition : AutoNamedObject, ITrigger.ICondition
     {

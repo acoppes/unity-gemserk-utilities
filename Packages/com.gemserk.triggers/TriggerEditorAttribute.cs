@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gemserk.Actions
+namespace Gemserk.Triggers
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class TriggerEditorAttribute : Attribute

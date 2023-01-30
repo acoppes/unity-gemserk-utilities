@@ -2,9 +2,9 @@ The idea of this project is to become a hub of useful dependencies for making ga
 
 List of packages: 
 
-* Actions
+* Triggers
     - Triggers logic like SC2.
-    - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.actions
+    - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.triggers
 * Aseprite Utilities
     - Aseprite assets importer.
     - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.aseprite

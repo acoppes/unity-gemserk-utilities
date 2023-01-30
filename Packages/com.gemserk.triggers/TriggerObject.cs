@@ -2,7 +2,7 @@
 using Gemserk.Utilities;
 using UnityEngine;
 
-namespace Gemserk.Actions
+namespace Gemserk.Triggers
 {
     public class TriggerObject : MonoBehaviour, ITrigger
     {
