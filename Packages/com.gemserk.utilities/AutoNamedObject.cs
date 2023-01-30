@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Gemserk.Actions
+namespace Gemserk.Utilities
 {
-    public abstract class TriggerElement : MonoBehaviour
+    public abstract class AutoNamedObject : MonoBehaviour
     {
         public virtual string GetObjectName()
         {
