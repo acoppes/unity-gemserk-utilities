@@ -1,0 +1,14 @@
+{
+    "name": "Gemserk.Triggers",
+    "rootNamespace": "Gemserk.Triggers",
+    "references": ["GUID:4e1753c824c9e8d4199df6741dacfb88"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
