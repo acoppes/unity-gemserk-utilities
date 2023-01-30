@@ -1,0 +1,20 @@
+{
+    "name": "Gemserk.Triggers.Extensions",
+    "rootNamespace": "Gemserk.Triggers",
+    "references": [
+        "GUID:4e1753c824c9e8d4199df6741dacfb88",
+        "GUID:c0c1af870422ab04bbccb34634f76e67",
+        "GUID:8a30ab9d6b0ad574a9ffb703fc3225bb",
+        "GUID:e59bf9fc7d5a44b18a819a92edd46163",
+        "GUID:49b49c76ee64f6b41bf28ef951cb0e50"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

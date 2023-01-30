@@ -1,0 +1,20 @@
+{
+  "name": "com.gemserk.triggers.extensions",
+  "version": "0.0.1",
+  "displayName": "com.gemserk.triggers.extensions",
+  "description": "Specific gameplay Triggers for games",
+  "unity": "2021.3",
+  "unityRelease": "16f1",
+  "author": {
+    "name": "acoppes",
+    "email": "ariel.coppes@gmail.com",
+    "url": "https://blog.gemserk.com"
+  },
+  "dependencies": {
+    "com.gemserk.utilities": "0.0.1",
+    "com.gemserk.triggers": "0.0.1",
+    "com.mackysoft.serializereference-extensions": "1.1.7",
+    "com.leoecscommunity.ecslite": "1.0.0",
+    "com.gemserk.leopotamecs": "0.2.3"
+  }
+}
