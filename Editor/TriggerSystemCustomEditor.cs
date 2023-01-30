@@ -1,8 +1,7 @@
-﻿using Gemserk.Triggers;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
-namespace Gemserk.Actions.Editor
+namespace Gemserk.Triggers.Editor
 {
     [CustomEditor(typeof(TriggerSystem), true)]
     public class TriggerSystemCustomEditor : UnityEditor.Editor
