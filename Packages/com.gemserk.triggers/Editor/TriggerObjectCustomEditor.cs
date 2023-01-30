@@ -1,11 +1,10 @@
 using System.Linq;
 using System.Reflection;
-using Gemserk.Triggers;
 using Gemserk.Utilities;
 using UnityEditor;
 using UnityEngine;
 
-namespace Gemserk.Actions.Editor
+namespace Gemserk.Triggers.Editor
 {
     [CustomEditor(typeof(TriggerObject), true)]
     public class TriggerObjectCustomEditor : UnityEditor.Editor
