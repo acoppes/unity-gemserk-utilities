@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Beatemup.Queries
+namespace Gemserk.Triggers.Queries
 {
     public struct EntityQuery
     {

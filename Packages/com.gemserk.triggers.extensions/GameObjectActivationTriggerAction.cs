@@ -1,7 +1,6 @@
-using Gemserk.Triggers;
 using UnityEngine;
 
-namespace Gemserk.Actions
+namespace Gemserk.Triggers
 {
     public class GameObjectActivationTriggerAction : TriggerAction
     {

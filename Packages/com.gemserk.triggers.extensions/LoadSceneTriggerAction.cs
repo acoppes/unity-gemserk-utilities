@@ -1,7 +1,6 @@
-﻿using Gemserk.Triggers;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine.SceneManagement;
 
-namespace Gemserk.Actions
+namespace Gemserk.Triggers
 {
     public class LoadSceneTriggerAction : TriggerAction
     {

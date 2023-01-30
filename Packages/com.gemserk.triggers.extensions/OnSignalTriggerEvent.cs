@@ -1,7 +1,6 @@
-using Gemserk.Triggers;
 using Gemserk.Utilities.Signals;
 
-namespace Gemserk.Actions
+namespace Gemserk.Triggers
 {
     public class OnSignalTriggerEvent : TriggerEvent
     {
