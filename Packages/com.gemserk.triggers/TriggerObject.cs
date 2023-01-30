@@ -9,11 +9,23 @@ namespace Gemserk.Triggers
         [NonSerialized]
         public readonly Trigger trigger = new ();
 
-        public ITrigger.ExecutionState State => trigger.State;
 
         private Transform eventsParent;
         private Transform conditionsParent;
         private Transform actionsParent;
+
+        public ITrigger.ExecutionState State
+        {
+            get
+            {
+                if (!gameObject.activeInHierarchy)
+                {
+                    return ITrigger.ExecutionState.Waiting;
+                }
+
+                return trigger.State;
+            }
+        }
         
         private void Awake()
         {
