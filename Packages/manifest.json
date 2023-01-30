@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.domybest.mybox": "1.7.0",
     "com.gemserk.upmgitpusher": "0.0.19",
     "com.leoecscommunity.ecslite": "1.0.0",
     "com.leoecscommunity.ecslite.di": "https://github.com/LeoECSCommunity/ecslite-di.git",
@@ -54,7 +55,8 @@
       "url": "https://package.openupm.com",
       "scopes": [
         "com.leoecscommunity.ecslite",
-        "com.gemserk"
+        "com.gemserk",
+        "com.domybest.mybox"
       ]
     }
   ]

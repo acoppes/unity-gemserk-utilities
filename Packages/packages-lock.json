@@ -1,5 +1,16 @@
 {
   "dependencies": {
+    "com.domybest.mybox": {
+      "version": "1.7.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.ai": "1.0.0",
+        "com.unity.modules.physics2d": "1.0.0"
+      },
+      "url": "https://package.openupm.com"
+    },
     "com.gemserk.aseprite": {
       "version": "file:com.gemserk.aseprite",
       "depth": 0,
@@ -27,7 +38,8 @@
         "com.gemserk.triggers": "0.0.1",
         "com.mackysoft.serializereference-extensions": "1.1.7",
         "com.leoecscommunity.ecslite": "1.0.0",
-        "com.gemserk.leopotamecs": "0.2.3"
+        "com.gemserk.leopotamecs": "0.2.3",
+        "com.domybest.mybox": "1.7.0"
       }
     },
     "com.gemserk.upmgitpusher": {
