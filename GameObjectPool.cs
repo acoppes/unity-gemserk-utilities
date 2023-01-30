@@ -7,10 +7,11 @@ namespace Gemserk.Utilities
     public class GameObjectPool : IObjectPool<GameObject>
     {
         private GameObject prefab;
-        private Transform objectsPoolParent;
+
+        public Transform objectsPoolParent;
 
         private IObjectPool<GameObject> delegatePool;
-        
+
         public GameObjectPool(GameObject prefab, string poolName)
         {
             this.prefab = prefab;
