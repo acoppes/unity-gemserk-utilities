@@ -1,8 +1,7 @@
-﻿using Gemserk.Triggers;
-using Gemserk.Utilities;
+﻿using Gemserk.Utilities;
 using UnityEngine;
 
-namespace Gemserk.Actions
+namespace Gemserk.Triggers
 {
     [TriggerEditor("Invoke Trigger")]
     public class InvokeTriggerAction : TriggerAction

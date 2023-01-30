@@ -1,7 +1,6 @@
-﻿using Gemserk.Triggers;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Gemserk.Actions
+namespace Gemserk.Triggers
 {
     public class DebugTriggerAction : TriggerAction
     {

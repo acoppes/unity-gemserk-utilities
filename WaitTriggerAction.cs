@@ -1,9 +1,8 @@
-using Gemserk.Triggers;
 using Gemserk.Utilities;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Gemserk.Actions
+namespace Gemserk.Triggers
 {
     public class WaitTriggerAction : TriggerAction
     {

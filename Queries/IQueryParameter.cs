@@ -1,6 +1,6 @@
 ﻿using Gemserk.Leopotam.Ecs;
 
-namespace Beatemup.Queries
+namespace Gemserk.Triggers.Queries
 {
     public interface IQueryParameter
     {

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Gemserk.Triggers;
 using Gemserk.Utilities;
 using Random = UnityEngine.Random;
 
-namespace Gemserk.Actions
+namespace Gemserk.Triggers
 {
     [TriggerEditor("Random Action")]
     public class RandomTriggerAction : TriggerAction

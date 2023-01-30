@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using Gemserk.Actions;
 using Gemserk.Utilities;
 using UnityEngine;
 
-namespace Beatemup.Queries
+namespace Gemserk.Triggers.Queries
 {
     public class Query : AutoNamedObject
     {

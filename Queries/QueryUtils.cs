@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Gemserk.Leopotam.Ecs;
 
-namespace Beatemup.Queries
+namespace Gemserk.Triggers.Queries
 {
     public static class QueryUtils
     {

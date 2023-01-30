@@ -2,7 +2,7 @@
 using Gemserk.Leopotam.Ecs;
 using UnityEngine.Scripting.APIUpdating;
 
-namespace Beatemup.Queries
+namespace Gemserk.Triggers.Queries
 {
     [Serializable]
     // [MovedFrom(true, "Beatemup.Queries", "Beatemup")]
