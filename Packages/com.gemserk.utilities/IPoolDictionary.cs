@@ -17,6 +17,8 @@ namespace Gemserk.Utilities
 
         private readonly Transform parent;
 
+        // private string poolNameFormat = "[NAME]";
+
         public PoolDictionary(string poolName)
         {
             var parentGameObject = new GameObject(poolName);
@@ -27,7 +29,8 @@ namespace Gemserk.Utilities
         {
             if (!poolDictionary.ContainsKey(prefab))
             {
-                var gameObjectPool = new GameObjectPool(prefab, prefab.name);
+                var poolName = $"{prefab.name}-Pool";
+                var gameObjectPool = new GameObjectPool(prefab, poolName);
                 gameObjectPool.objectsPoolParent.SetParent(parent);
                 
                 poolDictionary[prefab] = gameObjectPool;
