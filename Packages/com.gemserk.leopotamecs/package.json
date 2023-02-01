@@ -3,8 +3,8 @@
     "version": "0.2.3",
     "displayName": "com.gemserk.leopotamecs",
     "description": "Gemserk Leopotam ECS Extensions",
-    "unity": "2021.3",
-    "unityRelease": "16f1",
+    "unity": "2022.2",
+    "unityRelease": "4f1",
     "author": {
       "name": "acoppes",
       "email": "ariel.coppes@gmail.com",
