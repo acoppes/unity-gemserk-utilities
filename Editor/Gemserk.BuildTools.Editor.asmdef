@@ -1,0 +1,18 @@
+{
+    "name": "Gemserk.BuildTools.Editor",
+    "rootNamespace": "Gemserk.BuildTools.Editor",
+    "references": [
+        "GUID:63cdee03c5b9e564da060805854fdd27"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
