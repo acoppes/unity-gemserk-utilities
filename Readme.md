@@ -16,3 +16,5 @@ List of packages:
 * Triggers Extensions
     - Triggers and more, built over all the other projects.
     - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.triggers.extensions
+* Simple Build Tools
+    - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.buildtools
