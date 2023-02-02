@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0e835d6384f6e41a04b6e9ff936053, type: 3}
   m_Name: Game1
   m_EditorClassIdentifier: 
+  settingsFolder: C:/workspace/unity-gemserk-utilities/ProjectSettings/Game1
+  mainFile: 
   sceneAssets:
   - {fileID: 102900000, guid: 332394617a1bfe84382b183d2797e657, type: 3}
   - {fileID: 102900000, guid: 276fcb43e01802d41ab42d89c39b3d50, type: 3}
