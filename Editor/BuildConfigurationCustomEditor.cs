@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -29,40 +30,50 @@ namespace Gemserk.BuildTools.Editor
 
             var buildConfiguration = target as BuildConfiguration;
 
-            var disabled = string.IsNullOrEmpty(buildConfiguration.settingsFolder);
+            // var disabled = string.IsNullOrEmpty(buildConfiguration.settingsFolder);
             
-            EditorGUI.BeginDisabledGroup(disabled);
-            if (GUILayout.Button(new GUIContent("Load", null, "Load config in project settings")))
+            // EditorGUI.BeginDisabledGroup(disabled);
+            
+            if (GUILayout.Button(new GUIContent("Load Saved Settings", null, "Load config in project settings")))
             {
-                var sourceFolder = Path.Combine(Application.dataPath, buildConfiguration.settingsFolder);
-                var destinationFolder = Path.Combine(Application.dataPath, "../ProjectSettings");
+                // var sourceFolder = Path.Combine(Application.dataPath, buildConfiguration.settingsFolder);
+                // var destinationFolder = Path.Combine(Application.dataPath, "../ProjectSettings");
+                //
+                // CopyFile(sourceFolder, destinationFolder, "ProjectSettings.asset");
+                // CopyFile(sourceFolder, destinationFolder, "EditorBuildSettings.asset");
 
-                CopyFile(sourceFolder, destinationFolder, "ProjectSettings.asset");
-                CopyFile(sourceFolder, destinationFolder, "EditorBuildSettings.asset");
+                EditorBuildSettings.scenes =
+                    buildConfiguration.sceneAssets.Select(s => new EditorBuildSettingsScene(AssetDatabase.GetAssetPath(s), true))
+                        .ToArray();
 
-                // EditorBuildSettings.scenes =
-                //     buildConfiguration.sceneAssets.Select(s => new EditorBuildSettingsScene(AssetDatabase.GetAssetPath(s), true))
-                //         .ToArray();
+                PlayerSettings.productName = buildConfiguration.productName;
+                PlayerSettings.defaultWebScreenHeight = buildConfiguration.defaultWebScreenHeight;
+                PlayerSettings.defaultWebScreenWidth = buildConfiguration.defaultWebScreenWidth;
             }
 
-            if (GUILayout.Button(new GUIContent("Save", null, "Overwrite with current project settings")))
+            if (GUILayout.Button(new GUIContent("Save From Current Settings", null, "Overwrite with current project settings")))
             {
                 if (EditorUtility.DisplayDialog("Warning", "Overwrite asset with current Editor Settings?", "Ok", "Cancel"))
                 {
-                    var sourceFolder = Path.Combine(Application.dataPath, "../ProjectSettings");
-                    var destinationFolder = Path.Combine(Application.dataPath, buildConfiguration.settingsFolder);
-
-                    CopyFile(sourceFolder, destinationFolder, "ProjectSettings.asset");
-                    CopyFile(sourceFolder, destinationFolder, "EditorBuildSettings.asset");
+                    // var sourceFolder = Path.Combine(Application.dataPath, "../ProjectSettings");
+                    // var destinationFolder = Path.Combine(Application.dataPath, buildConfiguration.settingsFolder);
+                    //
+                    // CopyFile(sourceFolder, destinationFolder, "ProjectSettings.asset");
+                    // CopyFile(sourceFolder, destinationFolder, "EditorBuildSettings.asset");
+                    
+                    buildConfiguration.productName = PlayerSettings.productName;
+                    buildConfiguration.defaultWebScreenHeight = PlayerSettings.defaultWebScreenHeight;
+                    buildConfiguration.defaultWebScreenWidth = PlayerSettings.defaultWebScreenWidth;
                     
                     // // show confirmation dialog just in case
-                    // buildConfiguration.sceneAssets = EditorBuildSettings.scenes
-                    //     .Select(s => AssetDatabase.LoadAssetAtPath<SceneAsset>(s.path)).ToList();
-                    //
-                    // EditorUtility.SetDirty(buildConfiguration);
+                    buildConfiguration.sceneAssets = EditorBuildSettings.scenes
+                        .Select(s => AssetDatabase.LoadAssetAtPath<SceneAsset>(s.path)).ToList();
+                    
+                    EditorUtility.SetDirty(buildConfiguration);
                 }
             }
-            EditorGUI.EndDisabledGroup();
+            
+            // EditorGUI.EndDisabledGroup();
         }
     }
 }
