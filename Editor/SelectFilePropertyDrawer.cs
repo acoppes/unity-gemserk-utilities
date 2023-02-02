@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace Gemserk.BuildTools.Editor
@@ -36,7 +37,9 @@ namespace Gemserk.BuildTools.Editor
                     var newPath = EditorUtility.OpenFolderPanel("Select folder", path, "");
                     if (!string.IsNullOrEmpty(newPath))
                     {
-                        property.stringValue = newPath;
+                        var relativePath = Path.GetRelativePath(Application.dataPath, newPath);
+                        
+                        property.stringValue = relativePath;
                         property.serializedObject.ApplyModifiedProperties();
                     }
                     GUIUtility.ExitGUI();
@@ -46,7 +49,9 @@ namespace Gemserk.BuildTools.Editor
                     var newPath = EditorUtility.OpenFilePanel("Select folder", path, "");
                     if (!string.IsNullOrEmpty(newPath))
                     {
-                        property.stringValue = newPath; 
+                        var relativePath = Path.GetRelativePath(Application.dataPath, newPath);
+                        
+                        property.stringValue = relativePath; 
                         property.serializedObject.ApplyModifiedProperties();
                     }
                     GUIUtility.ExitGUI();
