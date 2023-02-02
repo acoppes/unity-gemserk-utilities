@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9fea9961bb5b4a469b34c952d60814e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  folder: C:/workspace/unity-gemserk-utilities/ProjectSettings
+  folder: ..\ProjectSettings\Game1
   file: 
 --- !u!4 &1392278286
 Transform:
