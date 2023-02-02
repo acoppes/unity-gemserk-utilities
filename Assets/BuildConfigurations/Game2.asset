@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0e835d6384f6e41a04b6e9ff936053, type: 3}
   m_Name: Game2
   m_EditorClassIdentifier: 
-  settingsFolder: ..\ProjectSettings\Game2
+  productName: Game 2
+  defaultWebScreenWidth: 480
+  defaultWebScreenHeight: 270
   sceneAssets:
   - {fileID: 102900000, guid: dc77e474731e18f4ea4995e0d33fab2f, type: 3}

@@ -1,4 +1,4 @@
-using Gemserk.Utilities;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Gemserk.BuildTools
@@ -6,12 +6,16 @@ namespace Gemserk.BuildTools
     [CreateAssetMenu(menuName = "Gemserk/Build Configuration")]
     public class BuildConfiguration : ScriptableObject
     {
-        [FolderPath()]
-        public string settingsFolder;
+        // [FolderPath()]
+        // public string settingsFolder;
 
-// #if UNITY_EDITOR
-//         // public string[] scenes;
-//         public List<UnityEditor.SceneAsset> sceneAssets = new List<SceneAsset>();
-// #endif
+        public string productName;
+        public int defaultWebScreenWidth;
+        public int defaultWebScreenHeight;
+
+#if UNITY_EDITOR
+        // public string[] scenes;
+        public List<UnityEditor.SceneAsset> sceneAssets = new List<UnityEditor.SceneAsset>();
+#endif
     }
 }
