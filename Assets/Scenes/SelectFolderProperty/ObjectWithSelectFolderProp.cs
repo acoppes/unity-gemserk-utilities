@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using Gemserk.BuildTools;
+using Gemserk.Utilities;
 using UnityEngine;
 
 public class ObjectWithSelectFolderProp : MonoBehaviour
 {
-    [SelectFile(true)]
+    [FolderPath()]
     public string folder;
     
-    [SelectFile(true)]
+    [FilePath()]
     public string file;
 }

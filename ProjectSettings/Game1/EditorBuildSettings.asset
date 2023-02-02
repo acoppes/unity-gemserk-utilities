@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/ControllerExample/ControllerExample.unity
     guid: 332394617a1bfe84382b183d2797e657
   - enabled: 1
-    path: Assets/Scenes/EntityDefinitionField/EntityDefinitionField.unity
-    guid: 276fcb43e01802d41ab42d89c39b3d50
+    path: Assets/Scenes/DelayedDestroyExample/DelayedDestroyExample.unity
+    guid: 9e4fb53ff2ca37d4e884a1c994f3ec57
   m_configObjects: {}
