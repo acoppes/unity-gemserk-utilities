@@ -22,11 +22,14 @@ namespace Gemserk.BuildTools.Editor
 
             if (GUILayout.Button(new GUIContent("Read current", null, "Overwrite with current project settings")))
             {
-                // show confirmation dialog just in case
-                buildConfiguration.sceneAssets = EditorBuildSettings.scenes
-                    .Select(s => AssetDatabase.LoadAssetAtPath<SceneAsset>(s.path)).ToList();
+                if (EditorUtility.DisplayDialog("Warning", "Overwrite asset with current Editor Settings?", "Ok", "Cancel"))
+                {
+                    // show confirmation dialog just in case
+                    buildConfiguration.sceneAssets = EditorBuildSettings.scenes
+                        .Select(s => AssetDatabase.LoadAssetAtPath<SceneAsset>(s.path)).ToList();
 
-                EditorUtility.SetDirty(buildConfiguration);
+                    EditorUtility.SetDirty(buildConfiguration);
+                }
             }
         }
     }
