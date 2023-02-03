@@ -1,14 +1,16 @@
 {
-    "name": "com.gemserk.buildtools",
-    "version": "0.0.1",
-    "displayName": "com.gemserk.buildtools",
-    "description": "Gemserk Build Tools",
-    "unity": "2022.2",
-    "unityRelease": "4f1",
-    "author": {
-      "name": "acoppes",
-      "email": "ariel.coppes@gmail.com",
-      "url": "https://arielcoppes.dev/"
-    }
+  "name": "com.gemserk.buildtools",
+  "version": "0.0.1",
+  "displayName": "com.gemserk.buildtools",
+  "description": "Gemserk Build Tools",
+  "unity": "2022.2",
+  "unityRelease": "4f1",
+  "author": {
+    "name": "acoppes",
+    "email": "ariel.coppes@gmail.com",
+    "url": "https://arielcoppes.dev/"
+  },
+  "dependencies": {
+    "com.gemserk.refactortools": "0.0.6"
   }
-  
+}
