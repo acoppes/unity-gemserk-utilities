@@ -21,13 +21,22 @@
       "version": "file:com.gemserk.buildtools",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {}
+      "dependencies": {
+        "com.gemserk.refactortools": "0.0.6"
+      }
     },
     "com.gemserk.leopotamecs": {
       "version": "file:com.gemserk.leopotamecs",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
+    },
+    "com.gemserk.refactortools": {
+      "version": "0.0.6",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
     },
     "com.gemserk.triggers": {
       "version": "file:com.gemserk.triggers",
