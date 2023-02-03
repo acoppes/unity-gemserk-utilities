@@ -6,7 +6,8 @@ namespace Gemserk.Utilities
     [Serializable]
     public struct Cooldown
     {
-        private float current;
+        [NonSerialized]
+        public float current;
         
         [SerializeField]
         private float total;
