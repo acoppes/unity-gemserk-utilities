@@ -58,5 +58,10 @@ namespace Gemserk.Utilities
         public float Progress => Mathf.Clamp(current / total, 0f, 1f);
 
         public float Total => total;
+        
+        public override string ToString()
+        {
+            return $"{current:0.0}/{total:0.0}";
+        }
     }
 }
