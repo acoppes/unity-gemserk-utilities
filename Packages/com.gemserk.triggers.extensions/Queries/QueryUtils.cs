@@ -45,12 +45,12 @@ namespace Gemserk.Triggers.Queries
             }
         }
         
-        public static Entity GetSingletonEntity(this World world, Query query)
+        public static Entity GetFirstOrDefault(this World world, Query query)
         {
-            return GetSingletonEntity(world, query.GetEntityQuery());
+            return GetFirstOrDefault(world, query.GetEntityQuery());
         }
         
-        public static Entity GetSingletonEntity(this World world, EntityQuery query)
+        public static Entity GetFirstOrDefault(this World world, EntityQuery query)
         {
             foreach (var entity in world.GetFilter<QueryableComponent>().End())
             {
@@ -62,7 +62,9 @@ namespace Gemserk.Triggers.Queries
                 return world.GetEntity(entity);
             }
 
-            throw new Exception($"Failed to get singleton entity from query {query}");
+            return Entity.NullEntity;
+            
+            // throw new Exception($"Failed to get singleton entity from query {query}");
         }
     }
 }
