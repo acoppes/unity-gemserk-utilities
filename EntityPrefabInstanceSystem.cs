@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Gemserk.Utilities;
 using Leopotam.EcsLite;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Gemserk.Leopotam.Ecs
 {
@@ -23,6 +22,9 @@ namespace Gemserk.Leopotam.Ecs
                 {
                     gameObject = gameObject
                 });
+                
+                var entityReference = gameObject.AddComponent<EntityReference>();
+                entityReference.entity = entity;
             }
         }
         
