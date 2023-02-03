@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -116,15 +117,17 @@ namespace Gemserk.Aseprite.Editor
         public static void ExecuteAsepriteExporter(string asepritePath, string filePath, string fileOutputFolderPath, string outputFormat)
         {
             var process = new Process();
-            var startInfo = new ProcessStartInfo
+
+            var arguments = $"-b {filePath} --save-as \"{fileOutputFolderPath}/{outputFormat}\"";
+            
+            process.StartInfo = new ProcessStartInfo
             {
                 FileName = asepritePath,
-                Arguments = $"-b {filePath} --save-as {fileOutputFolderPath}/{outputFormat}",
-                WindowStyle = ProcessWindowStyle.Hidden
+                Arguments = arguments,
+                WindowStyle = ProcessWindowStyle.Maximized
             };
-            process.StartInfo = startInfo;
+            
             process.Start();
-
             process.WaitForExit();
         }
     }
