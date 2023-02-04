@@ -1,8 +1,9 @@
 {
     "name": "Gemserk.Aseprite.Editor",
-    "rootNamespace": "",
+    "rootNamespace": "Gemserk.Aseprite.Editor",
     "references": [
-        "GUID:68ebe34cbe34b2c478dd88d3542443fd"
+        "GUID:68ebe34cbe34b2c478dd88d3542443fd",
+        "GUID:829cb9b03393997498c74a1b781135e5"
     ],
     "includePlatforms": [
         "Editor"
