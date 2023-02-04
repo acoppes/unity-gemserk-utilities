@@ -3,7 +3,8 @@
     "rootNamespace": "Gemserk.BuildTools.Editor",
     "references": [
         "GUID:63cdee03c5b9e564da060805854fdd27",
-        "GUID:062bb25352eeaa047b70bde6f87fbecf"
+        "GUID:062bb25352eeaa047b70bde6f87fbecf",
+        "GUID:829cb9b03393997498c74a1b781135e5"
     ],
     "includePlatforms": [
         "Editor"

@@ -2,7 +2,8 @@
     "name": "Gemserk.Utilities.Editor",
     "rootNamespace": "Gemserk.Utilities.Editor",
     "references": [
-        "GUID:4e1753c824c9e8d4199df6741dacfb88"
+        "GUID:4e1753c824c9e8d4199df6741dacfb88",
+        "GUID:062bb25352eeaa047b70bde6f87fbecf"
     ],
     "includePlatforms": [
         "Editor"
