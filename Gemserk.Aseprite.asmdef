@@ -1,3 +1,4 @@
 {
-	"name": "Gemserk.Aseprite"
+	"name": "Gemserk.Aseprite",
+	"rootNamespace": "Gemserk.Aseprite"
 }
