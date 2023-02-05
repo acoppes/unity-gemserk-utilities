@@ -11,7 +11,11 @@ namespace Gemserk.Utilities.Editor
     public class AssetListBaseWindow : EditorWindow
     {
         protected readonly Dictionary<Type, List<Object>> objectsPerType = new();
+        protected readonly Dictionary<Type, bool[]> foldoutsPerType = new();
+        
         protected readonly List<Type> allowedTypes;
+        
+        protected readonly Dictionary<Object, UnityEditor.Editor> editorInstances = new();
 
         protected bool[] typeFoldouts;
 
@@ -21,14 +25,25 @@ namespace Gemserk.Utilities.Editor
         {
             allowedTypes = types.ToList();
             typeFoldouts = new bool[allowedTypes.Count];
+
+            foreach (var type in allowedTypes)
+            {
+                foldoutsPerType[type] = new bool[100];
+            }
         }
 
         private void OnFocus()
         {
             objectsPerType.Clear();
+            editorInstances.Clear();
+            
             foreach (var type in allowedTypes)
             {
                 objectsPerType[type] = AssetDatabaseExt.FindAssets(type);
+                foreach (var obj in objectsPerType[type])
+                {
+                    editorInstances[obj] = UnityEditor.Editor.CreateEditor(obj);
+                }
             }
         }
 
@@ -43,6 +58,7 @@ namespace Gemserk.Utilities.Editor
             {
                 var type = allowedTypes[j];
                 var objectsList = objectsPerType[type];
+                var foldouts = foldoutsPerType[type];
                 
                 if (multiple)
                 {
@@ -64,14 +80,27 @@ namespace Gemserk.Utilities.Editor
                             continue;
                         }
 
-                        EditorGUILayout.BeginHorizontal();
-                        EditorGUILayout.LabelField(asset.name);
-                        if (GUILayout.Button("Select"))
+                        // EditorGUILayout.BeginHorizontal();
+                        // EditorGUILayout.LabelField(asset.name);
+                        // if (GUILayout.Button("Select"))
+                        // {
+                        //     Selection.activeObject = asset;
+                        // }
+                        //
+                        // EditorGUILayout.EndHorizontal();
+
+                        foldouts[i] = EditorGUILayout.Foldout(foldouts[i], asset.name);
+                        if (foldouts[i])
                         {
-                            Selection.activeObject = asset;
+                            EditorGUI.indentLevel++;
+                            var objectEditor = editorInstances[asset];
+                            
+                            // var objectEditor = UnityEditor.Editor.CreateEditor(asset);
+                            // objectEditor.DrawDefaultInspector();
+                            objectEditor.OnInspectorGUI();
+                            EditorGUI.indentLevel--;
                         }
 
-                        EditorGUILayout.EndHorizontal();
                     }
 
                     if (multiple)
