@@ -4,8 +4,13 @@ using UnityEngine;
 
 namespace Gemserk.Aseprite.Editor
 {
-    public class AsepriteImportDataWindow : AssetListBaseWindow<AsepriteImportData>
+    public class AsepriteImportDataWindow : AssetListBaseWindow
     {
+        public AsepriteImportDataWindow() : base(typeof(AsepriteImportData))
+        {
+            
+        }
+        
         [MenuItem("Window/Gemserk/AsepriteImportData Window")]
         public static void ShowWindow()
         {
