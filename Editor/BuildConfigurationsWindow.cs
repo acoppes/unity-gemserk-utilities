@@ -4,8 +4,13 @@ using UnityEngine;
 
 namespace Gemserk.BuildTools.Editor
 {
-    public class BuildConfigurationsWindow : AssetListBaseWindow<BuildConfiguration>
+    public class BuildConfigurationsWindow : AssetListBaseWindow
     {
+        public BuildConfigurationsWindow() : base(typeof(BuildConfiguration))
+        {
+            
+        }
+        
         [MenuItem("Window/Gemserk/Build Configurations")]
         public static void ShowWindow()
         {
