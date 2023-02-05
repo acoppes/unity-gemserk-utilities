@@ -8,14 +8,14 @@ namespace Gemserk.Utilities.Editor
     public class AssetListBaseWindow<T> : EditorWindow where T : Object
     {
         protected List<T> objectsList = new ();
-        protected bool[] foldouts = new bool[100];
+        // protected bool[] foldouts = new bool[100];
 
         private Vector2 position;
 
         private void OnFocus()
         {
             objectsList = AssetDatabaseExt.FindAssets<T>();
-            foldouts = new bool[objectsList.Count];
+            // foldouts = new bool[objectsList.Count];
         }
 
         private void OnGUI()
@@ -29,14 +29,24 @@ namespace Gemserk.Utilities.Editor
                 {
                     continue;
                 }
-                foldouts[i] = EditorGUILayout.Foldout(foldouts[i], asset.name);
-                if (foldouts[i])
+
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField(asset.name);
+                if (GUILayout.Button("Select"))
                 {
-                    EditorGUI.indentLevel++;
-                    var objectEditor = UnityEditor.Editor.CreateEditor(asset);
-                    objectEditor.OnInspectorGUI();
-                    EditorGUI.indentLevel--;
+                    Selection.activeObject = asset;
                 }
+                EditorGUILayout.EndHorizontal();
+                
+                // foldouts[i] = EditorGUILayout.Foldout(foldouts[i], asset.name);
+                // if (foldouts[i])
+                // {
+                //     EditorGUI.indentLevel++;
+                //     var objectEditor = UnityEditor.Editor.CreateEditor(asset);
+                //     objectEditor.DrawDefaultInspector();
+                //     // objectEditor.OnInspectorGUI();
+                //     EditorGUI.indentLevel--;
+                // }
             }
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndScrollView();
