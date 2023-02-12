@@ -16,5 +16,10 @@ namespace Gemserk.Triggers.Queries
         {
             return $"Q({GetEntityQuery()})";
         }
+
+        public override string ToString()
+        {
+            return GetEntityQuery().ToString();
+        }
     }
 }
