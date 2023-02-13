@@ -2,23 +2,23 @@
 {
     public interface IInit
     {
-        void OnInit();
+        void OnInit(World world, Entity entity);
     }
 
     public interface IEntityDestroyed
     {
-        void OnEntityDestroyed(Entity e);
+        void OnEntityDestroyed(World world, Entity entity);
     }
 
     public interface IConfigurable
     {
-        void OnConfigured();
+        void OnConfigured(World world, Entity entity);
     }
 
     public interface IStateChanged
     {
-        void OnEnterState();
+        void OnEnterState(World world, Entity entity);
         
-        void OnExitState();
+        void OnExitState(World world, Entity entity);
     }
 }

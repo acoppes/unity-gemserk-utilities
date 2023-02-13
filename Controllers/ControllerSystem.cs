@@ -14,6 +14,8 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         
         public void Run(EcsSystems systems)
         {
+            var dt = Time.deltaTime;
+            
             foreach (var entity in controllerFilter.Value)
             {
                 ref var controllerComponent = ref controllerComponents.Value.Get(entity);
@@ -21,13 +23,13 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                 controllersList.Clear();
                 controllersList.AddRange(controllerComponent.controllers);
                 
+                var worldEntity = world.GetEntity(entity);
+                
                 foreach (var controller in controllersList)
                 {
-                    controller.Bind(world, world.GetEntity(entity));
-
                     if (controller is IUpdate updateable)
                     {
-                        updateable.OnUpdate(Time.deltaTime);
+                        updateable.OnUpdate(world, worldEntity, dt);
                     }
                 }
             }
