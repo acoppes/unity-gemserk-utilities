@@ -7,7 +7,7 @@
 
     public interface IEntityDestroyed
     {
-        void OnEntityDestroyed(World world, Entity entity);
+        void OnEntityDestroyed(World world, Entity entity, Entity destroyedEntity);
     }
 
     public interface IConfigurable

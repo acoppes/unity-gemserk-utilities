@@ -65,7 +65,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                     {
                         if (controller is IEntityDestroyed onEntityDestroyed)
                         {
-                            onEntityDestroyed.OnEntityDestroyed(world, worldEntity);
+                            onEntityDestroyed.OnEntityDestroyed(world, worldEntity, destroyedEntity);
                         }
                     }
                 }
