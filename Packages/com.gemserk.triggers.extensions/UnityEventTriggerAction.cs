@@ -8,11 +8,21 @@ namespace Gemserk.Triggers
         
         public override string GetObjectName()
         {
-            if (unityEvent == null)
+            if (unityEvent == null || unityEvent.GetPersistentEventCount() == 0)
             {
                 return "UnityEvent()";
             }
-            return $"UnityEvent({unityEvent})";
+
+            // var persistentEvents = unityEvent.GetPersistentEventCount();
+            
+            // if (persistentEvents == 1)
+            // {
+            return $"UnityEvent({unityEvent.GetPersistentTarget(0).name}.{unityEvent.GetPersistentMethodName(0)})";
+            // }
+            // else
+            // {
+            //     return $"UnityEvent({unityEvent.GetPersistentTarget(0)}, {unityEvent.GetPersistentMethodName(0)})";
+            // }
         }
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
