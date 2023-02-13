@@ -8,6 +8,12 @@ namespace Gemserk.Triggers.Queries
     public static class QueryUtils
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool MatchQuery(this Query query, World world, Entity entity)
+        {
+            return query.GetEntityQuery().MatchQuery(world, entity);
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool MatchQuery(this EntityQuery query, World world, Entity entity)
         {
             foreach (var parameter in query.parameters)
