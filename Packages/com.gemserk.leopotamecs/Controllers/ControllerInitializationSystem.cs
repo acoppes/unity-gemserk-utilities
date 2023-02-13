@@ -57,6 +57,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             foreach (var entity in controllerFilter.Value)
             {
                 ref var controllerComponent = ref controllerComponents.Value.Get(entity);
+                var worldEntity = world.GetEntity(entity);
 
                 if (controllerComponent.intialized)
                 {
@@ -64,8 +65,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                     {
                         if (controller is IEntityDestroyed onEntityDestroyed)
                         {
-                            controller.Bind(world, world.GetEntity(entity));
-                            onEntityDestroyed.OnEntityDestroyed(destroyedEntity);
+                            onEntityDestroyed.OnEntityDestroyed(world, worldEntity);
                         }
                     }
                 }
@@ -106,18 +106,18 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                 controllersList.Clear();
                 controllersList.AddRange(controllerComponent.controllers);
                 
+                var worldEntity = world.GetEntity(entity);
+                
                 foreach (var controller in controllersList)
                 {
-                    controller.Bind(world, world.GetEntity(entity));
-
                     if (!controllerComponent.intialized && controller is IInit init)
                     {
-                        init.OnInit();
+                        init.OnInit(world, worldEntity);
                     }
                     
                     if (controllerComponent.onConfigurationPending && controller is IConfigurable configurable)
                     {
-                        configurable.OnConfigured();
+                        configurable.OnConfigured(world, worldEntity);
                     }
                 }
                 

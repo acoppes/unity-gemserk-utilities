@@ -2,11 +2,11 @@ namespace Gemserk.Leopotam.Ecs.Controllers
 {
     public interface IUpdate
     {
-        void OnUpdate(float dt);
+        void OnUpdate(World world, Entity entity, float dt);
     }
     
     public interface IController
     {
-        void Bind(World world, Entity entity);
+        
     }
 }

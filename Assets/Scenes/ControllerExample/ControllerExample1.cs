@@ -1,3 +1,4 @@
+using Gemserk.Leopotam.Ecs;
 using Gemserk.Leopotam.Ecs.Controllers;
 using Gemserk.Leopotam.Ecs.Events;
 using Gemserk.Utilities;
@@ -13,15 +14,16 @@ public class ControllerExample1 : ControllerBase, IUpdate, IInit, IStateChanged
     
     private bool initialized;
     
-    public void OnInit()
+    public void OnInit(World world, Entity entity)
     {
         initialized = true;
     }
     
-    public void OnUpdate(float dt)
+    public void OnUpdate(World world, Entity entity, float dt)
     {
-        var controllerComponent = Get<ControllerComponent>();
-        var statesComponent = Get<StatesComponent>();
+        
+        var controllerComponent = world.GetComponent<ControllerComponent>(entity);
+        var statesComponent = world.GetComponent<StatesComponent>();
         
         Assert.IsNotNull(controllerComponent.instance);
         Assert.IsTrue(initialized, "Init should be called always before update");
@@ -43,15 +45,15 @@ public class ControllerExample1 : ControllerBase, IUpdate, IInit, IStateChanged
     }
 
 
-    public void OnEnterState()
+    public void OnEnterState(World world, Entity entity)
     {
-        var statesComponent = Get<StatesComponent>();
+        var statesComponent = world.GetComponent<StatesComponent>();
         Debug.Log($"ENTERED STATES: {string.Join(",", statesComponent.statesEntered)}");
     }
 
-    public void OnExitState()
+    public void OnExitState(World world, Entity entity)
     {
-        var statesComponent = Get<StatesComponent>();
+        var statesComponent = world.GetComponent<StatesComponent>();
         Debug.Log($"EXIT STATES: {string.Join(",", statesComponent.statesExited)}");
     }
 }

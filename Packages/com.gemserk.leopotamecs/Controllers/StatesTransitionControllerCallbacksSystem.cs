@@ -16,12 +16,14 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             {
                 var statesComponent = stateComponents.Get(entity);
                 var controllerComponent = controllers.Get(entity);
-
+                
+                var worldEntity = world.GetEntity(entity);
+                
                 if (statesComponent.statesExited.Count > 0)
                 {
                     foreach (var stateChanged in controllerComponent.stateChangedListeners)
                     {
-                        stateChanged.OnExitState();
+                        stateChanged.OnExitState(world, worldEntity);
                     }
                 }
                 
@@ -29,7 +31,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                 {
                     foreach (var stateChanged in controllerComponent.stateChangedListeners)
                     {
-                        stateChanged.OnEnterState();
+                        stateChanged.OnEnterState(world, worldEntity);
                     }
                 }
             }
