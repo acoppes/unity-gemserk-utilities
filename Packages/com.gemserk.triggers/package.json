@@ -1,6 +1,6 @@
 {
   "name": "com.gemserk.triggers",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "displayName": "com.gemserk.triggers",
   "description": "Game Object executable actions, useful for levels and tests logic.",
   "unity": "2022.2",
