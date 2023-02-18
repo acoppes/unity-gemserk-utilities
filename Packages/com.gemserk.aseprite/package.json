@@ -1,6 +1,6 @@
 {
     "name": "com.gemserk.aseprite",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "displayName": "com.gemserk.aseprite",
     "description": "Gemserk Editor Utilities for Aseprite",
     "unity": "2022.2",
