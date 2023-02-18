@@ -1,6 +1,6 @@
 {
   "name": "com.gemserk.triggers.extensions",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "displayName": "com.gemserk.triggers.extensions",
   "description": "Specific gameplay Triggers for games",
   "unity": "2022.2",
@@ -11,8 +11,8 @@
     "url": "https://arielcoppes.dev/"
   },
   "dependencies": {
-    "com.gemserk.utilities": "0.0.2",
-    "com.gemserk.triggers": "0.0.2",
+    "com.gemserk.utilities": "0.0.3",
+    "com.gemserk.triggers": "0.0.3",
     "com.mackysoft.serializereference-extensions": "1.1.7",
     "com.leoecscommunity.ecslite": "1.0.0",
     "com.gemserk.leopotamecs": "0.2.3",
