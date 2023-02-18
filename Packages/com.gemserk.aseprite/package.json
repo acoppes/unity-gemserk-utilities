@@ -1,14 +1,16 @@
 {
-    "name": "com.gemserk.aseprite",
-    "version": "0.0.2",
-    "displayName": "com.gemserk.aseprite",
-    "description": "Gemserk Editor Utilities for Aseprite",
-    "unity": "2022.2",
-    "unityRelease": "4f1",
-    "author": {
-      "name": "acoppes",
-      "email": "ariel.coppes@gmail.com",
-      "url": "https://arielcoppes.dev/"
-    }
+  "name": "com.gemserk.aseprite",
+  "version": "0.0.3",
+  "displayName": "com.gemserk.aseprite",
+  "description": "Gemserk Editor Utilities for Aseprite",
+  "unity": "2022.2",
+  "unityRelease": "4f1",
+  "author": {
+    "name": "acoppes",
+    "email": "ariel.coppes@gmail.com",
+    "url": "https://arielcoppes.dev/"
+  },
+  "dependencies": {
+    "com.gemserk.utilities": "0.0.3"
   }
-  
+}
