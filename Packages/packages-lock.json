@@ -15,14 +15,17 @@
       "version": "file:com.gemserk.aseprite",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {}
+      "dependencies": {
+        "com.gemserk.utilities": "0.0.3"
+      }
     },
     "com.gemserk.buildtools": {
       "version": "file:com.gemserk.buildtools",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.gemserk.refactortools": "0.0.6"
+        "com.gemserk.refactortools": "0.0.6",
+        "com.gemserk.utilities": "0.0.3"
       }
     },
     "com.gemserk.leopotamecs": {
@@ -49,8 +52,8 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.gemserk.utilities": "0.0.1",
-        "com.gemserk.triggers": "0.0.1",
+        "com.gemserk.utilities": "0.0.3",
+        "com.gemserk.triggers": "0.0.3",
         "com.mackysoft.serializereference-extensions": "1.1.7",
         "com.leoecscommunity.ecslite": "1.0.0",
         "com.gemserk.leopotamecs": "0.2.3",
@@ -58,7 +61,7 @@
       }
     },
     "com.gemserk.upmgitpusher": {
-      "version": "0.0.20",
+      "version": "0.0.21",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
