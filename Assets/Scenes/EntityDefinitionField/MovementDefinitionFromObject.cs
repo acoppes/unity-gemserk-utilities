@@ -4,8 +4,13 @@ using UnityEngine;
 public class MovementDefinitionFromObject : ComponentDefinitionBase
 {
     public int speed;
-    
-    public void Apply(World world, Entity entity)
+
+    public override string GetComponentName()
+    {
+        return nameof(MyMovementComponent);
+    }
+
+    public override void Apply(World world, Entity entity)
     {
         world.AddComponent(entity, new MyMovementComponent()
         {

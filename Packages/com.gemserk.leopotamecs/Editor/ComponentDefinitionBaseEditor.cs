@@ -8,13 +8,13 @@ namespace Gemserk.Leopotam.Ecs.Editor
     {
         public override void OnInspectorGUI()
         {
-            // DrawDefaultInspector();
+            DrawDefaultInspector();
 
-            CustomEditorExtensions.DrawInspectorExcept(serializedObject, new []{ "m_Script" });
-            if (GUILayout.Button($"Remove"))
-            {
-                GameObject.DestroyImmediate(target);
-            }
+            // CustomEditorExtensions.DrawInspectorExcept(serializedObject, new []{ "m_Script" });
+            // if (GUILayout.Button($"Remove"))
+            // {
+            //     GameObject.DestroyImmediate(target);
+            // }
         }
     }
 }

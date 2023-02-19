@@ -4,9 +4,8 @@ namespace Gemserk.Leopotam.Ecs
 {
     public abstract class ComponentDefinitionBase : MonoBehaviour, IComponentDefinition
     {
-        public void Apply(World world, Entity entity)
-        {
-            
-        }
+        public abstract string GetComponentName();
+        
+        public abstract void Apply(World world, Entity entity);
     }
 }

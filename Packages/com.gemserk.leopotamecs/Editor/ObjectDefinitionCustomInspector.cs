@@ -80,7 +80,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
             EditorGUILayout.BeginVertical();
             
             var componentDefinitionsFromObjects = objectEntityDefinition
-                .GetComponentsInChildren<IComponentDefinition>();
+                .GetComponentsInChildren<ComponentDefinitionBase>().ToList();
 
             foreach (var type in entityComponentDefinitionObjectsTypes)
             {
@@ -111,59 +111,56 @@ namespace Gemserk.Leopotam.Ecs.Editor
             }
 
             // foreach component render inside this one + remove button
-
-
-            EditorGUILayout.Separator();
             
-            foreach (var componentDefinitionsFromObject in componentDefinitionsFromObjects)
+            foreach (var componentDefinition in componentDefinitionsFromObjects)
             {
-                if (componentDefinitionsFromObject == null)
+                if (objectEntityDefinition.hideMonoBehaviours)
                 {
-                    continue;
-                }
-                
-                var component = componentDefinitionsFromObject as MonoBehaviour;
-            
-                if (component == null)
-                {
-                    continue;
-                }
-
-                if (objectEntityDefinition.hideComponents)
-                {
-                    component.hideFlags = HideFlags.HideInInspector;
+                    componentDefinition.hideFlags = HideFlags.HideInInspector;
                 }
                 else
                 {
-                    component.hideFlags = HideFlags.None;
+                    componentDefinition.hideFlags = HideFlags.None;
                 }
-                
-                // if (GUILayout.Button($"Remove {componentDefinitionsFromObject.GetType().Name}"))
-                // {
-                //     GameObject.DestroyImmediate(component);
-                // }
-            
-                EditorGUILayout.LabelField(componentDefinitionsFromObject.GetType().Name);
-                var serializedObject = new SerializedObject(component);
-                CustomEditorExtensions.DrawInspectorExcept(serializedObject, new []{ "m_Script"});
-                if (GUILayout.Button("Remove"))
-                {
-                    GameObject.DestroyImmediate(component);
-                }
-                EditorGUILayout.Separator();
-                
-                // var editor = UnityEditor.Editor.CreateEditor(component);
-                // if (editor != null)
-                // {
-                //     CustomEditorExtensions.DrawInspectorExcept();
-                //     editor.OnInspectorGUI();
-                //     // if (GUILayout.Button("Remove"))
-                //     // {
-                //     //     GameObject.DestroyImmediate(component);
-                //     // }
-                //     EditorGUILayout.Separator();
-                // }
             }
+            
+            if (objectEntityDefinition.hideMonoBehaviours)
+            {
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+                componentDefinitionsFromObjects.Sort(delegate(ComponentDefinitionBase a, ComponentDefinitionBase b)
+                {
+                    return string.Compare(a.GetType().Name, b.GetType().Name, StringComparison.OrdinalIgnoreCase);
+                });
+
+                foreach (var componentDefinition in componentDefinitionsFromObjects)
+                {
+                    if (objectEntityDefinition.hideMonoBehaviours)
+                    {
+                        componentDefinition.hideFlags = HideFlags.HideInInspector;
+                    }
+                    else
+                    {
+                        componentDefinition.hideFlags = HideFlags.None;
+                    }
+
+                    var centeredStyle = new GUIStyle(GUI.skin.label);
+                    centeredStyle.alignment = TextAnchor.MiddleCenter;
+
+                    EditorGUILayout.LabelField(componentDefinition.GetComponentName(), centeredStyle);
+                    var serializedObject = new SerializedObject(componentDefinition);
+                    CustomEditorExtensions.DrawInspectorExcept(serializedObject, new[] { "m_Script" });
+                    if (GUILayout.Button("Remove"))
+                    {
+                        GameObject.DestroyImmediate(componentDefinition);
+                    }
+
+                    // EditorGUILayout.Separator();
+                    EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+                }
+            }
+            
             EditorGUILayout.EndVertical();
         }
     }
