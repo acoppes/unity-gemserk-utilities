@@ -1,14 +1,13 @@
 {
-    "name": "com.gemserk.utilities",
-    "version": "0.0.2",
-    "displayName": "com.gemserk.utilities",
-    "description": "Gemserk core Utilities",
-    "unity": "2022.2",
-    "unityRelease": "4f1",
-    "author": {
-      "name": "acoppes",
-      "email": "ariel.coppes@gmail.com",
-      "url": "https://arielcoppes.dev/"
-    }
+  "name": "com.gemserk.utilities",
+  "version": "0.0.3",
+  "displayName": "com.gemserk.utilities",
+  "description": "Gemserk core Utilities",
+  "unity": "2022.2",
+  "unityRelease": "4f1",
+  "author": {
+    "name": "acoppes",
+    "email": "ariel.coppes@gmail.com",
+    "url": "https://arielcoppes.dev/"
   }
-  
+}
