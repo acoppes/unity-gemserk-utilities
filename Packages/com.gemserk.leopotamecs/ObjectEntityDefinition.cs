@@ -29,7 +29,7 @@ namespace Gemserk.Leopotam.Ecs
                 }
             }
 
-            var componentDefinitionsFromObjects = GetComponentsInChildren<IComponentDefinition>();
+            var componentDefinitionsFromObjects = GetComponents<IComponentDefinition>();
             
             foreach (var componentDefinitionObject in componentDefinitionsFromObjects)
             {
