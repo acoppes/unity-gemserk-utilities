@@ -554,11 +554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e740fab64e294b01b4c3da4ee3fc131d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  componentDefinitions: []
   hideMonoBehaviours: 1
-  references:
-    version: 2
-    RefIds: []
 --- !u!4 &936927331
 Transform:
   m_ObjectHideFlags: 0
@@ -748,15 +744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ce8e965ed40431e993ca1982c595d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  componentDefinitions:
-  - rid: -2
-  - rid: -2
   hideMonoBehaviours: 1
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
 --- !u!4 &1332753441
 Transform:
   m_ObjectHideFlags: 0
@@ -879,14 +867,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ce8e965ed40431e993ca1982c595d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  componentDefinitions: []
-  hideMonoBehaviours: 0
-  references:
-    version: 2
-    RefIds: []
+  hideMonoBehaviours: 1
 --- !u!114 &1520804958
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -899,7 +883,7 @@ MonoBehaviour:
   speed: 0
 --- !u!114 &1520804959
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
