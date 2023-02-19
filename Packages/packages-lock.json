@@ -54,8 +54,6 @@
       "dependencies": {
         "com.gemserk.utilities": "0.0.3",
         "com.gemserk.triggers": "0.0.3",
-        "com.mackysoft.serializereference-extensions": "1.1.7",
-        "com.leoecscommunity.ecslite": "1.0.0",
         "com.gemserk.leopotamecs": "0.2.3",
         "com.domybest.mybox": "1.7.0"
       }
@@ -93,13 +91,6 @@
       "source": "git",
       "dependencies": {},
       "hash": "2a8af59a6e15ecbd34783d32dbb37059e663e7f6"
-    },
-    "com.mackysoft.serializereference-extensions": {
-      "version": "https://github.com/mackysoft/Unity-SerializeReferenceExtensions.git?path=Assets/MackySoft/MackySoft.SerializeReferenceExtensions",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "aedc9ba82497ee62bf5a802876e88a39a6f73831"
     },
     "com.unity.2d.animation": {
       "version": "9.0.1",
