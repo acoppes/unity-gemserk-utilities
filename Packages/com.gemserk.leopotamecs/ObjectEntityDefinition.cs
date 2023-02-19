@@ -8,7 +8,7 @@ namespace Gemserk.Leopotam.Ecs
         [SerializeReference]
         public List<IComponentDefinition> componentDefinitions = new List<IComponentDefinition>();
 
-        public bool hideMonoBehaviours = true;
+       // public bool hideMonoBehaviours = true;
 
         public virtual void Apply(World world, Entity entity)
         {

@@ -16,15 +16,12 @@ namespace Gemserk.Leopotam.Ecs.Editor
         private void OnEnable()
         {
             // entityComponentDefinitionTypes = TypeCache.GetTypesDerivedFrom<ComponentDefinitionBase>().ToList();
-            entityComponentDefinitionObjectsTypes = TypeCache.GetTypesDerivedFrom<IComponentDefinition>()
-                .Where(t => t.IsSubclassOf(typeof(MonoBehaviour))).ToList();
+            entityComponentDefinitionObjectsTypes = TypeCache.GetTypesDerivedFrom<ComponentDefinitionBase>().ToList();
         }
 
         public override void OnInspectorGUI()
         {
             // base.OnInspectorGUI();
-
-            DrawDefaultInspector();
 
             var objectEntityDefinition = target as ObjectEntityDefinition;
 
@@ -109,59 +106,66 @@ namespace Gemserk.Leopotam.Ecs.Editor
                     AssetDatabase.SaveAssetIfDirty(objectEntityDefinition);
                 }
             }
+            
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
             // foreach component render inside this one + remove button
             
-            foreach (var componentDefinition in componentDefinitionsFromObjects)
-            {
-                if (objectEntityDefinition.hideMonoBehaviours)
-                {
-                    componentDefinition.hideFlags = HideFlags.HideInInspector;
-                }
-                else
-                {
-                    componentDefinition.hideFlags = HideFlags.None;
-                }
-            }
+            // foreach (var componentDefinition in componentDefinitionsFromObjects)
+            // {
+            //     if (objectEntityDefinition.hideMonoBehaviours)
+            //     {
+            //         componentDefinition.hideFlags = HideFlags.HideInInspector;
+            //     }
+            //     else
+            //     {
+            //         componentDefinition.hideFlags = HideFlags.None;
+            //     }
+            // }
             
-            if (objectEntityDefinition.hideMonoBehaviours)
-            {
-                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-                componentDefinitionsFromObjects.Sort(delegate(ComponentDefinitionBase a, ComponentDefinitionBase b)
-                {
-                    return string.Compare(a.GetType().Name, b.GetType().Name, StringComparison.OrdinalIgnoreCase);
-                });
-
-                foreach (var componentDefinition in componentDefinitionsFromObjects)
-                {
-                    if (objectEntityDefinition.hideMonoBehaviours)
-                    {
-                        componentDefinition.hideFlags = HideFlags.HideInInspector;
-                    }
-                    else
-                    {
-                        componentDefinition.hideFlags = HideFlags.None;
-                    }
-
-                    var centeredStyle = new GUIStyle(GUI.skin.label);
-                    centeredStyle.alignment = TextAnchor.MiddleCenter;
-
-                    EditorGUILayout.LabelField(componentDefinition.GetComponentName(), centeredStyle);
-                    var serializedObject = new SerializedObject(componentDefinition);
-                    CustomEditorExtensions.DrawInspectorExcept(serializedObject, new[] { "m_Script" });
-                    if (GUILayout.Button("Remove"))
-                    {
-                        GameObject.DestroyImmediate(componentDefinition);
-                    }
-
-                    // EditorGUILayout.Separator();
-                    EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-                }
-            }
+            // if (objectEntityDefinition.hideMonoBehaviours)
+            // {
+            //     EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            //
+            //     componentDefinitionsFromObjects.Sort(delegate(ComponentDefinitionBase a, ComponentDefinitionBase b)
+            //     {
+            //         return string.Compare(a.GetType().Name, b.GetType().Name, StringComparison.OrdinalIgnoreCase);
+            //     });
+            //
+            //     foreach (var componentDefinition in componentDefinitionsFromObjects)
+            //     {
+            //         if (objectEntityDefinition.hideMonoBehaviours)
+            //         {
+            //             componentDefinition.hideFlags = HideFlags.HideInInspector;
+            //         }
+            //         else
+            //         {
+            //             componentDefinition.hideFlags = HideFlags.None;
+            //         }
+            //
+            //         var centeredStyle = new GUIStyle(GUI.skin.label);
+            //         centeredStyle.alignment = TextAnchor.MiddleCenter;
+            //
+            //         EditorGUILayout.LabelField(componentDefinition.GetComponentName(), centeredStyle);
+            //         var serializedObject = new SerializedObject(componentDefinition);
+            //         CustomEditorExtensions.DrawInspectorExcept(serializedObject, new[] { "m_Script" });
+            //         if (GUILayout.Button("Remove"))
+            //         {
+            //             if (EditorUtility.DisplayDialog("Confirm", "This will remove the component and lose serialized data with it", "Ok", "Cancel"))
+            //             {
+            //                 GameObject.DestroyImmediate(componentDefinition);
+            //             }
+            //         }
+            //
+            //         // EditorGUILayout.Separator();
+            //         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            //
+            //     }
+            // }
             
             EditorGUILayout.EndVertical();
+            
+            DrawDefaultInspector();
         }
     }
 }
