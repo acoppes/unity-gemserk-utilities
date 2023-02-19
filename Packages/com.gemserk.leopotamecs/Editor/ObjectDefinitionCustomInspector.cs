@@ -77,29 +77,33 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 return;
             }
             
+            EditorGUILayout.BeginVertical();
             
             var componentDefinitionsFromObjects = objectEntityDefinition
                 .GetComponentsInChildren<IComponentDefinition>();
-            
+
             foreach (var type in entityComponentDefinitionObjectsTypes)
             {
-                if (componentDefinitionsFromObjects
-                        .Where(c => c != null)
-                        .Count(c => c.GetType() == type) > 0)
-                {
-                    continue;
-                }
-
                 if (type.IsAbstract)
                 {
                     continue;
                 }
+                
+                var hasComponent = componentDefinitionsFromObjects
+                    .Where(c => c != null)
+                    .Count(c => c.GetType() == type) > 0;
 
-                if (GUILayout.Button($"Add {type.Name.Replace("Definition", "")}"))
+                if (hasComponent)
                 {
-                    var gameObject = new GameObject(type.Name);
-                    gameObject.transform.SetParent(objectEntityDefinition.transform);
-                    gameObject.AddComponent(type);
+                    continue;
+                }
+
+                if (!hasComponent && GUILayout.Button($"Add {type.Name.Replace("Definition", "")}"))
+                {
+                    // var gameObject = new GameObject(type.Name);
+                    // gameObject.transform.SetParent(objectEntityDefinition.transform);
+                    var component = objectEntityDefinition.gameObject.AddComponent(type);
+                    component.hideFlags = HideFlags.HideInInspector;
                     
                     EditorUtility.SetDirty(objectEntityDefinition);
                     AssetDatabase.SaveAssetIfDirty(objectEntityDefinition);
@@ -108,6 +112,9 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
             // foreach component render inside this one + remove button
 
+
+            EditorGUILayout.Separator();
+            
             foreach (var componentDefinitionsFromObject in componentDefinitionsFromObjects)
             {
                 if (componentDefinitionsFromObject == null)
@@ -115,26 +122,49 @@ namespace Gemserk.Leopotam.Ecs.Editor
                     continue;
                 }
                 
-
                 var component = componentDefinitionsFromObject as MonoBehaviour;
-
+            
                 if (component == null)
                 {
                     continue;
                 }
 
-                // var serializedObject = new SerializedObject(component);
-
-                var editor = UnityEditor.Editor.CreateEditor(component);
-                if (editor != null)
+                if (objectEntityDefinition.hideComponents)
                 {
-                    editor.OnInspectorGUI();
-                    if (GUILayout.Button("Remove"))
-                    {
-                        GameObject.DestroyImmediate(component.gameObject);
-                    }
+                    component.hideFlags = HideFlags.HideInInspector;
                 }
+                else
+                {
+                    component.hideFlags = HideFlags.None;
+                }
+                
+                // if (GUILayout.Button($"Remove {componentDefinitionsFromObject.GetType().Name}"))
+                // {
+                //     GameObject.DestroyImmediate(component);
+                // }
+            
+                EditorGUILayout.LabelField(componentDefinitionsFromObject.GetType().Name);
+                var serializedObject = new SerializedObject(component);
+                CustomEditorExtensions.DrawInspectorExcept(serializedObject, new []{ "m_Script"});
+                if (GUILayout.Button("Remove"))
+                {
+                    GameObject.DestroyImmediate(component);
+                }
+                EditorGUILayout.Separator();
+                
+                // var editor = UnityEditor.Editor.CreateEditor(component);
+                // if (editor != null)
+                // {
+                //     CustomEditorExtensions.DrawInspectorExcept();
+                //     editor.OnInspectorGUI();
+                //     // if (GUILayout.Button("Remove"))
+                //     // {
+                //     //     GameObject.DestroyImmediate(component);
+                //     // }
+                //     EditorGUILayout.Separator();
+                // }
             }
+            EditorGUILayout.EndVertical();
         }
     }
 }

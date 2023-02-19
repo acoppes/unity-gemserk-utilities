@@ -8,11 +8,13 @@ namespace Gemserk.Leopotam.Ecs
         [SerializeReference]
         public List<IComponentDefinition> componentDefinitions = new List<IComponentDefinition>();
 
+        public bool hideComponents;
+
         public virtual void Apply(World world, Entity entity)
         {
             foreach (var componentDefinition in componentDefinitions)
             {
-                var definitionBase = componentDefinition as ComponentDefinitionBase;
+                var definitionBase = componentDefinition as ComponentDefinitionSerializedObjectBase;
                 
                 if (definitionBase != null)
                 {

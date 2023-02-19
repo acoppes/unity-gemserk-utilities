@@ -1,7 +1,7 @@
 using Gemserk.Leopotam.Ecs;
 using UnityEngine;
 
-public class MovementDefinitionFromObject : MonoBehaviour, IComponentDefinition
+public class MovementDefinitionFromObject : ComponentDefinitionBase
 {
     public int speed;
     

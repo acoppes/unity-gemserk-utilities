@@ -5,7 +5,7 @@ public struct MyMovementComponent : IEntityComponent
     public int speed;
 }
 
-public class MovementDefinition : ComponentDefinitionBase
+public class MovementDefinitionSerializedObject : ComponentDefinitionSerializedObjectBase
 {
     public int speed;
     

@@ -4,7 +4,7 @@ using UnityEngine.Scripting.APIUpdating;
 namespace Scenes.EntityDefinitionField
 {
     [MovedFrom(false, "", "Assembly-CSharp", "PositionDefinition")]
-    public class PositionDefinition : ComponentDefinitionBase
+    public class PositionDefinitionSerializedObject : ComponentDefinitionSerializedObjectBase
     {
         public override void Apply(World world, Entity entity)
         {
