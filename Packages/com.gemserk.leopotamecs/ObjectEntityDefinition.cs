@@ -26,6 +26,16 @@ namespace Gemserk.Leopotam.Ecs
                     definitionBase.gameObject = null;
                 }
             }
+
+            var componentDefinitionsFromObjects = GetComponentsInChildren<IComponentDefinition>();
+            
+            foreach (var componentDefinitionObject in componentDefinitionsFromObjects)
+            {
+                if (componentDefinitionObject != null)
+                {
+                    componentDefinitionObject.Apply(world, entity);
+                }
+            }
         }
     }
 }

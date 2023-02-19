@@ -10,11 +10,14 @@ namespace Gemserk.Leopotam.Ecs.Editor
     [CustomEditor(typeof(ObjectEntityDefinition), true)]
     public class ObjectDefinitionCustomInspector : UnityEditor.Editor
     {
-        private List<Type> entityComponentDefinitionTypes;
+        // private List<Type> entityComponentDefinitionTypes;
+        private List<Type> entityComponentDefinitionObjectsTypes;
         
         private void OnEnable()
         {
-            entityComponentDefinitionTypes = TypeCache.GetTypesDerivedFrom<IComponentDefinition>().ToList();
+            // entityComponentDefinitionTypes = TypeCache.GetTypesDerivedFrom<ComponentDefinitionBase>().ToList();
+            entityComponentDefinitionObjectsTypes = TypeCache.GetTypesDerivedFrom<IComponentDefinition>()
+                .Where(t => t.IsSubclassOf(typeof(MonoBehaviour))).ToList();
         }
 
         public override void OnInspectorGUI()
@@ -33,9 +36,54 @@ namespace Gemserk.Leopotam.Ecs.Editor
             // }
 
             // add buttons for each kind of ientitydefinitions serializable
-            foreach (var type in entityComponentDefinitionTypes)
+            
+            // var count = 0;
+            //
+            // foreach (var type in entityComponentDefinitionTypes)
+            // {
+            //     if (objectEntityDefinition.componentDefinitions
+            //             .Where(c => c != null)
+            //             .Count(c => c.GetType() == type) > 0)
+            //     {
+            //         continue;
+            //     }
+            //
+            //     if (type.IsAbstract)
+            //     {
+            //         continue;
+            //     }
+            //
+            //     count++;
+            //     
+            //     if (GUILayout.Button($"Add {type.Name.Replace("Definition", "")}"))
+            //     {
+            //         var componentDefinition = (IComponentDefinition) Activator.CreateInstance(type);
+            //         objectEntityDefinition.componentDefinitions.Add(componentDefinition);
+            //         EditorUtility.SetDirty(objectEntityDefinition);
+            //         AssetDatabase.SaveAssetIfDirty(objectEntityDefinition);
+            //         
+            //     }
+            // }
+            //
+            // if (count == 0)
+            // {
+            //     GUILayout.Label("No more components from serialized reference to add");
+            // }
+            //
+            // EditorGUILayout.Separator();
+
+            if (objectEntityDefinition == null)
             {
-                if (objectEntityDefinition.componentDefinitions
+                return;
+            }
+            
+            
+            var componentDefinitionsFromObjects = objectEntityDefinition
+                .GetComponentsInChildren<IComponentDefinition>();
+            
+            foreach (var type in entityComponentDefinitionObjectsTypes)
+            {
+                if (componentDefinitionsFromObjects
                         .Where(c => c != null)
                         .Count(c => c.GetType() == type) > 0)
                 {
@@ -46,14 +94,45 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 {
                     continue;
                 }
-                
+
                 if (GUILayout.Button($"Add {type.Name.Replace("Definition", "")}"))
                 {
-                    var componentDefinition = (IComponentDefinition) Activator.CreateInstance(type);
-                    objectEntityDefinition.componentDefinitions.Add(componentDefinition);
+                    var gameObject = new GameObject(type.Name);
+                    gameObject.transform.SetParent(objectEntityDefinition.transform);
+                    gameObject.AddComponent(type);
+                    
                     EditorUtility.SetDirty(objectEntityDefinition);
                     AssetDatabase.SaveAssetIfDirty(objectEntityDefinition);
-                    
+                }
+            }
+
+            // foreach component render inside this one + remove button
+
+            foreach (var componentDefinitionsFromObject in componentDefinitionsFromObjects)
+            {
+                if (componentDefinitionsFromObject == null)
+                {
+                    continue;
+                }
+                
+
+                var component = componentDefinitionsFromObject as MonoBehaviour;
+
+                if (component == null)
+                {
+                    continue;
+                }
+
+                // var serializedObject = new SerializedObject(component);
+
+                var editor = UnityEditor.Editor.CreateEditor(component);
+                if (editor != null)
+                {
+                    editor.OnInspectorGUI();
+                    if (GUILayout.Button("Remove"))
+                    {
+                        GameObject.DestroyImmediate(component.gameObject);
+                    }
                 }
             }
         }
