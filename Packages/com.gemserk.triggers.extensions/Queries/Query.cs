@@ -10,7 +10,7 @@ namespace Gemserk.Triggers.Queries
         [SubclassSelector]
         public List<IQueryParameter> parameters = new();
 
-        public EntityQuery GetEntityQuery() => EntityQuery.Create(parameters);
+        public EntityQuery GetEntityQuery() => EntityQuery.Create(GetComponents<IQueryParameter>());
 
         public override string GetObjectName()
         {
