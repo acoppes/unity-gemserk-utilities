@@ -4,8 +4,6 @@ namespace Gemserk.Leopotam.Ecs
 {
     public class ObjectEntityDefinition : MonoBehaviour, IEntityDefinition
     {
-        public bool hideMonoBehaviours = true;
-
         public virtual void Apply(World world, Entity entity)
         {
             var componentDefinitionsFromObjects = GetComponents<IComponentDefinition>();

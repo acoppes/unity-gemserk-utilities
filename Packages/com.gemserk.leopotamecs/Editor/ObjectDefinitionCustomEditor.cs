@@ -8,8 +8,10 @@ using UnityEngine;
 namespace Gemserk.Leopotam.Ecs.Editor
 {
     [CustomEditor(typeof(ObjectEntityDefinition), true)]
-    public class ObjectDefinitionCustomInspector : UnityEditor.Editor
+    public class ObjectDefinitionCustomEditor : UnityEditor.Editor
     {
+        private const string k_QueryEditorHideMonobehavioursEditorPref = "Gemserk.QueryEditor.HideMonobehaviours";
+
         private List<Type> entityComponentDefinitionObjectsTypes;
         
         private void OnEnable()
@@ -21,10 +23,9 @@ namespace Gemserk.Leopotam.Ecs.Editor
         {
             var objectEntityDefinition = target as ObjectEntityDefinition;
 
-            if (objectEntityDefinition == null)
-            {
-                return;
-            }
+            var hideMonoBehaviours = EditorPrefs.GetBool(k_QueryEditorHideMonobehavioursEditorPref, true);
+            hideMonoBehaviours = EditorGUILayout.Toggle("Hide MonoBehaviours", hideMonoBehaviours);
+            EditorPrefs.SetBool(k_QueryEditorHideMonobehavioursEditorPref, hideMonoBehaviours);
             
             var style = new GUIStyle(GUI.skin.label);
             style.alignment = TextAnchor.MiddleCenter;
@@ -85,7 +86,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 {
                     // componentDefinition.hideFlags = HideFlags.None;
 
-                    if (objectEntityDefinition.hideMonoBehaviours)
+                    if (hideMonoBehaviours)
                     {
                         componentDefinition.hideFlags = HideFlags.HideInInspector;
                     }
@@ -95,7 +96,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
                     }
                 }
 
-                if (objectEntityDefinition.hideMonoBehaviours)
+                if (hideMonoBehaviours)
                 {
                     // EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
