@@ -77,7 +77,7 @@ namespace Gemserk.Triggers.Editor
                 {
                     var queryParameter = query.GetComponent(type);
                         
-                    removed = GUILayout.Button("Remove");
+                    removed = GUILayout.Button("-", GUILayout.MaxWidth(20));
                         
                     if (removed)
                     {
@@ -90,7 +90,7 @@ namespace Gemserk.Triggers.Editor
                 }
                 else
                 {
-                    if (GUILayout.Button("Add"))
+                    if (GUILayout.Button("+", GUILayout.MaxWidth(20)))
                     {
                         query.gameObject.AddComponent(type);
                         EditorUtility.SetDirty(query);
