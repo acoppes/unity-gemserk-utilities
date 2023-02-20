@@ -26,35 +26,34 @@ namespace Gemserk.Triggers.Editor
 
         public override void OnInspectorGUI()
         {
-            var query = target as Query;
+            var targetObject = target as Query;
             
             var hideMonoBehaviours = EditorPrefs.GetBool(k_QueryEditorHideMonobehavioursEditorPref, true);
             hideMonoBehaviours = EditorGUILayout.Toggle("Hide MonoBehaviours", hideMonoBehaviours);
             EditorPrefs.SetBool(k_QueryEditorHideMonobehavioursEditorPref, hideMonoBehaviours);
             
             // fix object name
-            query.gameObject.name = $"Q({query.GetEntityQuery()})";
+            targetObject.gameObject.name = $"Q({targetObject.GetEntityQuery()})";
             
             var style = new GUIStyle(GUI.skin.label);
             style.alignment = TextAnchor.MiddleCenter;
-            style.normal.textColor = Color.grey;
             
             DrawDefaultInspector();
             
             EditorGUILayout.BeginVertical();
             
-            var queryParameters = query
+            var components = targetObject
                 .GetComponentsInChildren<QueryParameterBase>().ToList();
             
-            foreach (var queryParameter in queryParameters)
+            foreach (var component in components)
             {
                 if (hideMonoBehaviours)
                 {
-                    queryParameter.hideFlags = HideFlags.HideInInspector;
+                    component.hideFlags = HideFlags.HideInInspector;
                 }
                 else
                 {
-                    queryParameter.hideFlags = HideFlags.None;
+                    component.hideFlags = HideFlags.None;
                 }
             }
 
@@ -67,14 +66,13 @@ namespace Gemserk.Triggers.Editor
                     continue;
                 }
                 
-                var type1 = type;
-                var hasParameter = queryParameters
+                var hasComponentOfType = components
                     .Where(c => c != null)
-                    .Count(c => c.GetType() == type1) > 0;
+                    .Count(c => c.GetType() == type) > 0;
 
                 var removed = false;
 
-                var showCustomEditor = !hasParameter || hideMonoBehaviours;
+                var showCustomEditor = !hasComponentOfType || hideMonoBehaviours;
                 
                 if (showCustomEditor)
                 {
@@ -88,24 +86,32 @@ namespace Gemserk.Triggers.Editor
 
                 if (showCustomEditor)
                 {
+                    if (hasComponentOfType)
+                    {
+                        style.normal.textColor = Color.white;
+                    }
+                    else
+                    {
+                        style.normal.textColor = Color.grey;
+                    }
                     EditorGUILayout.LabelField($"<< {type.Name.Replace("QueryParameter", "")} >>", style);
                 }
 
-                if (hasParameter)
+                if (hasComponentOfType)
                 {
                     if (hideMonoBehaviours)
                     {
-                        var queryParameter = query.GetComponent(type);
+                        var component = targetObject.GetComponent(type);
 
                         removed = GUILayout.Button("-", GUILayout.MaxWidth(20));
 
                         if (removed)
                         {
                             if (EditorUtility.DisplayDialog("Confirm",
-                                    $"This will remove {queryParameter.GetType().Name} and its serialized data", "Ok",
+                                    $"This will remove {component.GetType().Name} and its serialized data", "Ok",
                                     "Cancel"))
                             {
-                                GameObject.DestroyImmediate(queryParameter);
+                                GameObject.DestroyImmediate(component);
                             }
                         }
                     }
@@ -114,17 +120,17 @@ namespace Gemserk.Triggers.Editor
                 {
                     if (GUILayout.Button("+", GUILayout.MaxWidth(20)))
                     {
-                        query.gameObject.AddComponent(type);
-                        EditorUtility.SetDirty(query);
-                        AssetDatabase.SaveAssetIfDirty(query);
+                        targetObject.gameObject.AddComponent(type);
+                        EditorUtility.SetDirty(targetObject);
+                        AssetDatabase.SaveAssetIfDirty(targetObject);
                     }
                 }
 
                 EditorGUILayout.EndHorizontal();
 
-                if (hideMonoBehaviours && hasParameter && !removed)
+                if (hideMonoBehaviours && hasComponentOfType && !removed)
                 {
-                    var queryParameter = query.GetComponent(type);
+                    var queryParameter = targetObject.GetComponent(type);
                     var serializedObject = new SerializedObject(queryParameter);
                     CustomEditorExtensions.DrawInspectorExcept(serializedObject, new[] { "m_Script" });
                 }

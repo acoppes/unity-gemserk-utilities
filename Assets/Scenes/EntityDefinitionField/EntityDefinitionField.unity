@@ -868,7 +868,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &1520804958
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -881,7 +881,7 @@ MonoBehaviour:
   speed: 0
 --- !u!114 &1520804959
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -1084,8 +1084,10 @@ GameObject:
   - component: {fileID: 2050518675}
   - component: {fileID: 2050518677}
   - component: {fileID: 2050518676}
+  - component: {fileID: 2050518679}
+  - component: {fileID: 2050518678}
   m_Layer: 0
-  m_Name: Q(IsEnabled)
+  m_Name: Q(IsEnabled,name:,player:0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1108,7 +1110,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2050518676
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -1131,6 +1133,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce7ce591cb864d60b2aa284215d5d64a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2050518678
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050518674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dbe2cfd4f5e9a8469260ba258b320d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: 0
+--- !u!114 &2050518679
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050518674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28ced4079912b8840b6d6ac59d2ebf5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: 
 --- !u!1 &2130531308
 GameObject:
   m_ObjectHideFlags: 0
