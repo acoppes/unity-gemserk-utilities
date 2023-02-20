@@ -134,6 +134,8 @@ namespace Gemserk.Triggers.Editor
                 //     }
                 // }
             }
+
+            query.gameObject.name = $"Q({query.GetEntityQuery()})";
             
             EditorGUILayout.EndVertical();
         }

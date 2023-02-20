@@ -1,15 +1,10 @@
-using Gemserk.Utilities;
+using UnityEngine;
 
 namespace Gemserk.Triggers.Queries
 {
-    public class Query : AutoNamedObject
+    public class Query : MonoBehaviour
     {
         public EntityQuery GetEntityQuery() => EntityQuery.Create(GetComponents<IQueryParameter>());
-
-        public override string GetObjectName()
-        {
-            return $"Q({GetEntityQuery()})";
-        }
 
         public override string ToString()
         {
