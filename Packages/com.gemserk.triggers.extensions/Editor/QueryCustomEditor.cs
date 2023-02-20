@@ -55,7 +55,7 @@ namespace Gemserk.Triggers.Editor
                 }
             }
 
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            var buttons = 0;
             
             foreach (var type in types)
             {
@@ -64,27 +64,46 @@ namespace Gemserk.Triggers.Editor
                     continue;
                 }
                 
+                var type1 = type;
                 var hasParameter = queryParameters
                     .Where(c => c != null)
-                    .Count(c => c.GetType() == type) > 0;
+                    .Count(c => c.GetType() == type1) > 0;
 
                 var removed = false;
 
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField($"<< {type.Name.Replace("QueryParameter", "")} >>", style);
+                var showCustomEditor = !hasParameter || query.hideMonoBehaviours;
                 
+                if (showCustomEditor)
+                {
+                    if (buttons == 0)
+                    {
+                        EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                    }
+                }
+                
+                EditorGUILayout.BeginHorizontal();
+
+                if (showCustomEditor)
+                {
+                    EditorGUILayout.LabelField($"<< {type.Name.Replace("QueryParameter", "")} >>", style);
+                }
+
                 if (hasParameter)
                 {
-                    var queryParameter = query.GetComponent(type);
-                        
-                    removed = GUILayout.Button("-", GUILayout.MaxWidth(20));
-                        
-                    if (removed)
+                    if (query.hideMonoBehaviours)
                     {
-                        if (EditorUtility.DisplayDialog("Confirm",
-                                $"This will remove {queryParameter.GetType().Name} and its serialized data", "Ok", "Cancel"))
+                        var queryParameter = query.GetComponent(type);
+
+                        removed = GUILayout.Button("-", GUILayout.MaxWidth(20));
+
+                        if (removed)
                         {
-                            GameObject.DestroyImmediate(queryParameter);
+                            if (EditorUtility.DisplayDialog("Confirm",
+                                    $"This will remove {queryParameter.GetType().Name} and its serialized data", "Ok",
+                                    "Cancel"))
+                            {
+                                GameObject.DestroyImmediate(queryParameter);
+                            }
                         }
                     }
                 }
@@ -106,10 +125,15 @@ namespace Gemserk.Triggers.Editor
                     var serializedObject = new SerializedObject(queryParameter);
                     CustomEditorExtensions.DrawInspectorExcept(serializedObject, new[] { "m_Script" });
                 }
-                
-                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+                if (showCustomEditor)
+                {
+                    EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                }
+
+                buttons++;
             }
-            
+
             EditorGUILayout.EndVertical();
         }
     }
