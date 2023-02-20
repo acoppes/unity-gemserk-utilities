@@ -27,9 +27,14 @@ namespace Gemserk.Triggers.Editor
                 return;
             }
             
+            // fix object name
+            query.gameObject.name = $"Q({query.GetEntityQuery()})";
+            
             var style = new GUIStyle(GUI.skin.label);
             style.alignment = TextAnchor.MiddleCenter;
             style.normal.textColor = Color.grey;
+            
+            DrawDefaultInspector();
             
             EditorGUILayout.BeginVertical();
             
@@ -37,9 +42,21 @@ namespace Gemserk.Triggers.Editor
             
             var queryParameters = query
                 .GetComponentsInChildren<QueryParameterBase>().ToList();
+            
+            foreach (var queryParameter in queryParameters)
+            {
+                if (query.hideMonoBehaviours)
+                {
+                    queryParameter.hideFlags = HideFlags.HideInInspector;
+                }
+                else
+                {
+                    queryParameter.hideFlags = HideFlags.None;
+                }
+            }
 
-            var buttons = 0;
-
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            
             foreach (var type in types)
             {
                 if (type.IsAbstract)
@@ -51,98 +68,47 @@ namespace Gemserk.Triggers.Editor
                     .Where(c => c != null)
                     .Count(c => c.GetType() == type) > 0;
 
+                var removed = false;
+
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField($"<< {type.Name.Replace("QueryParameter", "")} >>", style);
+                
                 if (hasParameter)
                 {
-                    continue;
-                }
-
-                if (buttons == 0)
-                {
-                    EditorGUILayout.LabelField($"<< Add >>", style);
-                }
-
-                buttons++;
-
-                if (!hasParameter && GUILayout.Button($"{type.Name.Replace("QueryParameter", "")}"))
-                {
-                    query.gameObject.AddComponent(type);
-                    EditorUtility.SetDirty(query);
-                    AssetDatabase.SaveAssetIfDirty(query);
-                }
-            }
-
-            if (buttons > 0)
-            {
-                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-            }
-            
-            DrawDefaultInspector();
-            
-            if (queryParameters.Count > 0)
-            {
-                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-                // foreach component render inside this one + remove button
-
-                foreach (var queryParameter in queryParameters)
-                {
-                    // componentDefinition.hideFlags = HideFlags.None;
-                
-                    if (query.hideMonoBehaviours)
-                    {
-                        queryParameter.hideFlags = HideFlags.HideInInspector;
-                    }
-                    else
-                    {
-                        queryParameter.hideFlags = HideFlags.None;
-                    }
-                }
-                
-                if (query.hideMonoBehaviours)
-                {
-                    // EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-                
-                    queryParameters.Sort(delegate(QueryParameterBase a, QueryParameterBase b)
-                    {
-                        return string.Compare(a.GetType().Name, b.GetType().Name,
-                            StringComparison.OrdinalIgnoreCase);
-                    });
-                
-                    // var copyOfDefinitions = new List<QueryParameterBase>(queryParameters);
-                    
-                    foreach (var queryParameter in queryParameters)
-                    {
-                        EditorGUILayout.BeginHorizontal();
-                        EditorGUILayout.LabelField($"<< {queryParameter.GetType().Name.Replace("QueryParameter", "")} >>", style);
-                
-                        var remove = GUILayout.Button("Remove");
+                    var queryParameter = query.GetComponent(type);
                         
-                        if (remove)
+                    removed = GUILayout.Button("Remove");
+                        
+                    if (removed)
+                    {
+                        if (EditorUtility.DisplayDialog("Confirm",
+                                $"This will remove {queryParameter.GetType().Name} and its serialized data", "Ok", "Cancel"))
                         {
-                            if (EditorUtility.DisplayDialog("Confirm",
-                                    $"This will remove {queryParameter.GetType().Name} and its serialized data", "Ok", "Cancel"))
-                            {
-                                GameObject.DestroyImmediate(queryParameter);
-                            }
-                            
-                           
+                            GameObject.DestroyImmediate(queryParameter);
                         }
-                
-                        EditorGUILayout.EndHorizontal();
-                
-                        if (!remove)
-                        {
-                            var serializedObject = new SerializedObject(queryParameter);
-                            CustomEditorExtensions.DrawInspectorExcept(serializedObject, new[] { "m_Script" });
-                            // EditorGUILayout.Separator();
-                            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-                        }
-                
                     }
                 }
-            }
+                else
+                {
+                    if (GUILayout.Button("Add"))
+                    {
+                        query.gameObject.AddComponent(type);
+                        EditorUtility.SetDirty(query);
+                        AssetDatabase.SaveAssetIfDirty(query);
+                    }
+                }
 
-            query.gameObject.name = $"Q({query.GetEntityQuery()})";
+                EditorGUILayout.EndHorizontal();
+
+                if (query.hideMonoBehaviours && hasParameter && !removed)
+                {
+                    var queryParameter = query.GetComponent(type);
+                    var serializedObject = new SerializedObject(queryParameter);
+                    CustomEditorExtensions.DrawInspectorExcept(serializedObject, new[] { "m_Script" });
+                }
+                
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+            }
             
             EditorGUILayout.EndVertical();
         }
