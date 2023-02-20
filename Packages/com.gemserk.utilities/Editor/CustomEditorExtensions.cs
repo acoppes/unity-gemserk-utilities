@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using UnityEditor;
 
-namespace Gemserk.Leopotam.Ecs.Editor
+namespace Gemserk.Utilities.Editor
 {
     public static class CustomEditorExtensions
     {

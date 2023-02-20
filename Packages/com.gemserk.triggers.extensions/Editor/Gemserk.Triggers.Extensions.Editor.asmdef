@@ -3,7 +3,8 @@
     "rootNamespace": "Gemserk.Triggers",
     "references": [
         "GUID:9aa785af2d43c0349a756ca7413a3986",
-        "GUID:4e1753c824c9e8d4199df6741dacfb88"
+        "GUID:4e1753c824c9e8d4199df6741dacfb88",
+        "GUID:829cb9b03393997498c74a1b781135e5"
     ],
     "includePlatforms": [
         "Editor"

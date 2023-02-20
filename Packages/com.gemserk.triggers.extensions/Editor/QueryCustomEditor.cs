@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Gemserk.Triggers.Queries;
+using Gemserk.Utilities.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace Gemserk.Triggers.Editor
         
         private void OnEnable()
         {
-            types = TypeCache.GetTypesDerivedFrom<IQueryParameter>().ToList();
+            types = TypeCache.GetTypesDerivedFrom<QueryParameterBase>().ToList();
         }
 
         public override void OnInspectorGUI()
@@ -35,11 +36,9 @@ namespace Gemserk.Triggers.Editor
             // serializedObject.FindProperty("hideMonoBehaviours")
             
             var queryParameters = query
-                .GetComponentsInChildren<IQueryParameter>().ToList();
+                .GetComponentsInChildren<QueryParameterBase>().ToList();
 
             var buttons = 0;
-            
-            EditorGUILayout.LabelField($"<< Add >>", style);
 
             foreach (var type in types)
             {
@@ -55,6 +54,11 @@ namespace Gemserk.Triggers.Editor
                 if (hasParameter)
                 {
                     continue;
+                }
+
+                if (buttons == 0)
+                {
+                    EditorGUILayout.LabelField($"<< Add >>", style);
                 }
 
                 buttons++;
@@ -80,59 +84,62 @@ namespace Gemserk.Triggers.Editor
 
                 // foreach component render inside this one + remove button
 
-                // foreach (var componentDefinition in queryParameters)
-                // {
-                //     // componentDefinition.hideFlags = HideFlags.None;
-                //
-                //     if (query.hideMonoBehaviours)
-                //     {
-                //         componentDefinition.hideFlags = HideFlags.HideInInspector;
-                //     }
-                //     else
-                //     {
-                //         componentDefinition.hideFlags = HideFlags.None;
-                //     }
-                // }
-                //
-                // if (query.hideMonoBehaviours)
-                // {
-                //     // EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-                //
-                //     componentDefinitionsFromObjects.Sort(delegate(ComponentDefinitionBase a, ComponentDefinitionBase b)
-                //     {
-                //         return string.Compare(a.GetType().Name, b.GetType().Name,
-                //             StringComparison.OrdinalIgnoreCase);
-                //     });
-                //
-                //     var copyOfDefinitions = new List<ComponentDefinitionBase>(componentDefinitionsFromObjects);
-                //     foreach (var componentDefinition in copyOfDefinitions)
-                //     {
-                //         EditorGUILayout.BeginHorizontal();
-                //         EditorGUILayout.LabelField($"<< {componentDefinition.GetComponentName()} >>", style);
-                //
-                //         var remove = GUILayout.Button("Remove");
-                //         
-                //         if (remove)
-                //         {
-                //             if (EditorUtility.DisplayDialog("Confirm",
-                //                     "This will remove the component and lose serialized data with it", "Ok", "Cancel"))
-                //             {
-                //                 GameObject.DestroyImmediate(componentDefinition);
-                //             }
-                //         }
-                //
-                //         EditorGUILayout.EndHorizontal();
-                //
-                //         if (!remove)
-                //         {
-                //             var serializedObject = new SerializedObject(componentDefinition);
-                //             CustomEditorExtensions.DrawInspectorExcept(serializedObject, new[] { "m_Script" });
-                //             // EditorGUILayout.Separator();
-                //             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-                //         }
-                //
-                //     }
-                // }
+                foreach (var queryParameter in queryParameters)
+                {
+                    // componentDefinition.hideFlags = HideFlags.None;
+                
+                    if (query.hideMonoBehaviours)
+                    {
+                        queryParameter.hideFlags = HideFlags.HideInInspector;
+                    }
+                    else
+                    {
+                        queryParameter.hideFlags = HideFlags.None;
+                    }
+                }
+                
+                if (query.hideMonoBehaviours)
+                {
+                    // EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                
+                    queryParameters.Sort(delegate(QueryParameterBase a, QueryParameterBase b)
+                    {
+                        return string.Compare(a.GetType().Name, b.GetType().Name,
+                            StringComparison.OrdinalIgnoreCase);
+                    });
+                
+                    // var copyOfDefinitions = new List<QueryParameterBase>(queryParameters);
+                    
+                    foreach (var queryParameter in queryParameters)
+                    {
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUILayout.LabelField($"<< {queryParameter.GetType().Name.Replace("QueryParameter", "")} >>", style);
+                
+                        var remove = GUILayout.Button("Remove");
+                        
+                        if (remove)
+                        {
+                            if (EditorUtility.DisplayDialog("Confirm",
+                                    $"This will remove {queryParameter.GetType().Name} and its serialized data", "Ok", "Cancel"))
+                            {
+                                GameObject.DestroyImmediate(queryParameter);
+                            }
+                            
+                           
+                        }
+                
+                        EditorGUILayout.EndHorizontal();
+                
+                        if (!remove)
+                        {
+                            var serializedObject = new SerializedObject(queryParameter);
+                            CustomEditorExtensions.DrawInspectorExcept(serializedObject, new[] { "m_Script" });
+                            // EditorGUILayout.Separator();
+                            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                        }
+                
+                    }
+                }
             }
 
             query.gameObject.name = $"Q({query.GetEntityQuery()})";
