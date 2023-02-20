@@ -38,7 +38,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
             // serializedObject.FindProperty("hideMonoBehaviours")
             
             var components = targetObject
-                .GetComponentsInChildren<ComponentDefinitionBase>().ToList();
+                .GetComponents<ComponentDefinitionBase>().ToList();
             
             foreach (var component in components)
             {
@@ -123,8 +123,8 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 
                 if (hideMonoBehaviours && hasComponentOfType && !removed)
                 {
-                    var queryParameter = targetObject.GetComponent(type);
-                    var serializedObject = new SerializedObject(queryParameter);
+                    var component = targetObject.GetComponent(type);
+                    var serializedObject = new SerializedObject(component);
                     CustomEditorExtensions.DrawInspectorExcept(serializedObject, new[] { "m_Script" });
                 }
 

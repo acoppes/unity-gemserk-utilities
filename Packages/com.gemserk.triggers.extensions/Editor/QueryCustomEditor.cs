@@ -43,7 +43,7 @@ namespace Gemserk.Triggers.Editor
             EditorGUILayout.BeginVertical();
             
             var components = targetObject
-                .GetComponentsInChildren<QueryParameterBase>().ToList();
+                .GetComponents<QueryParameterBase>().ToList();
             
             foreach (var component in components)
             {
@@ -130,8 +130,8 @@ namespace Gemserk.Triggers.Editor
 
                 if (hideMonoBehaviours && hasComponentOfType && !removed)
                 {
-                    var queryParameter = targetObject.GetComponent(type);
-                    var serializedObject = new SerializedObject(queryParameter);
+                    var component = targetObject.GetComponent(type);
+                    var serializedObject = new SerializedObject(component);
                     CustomEditorExtensions.DrawInspectorExcept(serializedObject, new[] { "m_Script" });
                 }
 
