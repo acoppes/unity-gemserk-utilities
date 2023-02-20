@@ -54,6 +54,7 @@
       "dependencies": {
         "com.gemserk.utilities": "0.0.3",
         "com.gemserk.triggers": "0.0.3",
+        "com.leoecscommunity.ecslite": "1.0.0",
         "com.gemserk.leopotamecs": "0.2.3",
         "com.domybest.mybox": "1.7.0"
       }

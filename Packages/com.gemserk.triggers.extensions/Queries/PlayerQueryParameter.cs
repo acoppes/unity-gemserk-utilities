@@ -1,9 +1,8 @@
 ﻿using Gemserk.Leopotam.Ecs;
-using UnityEngine;
 
 namespace Gemserk.Triggers.Queries
 {
-    public class PlayerQueryParameterObject : QueryParameterBase
+    public class PlayerQueryParameter : QueryParameterBase
     {
         public int player;
         

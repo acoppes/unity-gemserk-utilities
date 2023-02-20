@@ -4,7 +4,7 @@ using UnityEngine.Assertions;
 
 namespace Gemserk.Triggers.Queries
 {
-    public class NameQueryParameterObject : QueryParameterBase
+    public class NameQueryParameter : QueryParameterBase
     {
         public string name;
         

@@ -2,7 +2,7 @@
 
 namespace Gemserk.Triggers.Queries
 {
-    public class EnabledQueryParameterObject : QueryParameterBase
+    public class EnabledQueryParameter : QueryParameterBase
     {
         public enum EnabledType
         {
