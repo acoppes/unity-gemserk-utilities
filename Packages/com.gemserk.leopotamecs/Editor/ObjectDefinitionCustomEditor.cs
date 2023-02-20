@@ -109,6 +109,8 @@ namespace Gemserk.Leopotam.Ecs.Editor
                                     "Cancel"))
                             {
                                 GameObject.DestroyImmediate(component);
+                                EditorUtility.SetDirty(targetObject);
+                                AssetDatabase.SaveAssetIfDirty(targetObject);
                             }
                         }
                     }

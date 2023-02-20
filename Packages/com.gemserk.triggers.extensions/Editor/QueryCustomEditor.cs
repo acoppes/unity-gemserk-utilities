@@ -112,6 +112,8 @@ namespace Gemserk.Triggers.Editor
                                     "Cancel"))
                             {
                                 GameObject.DestroyImmediate(component);
+                                EditorUtility.SetDirty(targetObject);
+                                AssetDatabase.SaveAssetIfDirty(targetObject);
                             }
                         }
                     }
