@@ -11,21 +11,26 @@ namespace Gemserk.Triggers.Editor
     [CustomEditor(typeof(Query), true)]
     public class QueryCustomEditor : UnityEditor.Editor
     {
+        private const string k_QueryEditorHideMonobehavioursEditorPref = "Gemserk.QueryEditor.HideMonobehaviours";
+        
         private List<Type> types;
         
         private void OnEnable()
         {
             types = TypeCache.GetTypesDerivedFrom<QueryParameterBase>().ToList();
+            types.Sort(delegate(Type a, Type b)
+            {
+                return string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase); 
+            });
         }
 
         public override void OnInspectorGUI()
         {
             var query = target as Query;
-
-            if (query == null)
-            {
-                return;
-            }
+            
+            var hideMonoBehaviours = EditorPrefs.GetBool(k_QueryEditorHideMonobehavioursEditorPref, true);
+            hideMonoBehaviours = EditorGUILayout.Toggle("Hide MonoBehaviours", hideMonoBehaviours);
+            EditorPrefs.SetBool(k_QueryEditorHideMonobehavioursEditorPref, hideMonoBehaviours);
             
             // fix object name
             query.gameObject.name = $"Q({query.GetEntityQuery()})";
@@ -38,14 +43,12 @@ namespace Gemserk.Triggers.Editor
             
             EditorGUILayout.BeginVertical();
             
-            // serializedObject.FindProperty("hideMonoBehaviours")
-            
             var queryParameters = query
                 .GetComponentsInChildren<QueryParameterBase>().ToList();
             
             foreach (var queryParameter in queryParameters)
             {
-                if (query.hideMonoBehaviours)
+                if (hideMonoBehaviours)
                 {
                     queryParameter.hideFlags = HideFlags.HideInInspector;
                 }
@@ -71,7 +74,7 @@ namespace Gemserk.Triggers.Editor
 
                 var removed = false;
 
-                var showCustomEditor = !hasParameter || query.hideMonoBehaviours;
+                var showCustomEditor = !hasParameter || hideMonoBehaviours;
                 
                 if (showCustomEditor)
                 {
@@ -90,7 +93,7 @@ namespace Gemserk.Triggers.Editor
 
                 if (hasParameter)
                 {
-                    if (query.hideMonoBehaviours)
+                    if (hideMonoBehaviours)
                     {
                         var queryParameter = query.GetComponent(type);
 
@@ -119,7 +122,7 @@ namespace Gemserk.Triggers.Editor
 
                 EditorGUILayout.EndHorizontal();
 
-                if (query.hideMonoBehaviours && hasParameter && !removed)
+                if (hideMonoBehaviours && hasParameter && !removed)
                 {
                     var queryParameter = query.GetComponent(type);
                     var serializedObject = new SerializedObject(queryParameter);

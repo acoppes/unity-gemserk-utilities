@@ -6,8 +6,6 @@ namespace Gemserk.Triggers.Queries
     {
         public EntityQuery GetEntityQuery() => EntityQuery.Create(GetComponents<IQueryParameter>());
 
-        public bool hideMonoBehaviours = true;
-
         public override string ToString()
         {
             return GetEntityQuery().ToString();
