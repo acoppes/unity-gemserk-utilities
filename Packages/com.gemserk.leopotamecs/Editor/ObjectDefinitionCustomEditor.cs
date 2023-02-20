@@ -87,6 +87,10 @@ namespace Gemserk.Leopotam.Ecs.Editor
                     {
                         style.normal.textColor = Color.white;
                     }
+                    else
+                    {
+                        style.normal.textColor = Color.grey;
+                    }
                     EditorGUILayout.LabelField($"<< {type.Name.Replace("Definition", "")} >>", style);
                 }
 
