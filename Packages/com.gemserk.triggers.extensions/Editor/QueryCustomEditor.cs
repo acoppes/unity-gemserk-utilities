@@ -60,7 +60,7 @@ namespace Gemserk.Triggers.Editor
             }
 
             var buttons = 0;
-            
+
             foreach (var type in types)
             {
                 var hasComponentOfType = components
