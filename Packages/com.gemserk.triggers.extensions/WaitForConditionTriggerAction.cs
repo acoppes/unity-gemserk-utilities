@@ -6,6 +6,11 @@
         
         public override string GetObjectName()
         {
+            if (condition == null)
+            {
+                return "WaitForCondition()";
+            }
+            
             return $"WaitForCondition({condition.GetObjectName()})";
         }
 
