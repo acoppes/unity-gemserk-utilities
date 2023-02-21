@@ -17,7 +17,9 @@ namespace Gemserk.Triggers.Editor
         
         private void OnEnable()
         {
-            types = TypeCache.GetTypesDerivedFrom<QueryParameterBase>().ToList();
+            types = TypeCache.GetTypesDerivedFrom<QueryParameterBase>()
+                .Where(t => !t.IsAbstract)
+                .ToList();
             types.Sort(delegate(Type a, Type b)
             {
                 return string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase); 
@@ -61,11 +63,6 @@ namespace Gemserk.Triggers.Editor
             
             foreach (var type in types)
             {
-                if (type.IsAbstract)
-                {
-                    continue;
-                }
-                
                 var hasComponentOfType = components
                     .Where(c => c != null)
                     .Count(c => c.GetType() == type) > 0;

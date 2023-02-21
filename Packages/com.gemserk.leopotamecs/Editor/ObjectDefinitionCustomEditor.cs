@@ -16,7 +16,9 @@ namespace Gemserk.Leopotam.Ecs.Editor
         
         private void OnEnable()
         {
-            types = TypeCache.GetTypesDerivedFrom<ComponentDefinitionBase>().ToList();
+            types = TypeCache.GetTypesDerivedFrom<ComponentDefinitionBase>()
+                .Where(t => !t.IsAbstract)
+                .ToList();
             types.Sort(delegate(Type a, Type b)
             {
                 return string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase); 
@@ -62,11 +64,6 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
             foreach (var type in types)
             {
-                if (type.IsAbstract)
-                {
-                    continue;
-                }
-                
                 var hasComponentOfType = components
                     .Where(c => c != null)
                     .Count(c => c.GetType() == type) > 0;
