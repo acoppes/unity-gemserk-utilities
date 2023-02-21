@@ -12,11 +12,15 @@ namespace Gemserk.Leopotam.Ecs.Editor
     {
         private const string k_QueryEditorHideMonobehavioursEditorPref = "Gemserk.QueryEditor.HideMonobehaviours";
 
-        private List<Type> entityComponentDefinitionObjectsTypes;
+        private List<Type> types;
         
         private void OnEnable()
         {
-            entityComponentDefinitionObjectsTypes = TypeCache.GetTypesDerivedFrom<ComponentDefinitionBase>().ToList();
+            types = TypeCache.GetTypesDerivedFrom<ComponentDefinitionBase>().ToList();
+            types.Sort(delegate(Type a, Type b)
+            {
+                return string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase); 
+            });
         }
 
         public override void OnInspectorGUI()
@@ -56,7 +60,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
             var buttons = 0;
 
-            foreach (var type in entityComponentDefinitionObjectsTypes)
+            foreach (var type in types)
             {
                 if (type.IsAbstract)
                 {
