@@ -60,8 +60,40 @@ namespace Gemserk.Triggers.Editor
             }
 
             var buttons = 0;
+            
+            var addedTypes = components.Select(c => c.GetType())
+                .ToList();
+            addedTypes.Sort(delegate(Type a, Type b)
+            {
+                return string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase); 
+            });
+            
+            var addTypes = types.Except(addedTypes).ToList();
 
-            foreach (var type in types)
+            if (addTypes.Count > 0)
+            {
+                var typeNames = new List<string>(new[] { "<< SELECT TO ADD >>" });
+                typeNames.AddRange(addTypes.Select(t => t.Name.Replace("QueryParameter", "")));
+
+                var selected = 0;
+                EditorGUI.BeginChangeCheck();
+                selected = EditorGUILayout.Popup(selected, typeNames.ToArray());
+                if (EditorGUI.EndChangeCheck())
+                {
+                    var typeToAdd = addTypes[selected - 1];
+                    targetObject.gameObject.AddComponent(typeToAdd);
+                    EditorUtility.SetDirty(targetObject);
+                    AssetDatabase.SaveAssetIfDirty(targetObject);
+                }
+            }
+            else
+            {
+                EditorGUI.BeginDisabledGroup(true);
+                EditorGUILayout.Popup(0, new []{ "<< NO ELEMENTS TO ADD >>"});
+                EditorGUI.EndDisabledGroup();
+            }
+
+            foreach (var type in addedTypes)
             {
                 var hasComponentOfType = components
                     .Where(c => c != null)

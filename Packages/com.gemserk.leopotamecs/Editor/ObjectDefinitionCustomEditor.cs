@@ -74,7 +74,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
             if (addTypes.Count > 0)
             {
                 var typeNames = new List<string>(new[] { "<< SELECT TO ADD >>" });
-                typeNames.AddRange(addTypes.Select(t => t.Name));
+                typeNames.AddRange(addTypes.Select(t => t.Name.Replace("Definition", "")));
 
                 var selected = 0;
                 EditorGUI.BeginChangeCheck();
