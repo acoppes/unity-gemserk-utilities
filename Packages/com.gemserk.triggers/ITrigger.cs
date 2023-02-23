@@ -13,6 +13,7 @@ namespace Gemserk.Triggers
         {
             Running,
             Completed
+            // TODO: failure result so we could debug and see if it run or not...
         }
         
         public interface IAction
