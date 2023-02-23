@@ -24,6 +24,11 @@ namespace Gemserk.Leopotam.Ecs
 
         private void Awake()
         {
+            InstantiateEntity();
+        }
+
+        public void InstantiateEntity()
+        {
             var world = World.Instance;
 
             if (world != null)
