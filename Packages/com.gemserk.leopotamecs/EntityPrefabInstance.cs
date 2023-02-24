@@ -22,9 +22,14 @@ namespace Gemserk.Leopotam.Ecs
 
         public InstanceType instanceType = InstanceType.InstantiateAndDisable;
 
+        public bool disableAutoInstantiateOnAwake = true;
+        
         private void Awake()
         {
-            InstantiateEntity();
+            if (!disableAutoInstantiateOnAwake)
+            {
+                InstantiateEntity();
+            }
         }
 
         public void InstantiateEntity()
