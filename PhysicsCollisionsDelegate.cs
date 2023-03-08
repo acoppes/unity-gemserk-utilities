@@ -8,15 +8,23 @@ namespace Gemserk.Utilities
 
         public delegate void TriggerHandler(Collider collider);
 
-        public CollisionHandler onCollisionEnter, onCollisionExit;
+        public CollisionHandler onCollisionEnter, onCollisionStay, onCollisionExit;
         
-        public TriggerHandler onTriggerEnter, onTriggerExit;
+        public TriggerHandler onTriggerEnter, onTriggerStay, onTriggerExit;
 
         private void OnCollisionEnter(Collision collision)
         {
             if (onCollisionEnter != null)
             {
                 onCollisionEnter(collision);
+            }
+        }
+
+        private void OnCollisionStay(Collision collision)
+        {
+            if (onCollisionStay != null)
+            {
+                onCollisionStay(collision);
             }
         }
 
@@ -33,6 +41,14 @@ namespace Gemserk.Utilities
             if (onTriggerEnter != null)
             {
                 onTriggerEnter(collider);
+            }
+        }
+
+        private void OnTriggerStay(Collider collider)
+        {
+            if (onTriggerStay != null)
+            {
+                onTriggerStay(collider);
             }
         }
 
