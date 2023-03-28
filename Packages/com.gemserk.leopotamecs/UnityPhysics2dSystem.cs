@@ -19,7 +19,7 @@ namespace Gemserk.Leopotam.Ecs
         
         public void Run(EcsSystems systems)
         {
-            if (disableSimulation)
+            if (!disableSimulation)
             {
                 Physics2D.Simulate(Time.deltaTime);
             }
