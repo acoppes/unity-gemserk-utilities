@@ -5,6 +5,9 @@ namespace Gemserk.Leopotam.Ecs
 {
     public class UnityPhysicsSystem : BaseSystem, IEcsRunSystem, IEcsInitSystem
     {
+        [SerializeField]
+        private bool disableSimulation;
+        
         public void Init(EcsSystems systems)
         {
             Physics.simulationMode = SimulationMode.Script;
@@ -12,7 +15,10 @@ namespace Gemserk.Leopotam.Ecs
         
         public void Run(EcsSystems systems)
         {
-            Physics.Simulate(Time.deltaTime);
+            if (!disableSimulation)
+            {
+                Physics.Simulate(Time.deltaTime);
+            }
         }
     }
 }

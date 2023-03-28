@@ -5,6 +5,9 @@ namespace Gemserk.Leopotam.Ecs
 {
     public class UnityPhysics2dSystem : BaseSystem, IEcsRunSystem, IEcsInitSystem
     {
+        [SerializeField]
+        private bool disableSimulation;
+        
         public void Init(EcsSystems systems)
         {
 #if UNITY_2020_1_OR_NEWER
@@ -16,7 +19,10 @@ namespace Gemserk.Leopotam.Ecs
         
         public void Run(EcsSystems systems)
         {
-            Physics2D.Simulate(Time.deltaTime);
+            if (disableSimulation)
+            {
+                Physics2D.Simulate(Time.deltaTime);
+            }
         }
     }
 }
