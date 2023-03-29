@@ -19,9 +19,9 @@ namespace Gemserk.Aseprite.Editor
         [Shortcut("Gemserk/Reimport All", KeyCode.A, ShortcutModifiers.Shift | ShortcutModifiers.Alt)]
         public static void ReimportAll()
         {
-            var asepriteExecutablePath = EditorPrefs.GetString(GemserkAsepriteExecutablePath);
+            var executablePath = EditorPrefs.GetString(GemserkAsepriteExecutablePath);
 
-            if (string.IsNullOrEmpty(asepriteExecutablePath))
+            if (string.IsNullOrEmpty(executablePath))
             {
                 if (!EditorUtility.DisplayDialog("Not configured", "Aseprite executable path is not configured, configure it now?", "Configure", "Cancel"))
                 {
@@ -60,7 +60,7 @@ namespace Gemserk.Aseprite.Editor
                             return;
                         }
                         
-                        ImportFile(asepriteExecutablePath, file, importData.outputAbsolutePath, importData.format);
+                        ImportFile(executablePath, file, importData.outputAbsolutePath, importData.format);
                         progress += increment;
                     }
                 }

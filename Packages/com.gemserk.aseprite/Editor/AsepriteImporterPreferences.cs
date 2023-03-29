@@ -7,7 +7,7 @@ namespace Gemserk.Aseprite.Editor
     {
         private static bool prefsLoaded = false;
 
-        private static string asepritePath;
+        private static string executablePath;
         
         [SettingsProvider]
         public static SettingsProvider CreateSelectionHistorySettingsProvider() {
@@ -17,27 +17,27 @@ namespace Gemserk.Aseprite.Editor
                     
                     if (!prefsLoaded) 
                     {
-                        asepritePath = EditorPrefs.GetString(AsepriteImporter.GemserkAsepriteExecutablePath, "");
+                        executablePath = EditorPrefs.GetString(AsepriteImporter.GemserkAsepriteExecutablePath, "");
                         prefsLoaded = true;
                     }
 
                     EditorGUILayout.BeginHorizontal();
-                    asepritePath = EditorGUILayout.TextField("Executable Path", asepritePath);
+                    executablePath = EditorGUILayout.TextField("Executable Path", executablePath);
                     if (GUILayout.Button("Browse"))
                     {
-                        var executablePath = EditorUtility.OpenFilePanel("Executable Path", "", "exe");
+                        var newExecutablePath = EditorUtility.OpenFilePanel("Executable Path", "", "exe");
                 
-                        if (!string.IsNullOrEmpty(executablePath))
+                        if (!string.IsNullOrEmpty(newExecutablePath))
                         {
-                            asepritePath = executablePath;
-                            EditorPrefs.SetString(AsepriteImporter.GemserkAsepriteExecutablePath, asepritePath);
+                            executablePath = newExecutablePath;
+                            EditorPrefs.SetString(AsepriteImporter.GemserkAsepriteExecutablePath, executablePath);
                         }
                     }
                     EditorGUILayout.EndHorizontal();    
                     
                     if (GUI.changed) 
                     {
-                        EditorPrefs.SetString(AsepriteImporter.GemserkAsepriteExecutablePath, asepritePath);
+                        EditorPrefs.SetString(AsepriteImporter.GemserkAsepriteExecutablePath, executablePath);
                     }
                 },
 
