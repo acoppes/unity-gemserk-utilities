@@ -41,6 +41,14 @@
       "dependencies": {},
       "url": "https://package.openupm.com"
     },
+    "com.gemserk.spine": {
+      "version": "file:com.gemserk.spine",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.gemserk.utilities": "0.0.3"
+      }
+    },
     "com.gemserk.triggers": {
       "version": "file:com.gemserk.triggers",
       "depth": 0,

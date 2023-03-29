@@ -1,0 +1,16 @@
+{
+  "name": "com.gemserk.spine",
+  "version": "0.0.3",
+  "displayName": "com.gemserk.spine",
+  "description": "Gemserk Editor Utilities for Spine",
+  "unity": "2022.2",
+  "unityRelease": "4f1",
+  "author": {
+    "name": "acoppes",
+    "email": "ariel.coppes@gmail.com",
+    "url": "https://arielcoppes.dev/"
+  },
+  "dependencies": {
+    "com.gemserk.utilities": "0.0.3"
+  }
+}
