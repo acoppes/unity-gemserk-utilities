@@ -60,7 +60,7 @@ namespace Gemserk.Spine.Editor
                             return;
                         }
                         
-                        ImportFile(executablePath, file, importData.outputAbsolutePath, importData.format);
+                        ImportFile(executablePath, file, importData.outputAbsolutePath);
                         progress += increment;
                     }
                 }
@@ -73,55 +73,56 @@ namespace Gemserk.Spine.Editor
             }
         }
         
-        public static void ImportFile(string asepritePath, string filePath, string outputFolder, string format)
+        public static void ImportFile(string executablePath, string filePath, string outputFolder)
         {
             var fileName = Path.GetFileNameWithoutExtension(filePath);
 
             // var fileOutputFolderPath = Path.Combine(outputFolder, fileName);
             var targetFolder = Path.Combine(outputFolder, fileName);
-            var fileOutputFolderPath = Path.GetFullPath(Path.Combine("AsepriteImporter", fileName), Application.temporaryCachePath);
-
-            if (!Directory.Exists(fileOutputFolderPath))
-            {
-                Directory.CreateDirectory(fileOutputFolderPath);
-            }
+          
+            // var fileOutputFolderPath = Path.GetFullPath(Path.Combine("SpineImporter", fileName), Application.temporaryCachePath);
+            //
+            // if (!Directory.Exists(fileOutputFolderPath))
+            // {
+            //     Directory.CreateDirectory(fileOutputFolderPath);
+            // }
             
             if (!Directory.Exists(targetFolder))
             {
                 Directory.CreateDirectory(targetFolder);
             }
             
-            var outputFormat = format.Replace("{title}", fileName);
+            // var outputFormat = format.Replace("{title}", fileName);
             
-            ExecuteAsepriteExporter(asepritePath, filePath, fileOutputFolderPath, outputFormat);
+            ExecuteSpineExporter(executablePath, filePath, targetFolder);
 
-            var generatedFiles = Directory.GetFiles(fileOutputFolderPath);
+            // var generatedFiles = Directory.GetFiles(fileOutputFolderPath);
             
-            var targetDirectory = new DirectoryInfo(targetFolder);
-            
-            Debug.Log($"Cleaning up pngs from {targetFolder}");
-            foreach (var file in targetDirectory.EnumerateFiles("*.png")) {
-                // Debug.Log(file);
-                file.Delete();
-            }
-            
-            Debug.Log($"Copy from temporary folder {outputFolder} to {targetFolder}");
-            foreach (var source in generatedFiles)
-            {
-                var destination = Path.Combine(targetFolder, Path.GetFileName(source));
-                FileUtil.CopyFileOrDirectory(source, destination);
-            }
+            // var targetDirectory = new DirectoryInfo(targetFolder);
+            //
+            // Debug.Log($"Cleaning up pngs from {targetFolder}");
+            // foreach (var file in targetDirectory.EnumerateFiles("*.png")) {
+            //     // Debug.Log(file);
+            //     file.Delete();
+            // }
+            //
+            // Debug.Log($"Copy from temporary folder {outputFolder} to {targetFolder}");
+            // foreach (var source in generatedFiles)
+            // {
+            //     var destination = Path.Combine(targetFolder, Path.GetFileName(source));
+            //     FileUtil.CopyFileOrDirectory(source, destination);
+            // }
         }
 
-        public static void ExecuteAsepriteExporter(string asepritePath, string filePath, string fileOutputFolderPath, string outputFormat)
+        public static void ExecuteSpineExporter(string executablePath, string inputPath, string outputPath)
         {
             var process = new Process();
 
-            var arguments = $"-b {filePath} --save-as \"{fileOutputFolderPath}/{outputFormat}\"";
+            var arguments = $"-i {inputPath} -o \"{outputPath}\"";
             
             process.StartInfo = new ProcessStartInfo
             {
-                FileName = asepritePath,
+                FileName = executablePath,
                 Arguments = arguments,
                 WindowStyle = ProcessWindowStyle.Maximized
             };

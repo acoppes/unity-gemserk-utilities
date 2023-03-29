@@ -72,10 +72,7 @@ namespace Gemserk.Spine.Editor
                 }
             }
             EditorGUILayout.EndHorizontal();
-
             
-            importData.format = EditorGUILayout.TextField("Format", importData.format);
-
             EditorGUILayout.Separator();
             
             EditorGUI.BeginDisabledGroup(!executablePathConfigured);
@@ -83,8 +80,7 @@ namespace Gemserk.Spine.Editor
             {
                 foreach (var file in sourceFiles)
                 {
-                    SpineImporter.ImportFile(executablePath, file, 
-                        importData.outputAbsolutePath, importData.format);
+                    SpineImporter.ImportFile(executablePath, file, importData.outputAbsolutePath);
                 }
                 
                 AssetDatabase.Refresh();
@@ -102,8 +98,7 @@ namespace Gemserk.Spine.Editor
                 EditorGUI.BeginDisabledGroup(!executablePathConfigured);
                 if (GUILayout.Button("Import", GUILayout.ExpandWidth(true)))
                 {
-                    SpineImporter.ImportFile(executablePath, file, 
-                        importData.outputAbsolutePath, importData.format);
+                    SpineImporter.ImportFile(executablePath, file, importData.outputAbsolutePath);
                     AssetDatabase.Refresh();
                 }
                 EditorGUI.EndDisabledGroup();

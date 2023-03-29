@@ -9,12 +9,10 @@ namespace Gemserk.Spine
     {
         public const string GemserkSpineImporterSettings = "Gemserk/Spine Importer";
         
-        private const string AsepriteFileSearch = "*.aseprite";
+        private const string FileSearch = "*.spine";
         
         public string sourceFolder;
         public string outputFolder;
-
-        public string format;
 
         public string sourceAbsolutePath => Path.GetFullPath(sourceFolder, Application.dataPath);
         public string outputAbsolutePath => Path.GetFullPath(outputFolder, Application.dataPath);
@@ -26,7 +24,7 @@ namespace Gemserk.Spine
         [ContextMenu("Open Preferences")]
         public void OpenPreferences()
         {
-            UnityEditor.SettingsService.OpenUserPreferences(SpineImportData.GemserkSpineImporterSettings);
+            UnityEditor.SettingsService.OpenUserPreferences(GemserkSpineImporterSettings);
         }
         #endif
         
@@ -38,7 +36,7 @@ namespace Gemserk.Spine
                 if (!Path.IsPathRooted(sourceFolder))
                 {
                     var absolutePath = Path.GetFullPath(sourceFolder, Application.dataPath);
-                    asepriteFiles.AddRange(Directory.GetFiles(absolutePath, AsepriteFileSearch, SearchOption.AllDirectories));
+                    asepriteFiles.AddRange(Directory.GetFiles(absolutePath, FileSearch, SearchOption.AllDirectories));
                 }
             }
             return asepriteFiles;
