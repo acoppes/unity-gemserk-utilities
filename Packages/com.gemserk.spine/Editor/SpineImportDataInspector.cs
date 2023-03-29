@@ -73,6 +73,21 @@ namespace Gemserk.Spine.Editor
             }
             EditorGUILayout.EndHorizontal();
             
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Export Settings File", GUILayout.Width(90));
+            importData.exportSettingsPath = EditorGUILayout.TextField(importData.exportSettingsPath, GUILayout.ExpandWidth(true));
+            if (GUILayout.Button("Browse", GUILayout.Width(60)))
+            {
+                var absolutePath = Path.GetFullPath(importData.exportSettingsPath, Application.dataPath);
+                var newFilePath = EditorUtility.OpenFilePanel("Output Folder", absolutePath, "");
+
+                if (!string.IsNullOrEmpty(newFilePath))
+                {
+                    importData.exportSettingsPath = Path.GetRelativePath(Application.dataPath, newFilePath);
+                }
+            }
+            EditorGUILayout.EndHorizontal();
+            
             EditorGUILayout.Separator();
             
             EditorGUI.BeginDisabledGroup(!executablePathConfigured);
@@ -80,7 +95,7 @@ namespace Gemserk.Spine.Editor
             {
                 foreach (var file in sourceFiles)
                 {
-                    SpineImporter.ImportFile(executablePath, file, importData.outputAbsolutePath);
+                    SpineImporter.ImportFile(executablePath, file, importData.outputAbsolutePath, importData.exportSettingsAbsolutePath);
                 }
                 
                 AssetDatabase.Refresh();
@@ -98,7 +113,7 @@ namespace Gemserk.Spine.Editor
                 EditorGUI.BeginDisabledGroup(!executablePathConfigured);
                 if (GUILayout.Button("Import", GUILayout.ExpandWidth(true)))
                 {
-                    SpineImporter.ImportFile(executablePath, file, importData.outputAbsolutePath);
+                    SpineImporter.ImportFile(executablePath, file, importData.outputAbsolutePath, importData.exportSettingsAbsolutePath);
                     AssetDatabase.Refresh();
                 }
                 EditorGUI.EndDisabledGroup();

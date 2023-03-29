@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "com.domybest.mybox": "1.7.0",
+    "com.esotericsoftware.spine.spine-csharp": "https://github.com/EsotericSoftware/spine-runtimes.git?path=spine-csharp/src#4.1",
+    "com.esotericsoftware.spine.spine-unity": "https://github.com/EsotericSoftware/spine-runtimes.git?path=spine-unity/Assets/Spine#4.1",
     "com.gemserk.refactortools": "0.0.8",
     "com.gemserk.upmgitpusher": "0.0.21",
     "com.leoecscommunity.ecslite": "1.0.0",

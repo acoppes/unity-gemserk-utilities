@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -60,7 +61,7 @@ namespace Gemserk.Spine.Editor
                             return;
                         }
                         
-                        ImportFile(executablePath, file, importData.outputAbsolutePath);
+                        ImportFile(executablePath, file, importData.outputAbsolutePath, importData.exportSettingsAbsolutePath);
                         progress += increment;
                     }
                 }
@@ -73,7 +74,8 @@ namespace Gemserk.Spine.Editor
             }
         }
         
-        public static void ImportFile(string executablePath, string filePath, string outputFolder)
+        public static void ImportFile(string executablePath, string filePath, string outputFolder, 
+            string exportSettingsPath)
         {
             var fileName = Path.GetFileNameWithoutExtension(filePath);
 
@@ -94,7 +96,7 @@ namespace Gemserk.Spine.Editor
             
             // var outputFormat = format.Replace("{title}", fileName);
             
-            ExecuteSpineExporter(executablePath, filePath, targetFolder);
+            ExecuteSpineExporter(executablePath, filePath, targetFolder, exportSettingsPath);
 
             // var generatedFiles = Directory.GetFiles(fileOutputFolderPath);
             
@@ -114,21 +116,38 @@ namespace Gemserk.Spine.Editor
             // }
         }
 
-        public static void ExecuteSpineExporter(string executablePath, string inputPath, string outputPath)
+        public static void ExecuteSpineExporter(string executablePath, string inputPath, string outputPath, 
+            string exportSettingsPath)
         {
-            var process = new Process();
-
-            var arguments = $"-i {inputPath} -o \"{outputPath}\"";
-            
-            process.StartInfo = new ProcessStartInfo
+            try
             {
-                FileName = executablePath,
-                Arguments = arguments,
-                WindowStyle = ProcessWindowStyle.Maximized
-            };
-            
-            process.Start();
-            process.WaitForExit();
+                var process = new Process();
+
+                var arguments = $"-i \"{inputPath}\" -o \"{outputPath}\" -e \"{exportSettingsPath}\"";
+                // var arguments = $"-i \"{inputPath}\" -o \"{outputPath}\" -e json+pack";
+                // Debug.Log($"{executablePath} {arguments}");
+
+                process.StartInfo = new ProcessStartInfo
+                {
+                    FileName = executablePath,
+                    Arguments = arguments,
+                    CreateNoWindow = true,
+                    ErrorDialog = true,
+                    UseShellExecute = true
+                };
+
+                process.Start();
+                process.WaitForExit();
+
+                if (process.ExitCode != 0)
+                {
+                    Debug.Log(process.ExitCode);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+            }
         }
     }
 }

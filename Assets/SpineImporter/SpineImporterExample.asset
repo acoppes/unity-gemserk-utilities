@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa51af35298fecd4f9c9476b909a2b80, type: 3}
   m_Name: SpineImporterExample
   m_EditorClassIdentifier: 
-  sourceFolder: 
-  outputFolder: 
-  format: 
+  sourceFolder: ..\SourceAssets\Spine
+  outputFolder: SpineImporter\Generated
+  exportSettingsPath: SpineImporter\SpineExportSettings.json

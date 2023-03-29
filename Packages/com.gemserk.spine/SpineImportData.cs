@@ -14,8 +14,12 @@ namespace Gemserk.Spine
         public string sourceFolder;
         public string outputFolder;
 
+        public string exportSettingsPath;
+
         public string sourceAbsolutePath => Path.GetFullPath(sourceFolder, Application.dataPath);
         public string outputAbsolutePath => Path.GetFullPath(outputFolder, Application.dataPath);
+        
+        public string exportSettingsAbsolutePath => Path.GetFullPath(exportSettingsPath, Application.dataPath);
 
         // public bool recursive
         // public bool exportToFolders;

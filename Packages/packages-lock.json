@@ -11,6 +11,22 @@
       },
       "url": "https://package.openupm.com"
     },
+    "com.esotericsoftware.spine.spine-csharp": {
+      "version": "https://github.com/EsotericSoftware/spine-runtimes.git?path=spine-csharp/src#4.1",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "80b2246d6268a7243ed83ba7b89bcd4c631fae16"
+    },
+    "com.esotericsoftware.spine.spine-unity": {
+      "version": "https://github.com/EsotericSoftware/spine-runtimes.git?path=spine-unity/Assets/Spine#4.1",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.esotericsoftware.spine.spine-csharp": "4.1.0"
+      },
+      "hash": "80b2246d6268a7243ed83ba7b89bcd4c631fae16"
+    },
     "com.gemserk.aseprite": {
       "version": "file:com.gemserk.aseprite",
       "depth": 0,
