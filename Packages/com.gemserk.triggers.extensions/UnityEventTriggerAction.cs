@@ -13,6 +13,11 @@ namespace Gemserk.Triggers
                 return "UnityEvent()";
             }
 
+            if (unityEvent.GetPersistentTarget(0) == null)
+            {
+                return "UnityEvent()";
+            }
+
             // var persistentEvents = unityEvent.GetPersistentEventCount();
             
             // if (persistentEvents == 1)
