@@ -50,6 +50,47 @@ namespace Gemserk.Utilities
             }
         }
         
+        public static T GetComponentInChildrenDepth1<T>(this GameObject gameObject, bool includeInactive,
+            bool excludeSelf) where T : class
+        {
+            return GetComponentInChildren<T>(gameObject, includeInactive, excludeSelf, 1);
+        }
+        
+        public static T GetComponentInChildren<T>(this GameObject gameObject, bool includeInactive,
+            bool excludeSelf, int depth) where T : class
+        {
+            if (!excludeSelf)
+            {
+                var t = gameObject.GetComponent<T>();
+                if (t != null)
+                {
+                    return t;
+                }
+            }
+
+            if (depth == 0)
+            {
+                return null;
+            }
+
+            for (var i = 0; i < gameObject.transform.childCount; i++)
+            {
+                var child = gameObject.transform.GetChild(i);
+                if (!child.gameObject.activeInHierarchy && !includeInactive)
+                {
+                    continue;
+                }
+
+                var t = child.gameObject.GetComponentInChildren<T>(includeInactive, false, depth - 1);
+                if (t != null)
+                {
+                    return t;
+                }
+            }
+
+            return null;
+        }
+        
         public static bool IsSafeToModifyName(this GameObject gameObject)
         {
 #if !UNITY_EDITOR
