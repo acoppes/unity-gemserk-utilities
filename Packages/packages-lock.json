@@ -118,7 +118,7 @@
       "hash": "2a8af59a6e15ecbd34783d32dbb37059e663e7f6"
     },
     "com.unity.2d.animation": {
-      "version": "9.0.1",
+      "version": "9.0.2",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -168,7 +168,7 @@
       "dependencies": {}
     },
     "com.unity.2d.spriteshape": {
-      "version": "9.0.1",
+      "version": "9.0.2",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -197,7 +197,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.burst": {
-      "version": "1.8.3",
+      "version": "1.8.4",
       "depth": 2,
       "source": "registry",
       "dependencies": {
@@ -259,7 +259,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.timeline": {
-      "version": "1.7.3",
+      "version": "1.7.4",
       "depth": 0,
       "source": "registry",
       "dependencies": {
