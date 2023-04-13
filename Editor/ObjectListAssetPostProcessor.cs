@@ -14,7 +14,7 @@ namespace Gemserk.Utilities.Editor
             
             foreach (var objectListAsset in objectListAssets)
             {
-                if (string.IsNullOrEmpty(objectListAsset.objectList.path))
+                if (string.IsNullOrEmpty(objectListAsset.objectList.normalizedAssetPath))
                     continue;
 
                 var shouldRegenerate = false;
@@ -23,7 +23,7 @@ namespace Gemserk.Utilities.Editor
                 
                 foreach (var assetPath in importedAssets)
                 {
-                    shouldRegenerate = assetPath.StartsWith(objectListAsset.objectList.path);
+                    shouldRegenerate = assetPath.StartsWith(objectListAsset.objectList.normalizedAssetPath);
                     
                     if (!string.IsNullOrEmpty(objectListAsset.objectList.pattern))
                     {
@@ -34,7 +34,7 @@ namespace Gemserk.Utilities.Editor
                 
                 foreach (var assetPath in deletedAssets)
                 {
-                    shouldRegenerate = assetPath.StartsWith(objectListAsset.objectList.path);
+                    shouldRegenerate = assetPath.StartsWith(objectListAsset.objectList.normalizedAssetPath);
 
                     if (!string.IsNullOrEmpty(objectListAsset.objectList.pattern))
                     {

@@ -21,7 +21,8 @@ namespace Gemserk.Utilities
     [Serializable]
     public class ObjectList : IObjectList
     {
-        public string path;
+        [SerializeField]
+        private string path;
 
         [Tooltip("Leave empty to allow all objects")]
         public string pattern = ".*";
@@ -32,6 +33,21 @@ namespace Gemserk.Utilities
         public StringComparison nameComparison = StringComparison.OrdinalIgnoreCase;
         
         public List<Object> assets = new List<Object>();
+
+        public string Path
+        {
+            get => path;
+            set => path = value.Replace("\\", "/");
+        }
+
+        public string normalizedAssetPath
+        {
+            get
+            {
+                var normalizedPath = path.Replace("\\", "/");
+                return $"Assets/{normalizedPath}";
+            }
+        }
 
         public T FindByName<T>(string name) where T : Object
         {

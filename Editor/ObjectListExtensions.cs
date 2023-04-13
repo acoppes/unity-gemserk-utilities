@@ -12,7 +12,7 @@ namespace Gemserk.Utilities.Editor
             
             var paths = AssetDatabase.FindAssets("t:Object", new[]
                 {
-                    objectList.path
+                    objectList.normalizedAssetPath
                 })
                 .Select(AssetDatabase.GUIDToAssetPath);
 
