@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace Gemserk.Utilities.Editor
@@ -14,6 +15,20 @@ namespace Gemserk.Utilities.Editor
             
             if (!Application.isPlaying)
             {
+                if (GUILayout.Button("Browse path"))
+                {
+                    var absolutePath = Path.GetFullPath(objectListAsset.objectList.Path, 
+                        Application.dataPath);
+                    
+                    var newFolder = EditorUtility.OpenFolderPanel("Path", absolutePath, "");
+                    if (!string.IsNullOrEmpty(newFolder))
+                    {
+                        objectListAsset.objectList.Path = Path.GetRelativePath(Application.dataPath, newFolder);
+                        objectListAsset.objectList.Reload();
+                        EditorUtility.SetDirty(objectListAsset);
+                    }
+                }
+                
                 if (GUILayout.Button("Reload"))
                 {
                     objectListAsset.objectList?.Reload();
@@ -34,6 +49,20 @@ namespace Gemserk.Utilities.Editor
             
             if (!Application.isPlaying)
             {
+                if (GUILayout.Button("Browse path"))
+                {
+                    var absolutePath = Path.GetFullPath(objectListAsset.objectList.Path, 
+                        Application.dataPath);
+                   
+                    var newFolder = EditorUtility.OpenFolderPanel("Path", absolutePath, "");
+                    if (!string.IsNullOrEmpty(newFolder))
+                    {
+                        objectListAsset.objectList.Path = Path.GetRelativePath(Application.dataPath, newFolder);
+                        objectListAsset.objectList.Reload();
+                        EditorUtility.SetDirty(objectListAsset);
+                    }
+                }
+                
                 if (GUILayout.Button("Reload"))
                 {
                     objectListAsset.objectList?.Reload();
