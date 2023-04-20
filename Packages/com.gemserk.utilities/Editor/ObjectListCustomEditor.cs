@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -41,6 +42,17 @@ namespace Gemserk.Utilities.Editor
     [CustomEditor(typeof(ObjectListMonoBehaviour), true)]
     public class ObjectListMonoBehaviourCustomEditor : UnityEditor.Editor
     {
+        private void OnEnable()
+        {
+            var objectListAsset = target as ObjectListMonoBehaviour;
+            
+            if (objectListAsset != null && objectListAsset.objectList != null)
+            {
+                objectListAsset.objectList?.Reload();
+                EditorUtility.SetDirty(objectListAsset);
+            }
+        }
+
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
