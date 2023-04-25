@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.Scripting.APIUpdating;
 using Object = UnityEngine.Object;
 
-namespace Gemserk.Utilities
+namespace Gemserk.Utilities.Pooling
 {
+    [MovedFrom("Gemserk.Utilities")]
     public interface IObjectPoolMap<T, K> 
         where T: class where K: class
     {
@@ -17,6 +19,7 @@ namespace Gemserk.Utilities
         void Clear();
     }
 
+    [MovedFrom("Gemserk.Utilities")]
     public abstract class ObjectPoolMap<T, K> : IObjectPoolMap<T, K> 
         where T : class 
         where K : class
@@ -47,6 +50,7 @@ namespace Gemserk.Utilities
         }
     }
 
+    [MovedFrom("Gemserk.Utilities")]
     public class GameObjectPoolMap : ObjectPoolMap<GameObject, GameObject>
     {
         private const string PoolNameFormat = "~Pool-{0}";
