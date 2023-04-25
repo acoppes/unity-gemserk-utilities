@@ -6,6 +6,11 @@ namespace Gemserk.Utilities
 {
     public class GameObjectPool : IObjectPool<GameObject>
     {
+        public class GameObjectPoolInstance : PoolInstance<GameObject>
+        {
+            
+        }
+
         private GameObject prefab;
 
         public Transform objectsPoolParent;
@@ -30,13 +35,20 @@ namespace Gemserk.Utilities
 
         private GameObject CreateObject()
         {
-            return Object.Instantiate(prefab, objectsPoolParent);
+            var instance = Object.Instantiate(prefab, objectsPoolParent);
+            var poolInstance = instance.AddComponent<GameObjectPoolInstance>();
+            poolInstance.source = prefab;
+            // poolInstance.pooled = true;
+            return instance;
         }
         
         private void OnGet(GameObject gameObject)
         {
             gameObject.SetActive(true);
             gameObject.transform.SetParent(null);
+            
+            // var poolInstance = gameObject.GetComponent<GameObjectPoolInstance>();
+            // poolInstance.pooled = false;
         }
 
         public GameObject Get()
@@ -52,6 +64,9 @@ namespace Gemserk.Utilities
         public void Release(GameObject element)
         {
             delegatePool.Release(element);
+            
+            // var poolInstance = element.GetComponent<GameObjectPoolInstance>();
+            // poolInstance.pooled = true;
         }
 
         public void Clear()
