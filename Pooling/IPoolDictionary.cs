@@ -5,7 +5,6 @@ using UnityEngine.Scripting.APIUpdating;
 
 namespace Gemserk.Utilities.Pooling
 {
-    [MovedFrom("Gemserk.Utilities")]
     public interface IPoolDictionary<T> where T : class
     {
         public IObjectPool<T> GetPool(T prefab);
@@ -13,7 +12,6 @@ namespace Gemserk.Utilities.Pooling
         void Clear();
     }
     
-    [MovedFrom("Gemserk.Utilities")]
     public class PoolDictionary : IPoolDictionary<GameObject>
     {
         private readonly Dictionary<GameObject, GameObjectPool> poolDictionary = new();

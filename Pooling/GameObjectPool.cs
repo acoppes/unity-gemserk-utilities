@@ -5,7 +5,6 @@ using Object = UnityEngine.Object;
 
 namespace Gemserk.Utilities.Pooling
 {
-    [MovedFrom("Gemserk.Utilities")]
     public class GameObjectPool : IObjectPool<GameObject>
     {
         public class GameObjectPoolInstance : PoolInstance<GameObject>
