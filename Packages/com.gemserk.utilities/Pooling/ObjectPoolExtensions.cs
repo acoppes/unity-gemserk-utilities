@@ -7,6 +7,11 @@ namespace Gemserk.Utilities.Pooling
     {
         public static void PreCreate<T>(this IObjectPool<T> pool, int count) where T : class
         {
+            if (count <= 0)
+            {
+                return;
+            }
+            
             var instances = new List<T>();
             
             for (var i = 0; i < count; i++)
