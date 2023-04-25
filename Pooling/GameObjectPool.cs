@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.Scripting.APIUpdating;
 using Object = UnityEngine.Object;
 
-namespace Gemserk.Utilities
+namespace Gemserk.Utilities.Pooling
 {
+    [MovedFrom("Gemserk.Utilities")]
     public class GameObjectPool : IObjectPool<GameObject>
     {
         public class GameObjectPoolInstance : PoolInstance<GameObject>
