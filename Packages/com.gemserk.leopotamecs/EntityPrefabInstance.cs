@@ -6,12 +6,13 @@ namespace Gemserk.Leopotam.Ecs
 {
     public class EntityPrefabInstance : MonoBehaviour
     {
-        public enum InstanceType
+        public enum OnInstantiateActionType
         {
             // InstantiateAndDestroy = 0,
-            InstantiateAndDisable = 0,
-            InstantiateAndLink = 2,
-            InstantiateAndDestroy = 3
+            Disable = 0,
+            LinkObject = 2,
+            Destroy = 3, 
+            None = 4
         }
 
         public enum InstantiationType
@@ -31,7 +32,8 @@ namespace Gemserk.Leopotam.Ecs
         public Entity instance = Entity.NullEntity;
 
         // rename to link type
-        public InstanceType instanceType = InstanceType.InstantiateAndDisable;
+        [FormerlySerializedAs("instanceType")] 
+        public OnInstantiateActionType onInstantiateActionType = OnInstantiateActionType.Disable;
 
         // rename to instantiation type?
         public bool autoInstantiateOnAwake = true;

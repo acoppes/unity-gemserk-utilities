@@ -52,7 +52,7 @@ namespace Gemserk.Leopotam.Ecs
                 var entityPrefabComponent = entityPrefabComponents.Get(entity);
                 var prefabInstance = entityPrefabComponent.prefabInstance;
 
-                if (prefabInstance.instanceType == EntityPrefabInstance.InstanceType.InstantiateAndLink)
+                if (prefabInstance.onInstantiateActionType == EntityPrefabInstance.OnInstantiateActionType.LinkObject)
                 {
                     if (prefabInstance.instance != Entity.NullEntity)
                     {
@@ -65,7 +65,7 @@ namespace Gemserk.Leopotam.Ecs
 
                 var definition = prefabInstance.entityDefinition.GetInterface<IEntityDefinition>();
                 
-                if (prefabInstance.instanceType == EntityPrefabInstance.InstanceType.InstantiateAndLink)
+                if (prefabInstance.onInstantiateActionType == EntityPrefabInstance.OnInstantiateActionType.LinkObject)
                 {
                     parameters.Add(new GameObjectLinkParameter
                     {
@@ -75,12 +75,12 @@ namespace Gemserk.Leopotam.Ecs
                 
                 prefabInstance.instance = world.CreateEntity(definition, parameters);
 
-                if (prefabInstance.instanceType == EntityPrefabInstance.InstanceType.InstantiateAndDisable)
+                if (prefabInstance.onInstantiateActionType == EntityPrefabInstance.OnInstantiateActionType.Disable)
                 {
                     prefabInstance.gameObject.SetActive(false);
                 }
                 
-                if (prefabInstance.instanceType == EntityPrefabInstance.InstanceType.InstantiateAndDestroy)
+                if (prefabInstance.onInstantiateActionType == EntityPrefabInstance.OnInstantiateActionType.Destroy)
                 {
                     Object.Destroy(prefabInstance.gameObject);
                 }
