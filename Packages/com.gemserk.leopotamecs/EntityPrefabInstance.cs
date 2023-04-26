@@ -17,12 +17,8 @@ namespace Gemserk.Leopotam.Ecs
 
         public enum InstantiationType
         {
-            // will use the boolean for now
-            Disabled = 0,
-            AutomaticOnAwake = 1,
-            AutomaticOnStart = 2,
-            AutomaticOnEnable =3 ,
-            Manual = 4
+            Manual = 0,
+            Automatic = 1,
         }
         
         [FormerlySerializedAs("entityDefinitionPrefab")] 
@@ -36,9 +32,8 @@ namespace Gemserk.Leopotam.Ecs
         public OnInstantiateActionType onInstantiateActionType = OnInstantiateActionType.Disable;
 
         // rename to instantiation type?
-        public bool autoInstantiateOnAwake = true;
-
-        public InstantiationType instantiationType = InstantiationType.Disabled;
+        [FormerlySerializedAs("autoInstantiateOnAwake")] 
+        public InstantiationType instantiationType = InstantiationType.Automatic;
 
         // could be something like:
         // linkType: None, LinkWithGameObject 
@@ -46,34 +41,10 @@ namespace Gemserk.Leopotam.Ecs
         // onInstantiateType: None, AutoDisable, AutoDestroy
         
         // cant AutoDestroy or AutoDisable with LinkWithGameObject
-        
-        private void Awake()
-        {
-            if (instantiationType == InstantiationType.Disabled)
-            {
-                if (autoInstantiateOnAwake)
-                {
-                    InstantiateEntity();
-                }
-            }
-            
-            if (instantiationType == InstantiationType.AutomaticOnAwake)
-            {
-                InstantiateEntity();
-            }
-        }
-        
-        private void Start()
-        {
-            if (instantiationType == InstantiationType.AutomaticOnStart)
-            {
-                InstantiateEntity();
-            }
-        }
-        
+
         private void OnEnable()
         {
-            if (instantiationType == InstantiationType.AutomaticOnEnable)
+            if (instantiationType == InstantiationType.Automatic)
             {
                 InstantiateEntity();
             }
