@@ -13,6 +13,16 @@ namespace Gemserk.Leopotam.Ecs
             InstantiateAndLink = 2,
             InstantiateAndDestroy = 3
         }
+
+        public enum InstantiationType
+        {
+            // will use the boolean for now
+            Disabled = 0,
+            AutomaticOnAwake = 1,
+            AutomaticOnStart = 2,
+            AutomaticOnEnable =3 ,
+            Manual = 4
+        }
         
         [FormerlySerializedAs("entityDefinitionPrefab")] 
         public UnityEngine.Object entityDefinition;
@@ -20,13 +30,48 @@ namespace Gemserk.Leopotam.Ecs
         [NonSerialized]
         public Entity instance = Entity.NullEntity;
 
+        // rename to link type
         public InstanceType instanceType = InstanceType.InstantiateAndDisable;
 
+        // rename to instantiation type?
         public bool autoInstantiateOnAwake = true;
+
+        public InstantiationType instantiationType = InstantiationType.Disabled;
+
+        // could be something like:
+        // linkType: None, LinkWithGameObject 
+        // instantiationType: OnAwake, OnStart, OnEnable, Manual
+        // onInstantiateType: None, AutoDisable, AutoDestroy
+        
+        // cant AutoDestroy or AutoDisable with LinkWithGameObject
         
         private void Awake()
         {
-            if (autoInstantiateOnAwake)
+            if (instantiationType == InstantiationType.Disabled)
+            {
+                if (autoInstantiateOnAwake)
+                {
+                    InstantiateEntity();
+                }
+            }
+            
+            if (instantiationType == InstantiationType.AutomaticOnAwake)
+            {
+                InstantiateEntity();
+            }
+        }
+        
+        private void Start()
+        {
+            if (instantiationType == InstantiationType.AutomaticOnStart)
+            {
+                InstantiateEntity();
+            }
+        }
+        
+        private void OnEnable()
+        {
+            if (instantiationType == InstantiationType.AutomaticOnEnable)
             {
                 InstantiateEntity();
             }
