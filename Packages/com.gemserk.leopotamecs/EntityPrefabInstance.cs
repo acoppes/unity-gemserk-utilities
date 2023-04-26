@@ -18,7 +18,7 @@ namespace Gemserk.Leopotam.Ecs
         public enum InstantiationType
         {
             Manual = 0,
-            Automatic = 1,
+            AutomaticOnEnable = 1,
         }
         
         [FormerlySerializedAs("entityDefinitionPrefab")] 
@@ -33,7 +33,7 @@ namespace Gemserk.Leopotam.Ecs
 
         // rename to instantiation type?
         [FormerlySerializedAs("autoInstantiateOnAwake")] 
-        public InstantiationType instantiationType = InstantiationType.Automatic;
+        public InstantiationType instantiationType = InstantiationType.AutomaticOnEnable;
 
         // could be something like:
         // linkType: None, LinkWithGameObject 
@@ -44,7 +44,7 @@ namespace Gemserk.Leopotam.Ecs
 
         private void OnEnable()
         {
-            if (instantiationType == InstantiationType.Automatic)
+            if (instantiationType == InstantiationType.AutomaticOnEnable)
             {
                 InstantiateEntity();
             }
