@@ -13,8 +13,10 @@ namespace Gemserk.Utilities.Pooling
 
         private GameObject prefab;
 
-        public Transform objectsPoolParent;
-
+#if UNITY_EDITOR
+        private Transform objectsPoolParent;
+#endif
+        
         private IObjectPool<GameObject> delegatePool;
 
         public GameObjectPool(GameObject prefab, string poolName)
@@ -22,7 +24,9 @@ namespace Gemserk.Utilities.Pooling
             this.prefab = prefab;
             
             var parentGameObject = new GameObject(poolName);
+#if UNITY_EDITOR
             objectsPoolParent = parentGameObject.transform;
+#endif
 
             delegatePool = new LinkedPool<GameObject>(CreateObject, OnGet, OnRelease);
         }
@@ -30,12 +34,18 @@ namespace Gemserk.Utilities.Pooling
         private void OnRelease(GameObject gameObject)
         {
             gameObject.SetActive(false);
+#if UNITY_EDITOR
             gameObject.transform.SetParent(objectsPoolParent);
+#endif
         }
 
         private GameObject CreateObject()
         {
+#if UNITY_EDITOR
             var instance = Object.Instantiate(prefab, objectsPoolParent);
+#else
+            var instance = Object.Instantiate(prefab);
+#endif
             var poolInstance = instance.AddComponent<GameObjectPoolInstance>();
             poolInstance.source = prefab;
             // poolInstance.pooled = true;
@@ -45,7 +55,10 @@ namespace Gemserk.Utilities.Pooling
         private void OnGet(GameObject gameObject)
         {
             gameObject.SetActive(true);
+            
+#if UNITY_EDITOR
             gameObject.transform.SetParent(null);
+#endif
             
             // var poolInstance = gameObject.GetComponent<GameObjectPoolInstance>();
             // poolInstance.pooled = false;
