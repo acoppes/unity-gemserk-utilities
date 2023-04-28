@@ -13,7 +13,7 @@ namespace Gemserk.Utilities.Pooling
 
         private GameObject prefab;
 
-#if UNITY_EDITOR
+#if GEMSERK_POOL_DEBUG
         private Transform objectsPoolParent;
 #endif
         
@@ -23,8 +23,8 @@ namespace Gemserk.Utilities.Pooling
         {
             this.prefab = prefab;
             
+#if GEMSERK_POOL_DEBUG
             var parentGameObject = new GameObject(poolName);
-#if UNITY_EDITOR
             objectsPoolParent = parentGameObject.transform;
 #endif
 
@@ -34,14 +34,14 @@ namespace Gemserk.Utilities.Pooling
         private void OnRelease(GameObject gameObject)
         {
             gameObject.SetActive(false);
-#if UNITY_EDITOR
+#if GEMSERK_POOL_DEBUG
             gameObject.transform.SetParent(objectsPoolParent);
 #endif
         }
 
         private GameObject CreateObject()
         {
-#if UNITY_EDITOR
+#if GEMSERK_POOL_DEBUG
             var instance = Object.Instantiate(prefab, objectsPoolParent);
 #else
             var instance = Object.Instantiate(prefab);
@@ -56,7 +56,7 @@ namespace Gemserk.Utilities.Pooling
         {
             gameObject.SetActive(true);
             
-#if UNITY_EDITOR
+#if GEMSERK_POOL_DEBUG
             gameObject.transform.SetParent(null);
 #endif
             
