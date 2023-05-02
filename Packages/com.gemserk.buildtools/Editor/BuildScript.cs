@@ -83,7 +83,15 @@ namespace Gemserk.BuildTools.Editor
             buildOptions.locationPathName = buildPath;
             buildOptions.scenes = EditorBuildSettings.scenes.Select(s => s.path).ToArray();
 
-            BuildPipeline.BuildPlayer(buildOptions);
+            var buildReport = BuildPipeline.BuildPlayer(buildOptions);
+
+            if (buildReport.summary.totalErrors > 0)
+            {
+                Debug.Log(JsonUtility.ToJson(buildReport, true));
+                EditorApplication.Exit(1);
+            }
+            
+            EditorApplication.Exit(0);
         }
     }
 }
