@@ -7,6 +7,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
     {
         public string name;
         public float time;
+        public float duration;
         public int updateCount;
     }
     
@@ -41,13 +42,14 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             return states.TryGetValue(stateName, out state);
         }
 
-        public void EnterState(string state)
+        public void EnterState(string state, float duration = 0)
         {
             activeStates.Add(state);
             states[state] = new State
             {
                 name = state,
-                time = 0
+                time = 0,
+                duration = duration
             };
         }
 
