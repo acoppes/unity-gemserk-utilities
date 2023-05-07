@@ -37,9 +37,20 @@ namespace Gemserk.Leopotam.Ecs
         private readonly IList<IEntityCreatedHandler> entityCreatedHandlers = new List<IEntityCreatedHandler>();
         private readonly IList<IEntityDestroyedHandler> entityDestroyedHandlers = new List<IEntityDestroyedHandler>();
 
+        private Entity CreateEmptyEntity()
+        {
+            var entity = world.NewEntity();
+            return new Entity()
+            {
+                world = this,
+                entity = entity,
+                generation = world.GetEntityGen(entity)
+            };
+        }
+
         public Entity CreateEntity(IEntityDefinition definition = null, IEnumerable<IEntityInstanceParameter> parametersList = null)
         {
-            var entity = world.CreateEmptyEntity();
+            var entity = CreateEmptyEntity();
 
             if (definition != null)
             {

@@ -1,22 +1,17 @@
-using Leopotam.EcsLite;
+using System;
 
 namespace Gemserk.Leopotam.Ecs
 {
     public static class EntityWorldExtensions
     {
-        public static Entity CreateEmptyEntity(this EcsWorld world)
-        {
-            var entity = world.NewEntity();
-            return new Entity()
-            {
-                entity = entity,
-                generation = world.GetEntityGen(entity)
-            };
-        }
-        
         public static Entity GetEntity(this BaseSystem baseSystem, int entity)
         {
             return baseSystem.world.GetEntity(entity);
+        }
+        
+        public static T GetComponent<T>(this Entity entity) where T : struct
+        {
+            return entity.world.GetComponent<T>(entity);
         }
     }
     
@@ -25,11 +20,13 @@ namespace Gemserk.Leopotam.Ecs
         public static Entity NullEntity = new Entity
         {
             entity = -1,
-            generation = -1
+            generation = -1,
+            world = null
         };
         
         public int entity;
         public short generation;
+        public World world;
 
         public override int GetHashCode()
         {
