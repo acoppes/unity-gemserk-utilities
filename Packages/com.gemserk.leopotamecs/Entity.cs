@@ -33,7 +33,7 @@ namespace Gemserk.Leopotam.Ecs
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(entity, generation);
         }
 
         public static implicit operator int(Entity entity) => entity.entity;
