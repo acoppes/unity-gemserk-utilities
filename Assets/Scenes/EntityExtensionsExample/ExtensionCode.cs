@@ -6,7 +6,7 @@ namespace Scenes.EntityExtensionsExample
 
         public static TargetComponent GetTargetComponent(this Entity entity)
         {
-            return entity.GetComponent<TargetComponent>();
+            return entity.Get<TargetComponent>();
         }
     }
 

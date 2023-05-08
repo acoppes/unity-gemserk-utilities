@@ -9,10 +9,16 @@ namespace Gemserk.Leopotam.Ecs
             return baseSystem.world.GetEntity(entity);
         }
         
-        public static T GetComponent<T>(this Entity entity) where T : struct
+        public static ref T Get<T>(this Entity entity) where T : struct
         {
-            return entity.world.GetComponent<T>(entity);
+            return ref entity.world.GetComponent<T>(entity);
         }
+        
+        public static bool Has<T>(this Entity entity) where T : struct
+        {
+            return entity.world.HasComponent<T>(entity);
+        }
+        
     }
     
     public struct Entity
