@@ -9,14 +9,4 @@ namespace Scenes.EntityExtensionsExample
             return entity.Get<TargetComponent>();
         }
     }
-
-    public class TestCode
-    {
-        public void Code()
-        {
-            var entity = new Entity();
-
-            var target = entity.GetTargetComponent();
-        }
-    }
 }

@@ -23,16 +23,23 @@ namespace Gemserk.Leopotam.Ecs
     
     public struct Entity
     {
-        public static Entity NullEntity = new Entity
-        {
-            entity = -1,
-            generation = -1,
-            world = null
-        };
+        public static readonly Entity NullEntity = new Entity(null, -1, -1);
         
+        public World world;
         public int entity;
         public short generation;
-        public World world;
+
+        public static Entity Create(World world, int entity, short generation)
+        {
+            return new Entity(world, entity, generation);
+        }
+
+        public Entity(World world, int entity, short generation)
+        {
+            this.world = world;
+            this.entity = entity;
+            this.generation = generation;
+        }
 
         public override int GetHashCode()
         {

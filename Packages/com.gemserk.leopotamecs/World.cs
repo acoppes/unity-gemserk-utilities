@@ -40,12 +40,7 @@ namespace Gemserk.Leopotam.Ecs
         private Entity CreateEmptyEntity()
         {
             var entity = world.NewEntity();
-            return new Entity()
-            {
-                world = this,
-                entity = entity,
-                generation = world.GetEntityGen(entity)
-            };
+            return GetEntity(entity);
         }
 
         public Entity CreateEntity(IEntityDefinition definition = null, IEnumerable<IEntityInstanceParameter> parametersList = null)
@@ -89,14 +84,10 @@ namespace Gemserk.Leopotam.Ecs
             
             return entity.generation == world.GetEntityGen(entity);
         }
-
+        
         public Entity GetEntity(int entity)
         {
-            return new Entity
-            {
-                entity = entity,
-                generation = world.GetEntityGen(entity)
-            };
+            return Entity.Create(this, entity, world.GetEntityGen(entity));
         }
 
         public void AddComponent<T>(Entity entity) where T : struct
