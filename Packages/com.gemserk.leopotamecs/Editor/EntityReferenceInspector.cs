@@ -13,8 +13,8 @@ namespace Gemserk.Leopotam.Ecs.Editor
             var entityReference = target as EntityReference;
             
             EditorGUI.BeginDisabledGroup(true);
-            EditorGUILayout.LabelField("Entity" ,$"{entityReference.entity.entity:x8}");
-            EditorGUILayout.LabelField("Generation" ,$"{entityReference.entity.generation}");
+            EditorGUILayout.LabelField("Entity" ,$"{entityReference.entity.ecsEntity:x8}");
+            EditorGUILayout.LabelField("Generation" ,$"{entityReference.entity.ecsGeneration}");
             EditorGUI.EndDisabledGroup();
             
             if (GUILayout.Button("Select"))
@@ -22,7 +22,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 var debugViews = FindObjectsOfType<EcsEntityDebugView>();
                 foreach (var debugView in debugViews)
                 {
-                    if (debugView.Entity == entityReference.entity.entity)
+                    if (debugView.Entity == entityReference.entity.ecsEntity)
                     {
                         EditorGUIUtility.PingObject(debugView.gameObject);
                         Selection.activeObject = debugView.gameObject;

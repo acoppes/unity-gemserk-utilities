@@ -82,7 +82,7 @@ namespace Gemserk.Leopotam.Ecs
             if (entity == Entity.NullEntity)
                 return false;
             
-            return entity.generation == world.GetEntityGen(entity);
+            return entity.ecsGeneration == world.GetEntityGen(entity.ecsEntity);
         }
         
         public Entity GetEntity(int entity)
