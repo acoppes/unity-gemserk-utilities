@@ -1,24 +1,29 @@
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Gemserk.Leopotam.Ecs
 {
     public static class EntityWorldExtensions
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Entity GetEntity(this BaseSystem baseSystem, int entity)
         {
             return baseSystem.world.GetEntity(entity);
         }
         
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref T Get<T>(this Entity entity) where T : struct
         {
             return ref entity.world.GetComponent<T>(entity);
         }
         
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Has<T>(this Entity entity) where T : struct
         {
             return entity.world.HasComponent<T>(entity);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Exists(this Entity entity)
         {
             if (entity == Entity.NullEntity)
