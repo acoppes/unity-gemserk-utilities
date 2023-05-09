@@ -4,6 +4,7 @@ namespace Gemserk.Triggers
 {
     public class DebugTriggerAction : TriggerAction
     {
+        [TextArea(1, 15)]
         public string text;
         
         public override string GetObjectName()
