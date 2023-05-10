@@ -30,7 +30,12 @@ namespace Gemserk.Leopotam.Ecs
             {
                 return false;
             }
-
+        
+            if (entity.world == null)
+            {
+                return false;
+            }
+                        
             return entity.world.Exists(entity);
         }
     }
