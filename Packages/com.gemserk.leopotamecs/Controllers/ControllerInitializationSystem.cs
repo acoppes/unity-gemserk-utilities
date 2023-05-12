@@ -91,26 +91,20 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         
         public void OnEntityDestroyed(World world, Entity destroyedEntity)
         {
-            foreach (var entity in controllerFilter.Value)
+            if (world.HasComponent<ControllerComponent>(destroyedEntity))
             {
-                ref var controllerComponent = ref controllerComponents.Value.Get(entity);
-                var worldEntity = world.GetEntity(entity);
-
+                var controllerComponent = world.GetComponent<ControllerComponent>(destroyedEntity);
+                
                 if (controllerComponent.intialized)
                 {
                     foreach (var controller in controllerComponent.controllers)
                     {
-                        if (controller is IEntityDestroyed onEntityDestroyed)
+                        if (controller is IDestroyed onDestroyed)
                         {
-                            onEntityDestroyed.OnEntityDestroyed(world, worldEntity, destroyedEntity);
+                            onDestroyed.OnDestroyed(world, destroyedEntity);
                         }
                     }
                 }
-            }
-            
-            if (world.HasComponent<ControllerComponent>(destroyedEntity))
-            {
-                var controllerComponent = world.GetComponent<ControllerComponent>(destroyedEntity);
                 
                 if (controllerComponent.instance != null && !controllerComponent.sharedInstance)
                 {

@@ -4,12 +4,12 @@
     {
         void OnInit(World world, Entity entity);
     }
-
-    public interface IEntityDestroyed
+    
+    public interface IDestroyed
     {
-        void OnEntityDestroyed(World world, Entity entity, Entity destroyedEntity);
+        void OnDestroyed(World world, Entity entity);
     }
-
+    
     public interface IConfigurable
     {
         void OnConfigured(World world, Entity entity);
