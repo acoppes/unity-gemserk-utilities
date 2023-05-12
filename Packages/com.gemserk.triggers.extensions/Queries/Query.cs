@@ -4,7 +4,23 @@ namespace Gemserk.Triggers.Queries
 {
     public class Query : MonoBehaviour
     {
-        public EntityQuery GetEntityQuery() => EntityQuery.Create(GetComponents<IQueryParameter>());
+        private EntityQuery entityQuery;
+        
+        public EntityQuery GetEntityQuery()
+        {
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                return EntityQuery.Create(GetComponents<IQueryParameter>());
+            }
+#endif
+            return entityQuery;
+        }
+
+        private void Awake()
+        {
+            entityQuery = EntityQuery.Create(GetComponents<IQueryParameter>());
+        }
 
         public override string ToString()
         {
