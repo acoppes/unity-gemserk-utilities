@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Editor
 {
+    #if GEMSERK_DEBUG_ENTITYREFERENCE && UNITY_EDITOR
     [CustomEditor(typeof(EntityReference))]
     [CanEditMultipleObjects]
     public class EntityReferenceInspector : UnityEditor.Editor
@@ -32,4 +33,5 @@ namespace Gemserk.Leopotam.Ecs.Editor
             }
         }
     }
+    #endif
 }

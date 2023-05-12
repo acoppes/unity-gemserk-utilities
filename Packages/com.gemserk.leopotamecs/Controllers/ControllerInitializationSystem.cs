@@ -81,7 +81,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                 controllerComponent.stateChangedListeners = new List<IStateChanged>();
                 controllerComponent.instance.GetComponentsInChildren(controllerComponent.stateChangedListeners);
                 
-#if GEMSERK_CONTROLLERS_DEBUG
+#if GEMSERK_DEBUG_ENTITYREFERENCE && UNITY_EDITOR
                 if (!controllerComponent.sharedInstance)
                 {
                     var entityReference = controllerComponent.instance.AddComponent<EntityReference>();
