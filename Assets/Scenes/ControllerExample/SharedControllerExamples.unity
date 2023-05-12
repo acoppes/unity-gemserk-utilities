@@ -609,7 +609,7 @@ GameObject:
   - component: {fileID: 1650687358}
   - component: {fileID: 1650687359}
   m_Layer: 0
-  m_Name: ControllerShared
+  m_Name: Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -146,7 +146,7 @@ PlayerSettings:
   enableFrameTimingStats: 0
   enableOpenGLProfilerGPURecorders: 1
   useHDRDisplay: 0
-  D3DHDRBitDepth: 0
+  hdrBitDepth: 0
   m_ColorGamuts: 00000000
   targetPixelDensity: 30
   resolutionScalingMode: 0
@@ -154,7 +154,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Standalone: com.Gemserk.gemserk-leoecs
+    Standalone: com.Gemserk.Game-1
   buildNumber:
     Standalone: 0
     iPhone: 0
@@ -681,7 +681,7 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Standalone: GEMSERK_POOL_DEBUG
+    Standalone: GEMSERK_POOL_DEBUG;GEMSERK_CONTROLLERS_DEBUG
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

@@ -12,17 +12,19 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         readonly EcsFilterInject<Inc<ControllerComponent>, Exc<DisabledComponent>> controllerFilter = default;
         readonly EcsPoolInject<ControllerComponent> controllerComponents = default;
         
-#if GEMSERK_POOL_DEBUG
+#if GEMSERK_CONTROLLERS_DEBUG
         private GameObject instancesParent;
 #endif
-        
+
+        private readonly Dictionary<GameObject, GameObject> sharedInstances =
+            new Dictionary<GameObject, GameObject>();
+
         private readonly List<IController> controllersList = new List<IController>();
-        
+
         public void Init(EcsSystems systems)
         {
+#if GEMSERK_CONTROLLERS_DEBUG
             const string parentGameObjectName = "~Controllers";
-            
-#if GEMSERK_POOL_DEBUG
             if (instancesParent == null)
             {
                 instancesParent = GameObject.Find(parentGameObjectName);
@@ -35,27 +37,57 @@ namespace Gemserk.Leopotam.Ecs.Controllers
 #endif
         }
 
+        private GameObject GetControllerInstance(ControllerComponent controllerComponent)
+        {
+            if (!controllerComponent.sharedInstance)
+            {
+                // TODO: use pool but have to have a callback to reset
+                
+                var instance = Instantiate(controllerComponent.prefab);
+                
+                #if UNITY_EDITOR
+                instance.name = $"{controllerComponent.prefab.name}";
+                #endif
+                
+                return instance;
+            }
+
+            if (!sharedInstances.ContainsKey(controllerComponent.prefab))
+            {
+                var instance = Instantiate(controllerComponent.prefab);
+#if UNITY_EDITOR
+                instance.name = $"{controllerComponent.prefab.name}_SharedInstance";
+#endif
+                sharedInstances[controllerComponent.prefab] = instance;
+            }
+
+            return sharedInstances[controllerComponent.prefab];
+        }
+
         public void OnEntityCreated(World world, Entity entity)
         {
             if (world.HasComponent<ControllerComponent>(entity))
             {
                 ref var controllerComponent = ref world.GetComponent<ControllerComponent>(entity);
-                controllerComponent.instance = Instantiate(controllerComponent.prefab);
+                controllerComponent.instance = GetControllerInstance(controllerComponent);
                 
-#if GEMSERK_POOL_DEBUG
+#if GEMSERK_CONTROLLERS_DEBUG
                 controllerComponent.instance.transform.parent = instancesParent.transform;
+              
 #endif
-                
-                controllerComponent.instance.name = $"{controllerComponent.prefab.name}";
-                
                 controllerComponent.controllers = new List<IController>();
                 controllerComponent.instance.GetComponentsInChildren(controllerComponent.controllers);
 
                 controllerComponent.stateChangedListeners = new List<IStateChanged>();
                 controllerComponent.instance.GetComponentsInChildren(controllerComponent.stateChangedListeners);
                 
-                var entityReference = controllerComponent.instance.AddComponent<EntityReference>();
-                entityReference.entity = entity;
+#if GEMSERK_CONTROLLERS_DEBUG
+                if (!controllerComponent.sharedInstance)
+                {
+                    var entityReference = controllerComponent.instance.AddComponent<EntityReference>();
+                    entityReference.entity = entity;
+                }
+#endif
             }
         }
         
@@ -81,7 +113,8 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             if (world.HasComponent<ControllerComponent>(destroyedEntity))
             {
                 var controllerComponent = world.GetComponent<ControllerComponent>(destroyedEntity);
-                if (controllerComponent.instance != null)
+                
+                if (controllerComponent.instance != null && !controllerComponent.sharedInstance)
                 {
                     GameObject.Destroy(controllerComponent.instance);
                 }
