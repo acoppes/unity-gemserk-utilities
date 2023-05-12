@@ -681,7 +681,7 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Standalone: GEMSERK_POOL_DEBUG;GEMSERK_CONTROLLERS_DEBUG;GEMSERK_DEBUG_ENTITYREFERENCE
+    Standalone: GEMSERK_POOL_DEBUG;GEMSERK_CONTROLLERS_DEBUG
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

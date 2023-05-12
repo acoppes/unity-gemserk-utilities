@@ -22,11 +22,9 @@ namespace Gemserk.Leopotam.Ecs
                 {
                     gameObject = gameObject
                 });
-                
-                #if GEMSERK_DEBUG_ENTITYREFERENCE && UNITY_EDITOR
+
                 var entityReference = gameObject.AddComponent<EntityReference>();
                 entityReference.entity = entity;
-                #endif
             }
         }
         
