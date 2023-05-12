@@ -8,6 +8,8 @@ namespace Gemserk.Leopotam.Ecs.Controllers
     {
         public GameObject prefab;
         public GameObject instance;
+
+        public bool sharedInstance;
         
         public List<IController> controllers;
         public bool intialized;
