@@ -12,7 +12,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         readonly EcsFilterInject<Inc<ControllerComponent>, Exc<DisabledComponent>> controllerFilter = default;
         readonly EcsPoolInject<ControllerComponent> controllerComponents = default;
         
-#if GEMSERK_CONTROLLERS_DEBUG
+#if GEMSERK_CONTROLLERS_DEBUG && UNITY_EDITOR
         private GameObject instancesParent;
 #endif
 
@@ -23,7 +23,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
 
         public void Init(EcsSystems systems)
         {
-#if GEMSERK_CONTROLLERS_DEBUG
+#if GEMSERK_CONTROLLERS_DEBUG && UNITY_EDITOR
             const string parentGameObjectName = "~Controllers";
             if (instancesParent == null)
             {
@@ -55,7 +55,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             if (!sharedInstances.ContainsKey(controllerComponent.prefab))
             {
                 var instance = Instantiate(controllerComponent.prefab);
-#if UNITY_EDITOR
+#if GEMSERK_CONTROLLERS_DEBUG && UNITY_EDITOR
                 instance.name = $"{controllerComponent.prefab.name}_SharedInstance";
 #endif
                 sharedInstances[controllerComponent.prefab] = instance;
@@ -71,7 +71,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                 ref var controllerComponent = ref world.GetComponent<ControllerComponent>(entity);
                 controllerComponent.instance = GetControllerInstance(controllerComponent);
                 
-#if GEMSERK_CONTROLLERS_DEBUG
+#if GEMSERK_CONTROLLERS_DEBUG && UNITY_EDITOR
                 controllerComponent.instance.transform.parent = instancesParent.transform;
               
 #endif
