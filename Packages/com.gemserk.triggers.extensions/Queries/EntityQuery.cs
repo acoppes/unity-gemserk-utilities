@@ -4,9 +4,14 @@ namespace Gemserk.Triggers.Queries
 {
     public struct EntityQuery
     {
-        public ICollection<IQueryParameter> parameters;
+        public IEnumerable<IQueryParameter> parameters;
 
-        public EntityQuery(ICollection<IQueryParameter> parameters)
+        public EntityQuery(IEnumerable<IQueryParameter> parameters)
+        {
+            this.parameters = parameters;
+        }
+        
+        public EntityQuery(params IQueryParameter[] parameters)
         {
             this.parameters = parameters;
         }
