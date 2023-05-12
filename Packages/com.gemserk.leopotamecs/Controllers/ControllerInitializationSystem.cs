@@ -12,7 +12,9 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         readonly EcsFilterInject<Inc<ControllerComponent>, Exc<DisabledComponent>> controllerFilter = default;
         readonly EcsPoolInject<ControllerComponent> controllerComponents = default;
         
+#if GEMSERK_POOL_DEBUG
         private GameObject instancesParent;
+#endif
         
         private readonly List<IController> controllersList = new List<IController>();
         
@@ -20,6 +22,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         {
             const string parentGameObjectName = "~Controllers";
             
+#if GEMSERK_POOL_DEBUG
             if (instancesParent == null)
             {
                 instancesParent = GameObject.Find(parentGameObjectName);
@@ -29,6 +32,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             {
                 instancesParent = new GameObject(parentGameObjectName);
             }
+#endif
         }
 
         public void OnEntityCreated(World world, Entity entity)
@@ -37,8 +41,11 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             {
                 ref var controllerComponent = ref world.GetComponent<ControllerComponent>(entity);
                 controllerComponent.instance = Instantiate(controllerComponent.prefab);
+                
+#if GEMSERK_POOL_DEBUG
                 controllerComponent.instance.transform.parent = instancesParent.transform;
-
+#endif
+                
                 controllerComponent.instance.name = $"{controllerComponent.prefab.name}";
                 
                 controllerComponent.controllers = new List<IController>();
