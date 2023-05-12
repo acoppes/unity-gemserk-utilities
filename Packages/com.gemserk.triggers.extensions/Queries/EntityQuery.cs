@@ -18,6 +18,11 @@ namespace Gemserk.Triggers.Queries
         
         public override string ToString()
         {
+            if (parameters == null)
+            {
+                return string.Empty;
+            }
+            
             var list = new List<string>();
 
             foreach (var parameter in parameters)
