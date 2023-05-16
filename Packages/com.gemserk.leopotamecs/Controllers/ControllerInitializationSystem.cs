@@ -9,7 +9,10 @@ namespace Gemserk.Leopotam.Ecs.Controllers
     public class ControllerInitializationSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler, 
         IEntityCreatedHandler, IEcsInitSystem
     {
+        readonly EcsFilterInject<Inc<ControllerComponent, ConfigurationComponent>, Exc<DisabledComponent>> configurableControllers = default;
         readonly EcsFilterInject<Inc<ControllerComponent>, Exc<DisabledComponent>> controllerFilter = default;
+        
+        readonly EcsPoolInject<ConfigurationComponent> configurationComponents = default;
         readonly EcsPoolInject<ControllerComponent> controllerComponents = default;
         
 #if GEMSERK_CONTROLLERS_DEBUG && UNITY_EDITOR
@@ -119,12 +122,10 @@ namespace Gemserk.Leopotam.Ecs.Controllers
 
         public void Run(EcsSystems systems)
         {
-            var configurations = world.GetComponents<ConfigurationComponent>();
-            
-            foreach (var entity in world.GetFilter<ControllerComponent>().Inc<ConfigurationComponent>().End())
+            foreach (var entity in configurableControllers.Value)
             {
                 ref var controllerComponent = ref controllerComponents.Value.Get(entity);
-                var configuration = configurations.Get(entity);
+                var configuration = configurationComponents.Value.Get(entity);
 
                 controllerComponent.onConfigurationPending =
                     controllerComponent.configurationVersion != configuration.configuredVersion;
