@@ -9,7 +9,6 @@ public class StatesDefinition : MonoBehaviour, IEntityDefinition
 
     public void Apply(World world, Entity entity)
     {
-        var states = StatesComponent.Create();
         world.AddComponent(entity, StatesComponent.Create());
 
         ref var statesComponent = ref world.GetComponent<StatesComponent>(entity);

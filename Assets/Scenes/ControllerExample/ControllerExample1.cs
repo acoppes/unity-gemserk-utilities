@@ -23,7 +23,7 @@ public class ControllerExample1 : ControllerBase, IUpdate, IInit, IStateChanged
     {
         
         var controllerComponent = world.GetComponent<ControllerComponent>(entity);
-        var statesComponent = world.GetComponent<StatesComponent>();
+        var statesComponent = world.GetComponent<StatesComponent>(entity);
         
         Assert.IsNotNull(controllerComponent.instance);
         Assert.IsTrue(initialized, "Init should be called always before update");
@@ -47,13 +47,13 @@ public class ControllerExample1 : ControllerBase, IUpdate, IInit, IStateChanged
 
     public void OnEnterState(World world, Entity entity)
     {
-        var statesComponent = world.GetComponent<StatesComponent>();
+        var statesComponent = entity.Get<StatesComponent>();
         Debug.Log($"ENTERED STATES: {string.Join(",", statesComponent.statesEntered)}");
     }
 
     public void OnExitState(World world, Entity entity)
     {
-        var statesComponent = world.GetComponent<StatesComponent>();
+        var statesComponent = entity.Get<StatesComponent>();
         Debug.Log($"EXIT STATES: {string.Join(",", statesComponent.statesExited)}");
     }
 }

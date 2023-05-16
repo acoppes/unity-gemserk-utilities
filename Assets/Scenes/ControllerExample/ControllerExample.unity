@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myValue: 5
-  testIncrement: 1
+  testIncrement: 5
   cooldown:
     total: 0
 --- !u!1 &125524127
@@ -374,7 +374,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityDefinition: {fileID: 7919730612617244969}
-  instanceType: 0
+  onInstantiateActionType: 0
+  instantiationType: 1
 --- !u!1 &1146086415
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,7 +421,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityDefinition: {fileID: 7919730612617244969}
-  instanceType: 0
+  onInstantiateActionType: 0
+  instantiationType: 1
 --- !u!1001 &4197199288377489071
 PrefabInstance:
   m_ObjectHideFlags: 0
