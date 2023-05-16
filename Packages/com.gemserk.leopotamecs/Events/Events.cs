@@ -21,4 +21,9 @@
         
         void OnExitState(World world, Entity entity);
     }
+    
+    public interface IUpdate
+    {
+        void OnUpdate(World world, Entity entity, float dt);
+    }
 }
