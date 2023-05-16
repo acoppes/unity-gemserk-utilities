@@ -19,6 +19,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         
         // TODO cache each interface cast
 
+        public List<IUpdate> updateListeners;
         public List<IStateChanged> stateChangedListeners;
     }
 }

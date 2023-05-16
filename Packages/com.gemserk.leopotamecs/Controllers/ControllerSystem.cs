@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Controllers
 {
@@ -10,27 +8,24 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         readonly EcsFilterInject<Inc<ControllerComponent>, Exc<DisabledComponent>> controllerFilter = default;
         readonly EcsPoolInject<ControllerComponent> controllerComponents = default;
 
-        private readonly List<IController> controllersList = new List<IController>();
+        // private readonly List<IController> controllersList = new List<IController>();
         
         public void Run(EcsSystems systems)
         {
-            var dt = Time.deltaTime;
+            var deltaTime = dt;
             
             foreach (var entity in controllerFilter.Value)
             {
                 ref var controllerComponent = ref controllerComponents.Value.Get(entity);
                 
-                controllersList.Clear();
-                controllersList.AddRange(controllerComponent.controllers);
+                // controllersList.Clear();
+                // controllersList.AddRange(controllerComponent.controllers);
                 
                 var worldEntity = world.GetEntity(entity);
                 
-                foreach (var controller in controllersList)
+                foreach (var updateable in controllerComponent.updateListeners)
                 {
-                    if (controller is IUpdate updateable)
-                    {
-                        updateable.OnUpdate(world, worldEntity, dt);
-                    }
+                    updateable.OnUpdate(world, worldEntity, deltaTime);
                 }
             }
         }

@@ -83,6 +83,9 @@ namespace Gemserk.Leopotam.Ecs.Controllers
 
                 controllerComponent.stateChangedListeners = new List<IStateChanged>();
                 controllerComponent.instance.GetComponentsInChildren(controllerComponent.stateChangedListeners);
+
+                controllerComponent.updateListeners = new List<IUpdate>();
+                controllerComponent.instance.GetComponentsInChildren(controllerComponent.updateListeners);
                 
                 if (!controllerComponent.sharedInstance)
                 {
