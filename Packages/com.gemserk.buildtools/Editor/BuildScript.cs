@@ -56,12 +56,12 @@ namespace Gemserk.BuildTools.Editor
         {
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmm");
 
-            if (!Directory.Exists("Resources"))
+            if (!Directory.Exists("Assets/Resources"))
             {
-                Directory.CreateDirectory("Resources");
+                Directory.CreateDirectory("Assets/Resources");
             }
             
-            File.WriteAllText("Resources/version.txt", $"{version}_{timestamp}");
+            File.WriteAllText("Assets/Resources/version.txt", $"{version}_{timestamp}");
         }
         
         public static void Build(BuildPlayerOptions buildOptions)

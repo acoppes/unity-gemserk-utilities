@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Game1
   m_EditorClassIdentifier: 
   productName: Game 1
+  version: 0.0.2
   defaultWebScreenWidth: 960
   defaultWebScreenHeight: 600
   sceneAssets:
-  - {fileID: 102900000, guid: 332394617a1bfe84382b183d2797e657, type: 3}
-  - {fileID: 102900000, guid: 276fcb43e01802d41ab42d89c39b3d50, type: 3}
+  - {fileID: 102900000, guid: 389c4c0bb79b48d4eb5c8f85edcd8832, type: 3}
