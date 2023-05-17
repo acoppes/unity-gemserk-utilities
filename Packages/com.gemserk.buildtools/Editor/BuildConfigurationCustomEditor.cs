@@ -14,6 +14,7 @@ namespace Gemserk.BuildTools.Editor
                     .ToArray();
 
             PlayerSettings.productName = buildConfiguration.productName;
+            PlayerSettings.bundleVersion = buildConfiguration.version;
             PlayerSettings.defaultWebScreenHeight = buildConfiguration.defaultWebScreenHeight;
             PlayerSettings.defaultWebScreenWidth = buildConfiguration.defaultWebScreenWidth;
         }
@@ -21,6 +22,7 @@ namespace Gemserk.BuildTools.Editor
         public static void Store(this BuildConfiguration buildConfiguration)
         {
             buildConfiguration.productName = PlayerSettings.productName;
+            buildConfiguration.version = PlayerSettings.bundleVersion;
             buildConfiguration.defaultWebScreenHeight = PlayerSettings.defaultWebScreenHeight;
             buildConfiguration.defaultWebScreenWidth = PlayerSettings.defaultWebScreenWidth;
                     

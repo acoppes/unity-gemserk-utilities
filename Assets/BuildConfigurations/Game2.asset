@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Game2
   m_EditorClassIdentifier: 
   productName: Game 2
+  version: 0.0.3
   defaultWebScreenWidth: 480
   defaultWebScreenHeight: 270
   sceneAssets:

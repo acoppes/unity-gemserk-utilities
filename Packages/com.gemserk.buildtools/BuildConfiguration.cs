@@ -10,6 +10,7 @@ namespace Gemserk.BuildTools
         // public string settingsFolder;
 
         public string productName;
+        public string version = "0.0.1";
         public int defaultWebScreenWidth;
         public int defaultWebScreenHeight;
 
