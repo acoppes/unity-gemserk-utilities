@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using Gemserk.RefactorTools.Editor;
 using UnityEditor;
@@ -50,6 +51,15 @@ namespace Gemserk.BuildTools.Editor
                 options = BuildOptions.None
             });
         }
+
+        private static void OverrideVersionTextResources(string version)
+        {
+            // var versionText = AssetDatabaseExt.FindAssets<TextAsset>();
+            // var versionTextAsset = AssetDatabase.LoadAssetAtPath<TextAsset>("Resources/version.txt");
+            var timestamp = DateTime.Now.ToString("yyyyMMddHHmm");
+            File.WriteAllText("Resources/version.txt", $"{version}_{timestamp}");
+            // AssetDatabase.Refresh();
+        }
         
         public static void Build(BuildPlayerOptions buildOptions)
         {
@@ -79,6 +89,8 @@ namespace Gemserk.BuildTools.Editor
             }
             
             buildConfiguration.Load();
+
+            OverrideVersionTextResources(buildConfiguration.version);
 
             buildOptions.locationPathName = buildPath;
             buildOptions.scenes = EditorBuildSettings.scenes.Select(s => s.path).ToArray();
