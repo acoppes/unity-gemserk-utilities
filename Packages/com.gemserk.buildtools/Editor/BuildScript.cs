@@ -54,11 +54,14 @@ namespace Gemserk.BuildTools.Editor
 
         private static void OverrideVersionTextResources(string version)
         {
-            // var versionText = AssetDatabaseExt.FindAssets<TextAsset>();
-            // var versionTextAsset = AssetDatabase.LoadAssetAtPath<TextAsset>("Resources/version.txt");
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmm");
+
+            if (!Directory.Exists("Resources"))
+            {
+                Directory.CreateDirectory("Resources");
+            }
+            
             File.WriteAllText("Resources/version.txt", $"{version}_{timestamp}");
-            // AssetDatabase.Refresh();
         }
         
         public static void Build(BuildPlayerOptions buildOptions)
