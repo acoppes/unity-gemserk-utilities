@@ -22,6 +22,12 @@ namespace Gemserk.Leopotam.Ecs
         {
             return entity.world.HasComponent<T>(entity);
         }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Remove<T>(this Entity entity) where T : struct
+        {
+            entity.world.RemoveComponent<T>(entity);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Exists(this Entity entity)
