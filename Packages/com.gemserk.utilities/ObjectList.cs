@@ -22,6 +22,7 @@ namespace Gemserk.Utilities
     public class ObjectList : IObjectList
     {
         [SerializeField]
+        [FolderPath]
         private string path;
 
         [Tooltip("Leave empty to allow all objects")]

@@ -26,7 +26,9 @@ namespace Gemserk.Utilities.Editor
 
             if (GUI.Button(buttonPosition, content))
             {
-                var newPath = EditorUtility.OpenFilePanel("Select folder", path, "");
+                var previousPath = Path.Combine(Application.dataPath, path);
+                
+                var newPath = EditorUtility.OpenFilePanel("Select folder", previousPath, "");
                 if (!string.IsNullOrEmpty(newPath))
                 {
                     var relativePath = Path.GetRelativePath(Application.dataPath, newPath);
