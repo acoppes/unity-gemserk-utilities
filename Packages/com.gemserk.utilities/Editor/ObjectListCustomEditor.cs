@@ -55,7 +55,10 @@ namespace Gemserk.Utilities.Editor
 
         public override void OnInspectorGUI()
         {
+            EditorGUI.BeginChangeCheck();
             DrawDefaultInspector();
+            
+            var defaultInspectorChanged = EditorGUI.EndChangeCheck();
 
             var objectListAsset = target as ObjectListMonoBehaviour;
             
@@ -63,19 +66,17 @@ namespace Gemserk.Utilities.Editor
             {
                 if (GUILayout.Button("Browse path"))
                 {
-                    var absolutePath = Path.GetFullPath(objectListAsset.objectList.Path, 
-                        Application.dataPath);
-                   
-                    var newFolder = EditorUtility.OpenFolderPanel("Path", absolutePath, "");
+                    var newFolder = GUIInternalUtils.SelectLocalFolder(objectListAsset.objectList.Path);
+                    
                     if (!string.IsNullOrEmpty(newFolder))
                     {
-                        objectListAsset.objectList.Path = Path.GetRelativePath(Application.dataPath, newFolder);
+                        objectListAsset.objectList.Path = newFolder;
                         objectListAsset.objectList.Reload();
                         EditorUtility.SetDirty(objectListAsset);
                     }
                 }
                 
-                if (GUILayout.Button("Reload"))
+                if (GUILayout.Button("Reload") || defaultInspectorChanged)
                 {
                     objectListAsset.objectList?.Reload();
                     EditorUtility.SetDirty(objectListAsset);
