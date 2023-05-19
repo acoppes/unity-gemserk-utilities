@@ -118,7 +118,7 @@
       "hash": "2a8af59a6e15ecbd34783d32dbb37059e663e7f6"
     },
     "com.unity.2d.animation": {
-      "version": "9.0.2",
+      "version": "9.0.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {
