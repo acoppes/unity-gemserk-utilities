@@ -25,7 +25,7 @@ namespace Gemserk.Utilities
         [FolderPath]
         private string path;
 
-        public string assetDatabaseFilter = "t:Object";
+        public List<string> typeFilters = new List<string>();
 
         [Tooltip("Leave empty to allow all objects")]
         public string pattern = ".*";

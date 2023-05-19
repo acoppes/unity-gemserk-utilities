@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Gemserk.Utilities.Editor
 {
@@ -10,7 +12,12 @@ namespace Gemserk.Utilities.Editor
         {
             objectList.assets.Clear();
 
-            var filter = objectList.assetDatabaseFilter;
+            var typeFilters = objectList.typeFilters;
+
+            var filter = string.Join(" ", typeFilters.Select(typeFilter => $"t:{typeFilter}").ToArray());
+
+            // var filter = objectList.assetDatabaseFilter;
+            
             if (string.IsNullOrEmpty(filter))
             {
                 filter = "t:Object";
@@ -27,9 +34,23 @@ namespace Gemserk.Utilities.Editor
                 paths = paths.Where(p => objectList.regex.IsMatch(p));
             }
 
-            objectList.assets = paths
-                .Select(AssetDatabase.LoadAssetAtPath<Object>)
-                .ToList();
+            foreach (var assetsPath in paths)
+            {
+             
+                // filter assets by type?
+                
+                if (typeFilters.Count > 0)
+                {
+                    var assets = AssetDatabase.LoadAllAssetsAtPath(assetsPath);
+                    objectList.assets.AddRange(assets.Where(a => typeFilters.Contains(a.GetType().Name,
+                        StringComparer.OrdinalIgnoreCase)).ToList());
+                }
+                else
+                {
+                    var asset = AssetDatabase.LoadAssetAtPath<Object>(assetsPath);
+                    objectList.assets.Add(asset);
+                }
+            }
         }
     }
 }

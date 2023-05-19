@@ -4,6 +4,27 @@ using UnityEngine;
 
 namespace Gemserk.Utilities.Editor
 {
+    public static class GUIInternalUtils
+    {
+        public static string SelectLocalFolder(string path)
+        {
+            var absolutePath = Path.GetFullPath(path, 
+                Application.dataPath);
+                
+            // var previousPath = Path.Combine(Application.dataPath, path);
+                
+            var newPath = EditorUtility.OpenFolderPanel("Select folder", absolutePath, "");
+           
+            if (!string.IsNullOrEmpty(newPath))
+            {
+                var relativePath = Path.GetRelativePath(Application.dataPath, newPath);
+                return relativePath;
+            }
+
+            return null;
+        }
+    }
+    
     [CustomPropertyDrawer(typeof(FolderPathAttribute), true)]
     public class FolderPathPropertyDrawer: PropertyDrawer
     {
@@ -26,16 +47,14 @@ namespace Gemserk.Utilities.Editor
 
             if (GUI.Button(buttonPosition, content))
             {
-                var previousPath = Path.Combine(Application.dataPath, path);
-                
-                var newPath = EditorUtility.OpenFolderPanel("Select folder", previousPath, "");
+                var newPath = GUIInternalUtils.SelectLocalFolder(path);
+     
                 if (!string.IsNullOrEmpty(newPath))
                 {
-                    var relativePath = Path.GetRelativePath(Application.dataPath, newPath);
-                        
-                    property.stringValue = relativePath;
+                    property.stringValue = newPath;
                     property.serializedObject.ApplyModifiedProperties();
                 }
+                
                 GUIUtility.ExitGUI();
             }
             
