@@ -9,8 +9,14 @@ namespace Gemserk.Utilities.Editor
         public static void Reload(this ObjectList objectList)
         {
             objectList.assets.Clear();
+
+            var filter = objectList.assetDatabaseFilter;
+            if (string.IsNullOrEmpty(filter))
+            {
+                filter = "t:Object";
+            }
             
-            var paths = AssetDatabase.FindAssets("t:Object", new[]
+            var paths = AssetDatabase.FindAssets(filter, new[]
                 {
                     objectList.normalizedAssetPath
                 })
