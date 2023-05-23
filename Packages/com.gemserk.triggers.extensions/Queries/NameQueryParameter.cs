@@ -4,20 +4,36 @@ using UnityEngine.Assertions;
 
 namespace Gemserk.Triggers.Queries
 {
+    public struct NameParameter : IQueryParameter
+    {
+        public string name;
+
+        public NameParameter(string name)
+        {
+            this.name = name;
+        }
+        
+        public bool MatchQuery(Entity entity)
+        {
+            if (!entity.Has<NameComponent>())
+            {
+                return false;
+            }
+            
+            return entity.Get<NameComponent>().name.Equals(name, 
+                StringComparison.OrdinalIgnoreCase);
+        }
+    }
+    
     public class NameQueryParameter : QueryParameterBase
     {
         public string name;
         
-        public override bool MatchQuery(World world, Entity entity)
+        public override bool MatchQuery(Entity entity)
         {
-            Assert.IsFalse(string.IsNullOrEmpty(name), "Cant filter without name");
-
-            if (!world.HasComponent<NameComponent>(entity))
-                return false;
-
-            var nameComponent = world.GetComponent<NameComponent>(entity);
-
-            return name.Equals(nameComponent.name, StringComparison.OrdinalIgnoreCase);
+            Assert.IsFalse(string.IsNullOrEmpty(name), 
+                "Cant filter without name");
+            return new NameParameter(name).MatchQuery(entity);
         }
 
         public override string ToString()

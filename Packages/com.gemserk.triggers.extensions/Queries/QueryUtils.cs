@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Gemserk.Leopotam.Ecs;
 
@@ -18,7 +17,7 @@ namespace Gemserk.Triggers.Queries
         {
             foreach (var parameter in query.parameters)
             {
-                if (!parameter.MatchQuery(world, world.GetEntity(entity)))
+                if (!parameter.MatchQuery(world.GetEntity(entity)))
                 {
                     return false;
                 }

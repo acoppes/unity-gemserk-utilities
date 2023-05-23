@@ -4,6 +4,6 @@ namespace Gemserk.Triggers.Queries
 {
     public interface IQueryParameter
     {
-        bool MatchQuery(World world, Entity entity);
+        bool MatchQuery(Entity entity);
     }
 }

@@ -2,16 +2,16 @@
 
 namespace Gemserk.Triggers.Queries
 {
-    public struct PlayerEntityQuery : IQueryParameter
+    public struct PlayerParameter : IQueryParameter
     {
         public int player;
 
-        public PlayerEntityQuery(int player)
+        public PlayerParameter(int player)
         {
             this.player = player;
         }
         
-        public bool MatchQuery(World world, Entity entity)
+        public bool MatchQuery(Entity entity)
         {
             if (!entity.Has<PlayerComponent>())
             {
@@ -26,9 +26,9 @@ namespace Gemserk.Triggers.Queries
     {
         public int player;
         
-        public override bool MatchQuery(World world, Entity entity)
+        public override bool MatchQuery(Entity entity)
         {
-            return new PlayerEntityQuery(player).MatchQuery(world, entity);
+            return new PlayerParameter(player).MatchQuery(entity);
         }
 
         public override string ToString()
