@@ -148,5 +148,32 @@ namespace Gemserk.Leopotam.Ecs.Tests
             
             Assert.IsFalse(statesComponent.HasState("B"));
         }
+        
+        [Test]
+        public void ExitState_AfterTime()
+        {
+            var statesComponent = StatesComponent.Create();
+            var statesHandler = new StatesHandlerMock();
+            
+            statesComponent.onStatesEnterEvent += statesHandler.OnStatesEnter;
+            statesComponent.onStatesExitEvent += statesHandler.OnStatesExit;
+            
+            statesComponent.EnterState("A");
+            
+            StatesSystem.UpdateStateTime(statesComponent, 0.5f);
+            
+            Assert.AreEqual(0.5f, statesComponent.GetState("A").time);
+            Assert.IsTrue(statesComponent.HasState("A"));
+            
+            statesComponent.ExitState("A", 0.2f);
+            
+            StatesSystem.UpdateStateTime(statesComponent, 0.1f);
+            
+            Assert.AreEqual(true, statesComponent.HasState("A"));
+            
+            StatesSystem.UpdateStateTime(statesComponent, 0.1f);
+            
+            Assert.AreEqual(false, statesComponent.HasState("A"));
+        }
     }
 }

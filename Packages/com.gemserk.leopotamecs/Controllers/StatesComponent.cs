@@ -58,6 +58,14 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             activeStates.Remove(state);
             states.Remove(state);
         }
+        
+        public void ExitState(string stateName, float time)
+        {
+            if (states.TryGetValue(stateName, out var state))
+            {
+                state.duration = state.time + time;
+            }
+        }
 
         public static StatesComponent Create()
         {
