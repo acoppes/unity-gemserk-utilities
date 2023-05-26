@@ -7,7 +7,22 @@
         public TriggerActionGroup elseGroup;
 
         private TriggerActionGroup runningGroup;
-        
+
+        public override string GetObjectName()
+        {
+            if (thenGroup == null && elseGroup == null)
+            {
+                return "If()";
+            }
+            
+            if (thenGroup != null && elseGroup == null)
+            {
+                return $"IfThen({thenGroup.name})";
+            }
+
+            return $"IfThenElse({thenGroup.name}, {elseGroup.name})";
+        }
+
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
             ITrigger.ExecutionResult result;
