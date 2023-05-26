@@ -928,7 +928,7 @@ GameObject:
   - component: {fileID: 179614661}
   - component: {fileID: 179614662}
   m_Layer: 0
-  m_Name: TriggerActionGroup
+  m_Name: Actions()
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -966,6 +966,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573062c2edf74cf784ee4d2754119972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groupName: 
 --- !u!1001 &179957373
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1092,7 +1093,7 @@ GameObject:
   - component: {fileID: 202444039}
   - component: {fileID: 202444040}
   m_Layer: 0
-  m_Name: IfThenElseTriggerAction
+  m_Name: IfThen(Actions())
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4112,7 +4113,7 @@ GameObject:
   - component: {fileID: 968910724}
   - component: {fileID: 968910725}
   m_Layer: 0
-  m_Name: IfThenElseTriggerAction
+  m_Name: IfThenElse(Actions(), Actions())
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4421,7 +4422,7 @@ GameObject:
   - component: {fileID: 1021673801}
   - component: {fileID: 1021673802}
   m_Layer: 0
-  m_Name: TriggerActionGroup
+  m_Name: Actions()
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4459,6 +4460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573062c2edf74cf784ee4d2754119972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groupName: 
 --- !u!1 &1028152837
 GameObject:
   m_ObjectHideFlags: 0
@@ -5631,7 +5633,7 @@ GameObject:
   - component: {fileID: 1343445057}
   - component: {fileID: 1343445058}
   m_Layer: 0
-  m_Name: TriggerActionGroup
+  m_Name: Actions()
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5669,6 +5671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573062c2edf74cf784ee4d2754119972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groupName: 
 --- !u!1 &1346254257
 GameObject:
   m_ObjectHideFlags: 0
@@ -5928,7 +5931,7 @@ GameObject:
   - component: {fileID: 1413331260}
   - component: {fileID: 1413331261}
   m_Layer: 0
-  m_Name: TriggerActionGroup
+  m_Name: Else
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5964,6 +5967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573062c2edf74cf784ee4d2754119972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groupName: Else
 --- !u!1001 &1444678780
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6450,7 +6454,7 @@ GameObject:
   - component: {fileID: 1585802491}
   - component: {fileID: 1585802492}
   m_Layer: 0
-  m_Name: IfThenElseTriggerAction
+  m_Name: IfThen(Actions())
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7184,7 +7188,7 @@ GameObject:
   - component: {fileID: 1822175097}
   - component: {fileID: 1822175098}
   m_Layer: 0
-  m_Name: TriggerActionGroup
+  m_Name: Then
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7222,6 +7226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 573062c2edf74cf784ee4d2754119972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groupName: Then
 --- !u!1 &1822533932
 GameObject:
   m_ObjectHideFlags: 0

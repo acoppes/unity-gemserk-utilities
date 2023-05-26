@@ -5,9 +5,21 @@ namespace Gemserk.Triggers
 {
     public class TriggerActionGroup : TriggerAction
     {
+        public string groupName;
+        
         private readonly List<TriggerAction> actions = new();
 
         private int runningActionIndex;
+
+        public override string GetObjectName()
+        {
+            if (string.IsNullOrEmpty(groupName))
+            {
+                return "Actions()";
+            }
+            
+            return groupName;
+        }
 
         private void Awake()
         {

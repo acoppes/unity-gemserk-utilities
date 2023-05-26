@@ -6,21 +6,25 @@ using UnityEngine;
 
 namespace Gemserk.Triggers.Editor
 {
-    [CustomEditor(typeof(TriggerObject), true)]
-    public class TriggerObjectCustomEditor : UnityEditor.Editor
+    [InitializeOnLoad]
+    public static class TriggerEditorsTypeCaches
     {
-        private TypeCache.TypeCollection eventTypes;
-        private TypeCache.TypeCollection conditionTypes;
-        private TypeCache.TypeCollection actionTypes;
-        
-        private void OnEnable()
+        public static TypeCache.TypeCollection eventTypes;
+        public static TypeCache.TypeCollection conditionTypes;
+        public static TypeCache.TypeCollection actionTypes;
+
+        static TriggerEditorsTypeCaches()
         {
             eventTypes = TypeCache.GetTypesDerivedFrom<TriggerEvent>();
             conditionTypes = TypeCache.GetTypesDerivedFrom<TriggerCondition>();
             actionTypes = TypeCache.GetTypesDerivedFrom<TriggerAction>();
         }
-
-        private static void DrawTriggerButtons(string category, TypeCache.TypeCollection typesCollection, 
+    }
+    
+    [CustomEditor(typeof(TriggerObject), true)]
+    public class TriggerObjectCustomEditor : UnityEditor.Editor
+    {
+        public static void DrawTriggerButtons(string category, TypeCache.TypeCollection typesCollection, 
             Transform parent)
         {
             if (Application.isPlaying)
@@ -94,9 +98,9 @@ namespace Gemserk.Triggers.Editor
             var conditionsParent = triggerObject.transform.FindOrCreateFolder("Conditions");
             var actionsParent = triggerObject.transform.FindOrCreateFolder("Actions");
             
-            DrawTriggerButtons("Events", eventTypes, eventsParent);
-            DrawTriggerButtons("Conditions", conditionTypes, conditionsParent);
-            DrawTriggerButtons("Actions", actionTypes, actionsParent);
+            DrawTriggerButtons("Events", TriggerEditorsTypeCaches.eventTypes, eventsParent);
+            DrawTriggerButtons("Conditions", TriggerEditorsTypeCaches.conditionTypes, conditionsParent);
+            DrawTriggerButtons("Actions", TriggerEditorsTypeCaches.actionTypes, actionsParent);
             
             if (Application.isPlaying)
             {
@@ -110,6 +114,18 @@ namespace Gemserk.Triggers.Editor
                     triggerObject.ForceQueueExecution();
                 }
             }
+        }
+    }
+    
+    [CustomEditor(typeof(TriggerActionGroup), true)]
+    public class TriggerActionGroupCustomEditor : UnityEditor.Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            DrawDefaultInspector();
+            var triggerActionGroup = target as TriggerActionGroup;
+            var actionsParent = triggerActionGroup.transform;
+            TriggerObjectCustomEditor.DrawTriggerButtons("Actions", TriggerEditorsTypeCaches.actionTypes, actionsParent);
         }
     }
 }
