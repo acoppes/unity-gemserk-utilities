@@ -1041,7 +1041,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityDefinition: {fileID: 1332753439}
-  instanceType: 0
+  onInstantiateActionType: 0
+  instantiationType: 1
 --- !u!4 &1455352612
 Transform:
   m_ObjectHideFlags: 0
@@ -1187,7 +1188,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityDefinition: {fileID: 1520804955}
-  instanceType: 3
+  onInstantiateActionType: 3
+  instantiationType: 1
 --- !u!1 &1645325273
 GameObject:
   m_ObjectHideFlags: 0
@@ -1277,7 +1279,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityDefinition: {fileID: 2010517064}
-  instanceType: 3
+  onInstantiateActionType: 3
+  instantiationType: 1
 --- !u!1 &1994950384
 GameObject:
   m_ObjectHideFlags: 0

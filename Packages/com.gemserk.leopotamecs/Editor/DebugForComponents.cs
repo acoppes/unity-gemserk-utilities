@@ -1,6 +1,7 @@
 using Gemserk.Leopotam.Ecs.Controllers;
 using Leopotam.EcsLite.UnityEditor;
 using UnityEditor;
+using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Editor
 {
@@ -22,6 +23,20 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 EditorGUI.indentLevel--;
                 EditorGUI.indentLevel--;
 
+                return true;
+            }
+        }
+        
+        sealed class DisabledComponentInspector : EcsComponentInspectorTyped<DisabledComponent> {
+            public override bool OnGuiTyped (string label, ref DisabledComponent disabledComponent, EcsEntityDebugView entityView) {
+                
+                EditorGUILayout.LabelField ($"{nameof(DisabledComponent)}", EditorStyles.boldLabel);
+
+                if (GUILayout.Button("enable"))
+                {
+                    entityView.World.GetPool<EnableDisabledComponent>().Add(entityView.Entity);   
+                }
+                
                 return true;
             }
         }

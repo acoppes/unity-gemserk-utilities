@@ -34,4 +34,9 @@ namespace Gemserk.Leopotam.Ecs
     {
         
     }
+    
+    public struct EnableDisabledComponent : IEntityComponent
+    {
+        
+    }
 }
