@@ -23,10 +23,7 @@ namespace Gemserk.Utilities.Editor
                 filter = "t:Object";
             }
             
-            var paths = AssetDatabase.FindAssets(filter, new[]
-                {
-                    objectList.normalizedAssetPath
-                })
+            var paths = AssetDatabase.FindAssets(filter, objectList.normalizedAssetPaths)
                 .Select(AssetDatabase.GUIDToAssetPath);
 
             if (!string.IsNullOrEmpty(objectList.pattern))
@@ -36,7 +33,6 @@ namespace Gemserk.Utilities.Editor
 
             foreach (var assetsPath in paths)
             {
-             
                 // filter assets by type?
                 
                 if (typeFilters.Count > 0)

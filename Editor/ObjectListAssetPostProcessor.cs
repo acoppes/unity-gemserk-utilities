@@ -14,42 +14,52 @@ namespace Gemserk.Utilities.Editor
             
             foreach (var objectListAsset in objectListAssets)
             {
-                if (string.IsNullOrEmpty(objectListAsset.objectList.normalizedAssetPath))
-                    continue;
-
-                var shouldRegenerate = false;
-
-                var regex = objectListAsset.objectList.regex;
-                
-                foreach (var assetPath in importedAssets)
+                foreach (var normalizedAssetPath in objectListAsset.objectList.normalizedAssetPaths)
                 {
-                    shouldRegenerate = assetPath.StartsWith(objectListAsset.objectList.normalizedAssetPath);
+                    if (string.IsNullOrEmpty(normalizedAssetPath))
+                        continue;
+
+                    var shouldRegenerate = false;
+
+                    var regex = objectListAsset.objectList.regex;
+                
+                    foreach (var assetPath in importedAssets)
+                    {
+                        shouldRegenerate = assetPath.StartsWith(normalizedAssetPath);
                     
-                    if (!string.IsNullOrEmpty(objectListAsset.objectList.pattern))
+                        if (!string.IsNullOrEmpty(objectListAsset.objectList.pattern))
+                        {
+                            shouldRegenerate = shouldRegenerate 
+                                               && regex.IsMatch(assetPath);
+                        }
+                    }
+                
+                    foreach (var assetPath in deletedAssets)
                     {
-                        shouldRegenerate = shouldRegenerate 
-                                           && regex.IsMatch(assetPath);
+                        shouldRegenerate = assetPath.StartsWith(normalizedAssetPath);
+
+                        if (!string.IsNullOrEmpty(objectListAsset.objectList.pattern))
+                        {
+                            shouldRegenerate = shouldRegenerate 
+                                               && regex.IsMatch(assetPath);
+                        }
+                    }
+
+                    if (shouldRegenerate)
+                    {
+                        objectListAsset.objectList?.Reload();
+                        EditorUtility.SetDirty(objectListAsset);
+                    }
+                
+                    AssetDatabase.SaveAssetIfDirty(objectListAsset);
+
+                    // already detected regeneration, stop paths iteration
+                    if (shouldRegenerate)
+                    {
+                        break;
                     }
                 }
                 
-                foreach (var assetPath in deletedAssets)
-                {
-                    shouldRegenerate = assetPath.StartsWith(objectListAsset.objectList.normalizedAssetPath);
-
-                    if (!string.IsNullOrEmpty(objectListAsset.objectList.pattern))
-                    {
-                        shouldRegenerate = shouldRegenerate 
-                                           && regex.IsMatch(assetPath);
-                    }
-                }
-
-                if (shouldRegenerate)
-                {
-                    objectListAsset.objectList?.Reload();
-                    EditorUtility.SetDirty(objectListAsset);
-                }
-                
-                AssetDatabase.SaveAssetIfDirty(objectListAsset);    
             }
         }
     }
