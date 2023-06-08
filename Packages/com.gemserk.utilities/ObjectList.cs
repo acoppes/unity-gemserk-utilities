@@ -17,13 +17,16 @@ namespace Gemserk.Utilities
 
         List<T> Get<T>() where T : Object;
     }
-    
+
     [Serializable]
     public class ObjectList : IObjectList
     {
         [SerializeField]
         [FolderPath]
         private string path;
+
+        // [SerializeField]
+        // private ObjectListPath[] paths;
 
         public List<string> typeFilters = new List<string>();
 
