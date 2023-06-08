@@ -16,6 +16,8 @@ namespace Gemserk.Utilities
         void Collect<T>(List<T> results) where T : Object;
 
         List<T> Get<T>() where T : Object;
+
+        List<T> GetComponents<T>() where T : Component;
     }
 
     [Serializable]
