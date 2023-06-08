@@ -24,11 +24,7 @@ namespace Gemserk.Utilities
     public class ObjectList : IObjectList
     {
         [SerializeField]
-        [FolderPath]
-        public string path;
-
-        [SerializeField]
-        public SelectablePath[] paths;
+        private SelectablePath[] paths;
 
         public List<string> typeFilters = new List<string>();
 
