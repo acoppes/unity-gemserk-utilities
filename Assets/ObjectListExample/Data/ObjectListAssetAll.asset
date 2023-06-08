@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: ObjectListAssetAll
   m_EditorClassIdentifier: 
   objectList:
-    path: ObjectListExample/ObjectSet
+    paths:
+    - path: ObjectListExample\ObjectSet
+    typeFilters: []
     pattern: .*
     nameComparison: 5
     assets:

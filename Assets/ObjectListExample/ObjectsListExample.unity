@@ -153,7 +153,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectList:
-    path: ObjectListExample\ObjectSet
+    paths:
+    - path: ObjectListExample\ObjectSet
+    - path: ObjectListExample\Signals2
     typeFilters:
     - signalasset
     pattern: .*
@@ -161,6 +163,8 @@ MonoBehaviour:
     assets:
     - {fileID: 11400000, guid: 4daa566506a91254bba8b850662789d0, type: 2}
     - {fileID: 11400000, guid: 16d432137c3537742af9b40364c316ad, type: 2}
+    - {fileID: 11400000, guid: 526e92028d8e2b6418a3bb8135d80e36, type: 2}
+    - {fileID: 11400000, guid: 750877cdbfe7ede45bf00f3a901e932f, type: 2}
 --- !u!4 &26201517
 Transform:
   m_ObjectHideFlags: 0
@@ -206,7 +210,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectList:
-    path: AsepriteImporter\Output\Wolverine
+    paths:
+    - path: AsepriteImporter\Output\Wolverine
     typeFilters:
     - sprite
     pattern: Attack.*
