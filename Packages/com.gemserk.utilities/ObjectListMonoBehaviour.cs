@@ -26,5 +26,10 @@ namespace Gemserk.Utilities
         {
             return objectList.Get<T>();
         }
+        
+        public List<T> GetComponents<T>() where T : Component
+        {
+            return objectList.GetComponents<T>();
+        }
     }
 }
