@@ -25,8 +25,8 @@ namespace Gemserk.Utilities
         [FolderPath]
         private string path;
 
-        // [SerializeField]
-        // private ObjectListPath[] paths;
+        [SerializeField]
+        private SelectablePath[] paths;
 
         public List<string> typeFilters = new List<string>();
 
@@ -40,18 +40,18 @@ namespace Gemserk.Utilities
         
         public List<Object> assets = new List<Object>();
 
-        public string Path
-        {
-            get => path;
-            set => path = value.Replace("\\", "/");
-        }
-
-        public string normalizedAssetPath
+        // public string Path
+        // {
+        //     get => path;
+        //     set => path = value.Replace("\\", "/");
+        // }
+        //
+        
+        public string[] normalizedAssetPaths
         {
             get
             {
-                var normalizedPath = path.Replace("\\", "/");
-                return $"Assets/{normalizedPath}";
+                return paths.Select(p => p.normalizedAssetPath).ToArray();
             }
         }
 
@@ -75,6 +75,15 @@ namespace Gemserk.Utilities
             var results = new List<T>();
             Collect(results);
             return results;
+        }
+        
+        public List<T> GetComponents<T>() where T : Component
+        {
+            var objects = Get<GameObject>();
+            return objects
+                .Where(g => g.GetComponent<T>() != null)
+                .Select(g => g.GetComponent<T>())
+                .ToList();
         }
     }
 }
