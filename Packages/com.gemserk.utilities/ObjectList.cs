@@ -25,10 +25,10 @@ namespace Gemserk.Utilities
     {
         [SerializeField]
         [FolderPath]
-        private string path;
+        public string path;
 
         [SerializeField]
-        private SelectablePath[] paths;
+        public SelectablePath[] paths;
 
         public List<string> typeFilters = new List<string>();
 
