@@ -5,14 +5,14 @@ namespace Gemserk.Utilities
 {
     public static class CollectionExtensions
     {
-        public static T Random<T>(this List<T> list)
+        public static T Random<T>(this IList<T> list)
         {
             if (list.Count == 0)
                 return default;
             return list[UnityEngine.Random.Range(0, list.Count)];
         }
         
-        public static T GetItemOrLast<T>(this List<T> list, int index)
+        public static T GetItemOrLast<T>(this IList<T> list, int index)
         {
             if (index >= list.Count)
                 index = list.Count - 1;
@@ -28,7 +28,7 @@ namespace Gemserk.Utilities
             return array[index];
         }
         
-        public static T GetInterface<T>(this List<GameObject> list, int index) where T : class
+        public static T GetInterface<T>(this IList<GameObject> list, int index) where T : class
         {
             if (index >= list.Count)
                 return null;
