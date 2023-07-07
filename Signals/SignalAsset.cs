@@ -8,6 +8,8 @@ namespace Gemserk.Utilities.Signals
     {
         private readonly IList<ISignal.OnSignal> handlers = new List<ISignal.OnSignal>();
 
+        public IList<ISignal.OnSignal> GetHandlers() => handlers;
+
         public void Register(ISignal.OnSignal signalHandler)
         {
             handlers.Add(signalHandler);
