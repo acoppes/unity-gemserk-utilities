@@ -6,7 +6,7 @@ List of packages:
     - Triggers logic like SC2.
     - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.triggers
 * Aseprite Utilities
-    - Aseprite assets importer, [more info](packages/com.gemserk.aseprite/Readme.md).
+    - Aseprite assets importer, [more info](Packages/com.gemserk.aseprite/Readme.md).
     - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.aseprite
 * Gameplay Utilities
     - General utilities
