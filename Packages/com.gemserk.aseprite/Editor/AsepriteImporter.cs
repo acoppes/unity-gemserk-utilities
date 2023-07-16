@@ -79,11 +79,11 @@ namespace Gemserk.Aseprite.Editor
 
             // var fileOutputFolderPath = Path.Combine(outputFolder, fileName);
             var targetFolder = Path.Combine(outputFolder, fileName);
-            var fileOutputFolderPath = Path.GetFullPath(Path.Combine("AsepriteImporter", fileName), Application.temporaryCachePath);
+            var temporaryFolderPath = Path.GetFullPath(Path.Combine("AsepriteImporter", fileName), Application.temporaryCachePath);
 
-            if (!Directory.Exists(fileOutputFolderPath))
+            if (!Directory.Exists(temporaryFolderPath))
             {
-                Directory.CreateDirectory(fileOutputFolderPath);
+                Directory.CreateDirectory(temporaryFolderPath);
             }
             
             if (!Directory.Exists(targetFolder))
@@ -93,9 +93,9 @@ namespace Gemserk.Aseprite.Editor
             
             var outputFormat = format.Replace("{title}", fileName);
             
-            ExecuteAsepriteExporter(asepritePath, filePath, fileOutputFolderPath, outputFormat);
+            ExecuteAsepriteExporter(asepritePath, filePath, temporaryFolderPath, outputFormat);
 
-            var generatedFiles = Directory.GetFiles(fileOutputFolderPath);
+            var generatedFiles = Directory.GetFiles(temporaryFolderPath);
             
             var targetDirectory = new DirectoryInfo(targetFolder);
             
@@ -110,6 +110,13 @@ namespace Gemserk.Aseprite.Editor
             {
                 var destination = Path.Combine(targetFolder, Path.GetFileName(source));
                 FileUtil.CopyFileOrDirectory(source, destination);
+            }
+
+            var temporaryDirectory = new DirectoryInfo(temporaryFolderPath);
+            Debug.Log($"Cleaning up pngs from {temporaryFolderPath}");
+            foreach (var file in temporaryDirectory.EnumerateFiles("*.png")) {
+                // Debug.Log(file);
+                file.Delete();
             }
         }
 
