@@ -69,6 +69,24 @@ namespace Gemserk.Leopotam.Ecs
         public int ecsEntity;
         public short ecsGeneration;
 
+        public static Entity[] CreateArray(int count)
+        {
+            var entities = new Entity[count];
+            for (var i = 0; i < count; i++)
+            {
+                entities[i] = NullEntity;
+            }
+            return entities;
+        }
+        
+        public static void CreateArray(Entity[] entityArray)
+        {
+            for (var i = 0; i < entityArray.Length; i++)
+            {
+                entityArray[i] = NullEntity;
+            }
+        }
+
         public static Entity Create(World world, int entity, short generation)
         {
             return new Entity(world, entity, generation);
