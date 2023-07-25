@@ -1,4 +1,4 @@
-﻿using Leopotam.EcsLite.Di;
+﻿using Gemserk.Leopotam.Ecs.Controllers;
 using UnityEditor;
 using UnityEngine;
 
@@ -61,13 +61,22 @@ namespace Gemserk.Leopotam.Ecs.Editor
                         {
                             continue;
                         }
-                        
+
                         var component = world.GetComponent(entity, componentType);
+
+                        if (componentType.IsAssignableFrom(typeof(ConfigurationComponent)))
+                        {
+                            DebugForComponents.DebugConfigurationComponent(componentType.Name, (ConfigurationComponent) component);
+                        }
+                        else
+                        {
+                            EditorGUILayout.LabelField(componentType.Name);
+                            EditorGUI.indentLevel++;
+                            EditorGUILayout.LabelField(component.ToString());
+                            EditorGUI.indentLevel--;
+                        }
                         
-                        EditorGUILayout.LabelField(componentType.Name);
-                        EditorGUI.indentLevel++;
-                        EditorGUILayout.LabelField(component.ToString());
-                        EditorGUI.indentLevel--;
+
                     }
                     
                     EditorGUI.BeginDisabledGroup(true);

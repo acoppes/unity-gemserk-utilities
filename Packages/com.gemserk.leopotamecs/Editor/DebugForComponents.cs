@@ -7,23 +7,52 @@ namespace Gemserk.Leopotam.Ecs.Editor
 {
     public static class DebugForComponents
     {
-        sealed class StateComponentInspector : EcsComponentInspectorTyped<StatesComponent> {
-            public override bool OnGuiTyped (string label, ref StatesComponent states, EcsEntityDebugView entityView) {
+        public static bool DebugStatesComponent(string label, StatesComponent states)
+        {
+            EditorGUILayout.LabelField (label, EditorStyles.boldLabel);
+            // EditorGUILayout.LabelField ($"{nameof(StatesComponent)}", EditorStyles.boldLabel);
                 
-                EditorGUILayout.LabelField ($"{nameof(StatesComponent)}", EditorStyles.boldLabel);
+            EditorGUI.indentLevel++;
+            EditorGUILayout.LabelField ($"Active States");
                 
-                EditorGUI.indentLevel++;
-                EditorGUILayout.LabelField ($"Active States");
-                
-                EditorGUI.indentLevel++;
-                foreach (var state in states.states)
-                {
-                    EditorGUILayout.LabelField($"{state.Value.name} || {state.Value.time:0.00} || {state.Value.updateCount}");
-                }
-                EditorGUI.indentLevel--;
-                EditorGUI.indentLevel--;
+            EditorGUI.indentLevel++;
+            foreach (var state in states.states)
+            {
+                EditorGUILayout.LabelField($"{state.Value.name} || {state.Value.time:0.00} || {state.Value.updateCount}");
+            }
+            EditorGUI.indentLevel--;
+            EditorGUI.indentLevel--;
 
-                return true;
+            return false;
+        }
+        
+        public static bool DebugConfigurationComponent(string label, ConfigurationComponent configuration)
+        {
+            EditorGUILayout.LabelField (label, EditorStyles.boldLabel);
+            configuration.configuredVersion = EditorGUILayout.IntField("Version", configuration.configuredVersion);
+            return false;
+        }
+        
+        sealed class StateComponentInspector : EcsComponentInspectorTyped<StatesComponent> {
+            public override bool OnGuiTyped (string label, ref StatesComponent states, EcsEntityDebugView entityView)
+            {
+                return DebugStatesComponent(label, states);
+                
+                // EditorGUILayout.LabelField (label, EditorStyles.boldLabel);
+                // // EditorGUILayout.LabelField ($"{nameof(StatesComponent)}", EditorStyles.boldLabel);
+                //
+                // EditorGUI.indentLevel++;
+                // EditorGUILayout.LabelField ($"Active States");
+                //
+                // EditorGUI.indentLevel++;
+                // foreach (var state in states.states)
+                // {
+                //     EditorGUILayout.LabelField($"{state.Value.name} || {state.Value.time:0.00} || {state.Value.updateCount}");
+                // }
+                // EditorGUI.indentLevel--;
+                // EditorGUI.indentLevel--;
+                //
+                // return true;
             }
         }
         
