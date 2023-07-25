@@ -41,11 +41,41 @@ namespace Gemserk.Leopotam.Ecs.Editor
             {
                 // COLLECT INFO HERE
                 
-                var debug = debugComponents.Get(e);
+                ref var debug = ref debugComponents.Get(e);
                 // var debug = filter.Pools.Inc1.Get(e);
                 // update debug stuff
                 // debug.name = $"{}";
-                EditorGUILayout.LabelField(debug.name);
+                var entity = world.GetEntity(e);
+                
+                debug.foldout = EditorGUILayout.Foldout(debug.foldout, $"{entity.ToString()} - {debug.name}");
+                if (debug.foldout)
+                {
+                    EditorGUI.indentLevel++;
+                    // other info
+                    EditorGUILayout.LabelField($"Total Components: {debug.componentTypeCount}");
+
+                    var types = debug.componentTypes;
+                    foreach (var componentType in types)
+                    {
+                        if (componentType == null)
+                        {
+                            continue;
+                        }
+                        
+                        var component = world.GetComponent(entity, componentType);
+                        
+                        EditorGUILayout.LabelField(componentType.Name);
+                        EditorGUI.indentLevel++;
+                        EditorGUILayout.LabelField(component.ToString());
+                        EditorGUI.indentLevel--;
+                    }
+                    
+                    EditorGUI.BeginDisabledGroup(true);
+
+                    EditorGUI.EndDisabledGroup();
+                    EditorGUI.indentLevel--;
+                }
+                
             }
             
             // THEN RENDER INFO WITH FILTERS AND STUFF

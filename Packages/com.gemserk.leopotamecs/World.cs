@@ -37,6 +37,8 @@ namespace Gemserk.Leopotam.Ecs
         private readonly IList<IEntityCreatedHandler> entityCreatedHandlers = new List<IEntityCreatedHandler>();
         private readonly IList<IEntityDestroyedHandler> entityDestroyedHandlers = new List<IEntityDestroyedHandler>();
 
+        public EcsWorld EcsWorld => world;
+
         private Entity CreateEmptyEntity()
         {
             var entity = world.NewEntity();
@@ -109,6 +111,11 @@ namespace Gemserk.Leopotam.Ecs
         public ref T GetComponent<T>(Entity entity) where T : struct
         {
             return ref world.GetPool<T>().Get(entity);
+        }
+        
+        public object GetComponent(Entity entity, Type type)
+        {
+            return world.GetPoolByType(type).GetRaw(entity);
         }
         
         public bool TryGetComponent<T>(Entity entity, out T component) where T : struct
