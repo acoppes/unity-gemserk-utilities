@@ -39,4 +39,9 @@ namespace Gemserk.Leopotam.Ecs
     {
         
     }
+
+    public struct EcsWorldEntitiesDebugComponent : IEntityComponent
+    {
+        public string name;
+    }
 }
