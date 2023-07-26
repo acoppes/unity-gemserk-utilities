@@ -44,8 +44,8 @@ namespace Gemserk.Leopotam.Ecs
     public struct EcsWorldEntitiesDebugComponent : IEntityComponent
     {
         public string name;
-        public int componentTypeCount;
-        public Type[] componentTypes;
+        // public int componentTypeCount;
+        // public Type[] componentTypes;
         public bool foldout;
     }
 }
