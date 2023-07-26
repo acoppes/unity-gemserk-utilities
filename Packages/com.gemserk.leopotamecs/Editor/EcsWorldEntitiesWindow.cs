@@ -75,6 +75,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
         private Entity selectedEntity = Entity.NullEntity;
         
         private Dictionary<Type, bool> foldouts = new Dictionary<Type, bool>();
+        private static readonly Color SelectedEntityBackgroundColor = new Color(0.75f, 0.75f, 1f, 1f);
 
         void DrawComponents (EcsWorld world, Entity entity) {
             var count = world.GetComponents (entity.ecsEntity, ref _componentsCache);
@@ -96,11 +97,44 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 // special case for tag components
                 if (fields.Length == 0)
                 {
-                    EditorGUILayout.LabelField(typeName);
+                    var labelStyle = new GUIStyle(GUI.skin.label)
+                    {
+                        alignment = TextAnchor.MiddleCenter
+                    };
+                    EditorGUILayout.LabelField(typeName, labelStyle);
                 }
                 else
                 {
-                    foldouts[type] = EditorGUILayout.Foldout(foldouts[type], typeName);
+                    var previousBgColor = GUI.backgroundColor;
+
+                    var buttonStyle = new GUIStyle(GUI.skin.button);
+                    
+                    // type was selected
+                    if (foldouts[type])
+                    {
+                        var tempColor = previousBgColor;
+                        tempColor.a = 0.75f;
+                        GUI.backgroundColor = tempColor;
+
+                        buttonStyle.fontStyle = FontStyle.Bold;
+                    }
+                    else
+                    {
+                        var tempColor = previousBgColor;
+                        tempColor.a = 0.25f;
+                        GUI.backgroundColor = tempColor;
+                    }
+
+
+                    
+                    if (GUILayout.Button(typeName, buttonStyle))
+                    {
+                        foldouts[type] = !foldouts[type];
+                    }
+
+                    GUI.backgroundColor = previousBgColor;
+                    
+                    // foldouts[type] = EditorGUILayout.Foldout(foldouts[type], typeName);
 
                     if (foldouts[type])
                     {
@@ -199,8 +233,6 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 alignment = TextAnchor.MiddleLeft
             };
 
-            selectedEntityStyle.onNormal.background = selectedEntityStyle.onFocused.background;
-
             var notSelectedEntityStyle = new GUIStyle(GUI.skin.button)
             {
                 fontStyle = FontStyle.Normal,
@@ -246,7 +278,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 if (isSelected)
                 {
                     style = selectedEntityStyle;
-                    GUI.backgroundColor = new Color(0.75f, 0.75f, 1f, 1f);
+                    GUI.backgroundColor = SelectedEntityBackgroundColor;
                 }
                 
                 if (GUILayout.Button(entityName, style))
