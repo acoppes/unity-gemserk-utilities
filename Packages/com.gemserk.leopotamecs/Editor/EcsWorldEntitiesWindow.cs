@@ -27,6 +27,15 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 }
             }
         }
+        
+        public static IEcsComponentInspector GetCustomInspector(Type type)
+        {
+            if (Inspectors.TryGetValue(type, out var inspector))
+            {
+                return inspector;
+            }
+            return null;
+        }
 
         public static (bool, bool, object) Render (string label, Type type, object value, EcsEntityDebugView debugView) {
             if (Inspectors.TryGetValue (type, out var inspector)) {
@@ -79,14 +88,24 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 GUILayout.BeginVertical (GUI.skin.box);
                 var typeName = EditorExtensions.GetCleanGenericTypeName (type);
                 var pool = world.GetPoolByType (type);
-                var (rendered, changed, newValue) = EcsComponentInspectors.Render (typeName, type, component, null);
-                if (!rendered)
+
+                var customInspector = EcsComponentInspectors.GetCustomInspector(type);
+
+                foldouts[type] = EditorGUILayout.Foldout(foldouts[type], typeName);
+
+                if (foldouts[type])
                 {
-                    foldouts[type] = EditorGUILayout.Foldout(foldouts[type], typeName);
-                    
-                   //  EditorGUILayout.LabelField (typeName, EditorStyles.boldLabel);
-                    
-                    if (foldouts[type])
+                    if (customInspector != null)
+                    {
+                        var (changed, newValue) = customInspector.OnGui(typeName, component, null);
+
+                        if (changed)
+                        {
+                            // update value.
+                            pool.SetRaw(entity.ecsEntity, newValue);
+                        }
+                    }
+                    else
                     {
                         var indent = EditorGUI.indentLevel;
                         EditorGUI.indentLevel++;
@@ -94,15 +113,11 @@ namespace Gemserk.Leopotam.Ecs.Editor
                         {
                             DrawTypeField(entity, component, pool, field);
                         }
+
                         EditorGUI.indentLevel = indent;
                     }
-                    
-                } else {
-                    if (changed) {
-                        // update value.
-                        pool.SetRaw (entity.ecsEntity, newValue);
-                    }
                 }
+
                 GUILayout.EndVertical ();
                 EditorGUILayout.Space (2f, true);
             }
@@ -185,7 +200,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
             EditorGUILayout.BeginHorizontal();
             
-            EditorGUILayout.BeginVertical(GUILayout.MinWidth(200), GUILayout.ExpandWidth(true));
+            EditorGUILayout.BeginVertical(GUILayout.MinWidth(250), GUILayout.ExpandWidth(true));
             EditorGUILayout.LabelField("-- ENTITIES --", titleStyle);
             EditorGUILayout.Separator();
 
