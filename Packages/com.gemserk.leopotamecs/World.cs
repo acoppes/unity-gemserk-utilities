@@ -22,6 +22,9 @@ namespace Gemserk.Leopotam.Ecs
     public class World : SingletonBehaviour<World>
     {
         [SerializeField]
+        private bool disableLeoEcsDebug;
+        
+        [SerializeField]
         private Transform fixedUpdateParent, updateParent, lateUpdateParent;
         
         internal EcsWorld world;
@@ -228,7 +231,7 @@ namespace Gemserk.Leopotam.Ecs
             }
             
 #if UNITY_EDITOR
-            if (Application.isPlaying)
+            if (Application.isPlaying && !disableLeoEcsDebug)
             {
                 // add debug systems for custom worlds here, for example:
                 // .Add (new Leopotam.EcsLite.UnityEditor.EcsWorldDebugSystem ("events"))

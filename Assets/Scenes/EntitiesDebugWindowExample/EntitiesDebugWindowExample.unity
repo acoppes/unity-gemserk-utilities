@@ -1033,6 +1033,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ~World
       objectReference: {fileID: 0}
+    - target: {fileID: 7325225561366999107, guid: eeef975118348b547862dd4c3822cf8c,
+        type: 3}
+      propertyPath: disableLeoEcsDebug
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
