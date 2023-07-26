@@ -549,6 +549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25ad6cb97dec66d4cad570c40286e9c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableLeoEcsDebug: 0
   fixedUpdateParent: {fileID: 5648965645169773396}
   updateParent: {fileID: 4225722205678247527}
   lateUpdateParent: {fileID: 7281405760167982143}

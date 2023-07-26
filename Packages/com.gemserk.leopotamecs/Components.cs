@@ -44,6 +44,10 @@ namespace Gemserk.Leopotam.Ecs
     public struct EcsWorldEntitiesDebugComponent : IEntityComponent
     {
         public string name;
+
+        public bool selected;
+
+        public Vector2 scrollPosition;
         // public int componentTypeCount;
         // public Type[] componentTypes;
         public bool foldout;
