@@ -75,7 +75,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
         private Entity selectedEntity = Entity.NullEntity;
         
         private Dictionary<Type, bool> foldouts = new Dictionary<Type, bool>();
-        
+
         void DrawComponents (EcsWorld world, Entity entity) {
             var count = world.GetComponents (entity.ecsEntity, ref _componentsCache);
             for (var i = 0; i < count; i++) {
@@ -170,6 +170,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
             if (!Application.isPlaying)
             {
                 EditorGUILayout.LabelField("It only works when running.");
+                Repaint();
                 return;
             }
             
@@ -178,14 +179,17 @@ namespace Gemserk.Leopotam.Ecs.Editor
             if (world == null)
             {
                 EditorGUILayout.LabelField("No world found");
+                Repaint();
                 return;
             }
             
             var selectedEntityStyle = new GUIStyle(GUI.skin.button)
             {
-                fontStyle = FontStyle.Bold,
+                //fontStyle = FontStyle.Bold,
                 alignment = TextAnchor.MiddleLeft
             };
+
+            selectedEntityStyle.onNormal.background = selectedEntityStyle.onFocused.background;
 
             var notSelectedEntityStyle = new GUIStyle(GUI.skin.button)
             {
@@ -227,9 +231,12 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
                 var style = notSelectedEntityStyle;
 
+                var previousBgColor = GUI.backgroundColor;
+                
                 if (isSelected)
                 {
                     style = selectedEntityStyle;
+                    GUI.backgroundColor = new Color(0.75f, 0.75f, 1f, 1f);
                 }
                 
                 if (GUILayout.Button(entityName, style))
@@ -251,6 +258,8 @@ namespace Gemserk.Leopotam.Ecs.Editor
                         debug.selected = false;
                     }
                 }
+                
+                GUI.backgroundColor = previousBgColor;
             }
             
             // THEN RENDER INFO WITH FILTERS AND STUFF
