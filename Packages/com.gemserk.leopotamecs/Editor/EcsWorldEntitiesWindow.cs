@@ -91,30 +91,40 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
                 var customInspector = EcsComponentInspectors.GetCustomInspector(type);
 
-                foldouts[type] = EditorGUILayout.Foldout(foldouts[type], typeName);
+                var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public);
 
-                if (foldouts[type])
+                // special case for tag components
+                if (fields.Length == 0)
                 {
-                    if (customInspector != null)
-                    {
-                        var (changed, newValue) = customInspector.OnGui(typeName, component, null);
+                    EditorGUILayout.LabelField(typeName);
+                }
+                else
+                {
+                    foldouts[type] = EditorGUILayout.Foldout(foldouts[type], typeName);
 
-                        if (changed)
-                        {
-                            // update value.
-                            pool.SetRaw(entity.ecsEntity, newValue);
-                        }
-                    }
-                    else
+                    if (foldouts[type])
                     {
-                        var indent = EditorGUI.indentLevel;
-                        EditorGUI.indentLevel++;
-                        foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public))
+                        if (customInspector != null)
                         {
-                            DrawTypeField(entity, component, pool, field);
-                        }
+                            var (changed, newValue) = customInspector.OnGui(typeName, component, null);
 
-                        EditorGUI.indentLevel = indent;
+                            if (changed)
+                            {
+                                // update value.
+                                pool.SetRaw(entity.ecsEntity, newValue);
+                            }
+                        }
+                        else
+                        {
+                            var indent = EditorGUI.indentLevel;
+                            EditorGUI.indentLevel++;
+                            foreach (var field in fields)
+                            {
+                                DrawTypeField(entity, component, pool, field);
+                            }
+
+                            EditorGUI.indentLevel = indent;
+                        }
                     }
                 }
 
