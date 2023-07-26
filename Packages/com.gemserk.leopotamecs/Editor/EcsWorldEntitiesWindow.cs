@@ -54,7 +54,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
         const int MaxFieldToStringLength = 128;
 
         static object[] _componentsCache = new object[32];
-        
+
         [MenuItem("Window/Gemserk/ECS World Entities")]
         public static void ShowWindow()
         {
@@ -65,24 +65,38 @@ namespace Gemserk.Leopotam.Ecs.Editor
         private Vector2 scrollPosition;
         private Entity selectedEntity = Entity.NullEntity;
         
+        private Dictionary<Type, bool> foldouts = new Dictionary<Type, bool>();
+        
         void DrawComponents (EcsWorld world, Entity entity) {
             var count = world.GetComponents (entity.ecsEntity, ref _componentsCache);
             for (var i = 0; i < count; i++) {
                 var component = _componentsCache[i];
                 _componentsCache[i] = null;
                 var type = component.GetType ();
+
+                foldouts.TryAdd(type, false);
+
                 GUILayout.BeginVertical (GUI.skin.box);
                 var typeName = EditorExtensions.GetCleanGenericTypeName (type);
                 var pool = world.GetPoolByType (type);
                 var (rendered, changed, newValue) = EcsComponentInspectors.Render (typeName, type, component, null);
-                if (!rendered) {
-                    EditorGUILayout.LabelField (typeName, EditorStyles.boldLabel);
-                    var indent = EditorGUI.indentLevel;
-                    EditorGUI.indentLevel++;
-                    foreach (var field in type.GetFields (BindingFlags.Instance | BindingFlags.Public)) {
-                        DrawTypeField (entity, component, pool, field);
+                if (!rendered)
+                {
+                    foldouts[type] = EditorGUILayout.Foldout(foldouts[type], typeName);
+                    
+                   //  EditorGUILayout.LabelField (typeName, EditorStyles.boldLabel);
+                    
+                    if (foldouts[type])
+                    {
+                        var indent = EditorGUI.indentLevel;
+                        EditorGUI.indentLevel++;
+                        foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public))
+                        {
+                            DrawTypeField(entity, component, pool, field);
+                        }
+                        EditorGUI.indentLevel = indent;
                     }
-                    EditorGUI.indentLevel = indent;
+                    
                 } else {
                     if (changed) {
                         // update value.
@@ -90,7 +104,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
                     }
                 }
                 GUILayout.EndVertical ();
-                EditorGUILayout.Space ();
+                EditorGUILayout.Space (2f, true);
             }
         }
 

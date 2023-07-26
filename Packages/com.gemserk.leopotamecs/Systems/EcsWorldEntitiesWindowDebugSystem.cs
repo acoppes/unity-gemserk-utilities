@@ -40,7 +40,7 @@ namespace Gemserk.Leopotam.Ecs.Systems
                     
                     if (nameComponent.singleton)
                     {
-                        debug.name = $"{nameComponent.name} - <SINGLETON>";
+                        debug.name = $"{nameComponent.name} - <UNIQUE>";
                     }
                     else
                     {
