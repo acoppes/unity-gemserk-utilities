@@ -243,6 +243,14 @@ namespace Gemserk.Leopotam.Ecs.Editor
                         selectedEntity = entity;
                     }
                 }
+                else
+                {
+                    if (debug.selected)
+                    {
+                        selectedEntity = entity;
+                        debug.selected = false;
+                    }
+                }
             }
             
             // THEN RENDER INFO WITH FILTERS AND STUFF
@@ -280,6 +288,8 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
+            
+            Repaint();
         }
     }
 }

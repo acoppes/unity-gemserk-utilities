@@ -45,5 +45,6 @@ namespace Gemserk.Leopotam.Ecs
     {
         public string name;
         public Vector2 scrollPosition;
+        public bool selected;
     }
 }
