@@ -63,7 +63,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
         }
         
         private Vector2 scrollPosition;
-        private Entity selectedEntity;
+        private Entity selectedEntity = Entity.NullEntity;
         
         void DrawComponents (EcsWorld world, Entity entity) {
             var count = world.GetComponents (entity.ecsEntity, ref _componentsCache);
@@ -151,15 +151,35 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 EditorGUILayout.LabelField("No world found");
                 return;
             }
+            
+            var selectedEntityStyle = new GUIStyle(GUI.skin.button)
+            {
+                fontStyle = FontStyle.Bold,
+                alignment = TextAnchor.MiddleLeft
+            };
+
+            var notSelectedEntityStyle = new GUIStyle(GUI.skin.button)
+            {
+                fontStyle = FontStyle.Normal,
+                alignment = TextAnchor.MiddleLeft
+            };
+
+            var titleStyle = new GUIStyle(GUI.skin.label)
+            {
+                alignment = TextAnchor.MiddleCenter
+            };
 
             EditorGUILayout.BeginHorizontal();
             
-            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, false, false);
-            EditorGUILayout.BeginVertical();
+            EditorGUILayout.BeginVertical(GUILayout.MinWidth(200), GUILayout.ExpandWidth(true));
+            EditorGUILayout.LabelField("-- ENTITIES --", titleStyle);
+            EditorGUILayout.Separator();
 
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, false, false);
+            
             var filter = world.Filter<EcsWorldEntitiesDebugComponent>();
             var debugComponents = world.GetComponents<EcsWorldEntitiesDebugComponent>();
-            
+
             foreach (var e in filter)
             {
                 // COLLECT INFO HERE
@@ -174,12 +194,18 @@ namespace Gemserk.Leopotam.Ecs.Editor
                     ? $"{entity.ToString()}"
                     : $"{entity.ToString()} - {debug.name}";
 
-                EditorGUI.BeginChangeCheck();
-                var wasSelected = entity == selectedEntity;
-                var isSelected = EditorGUILayout.Toggle(entityName, wasSelected);
-                if (EditorGUI.EndChangeCheck())
+                var isSelected = entity == selectedEntity;
+
+                var style = notSelectedEntityStyle;
+
+                if (isSelected)
                 {
-                    if (wasSelected && !isSelected)
+                    style = selectedEntityStyle;
+                }
+                
+                if (GUILayout.Button(entityName, style))
+                {
+                    if (isSelected)
                     {
                         selectedEntity = Entity.NullEntity;
                     }
@@ -188,42 +214,41 @@ namespace Gemserk.Leopotam.Ecs.Editor
                         selectedEntity = entity;
                     }
                 }
-                
-                // debug.foldout = EditorGUILayout.Foldout(debug.foldout, entityName);
-                // if (debug.foldout)
-                // {
-                //     EditorGUI.indentLevel++;
-                //
-                //     DrawComponents(world.EcsWorld, entity);
-                //
-                //     EditorGUI.indentLevel--;
-                // }
-                
             }
             
             // THEN RENDER INFO WITH FILTERS AND STUFF
             
-            EditorGUILayout.EndVertical();
             EditorGUILayout.EndScrollView();
+            EditorGUILayout.EndVertical();
 
-            EditorGUILayout.BeginVertical();
+            EditorGUILayout.BeginVertical(GUILayout.ExpandWidth(true));
             
-            foreach (var e in filter)
+            if (selectedEntity == Entity.NullEntity)
             {
-                ref var debug = ref debugComponents.Get(e);
+                EditorGUILayout.LabelField("-- SELECT ENTITY --", titleStyle);
+                EditorGUILayout.Separator();
+            }
+            else
+            {
+                ref var debug = ref debugComponents.Get(selectedEntity.ecsEntity);
 
-                var entity = world.GetEntity(e);
-
-                if (selectedEntity != entity)
+                if (string.IsNullOrEmpty(debug.name))
                 {
-                    continue;
+                    EditorGUILayout.LabelField($"-- id: {selectedEntity.ecsEntity}, gen: {selectedEntity.ecsGeneration} --", titleStyle);
+                } else
+                {
+                    EditorGUILayout.LabelField(
+                        $"-- id: {selectedEntity.ecsEntity}, gen: {selectedEntity.ecsGeneration}, name: {debug.name} --",
+                        titleStyle);
                 }
+                
+                EditorGUILayout.Separator();
 
                 debug.scrollPosition = EditorGUILayout.BeginScrollView(debug.scrollPosition, false, false);
-                DrawComponents(world.EcsWorld, entity);
+                DrawComponents(world.EcsWorld, selectedEntity);
                 EditorGUILayout.EndScrollView();
             }
-            
+
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
         }
