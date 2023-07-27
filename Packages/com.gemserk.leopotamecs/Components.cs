@@ -10,10 +10,7 @@ namespace Gemserk.Leopotam.Ecs
         public bool cachedInSingletonsDictionary;
     }
 
-    public struct GameObjectComponent : IEntityComponent
-    {
-        public GameObject gameObject;
-    }
+
     
     public struct LookingDirection : IEntityComponent
     {
