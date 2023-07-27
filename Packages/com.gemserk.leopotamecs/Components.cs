@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
@@ -24,6 +23,7 @@ namespace Gemserk.Leopotam.Ecs
     public struct PositionComponent : IEntityComponent
     {
         public Vector3 value;
+        public int type;
     }
 
     public struct PlayerComponent : IEntityComponent
