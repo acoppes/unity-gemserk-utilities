@@ -214,6 +214,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
             if (!Application.isPlaying)
             {
                 EditorGUILayout.LabelField("It only works when running.");
+                selectedEntity = Entity.NullEntity;
                 Repaint();
                 return;
             }
@@ -223,6 +224,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
             if (world == null)
             {
                 EditorGUILayout.LabelField("No world found");
+                selectedEntity = Entity.NullEntity;
                 Repaint();
                 return;
             }
