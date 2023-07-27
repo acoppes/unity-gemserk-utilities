@@ -311,7 +311,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
             EditorGUILayout.BeginVertical(GUILayout.ExpandWidth(true));
             
-            if (selectedEntity == Entity.NullEntity)
+            if (!selectedEntity.Exists())
             {
                 EditorGUILayout.LabelField("-- SELECT ENTITY --", titleStyle);
                 EditorGUILayout.Separator();
