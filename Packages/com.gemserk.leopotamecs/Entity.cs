@@ -28,19 +28,7 @@ namespace Gemserk.Leopotam.Ecs
         {
             return ref entity.world.GetComponent<T>(entity);
         }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryGet<T>(this Entity entity, ref T t) where T : struct
-        {
-            if (entity.Has<T>())
-            {
-                t = ref entity.Get<T>();
-                return true;
-            }
 
-            return false;
-        }
-        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Has<T>(this Entity entity) where T : struct
         {
