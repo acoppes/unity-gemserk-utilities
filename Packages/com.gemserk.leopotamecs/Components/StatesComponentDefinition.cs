@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace Gemserk.Leopotam.Ecs.Controllers
+namespace Gemserk.Leopotam.Ecs.Components
 {
-    public class State
+     public class State
     {
         public string name;
         public float time;
@@ -98,6 +98,31 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             if (onStatesExitEvent != null)
             {
                 onStatesExitEvent(this);
+            }
+        }
+    }
+    
+    public class StatesComponentDefinition : ComponentDefinitionBase
+    {
+        public List<string> startingStates;
+        public bool debugTransitions;
+        
+        public override string GetComponentName()
+        {
+            return nameof(StatesComponent);
+        }
+
+        public override void Apply(World world, Entity entity)
+        {
+            world.AddComponent(entity, StatesComponent.Create());
+
+            ref var statesComponent = ref world.GetComponent<StatesComponent>(entity);
+
+            statesComponent.debugTransitions = debugTransitions;
+                
+            foreach (var state in startingStates)
+            {
+                statesComponent.EnterState(state);
             }
         }
     }

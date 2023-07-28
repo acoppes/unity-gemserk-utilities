@@ -1,4 +1,5 @@
 using System.Linq;
+using Gemserk.Leopotam.Ecs.Components;
 
 namespace Gemserk.Leopotam.Ecs.Controllers
 {

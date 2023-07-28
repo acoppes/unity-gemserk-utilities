@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
@@ -11,10 +10,7 @@ namespace Gemserk.Leopotam.Ecs
         public bool cachedInSingletonsDictionary;
     }
 
-    public struct GameObjectComponent : IEntityComponent
-    {
-        public GameObject gameObject;
-    }
+
     
     public struct LookingDirection : IEntityComponent
     {
@@ -24,6 +20,7 @@ namespace Gemserk.Leopotam.Ecs
     public struct PositionComponent : IEntityComponent
     {
         public Vector3 value;
+        public int type;
     }
 
     public struct PlayerComponent : IEntityComponent
@@ -45,5 +42,6 @@ namespace Gemserk.Leopotam.Ecs
     {
         public string name;
         public Vector2 scrollPosition;
+        public bool selected;
     }
 }

@@ -29,6 +29,12 @@ namespace Gemserk.Leopotam.Ecs.Editor
                         break;
                     }
                 }
+
+                if (entityReference.entity.Has<EcsWorldEntitiesDebugComponent>())
+                {
+                    ref var debugComponent = ref entityReference.entity.Get<EcsWorldEntitiesDebugComponent>();
+                    debugComponent.selected = true;
+                }
             }
         }
     }

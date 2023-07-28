@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Gemserk.Leopotam.Ecs.Components;
 using Gemserk.Utilities;
 using Leopotam.EcsLite;
 using UnityEngine;

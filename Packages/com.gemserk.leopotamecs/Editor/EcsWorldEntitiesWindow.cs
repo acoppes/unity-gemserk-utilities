@@ -75,7 +75,8 @@ namespace Gemserk.Leopotam.Ecs.Editor
         private Entity selectedEntity = Entity.NullEntity;
         
         private Dictionary<Type, bool> foldouts = new Dictionary<Type, bool>();
-        
+        private static readonly Color SelectedEntityBackgroundColor = new Color(0.75f, 0.75f, 1f, 1f);
+
         void DrawComponents (EcsWorld world, Entity entity) {
             var count = world.GetComponents (entity.ecsEntity, ref _componentsCache);
             for (var i = 0; i < count; i++) {
@@ -91,30 +92,73 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
                 var customInspector = EcsComponentInspectors.GetCustomInspector(type);
 
-                foldouts[type] = EditorGUILayout.Foldout(foldouts[type], typeName);
+                var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public);
 
-                if (foldouts[type])
+                // special case for tag components
+                if (fields.Length == 0)
                 {
-                    if (customInspector != null)
+                    var labelStyle = new GUIStyle(GUI.skin.label)
                     {
-                        var (changed, newValue) = customInspector.OnGui(typeName, component, null);
+                        alignment = TextAnchor.MiddleCenter
+                    };
+                    EditorGUILayout.LabelField(typeName, labelStyle);
+                }
+                else
+                {
+                    var previousBgColor = GUI.backgroundColor;
 
-                        if (changed)
-                        {
-                            // update value.
-                            pool.SetRaw(entity.ecsEntity, newValue);
-                        }
+                    var buttonStyle = new GUIStyle(GUI.skin.button);
+                    
+                    // type was selected
+                    if (foldouts[type])
+                    {
+                        var tempColor = previousBgColor;
+                        tempColor.a = 0.75f;
+                        GUI.backgroundColor = tempColor;
+
+                        buttonStyle.fontStyle = FontStyle.Bold;
                     }
                     else
                     {
-                        var indent = EditorGUI.indentLevel;
-                        EditorGUI.indentLevel++;
-                        foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public))
-                        {
-                            DrawTypeField(entity, component, pool, field);
-                        }
+                        var tempColor = previousBgColor;
+                        tempColor.a = 0.25f;
+                        GUI.backgroundColor = tempColor;
+                    }
 
-                        EditorGUI.indentLevel = indent;
+
+                    
+                    if (GUILayout.Button(typeName, buttonStyle))
+                    {
+                        foldouts[type] = !foldouts[type];
+                    }
+
+                    GUI.backgroundColor = previousBgColor;
+                    
+                    // foldouts[type] = EditorGUILayout.Foldout(foldouts[type], typeName);
+
+                    if (foldouts[type])
+                    {
+                        if (customInspector != null)
+                        {
+                            var (changed, newValue) = customInspector.OnGui(typeName, component, null);
+
+                            if (changed)
+                            {
+                                // update value.
+                                pool.SetRaw(entity.ecsEntity, newValue);
+                            }
+                        }
+                        else
+                        {
+                            var indent = EditorGUI.indentLevel;
+                            EditorGUI.indentLevel++;
+                            foreach (var field in fields)
+                            {
+                                DrawTypeField(entity, component, pool, field);
+                            }
+
+                            EditorGUI.indentLevel = indent;
+                        }
                     }
                 }
 
@@ -170,6 +214,8 @@ namespace Gemserk.Leopotam.Ecs.Editor
             if (!Application.isPlaying)
             {
                 EditorGUILayout.LabelField("It only works when running.");
+                selectedEntity = Entity.NullEntity;
+                Repaint();
                 return;
             }
             
@@ -178,12 +224,14 @@ namespace Gemserk.Leopotam.Ecs.Editor
             if (world == null)
             {
                 EditorGUILayout.LabelField("No world found");
+                selectedEntity = Entity.NullEntity;
+                Repaint();
                 return;
             }
             
             var selectedEntityStyle = new GUIStyle(GUI.skin.button)
             {
-                fontStyle = FontStyle.Bold,
+                //fontStyle = FontStyle.Bold,
                 alignment = TextAnchor.MiddleLeft
             };
 
@@ -227,9 +275,12 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
                 var style = notSelectedEntityStyle;
 
+                var previousBgColor = GUI.backgroundColor;
+                
                 if (isSelected)
                 {
                     style = selectedEntityStyle;
+                    GUI.backgroundColor = SelectedEntityBackgroundColor;
                 }
                 
                 if (GUILayout.Button(entityName, style))
@@ -243,6 +294,16 @@ namespace Gemserk.Leopotam.Ecs.Editor
                         selectedEntity = entity;
                     }
                 }
+                else
+                {
+                    if (debug.selected)
+                    {
+                        selectedEntity = entity;
+                        debug.selected = false;
+                    }
+                }
+                
+                GUI.backgroundColor = previousBgColor;
             }
             
             // THEN RENDER INFO WITH FILTERS AND STUFF
@@ -252,7 +313,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
             EditorGUILayout.BeginVertical(GUILayout.ExpandWidth(true));
             
-            if (selectedEntity == Entity.NullEntity)
+            if (!selectedEntity.Exists())
             {
                 EditorGUILayout.LabelField("-- SELECT ENTITY --", titleStyle);
                 EditorGUILayout.Separator();
@@ -280,6 +341,8 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
+            
+            Repaint();
         }
     }
 }

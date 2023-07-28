@@ -1,3 +1,4 @@
+using Gemserk.Leopotam.Ecs.Components;
 using Gemserk.Leopotam.Ecs.Controllers;
 using Leopotam.EcsLite.UnityEditor;
 using UnityEditor;

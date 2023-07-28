@@ -1,4 +1,5 @@
-﻿using Leopotam.EcsLite;
+﻿using Gemserk.Leopotam.Ecs.Components;
+using Leopotam.EcsLite;
 
 namespace Gemserk.Leopotam.Ecs.Controllers
 {
