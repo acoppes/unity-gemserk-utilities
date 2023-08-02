@@ -43,7 +43,7 @@ namespace Gemserk.Triggers
             UpdateTriggers();
         }
         
-        private void UpdateTriggers()
+        public void UpdateTriggers()
         {
             foreach (var trigger in triggers)
             {
