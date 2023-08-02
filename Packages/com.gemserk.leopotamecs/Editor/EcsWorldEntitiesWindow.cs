@@ -74,6 +74,10 @@ namespace Gemserk.Leopotam.Ecs.Editor
         }
 
         private bool sortedByName;
+        
+        private bool openAll;
+        private bool closeAll;
+        
         private Vector2 scrollPosition;
         private Entity selectedEntity = Entity.NullEntity;
         
@@ -104,6 +108,16 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
                 foldouts.TryAdd(type, false);
 
+                if (openAll)
+                {
+                    foldouts[type] = true;
+                }
+
+                if (closeAll)
+                {
+                    foldouts[type] = false;
+                }
+                
                 GUILayout.BeginVertical (GUI.skin.box);
                 var typeName = EditorExtensions.GetCleanGenericTypeName (type);
                 var pool = world.GetPoolByType (type);
@@ -275,7 +289,16 @@ namespace Gemserk.Leopotam.Ecs.Editor
             EditorGUILayout.BeginVertical();
             EditorGUILayout.LabelField("-- TOOLBAR --", titleStyle);
             sortedByName = EditorGUILayout.Toggle("Sort Components By Name", sortedByName);
-           // sortedByName = EditorGUILayout.Toggle("Sort Components By Name", sortedByName);
+            openAll = false;
+            closeAll = false;
+            if (GUILayout.Button("Open all"))
+            {
+                openAll = true;
+            }
+            if (GUILayout.Button("Close all"))
+            {
+                closeAll = true;
+            }
             EditorGUILayout.EndVertical();
             
             EditorGUILayout.Separator();
