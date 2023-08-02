@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.UnityEditor;
+using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -61,7 +63,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
     public class EcsWorldEntitiesWindow : EditorWindow
     {
         const int MaxFieldToStringLength = 128;
-
+        
         static object[] _componentsCache = new object[32];
 
         [MenuItem("Window/Gemserk/ECS World Entities")]
@@ -70,18 +72,34 @@ namespace Gemserk.Leopotam.Ecs.Editor
             EditorWindow wnd = GetWindow<EcsWorldEntitiesWindow>();
             wnd.titleContent = new GUIContent("Ecs World Entities");
         }
-        
+
+        private bool sortedByName;
         private Vector2 scrollPosition;
         private Entity selectedEntity = Entity.NullEntity;
         
         private Dictionary<Type, bool> foldouts = new Dictionary<Type, bool>();
         private static readonly Color SelectedEntityBackgroundColor = new Color(0.75f, 0.75f, 1f, 1f);
 
-        void DrawComponents (EcsWorld world, Entity entity) {
+        void DrawComponents (EcsWorld world, Entity entity)
+        {
             var count = world.GetComponents (entity.ecsEntity, ref _componentsCache);
-            for (var i = 0; i < count; i++) {
-                var component = _componentsCache[i];
-                _componentsCache[i] = null;
+
+            var componentsList = new List<object>();
+
+            for (var i = 0; i < count; i++)
+            {
+                componentsList.Add(_componentsCache[i]);
+            }
+         
+            if (sortedByName)
+            {
+                componentsList.Sort((o, o1) =>
+                    string.Compare(o.GetType().Name, o1.GetType().Name, StringComparison.OrdinalIgnoreCase));
+            }
+            
+            for (var i = 0; i < componentsList.Count; i++) {
+                var component = componentsList[i];
+                // _componentsCache[i] = null;
                 var type = component.GetType ();
 
                 foldouts.TryAdd(type, false);
@@ -208,14 +226,22 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 }
             }
         }
-        
+
+        private void OnInspectorUpdate()
+        {
+            if (Application.isPlaying)
+            {
+                Repaint();
+            }
+        }
+
         private void OnGUI()
         {
             if (!Application.isPlaying)
             {
                 EditorGUILayout.LabelField("It only works when running.");
                 selectedEntity = Entity.NullEntity;
-                Repaint();
+               // Repaint();
                 return;
             }
             
@@ -225,7 +251,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
             {
                 EditorGUILayout.LabelField("No world found");
                 selectedEntity = Entity.NullEntity;
-                Repaint();
+                // Repaint();
                 return;
             }
             
@@ -246,6 +272,14 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 alignment = TextAnchor.MiddleCenter
             };
 
+            EditorGUILayout.BeginVertical();
+            EditorGUILayout.LabelField("-- TOOLBAR --", titleStyle);
+            sortedByName = EditorGUILayout.Toggle("Sort Components By Name", sortedByName);
+           // sortedByName = EditorGUILayout.Toggle("Sort Components By Name", sortedByName);
+            EditorGUILayout.EndVertical();
+            
+            EditorGUILayout.Separator();
+            
             EditorGUILayout.BeginHorizontal();
             
             EditorGUILayout.BeginVertical(GUILayout.MinWidth(250), GUILayout.ExpandWidth(true));
@@ -342,7 +376,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
             
-            Repaint();
+            // Repaint();
         }
     }
 }
