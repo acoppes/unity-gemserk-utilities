@@ -20,7 +20,7 @@ namespace Gemserk.Triggers.Queries
                 return false;
             }
             
-            return entity.Get<NameComponent>().name.Equals(name, 
+            return name.Equals(entity.Get<NameComponent>().name, 
                 StringComparison.OrdinalIgnoreCase);
         }
     }
