@@ -52,22 +52,24 @@ namespace Gemserk.Utilities.Editor
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, false, false);
             EditorGUILayout.BeginVertical();
 
-            var multiple = allowedTypes.Count > 1;
+            var multipleTypes = allowedTypes.Count > 1;
             
             for (var j = 0; j < allowedTypes.Count; j++)
             {
                 var type = allowedTypes[j];
                 var objectsList = objectsPerType[type];
                 var foldouts = foldoutsPerType[type];
+
+                var multipleObjects = objectsList.Count > 1;
                 
-                if (multiple)
+                if (multipleTypes)
                 {
                     typeFoldouts[j] = EditorGUILayout.Foldout(typeFoldouts[j], type.Name);
                 }
                 
-                if (!multiple || typeFoldouts[j])
+                if (!multipleTypes || typeFoldouts[j])
                 {
-                    if (multiple)
+                    if (multipleTypes)
                     {
                         EditorGUI.indentLevel++;
                     }
@@ -80,30 +82,30 @@ namespace Gemserk.Utilities.Editor
                             continue;
                         }
 
-                        // EditorGUILayout.BeginHorizontal();
-                        // EditorGUILayout.LabelField(asset.name);
-                        // if (GUILayout.Button("Select"))
-                        // {
-                        //     Selection.activeObject = asset;
-                        // }
-                        //
-                        // EditorGUILayout.EndHorizontal();
-
-                        foldouts[i] = EditorGUILayout.Foldout(foldouts[i], asset.name);
-                        if (foldouts[i])
+                        if (multipleObjects)
+                        {
+                            foldouts[i] = EditorGUILayout.Foldout(foldouts[i], asset.name);
+                        }
+                        
+                        if (!multipleObjects || foldouts[i])
                         {
                             EditorGUI.indentLevel++;
+                            
+                            // Source asset
+                            EditorGUI.BeginDisabledGroup(true);
+                            EditorGUILayout.ObjectField(asset, asset.GetType());
+                            EditorGUI.EndDisabledGroup();
+                            EditorGUILayout.Separator();
+                            
                             var objectEditor = editorInstances[asset];
                             
-                            // var objectEditor = UnityEditor.Editor.CreateEditor(asset);
-                            // objectEditor.DrawDefaultInspector();
                             objectEditor.OnInspectorGUI();
                             EditorGUI.indentLevel--;
                         }
 
                     }
 
-                    if (multiple)
+                    if (multipleTypes)
                     {
                         EditorGUI.indentLevel--;
                     }
