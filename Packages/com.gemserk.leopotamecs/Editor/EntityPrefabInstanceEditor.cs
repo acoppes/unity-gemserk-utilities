@@ -1,16 +1,15 @@
-using Leopotam.EcsLite.UnityEditor;
 using UnityEditor;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Editor
 {
-    [CustomEditor(typeof(EntityPrefabInstance))]
+    [CustomEditor(typeof(BaseEntityPrefabInstance), true)]
     [CanEditMultipleObjects]
     public class EntityPrefabInstanceEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
-            var entityPrefabInstance = target as EntityPrefabInstance;
+            var entityPrefabInstance = target as BaseEntityPrefabInstance;
 
             DrawDefaultInspector();
 
