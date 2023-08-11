@@ -62,26 +62,27 @@ namespace Gemserk.Leopotam.Ecs
                 }
 
                 parameters.Clear();
-                prefabInstance.GetEntityParameters(parameters);
-
-                // prefabInstance.GetComponentsInChildren(parameters);
 
                 var definition = prefabInstance.GetEntityDefinition();
 
-                // if (definition != null)
-                // {
-                //     
-                // }
-                
-                if (prefabInstance.onInstantiateActionType == BaseEntityPrefabInstance.OnInstantiateActionType.LinkObject)
+                if (definition != null)
                 {
-                    parameters.Add(new GameObjectLinkParameter
-                    {
-                        gameObject = prefabInstance.gameObject
-                    });
-                }
+                    prefabInstance.GetEntityParameters(parameters);
                 
-                prefabInstance.instance = world.CreateEntity(definition, parameters);
+                    if (prefabInstance.onInstantiateActionType == BaseEntityPrefabInstance.OnInstantiateActionType.LinkObject)
+                    {
+                        parameters.Add(new GameObjectLinkParameter
+                        {
+                            gameObject = prefabInstance.gameObject
+                        });
+                    }
+                
+                    prefabInstance.instance = world.CreateEntity(definition, parameters);
+                }
+                else
+                {
+                    prefabInstance.instance = Entity.NullEntity;
+                }
 
                 if (prefabInstance.onInstantiateActionType == BaseEntityPrefabInstance.OnInstantiateActionType.Disable)
                 {
