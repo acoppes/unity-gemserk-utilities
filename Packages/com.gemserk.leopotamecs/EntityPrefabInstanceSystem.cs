@@ -8,7 +8,7 @@ namespace Gemserk.Leopotam.Ecs
 {
     public struct EntityPrefabComponent
     {
-        public EntityPrefabInstance prefabInstance;
+        public BaseEntityPrefabInstance prefabInstance;
     }
     
     public class EntityPrefabInstanceSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler
@@ -53,7 +53,7 @@ namespace Gemserk.Leopotam.Ecs
                 var entityPrefabComponent = entityPrefabComponents.Get(entity);
                 var prefabInstance = entityPrefabComponent.prefabInstance;
 
-                if (prefabInstance.onInstantiateActionType == EntityPrefabInstance.OnInstantiateActionType.LinkObject)
+                if (prefabInstance.onInstantiateActionType == BaseEntityPrefabInstance.OnInstantiateActionType.LinkObject)
                 {
                     if (prefabInstance.instance != Entity.NullEntity)
                     {
@@ -64,9 +64,9 @@ namespace Gemserk.Leopotam.Ecs
                 parameters.Clear();
                 prefabInstance.GetComponentsInChildren(parameters);
 
-                var definition = prefabInstance.entityDefinition.GetInterface<IEntityDefinition>();
+                var definition = prefabInstance.GetEntityDefinition();
                 
-                if (prefabInstance.onInstantiateActionType == EntityPrefabInstance.OnInstantiateActionType.LinkObject)
+                if (prefabInstance.onInstantiateActionType == BaseEntityPrefabInstance.OnInstantiateActionType.LinkObject)
                 {
                     parameters.Add(new GameObjectLinkParameter
                     {
@@ -76,12 +76,12 @@ namespace Gemserk.Leopotam.Ecs
                 
                 prefabInstance.instance = world.CreateEntity(definition, parameters);
 
-                if (prefabInstance.onInstantiateActionType == EntityPrefabInstance.OnInstantiateActionType.Disable)
+                if (prefabInstance.onInstantiateActionType == BaseEntityPrefabInstance.OnInstantiateActionType.Disable)
                 {
                     prefabInstance.gameObject.SetActive(false);
                 }
                 
-                if (prefabInstance.onInstantiateActionType == EntityPrefabInstance.OnInstantiateActionType.Destroy)
+                if (prefabInstance.onInstantiateActionType == BaseEntityPrefabInstance.OnInstantiateActionType.Destroy)
                 {
                     Object.Destroy(prefabInstance.gameObject);
                 }
