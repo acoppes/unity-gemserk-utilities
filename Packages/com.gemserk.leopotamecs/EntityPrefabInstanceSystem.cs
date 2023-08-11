@@ -62,9 +62,16 @@ namespace Gemserk.Leopotam.Ecs
                 }
 
                 parameters.Clear();
-                prefabInstance.GetComponentsInChildren(parameters);
+                prefabInstance.GetEntityParameters(parameters);
+
+                // prefabInstance.GetComponentsInChildren(parameters);
 
                 var definition = prefabInstance.GetEntityDefinition();
+
+                // if (definition != null)
+                // {
+                //     
+                // }
                 
                 if (prefabInstance.onInstantiateActionType == BaseEntityPrefabInstance.OnInstantiateActionType.LinkObject)
                 {
@@ -86,6 +93,7 @@ namespace Gemserk.Leopotam.Ecs
                     Object.Destroy(prefabInstance.gameObject);
                 }
                 
+                // this is the temporary spawn entity
                 world.DestroyEntity(world.GetEntity(entity));
             }
         }

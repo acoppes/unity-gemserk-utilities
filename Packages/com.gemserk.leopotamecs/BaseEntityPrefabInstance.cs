@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -61,6 +62,11 @@ namespace Gemserk.Leopotam.Ecs
                     prefabInstance = this
                 });
             }
+        }
+
+        public void GetEntityParameters(List<IEntityInstanceParameter> list)
+        {
+            GetComponentsInChildren(list);
         }
 
     }
