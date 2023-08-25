@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Gemserk.Leopotam.Ecs.Systems;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.UnityEditor;
 using NUnit.Framework;
@@ -83,6 +84,16 @@ namespace Gemserk.Leopotam.Ecs.Editor
         
         private Dictionary<Type, bool> foldouts = new Dictionary<Type, bool>();
         private static readonly Color SelectedEntityBackgroundColor = new Color(0.75f, 0.75f, 1f, 1f);
+
+        private void OnEnable()
+        {
+            EcsWorldEntitiesWindowDebugSystem.windowOpenCount++;
+        }
+
+        private void OnDisable()
+        {
+            EcsWorldEntitiesWindowDebugSystem.windowOpenCount--;
+        }
 
         void DrawComponents (EcsWorld world, Entity entity)
         {

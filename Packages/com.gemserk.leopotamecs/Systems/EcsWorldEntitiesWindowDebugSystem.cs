@@ -1,10 +1,13 @@
 ﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Systems
 {
     public class EcsWorldEntitiesWindowDebugSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler, IEntityDestroyedHandler
     {
+        public static int windowOpenCount = 0;
+        
         readonly EcsFilterInject<Inc<EcsWorldEntitiesDebugComponent>> filter = default;
 
         public void OnEntityCreated(World world, Entity entity)
@@ -27,6 +30,11 @@ namespace Gemserk.Leopotam.Ecs.Systems
         public void Run(EcsSystems systems)
         {
 #if UNITY_EDITOR
+            if (windowOpenCount <= 0)
+            {
+                return;
+            }
+            
             foreach (var e in filter.Value)
             {
                 var entity = world.GetEntity(e);
