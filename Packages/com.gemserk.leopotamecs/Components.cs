@@ -9,8 +9,6 @@ namespace Gemserk.Leopotam.Ecs
 
         public bool cachedInSingletonsDictionary;
     }
-
-
     
     public struct LookingDirection : IEntityComponent
     {
@@ -25,7 +23,9 @@ namespace Gemserk.Leopotam.Ecs
 
     public struct PlayerComponent : IEntityComponent
     {
+        // will be a flag in the future
         public int player;
+        public int playerBitmask => 1 << player;
     }
 
     public struct DisabledComponent : IEntityComponent
