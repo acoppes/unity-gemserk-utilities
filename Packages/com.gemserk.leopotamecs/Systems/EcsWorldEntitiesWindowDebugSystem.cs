@@ -37,19 +37,9 @@ namespace Gemserk.Leopotam.Ecs.Systems
                 if (world.HasComponent<NameComponent>(entity))
                 {
                     var nameComponent = world.GetComponent<NameComponent>(entity);
-                    
-                    if (nameComponent.singleton)
-                    {
-                        debug.name = $"{nameComponent.name} - <UNIQUE>";
-                    }
-                    else
-                    {
-                        debug.name = nameComponent.name;
-                    }
+                    debug.name = nameComponent.name;
+                    debug.isSingletonByName = nameComponent.singleton;
                 }
-                
-                // update debug stuff
-                // debug.name = $"{}";
             }
 #endif
         }

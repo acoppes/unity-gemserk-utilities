@@ -328,6 +328,11 @@ namespace Gemserk.Leopotam.Ecs.Editor
                     ? $"{entity.ToString()}"
                     : $"{entity.ToString()} - {debug.name}";
 
+                if (debug.isSingletonByName)
+                {
+                    entityName = $"{entityName} - <UNIQUE>";
+                }
+
                 var isSelected = entity == selectedEntity;
 
                 var style = notSelectedEntityStyle;
