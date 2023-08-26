@@ -16,10 +16,10 @@ namespace MyGame
     public struct NewStateComponent : IEntityComponent
     {
         public int statesBitmask;
-        public int subStatesBitmask;
+        // public int subStatesBitmask;
 
         public NewState[] states;
-        public NewState[] subStates;
+       // public NewState[] subStates;
 
         public bool debugTransitions;
         
@@ -28,7 +28,21 @@ namespace MyGame
 
         public bool HasState(int state)
         {
-            return (statesBitmask & state) == state;
+            var stateMask = 1 << state;
+            return (statesBitmask & stateMask) == stateMask;
+        }
+
+        public void Enter(int state)
+        {
+            var stateMask = 1 << state;
+            statesBitmask |= stateMask;
+            states[state] = new NewState();
+        }
+        
+        public void Exit(int state)
+        {
+            var stateMask = 1 << state;
+            statesBitmask &= ~stateMask;
         }
     }
     
@@ -37,8 +51,8 @@ namespace MyGame
         [BitMask(32)]
         public int startingStates;
         
-        [BitMask(32)]
-        public int startingSubStates;
+        //[BitMask(32)]
+        //public int startingSubStates;
         
         public bool debugTransitions;
 
@@ -55,9 +69,9 @@ namespace MyGame
             world.AddComponent(entity, new NewStateComponent()
             {
                 statesBitmask = startingStates,
-                subStatesBitmask = startingSubStates,
-                states = new NewState[sizeof(int)],
-                subStates = new NewState[sizeof(int)],
+                //subStatesBitmask = startingSubStates,
+                states = new NewState[sizeof(int) * 8],
+                //subStates = new NewState[sizeof(int)],
                 debugTransitions = debugTransitions,
                 typesAsset = typesAsset
             });

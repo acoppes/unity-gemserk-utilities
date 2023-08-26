@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Leopotam.Ecs.Components;
 using Leopotam.EcsLite.UnityEditor;
@@ -18,10 +19,10 @@ namespace Editor
                     EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
                 }
                 
-                EditorGUI.indentLevel++;
-                EditorGUILayout.LabelField ($"Active States");
-
-                EditorGUI.indentLevel++;
+                
+                EditorGUILayout.LabelField ("Active States");
+                EditorGUILayout.LabelField ($"{Convert.ToString(states.statesBitmask, 2).PadLeft(16, '0')}");
+                
                 var typesAsset = states.typesAsset;
 
                 if (typesAsset)
@@ -32,20 +33,69 @@ namespace Editor
                     for (var i = 0; i < states.states.Length; i++)
                     {
                         var state = states.states[i];
-                        if (states.HasState(1 << i))
+                        var hasState = states.HasState(i);
+
+                        var stateName = typesAsset.GetTypeName(1 << i);
+                        
+                        EditorGUILayout.BeginHorizontal();
+                        if (!string.IsNullOrEmpty(stateName))
                         {
                             EditorGUILayout.LabelField(
-                                $"{typesAsset.GetTypeName(1 << i)} || {state.time:0.00} || {state.updateCount}");
+                                $"{stateName} || {state.time:0.00} || {state.updateCount}");
+                            
+                            if (hasState)
+                            {
+                                if (GUILayout.Button("Exit"))
+                                {
+                                    states.Exit(i);
+                                }
+                            }
+                            else
+                            {
+                                if (GUILayout.Button("Enter"))
+                                {
+                                    states.Enter(i);
+                                }
+                            }
+                           
                         }
+                        else
+                        {
+                            if (hasState)
+                            {
+                                EditorGUILayout.LabelField(
+                                    $"{i} || {state.time:0.00} || {state.updateCount}");
+                                if (GUILayout.Button("Exit"))
+                                {
+                                    states.Exit(i);
+                                }
+                            }
+                        }
+                        EditorGUILayout.EndHorizontal();
                     }
                 }
                 else
                 {
-                    EditorGUILayout.LabelField($"{states.statesBitmask}, {states.subStatesBitmask}");
+                    for (var i = 0; i < states.states.Length; i++)
+                    {
+                        var state = states.states[i];
+                        
+                        EditorGUILayout.BeginHorizontal();
+                        var hasState = states.HasState(i);
+                        
+                        if (hasState)
+                        {
+                            EditorGUILayout.LabelField(
+                                $"{i} || {state.time:0.00} || {state.updateCount}");
+                            if (GUILayout.Button("Exit"))
+                            {
+                                states.Exit(i);
+                            }
+                        }
+                        EditorGUILayout.EndHorizontal();
+                    }
+                    
                 }
-                
-                EditorGUI.indentLevel--;
-                EditorGUI.indentLevel--;
                 
                 return true;
             }
