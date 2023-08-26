@@ -12,18 +12,6 @@ namespace MyGame
 {
     public partial class MyGameStates
     {
-        public static string GetNameOf(int state)
-        {
-            if (state == StateA)
-                return nameof(StateA);
-            
-            if (state == StateB)
-                return nameof(StateB);
-            
-            if (state == StateC)
-                return nameof(StateC);
 
-            return "None";
-        }
     }
 }

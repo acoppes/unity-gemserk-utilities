@@ -15,10 +15,25 @@ namespace MyGame
     public partial class MyGameStates
     {
         
-        public static int StateA = 1;
+        public static int StateA = 1 << 0;
         
-        public static int StateB = 2;
+        public static int StateB = 1 << 1;
         
-        public static int StateC = 4;
+        public static int StateC = 1 << 2;
+        
+        public static string ValueToName(int value)
+        {
+            if (value == StateA) return nameof(StateA);
+            if (value == StateB) return nameof(StateB);
+            if (value == StateC) return nameof(StateC);
+            return null;
+        }
+        
+        public static void GetNames(int mask, System.Collections.Generic.ICollection<string> collection)
+        {
+            if ((mask & StateA) == StateA) collection.Add(nameof(StateA));
+            if ((mask & StateB) == StateB) collection.Add(nameof(StateB));
+            if ((mask & StateC) == StateC) collection.Add(nameof(StateC));
+        }
     }
 }
