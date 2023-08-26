@@ -35,6 +35,13 @@
         "com.gemserk.utilities": "0.0.3"
       }
     },
+    "com.gemserk.bitmasktypes": {
+      "version": "0.0.11",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
+    },
     "com.gemserk.buildtools": {
       "version": "file:com.gemserk.buildtools",
       "depth": 0,
@@ -58,7 +65,7 @@
       "url": "https://package.openupm.com"
     },
     "com.gemserk.selectionhistory": {
-      "version": "1.1.13",
+      "version": "1.1.14",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
