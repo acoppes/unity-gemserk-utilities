@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Text;
 using Gemserk.Leopotam.Ecs.Components;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
@@ -11,6 +12,8 @@ namespace Gemserk.Leopotam.Ecs.Controllers
     {
         readonly EcsFilterInject<Inc<StatesComponentV2>, Exc<DisabledComponent>> statesFilter = default;
         readonly EcsPoolInject<StatesComponentV2> stateComponents = default;
+
+        private static readonly StringBuilder _stringBuilder = new StringBuilder();
 
         public void OnEntityDestroyed(World world, Entity entity)
         {
@@ -31,6 +34,68 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             statesComponent.statesExitedLastFrame = statesComponent.previousStatesBitmask & ~statesComponent.statesBitmask;
 
             statesComponent.previousStatesBitmask = statesComponent.statesBitmask;
+            
+#if UNITY_EDITOR
+            if (statesComponent.debugTransitions)
+            {
+                if (statesComponent.statesExitedLastFrame != 0)
+                {
+                    _stringBuilder.Clear();
+
+                    for (var i = 0; i < statesComponent.states.Length; i++)
+                    {
+                        if (statesComponent.HasExitLastFrame(i))
+                        {
+                            var name = string.Empty;
+                            
+                            if (statesComponent.typesAsset != null)
+                            {
+                                name = statesComponent.typesAsset.GetTypeName(i);
+                            }
+
+                            if (string.IsNullOrEmpty(name))
+                            {
+                                _stringBuilder.Append(_stringBuilder.Length == 0 ? $"{i}" : $",{i}");
+                            }
+                            else
+                            {
+                                _stringBuilder.Append(_stringBuilder.Length == 0 ? $"{name}" : $",{name}");
+                            }
+                           
+                        }
+                    }
+                    Debug.Log($"EXIT: {_stringBuilder}");
+                }
+                
+                if (statesComponent.statesEnteredLastFrame != 0)
+                {
+                    _stringBuilder.Clear();
+                    
+                    for (var i = 0; i < statesComponent.states.Length; i++)
+                    {
+                        if (statesComponent.HasEnteredInLastFrame(i))
+                        {
+                            var name = string.Empty;
+                            
+                            if (statesComponent.typesAsset != null)
+                            {
+                                name = statesComponent.typesAsset.GetTypeName(i);
+                            }
+
+                            if (string.IsNullOrEmpty(name))
+                            {
+                                _stringBuilder.Append(_stringBuilder.Length == 0 ? $"{i}" : $",{i}");
+                            }
+                            else
+                            {
+                                _stringBuilder.Append(_stringBuilder.Length == 0 ? $"{name}" : $",{name}");
+                            }
+                        }
+                    }
+                    Debug.Log($"ENTER: {_stringBuilder}");
+                }
+            }
+#endif
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Gemserk.Leopotam.Ecs.Components;
+﻿using System.Runtime.CompilerServices;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using MyGame;
-using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Controllers
 {
@@ -12,8 +9,6 @@ namespace Gemserk.Leopotam.Ecs.Controllers
     {
         readonly EcsFilterInject<Inc<StatesComponentV2>, Exc<DisabledComponent>> statesFilter = default;
         readonly EcsPoolInject<StatesComponentV2> stateComponents = default;
-
-        private static readonly List<State> statesToRemove = new List<State>();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void UpdateStateTime(ref StatesComponentV2 statesComponent, float dt)
@@ -32,36 +27,17 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                     }
                 }
             }
-            // var keys = statesComponent.states.Keys;
-            // foreach (var stateName in keys)
-            // {
-            //     var state = statesComponent.states[stateName];
-            //     state.time += dt;
-            //     state.updateCount++;
-            //
-            //     if (state.duration > 0 && state.time > state.duration)
-            //     {
-            //         // statesComponent.ExitState(stateName);
-            //         statesToRemove.Add(state);
-            //     }
-            // }
-            //
-            // foreach (var state in statesToRemove)
-            // {
-            //     statesComponent.ExitState(state.name);
-            // }
-            //
-            // statesToRemove.Clear();
         }
 
         public void Run(EcsSystems systems)
         {
-            // var deltaTime = Time.deltaTime;
-            // foreach (var entity in statesFilter.Value)
-            // {
-            //     var statesComponent = stateComponents.Value.Get(entity);
-            //     UpdateStateTime(statesComponent, deltaTime);
-            // }
+            var dt = this.dt;
+            
+            foreach (var entity in statesFilter.Value)
+            {
+                var statesComponent = stateComponents.Value.Get(entity);
+                UpdateStateTime(ref statesComponent, dt);
+            }
         }
     }
 }

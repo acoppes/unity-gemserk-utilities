@@ -28,7 +28,9 @@ namespace MyGame
 
         public StateV2[] states;
        // public NewState[] subStates;
-        
+
+        public bool debugTransitions;
+       
         // optional for debug
         public TypeSetAsset typesAsset;
 
@@ -73,6 +75,11 @@ namespace MyGame
             statesBitmask &= ~stateMask;
         }
         
+        public void Exit(int state, float time)
+        {
+            states[state].duration =  states[state].time + time;
+        }
+        
         public bool HasEnteredInLastFrame(int state)
         {
             var stateMask = 1 << state;
@@ -114,6 +121,8 @@ namespace MyGame
         // public int startingStates;
 
         public TypeSetAsset typesAsset;
+
+        public bool debugTransitions;
         
         public override string GetComponentName()
         {
@@ -126,7 +135,8 @@ namespace MyGame
             {
                 statesBitmask = 0,
                 states = new StateV2[sizeof(int) * 8],
-                typesAsset = typesAsset
+                typesAsset = typesAsset,
+                debugTransitions = debugTransitions
             });
         }
     }

@@ -3,6 +3,7 @@ using Gemserk.Leopotam.Ecs.Components;
 using Gemserk.Leopotam.Ecs.Controllers;
 using MyGame;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Tests
 {
@@ -114,22 +115,25 @@ namespace Gemserk.Leopotam.Ecs.Tests
         }
         
         
-        // [Test]
-        // public void Test_DebugStates()
-        // {
-        //     var statesComponent = StatesComponentV2.Create();
-        //     statesComponent.debugTransitions = true;
-        //     
-        //     statesComponent.EnterState("A");
-        //     
-        //     StatesTransitionsSystemV2.UpdateStatesTransitions(ref statesComponent);
-        //     
-        //     statesComponent.EnterState("B");
-        //     statesComponent.ExitState("A");
-        //     
-        //     StatesTransitionsSystemV2.UpdateStatesTransitions(ref statesComponent);
-        // }
-        //
+        [Test]
+        public void Test_DebugStates()
+        {
+            var statesComponent = StatesComponentV2.Create();
+            statesComponent.debugTransitions = true;
+
+            var state = 0;
+            var stateB = 1;
+            
+            statesComponent.Enter(state);
+            
+            StatesTransitionsSystemV2.UpdateStatesTransitions(ref statesComponent);
+            
+            statesComponent.Enter(stateB);
+            statesComponent.Exit(state);
+            
+            StatesTransitionsSystemV2.UpdateStatesTransitions(ref statesComponent);
+        }
+        
         [Test]
         public void AutoExit_OnDurationCompleted()
         {
@@ -155,32 +159,34 @@ namespace Gemserk.Leopotam.Ecs.Tests
             
             Assert.IsFalse(statesComponent.HasState(1));
         }
-        //
-        // [Test]
-        // public void ExitState_AfterTime()
-        // {
-        //     var statesComponent = StatesComponent.Create();
-        //     var statesHandler = new StatesHandlerMock();
-        //     
-        //     statesComponent.onStatesEnterEvent += statesHandler.OnStatesEnter;
-        //     statesComponent.onStatesExitEvent += statesHandler.OnStatesExit;
-        //     
-        //     statesComponent.EnterState("A");
-        //     
-        //     StatesSystem.UpdateStateTime(statesComponent, 0.5f);
-        //     
-        //     Assert.AreEqual(0.5f, statesComponent.GetState("A").time);
-        //     Assert.IsTrue(statesComponent.HasState("A"));
-        //     
-        //     statesComponent.ExitState("A", 0.2f);
-        //     
-        //     StatesSystem.UpdateStateTime(statesComponent, 0.1f);
-        //     
-        //     Assert.AreEqual(true, statesComponent.HasState("A"));
-        //     
-        //     StatesSystem.UpdateStateTime(statesComponent, 0.1f);
-        //     
-        //     Assert.AreEqual(false, statesComponent.HasState("A"));
-        // }
+        
+        [Test]
+        public void ExitState_AfterTime()
+        {
+            var statesComponent = StatesComponentV2.Create();
+            var statesHandler = new StatesHandlerMock();
+            
+            statesComponent.onStatesEnterEvent += statesHandler.OnStatesEnter;
+            statesComponent.onStatesExitEvent += statesHandler.OnStatesExit;
+
+            var state = 0;
+            
+            statesComponent.Enter(state);
+            
+            StatesSystemV2.UpdateStateTime(ref statesComponent, 0.5f);
+            
+            Assert.AreEqual(0.5f, statesComponent.GetState(state).time);
+            Assert.IsTrue(statesComponent.HasState(state));
+            
+            statesComponent.Exit(state, 0.2f);
+            
+            StatesSystemV2.UpdateStateTime(ref statesComponent, 0.1f);
+            
+            Assert.AreEqual(true, statesComponent.HasState(state));
+            
+            StatesSystemV2.UpdateStateTime(ref statesComponent, 0.1f);
+            
+            Assert.AreEqual(false, statesComponent.HasState(state));
+        }
     }
 }
