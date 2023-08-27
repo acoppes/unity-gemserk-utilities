@@ -92,65 +92,69 @@ namespace Gemserk.Leopotam.Ecs.Tests
             Assert.AreEqual(1, statesHandler.onExitCalls);
         }
         
-        //
-        // [Test]
-        // public void ExitStates_Before_EnterStates()
-        // {
-        //     var statesComponent = StatesComponent.Create();
-        //     var statesHandler = new StatesHandleExitFirstMock();
-        //     
-        //     statesComponent.onStatesEnterEvent += statesHandler.OnStatesEnter;
-        //     statesComponent.onStatesExitEvent += statesHandler.OnStatesExit;
-        //     
-        //     statesComponent.EnterState("A");
-        //     
-        //     StatesTransitionsSystem.UpdateStatesTransitions(statesComponent);
-        //     
-        //     statesComponent.ExitState("A");
-        //     statesComponent.EnterState("B");
-        //     
-        //     StatesTransitionsSystem.UpdateStatesTransitions(statesComponent);
-        //     StatesTransitionsSystem.InvokeStatesCallbacks(statesComponent);
-        // }
-        //
+        
+        [Test]
+        public void ExitStates_Before_EnterStates()
+        {
+            var statesComponent = StatesComponentV2.Create();
+            var statesHandler = new StatesHandleExitFirstMock();
+            
+            statesComponent.onStatesEnterEvent += statesHandler.OnStatesEnter;
+            statesComponent.onStatesExitEvent += statesHandler.OnStatesExit;
+            
+            statesComponent.Enter(0);
+            
+            StatesTransitionsSystemV2.UpdateStatesTransitions(ref statesComponent);
+            
+            statesComponent.Exit(0);
+            statesComponent.Enter(0);
+            
+            StatesTransitionsSystemV2.UpdateStatesTransitions(ref statesComponent);
+            StatesTransitionsSystemV2.InvokeStatesCallbacks(ref statesComponent);
+        }
+        
+        
         // [Test]
         // public void Test_DebugStates()
         // {
-        //     var statesComponent = StatesComponent.Create();
+        //     var statesComponent = StatesComponentV2.Create();
         //     statesComponent.debugTransitions = true;
         //     
         //     statesComponent.EnterState("A");
         //     
-        //     StatesTransitionsSystem.UpdateStatesTransitions(statesComponent);
+        //     StatesTransitionsSystemV2.UpdateStatesTransitions(ref statesComponent);
         //     
         //     statesComponent.EnterState("B");
         //     statesComponent.ExitState("A");
         //     
-        //     StatesTransitionsSystem.UpdateStatesTransitions(statesComponent);
+        //     StatesTransitionsSystemV2.UpdateStatesTransitions(ref statesComponent);
         // }
         //
-        // [Test]
-        // public void AutoExit_OnDurationCompleted()
-        // {
-        //     var statesComponent = StatesComponent.Create();
-        //     var statesHandler = new StatesHandlerMock();
-        //     
-        //     statesComponent.onStatesEnterEvent += statesHandler.OnStatesEnter;
-        //     statesComponent.onStatesExitEvent += statesHandler.OnStatesExit;
-        //     
-        //     statesComponent.EnterState("A");
-        //     
-        //     StatesSystem.UpdateStateTime(statesComponent, 0.5f);
-        //     
-        //     Assert.AreEqual(0.5f, statesComponent.GetState("A").time);
-        //     Assert.IsTrue(statesComponent.HasState("A"));
-        //     
-        //     statesComponent.EnterState("B", 0.1f);
-        //     
-        //     StatesSystem.UpdateStateTime(statesComponent, 0.2f);
-        //     
-        //     Assert.IsFalse(statesComponent.HasState("B"));
-        // }
+        [Test]
+        public void AutoExit_OnDurationCompleted()
+        {
+            var statesComponent = StatesComponentV2.Create();
+            var statesHandler = new StatesHandlerMock();
+            
+            statesComponent.onStatesEnterEvent += statesHandler.OnStatesEnter;
+            statesComponent.onStatesExitEvent += statesHandler.OnStatesExit;
+            
+            statesComponent.Enter(0);
+            
+            StatesSystemV2.UpdateStateTime(ref statesComponent, 0.5f);
+            
+            Assert.IsTrue(statesComponent.HasState(0));
+            Assert.AreEqual(0.5f, statesComponent.GetState(0).time);
+            
+            statesComponent.Enter(1, 0.1f);
+            
+            Assert.IsTrue(statesComponent.HasState(1));
+            Assert.AreEqual(0.1f, statesComponent.GetState(1).duration, 0.01f);
+            
+            StatesSystemV2.UpdateStateTime(ref statesComponent, 0.2f);
+            
+            Assert.IsFalse(statesComponent.HasState(1));
+        }
         //
         // [Test]
         // public void ExitState_AfterTime()

@@ -31,27 +31,6 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             statesComponent.statesExitedLastFrame = statesComponent.previousStatesBitmask & ~statesComponent.statesBitmask;
 
             statesComponent.previousStatesBitmask = statesComponent.statesBitmask;
-//             statesComponent.statesEntered.Clear();
-//             statesComponent.statesEntered.UnionWith(statesComponent.activeStates);
-//             statesComponent.statesEntered.ExceptWith(statesComponent.previousStates);
-//             
-//             statesComponent.statesExited.Clear();
-//             statesComponent.statesExited.UnionWith(statesComponent.previousStates);
-//             statesComponent.statesExited.ExceptWith(statesComponent.activeStates);
-//             
-//             statesComponent.previousStates.Clear();
-//             statesComponent.previousStates.UnionWith(statesComponent.activeStates);
-//             
-// #if UNITY_EDITOR
-//             if (statesComponent.debugTransitions)
-//             {
-//                 if (statesComponent.statesExited.Count > 0)
-//                     Debug.Log($"EXIT: {string.Join(",", statesComponent.statesExited)}");
-//                 
-//                 if (statesComponent.statesEntered.Count > 0)
-//                     Debug.Log($"ENTER: {string.Join(",", statesComponent.statesEntered)}");
-//             }
-// #endif
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -28,8 +28,6 @@ namespace MyGame
 
         public StateV2[] states;
        // public NewState[] subStates;
-
-        public bool debugTransitions;
         
         // optional for debug
         public TypeSetAsset typesAsset;
@@ -52,11 +50,21 @@ namespace MyGame
             return (statesBitmask & stateMask) == stateMask;
         }
 
-        public void Enter(int state)
+        public StateV2 GetState(int state)
+        {
+            return states[state];
+        }
+
+        public void Enter(int state, float duration = 0)
         {
             var stateMask = 1 << state;
             statesBitmask |= stateMask;
-            states[state] = new StateV2();
+            states[state] = new StateV2()
+            {
+                duration = duration,
+                time = 0,
+                updateCount = 0
+            };
         }
         
         public void Exit(int state)
@@ -104,8 +112,6 @@ namespace MyGame
     {
         // [BitMask(32)]
         // public int startingStates;
-        
-        public bool debugTransitions;
 
         public TypeSetAsset typesAsset;
         
@@ -120,7 +126,6 @@ namespace MyGame
             {
                 statesBitmask = 0,
                 states = new StateV2[sizeof(int) * 8],
-                debugTransitions = debugTransitions,
                 typesAsset = typesAsset
             });
         }
