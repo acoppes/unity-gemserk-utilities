@@ -11,19 +11,19 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         readonly EcsPoolInject<StatesComponentV2> stateComponents = default;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void UpdateStateTime(ref StatesComponentV2 statesComponent, float dt)
+        public static void UpdateStatesComponent(ref StatesComponentV2 states, float dt)
         {
-            for (var i = 0; i < statesComponent.states.Length; i++)
+            for (var i = 0; i < states.states.Length; i++)
             {
-                if (statesComponent.HasState(i))
+                if (states.HasState(i))
                 {
-                    var state = statesComponent.states[i];
+                    ref var state = ref states.GetState(i);
                     state.time += dt;
-                    statesComponent.states[i] = state;
-
+                    state.updateCount++;
+                    
                     if (state.duration > 0 && state.time > state.duration)
                     {
-                        statesComponent.Exit(i);
+                        states.Exit(i);
                     }
                 }
             }
@@ -36,7 +36,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             foreach (var entity in statesFilter.Value)
             {
                 var statesComponent = stateComponents.Value.Get(entity);
-                UpdateStateTime(ref statesComponent, dt);
+                UpdateStatesComponent(ref statesComponent, dt);
             }
         }
     }

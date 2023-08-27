@@ -145,7 +145,7 @@ namespace Gemserk.Leopotam.Ecs.Tests
             
             statesComponent.Enter(0);
             
-            StatesSystemV2.UpdateStateTime(ref statesComponent, 0.5f);
+            StatesSystemV2.UpdateStatesComponent(ref statesComponent, 0.5f);
             
             Assert.IsTrue(statesComponent.HasState(0));
             Assert.AreEqual(0.5f, statesComponent.GetState(0).time);
@@ -155,7 +155,7 @@ namespace Gemserk.Leopotam.Ecs.Tests
             Assert.IsTrue(statesComponent.HasState(1));
             Assert.AreEqual(0.1f, statesComponent.GetState(1).duration, 0.01f);
             
-            StatesSystemV2.UpdateStateTime(ref statesComponent, 0.2f);
+            StatesSystemV2.UpdateStatesComponent(ref statesComponent, 0.2f);
             
             Assert.IsFalse(statesComponent.HasState(1));
         }
@@ -173,20 +173,36 @@ namespace Gemserk.Leopotam.Ecs.Tests
             
             statesComponent.Enter(state);
             
-            StatesSystemV2.UpdateStateTime(ref statesComponent, 0.5f);
+            StatesSystemV2.UpdateStatesComponent(ref statesComponent, 0.5f);
             
             Assert.AreEqual(0.5f, statesComponent.GetState(state).time);
             Assert.IsTrue(statesComponent.HasState(state));
             
             statesComponent.Exit(state, 0.2f);
             
-            StatesSystemV2.UpdateStateTime(ref statesComponent, 0.1f);
+            StatesSystemV2.UpdateStatesComponent(ref statesComponent, 0.1f);
             
             Assert.AreEqual(true, statesComponent.HasState(state));
             
-            StatesSystemV2.UpdateStateTime(ref statesComponent, 0.1f);
+            StatesSystemV2.UpdateStatesComponent(ref statesComponent, 0.1f);
             
             Assert.AreEqual(false, statesComponent.HasState(state));
+        }
+        
+        [Test]
+        public void UpdateCount_AfterMultipleUpdates()
+        {
+            var states = StatesComponentV2.Create();
+            states.Enter(0);
+            
+            Assert.AreEqual(0, states.GetState(0).updateCount);
+            StatesSystemV2.UpdateStatesComponent(ref states, 0.5f);
+            Assert.AreEqual(1, states.GetState(0).updateCount);
+            StatesSystemV2.UpdateStatesComponent(ref states, 0.5f);
+            StatesSystemV2.UpdateStatesComponent(ref states, 0.5f);
+            StatesSystemV2.UpdateStatesComponent(ref states, 0.5f);
+            StatesSystemV2.UpdateStatesComponent(ref states, 0.5f);
+            Assert.AreEqual(5, states.GetState(0).updateCount);
         }
         
         [Test]
