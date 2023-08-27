@@ -1,6 +1,6 @@
 {
     "name": "com.gemserk.leopotamecs",
-    "version": "0.2.6",
+    "version": "0.2.7",
     "displayName": "com.gemserk.leopotamecs",
     "description": "Gemserk Leopotam ECS Extensions",
     "unity": "2022.2",
