@@ -35,8 +35,8 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             
             foreach (var entity in statesFilter.Value)
             {
-                var statesComponent = stateComponents.Value.Get(entity);
-                UpdateStatesComponent(ref statesComponent, dt);
+                ref var states = ref stateComponents.Value.Get(entity);
+                UpdateStatesComponent(ref states, dt);
             }
         }
     }
