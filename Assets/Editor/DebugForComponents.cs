@@ -9,8 +9,8 @@ namespace Editor
 {
     public static class DebugForComponents
     {
-        sealed class NewStateComponentInspector : EcsComponentInspectorTyped<NewStateComponent> {
-            public override bool OnGuiTyped (string label, ref NewStateComponent states, EcsEntityDebugView entityView)
+        sealed class NewStateComponentInspector : EcsComponentInspectorTyped<StatesComponentV2> {
+            public override bool OnGuiTyped (string label, ref StatesComponentV2 stateses, EcsEntityDebugView entityView)
             {
                 if (entityView != null)
                 {
@@ -19,19 +19,19 @@ namespace Editor
                 
                 
                 EditorGUILayout.LabelField ("Active States");
-                EditorGUILayout.LabelField ($"{Convert.ToString(states.statesBitmask, 2).PadLeft(16, '0')}");
+                EditorGUILayout.LabelField ($"{Convert.ToString(stateses.statesBitmask, 2).PadLeft(16, '0')}");
                 
-                var typesAsset = states.typesAsset;
+                var typesAsset = stateses.typesAsset;
 
                 if (typesAsset)
                 {
                     var names = new List<string>();
-                    typesAsset.GetMaskNames(states.statesBitmask, names);
+                    typesAsset.GetMaskNames(stateses.statesBitmask, names);
 
-                    for (var i = 0; i < states.states.Length; i++)
+                    for (var i = 0; i < stateses.states.Length; i++)
                     {
-                        var state = states.states[i];
-                        var hasState = states.HasState(i);
+                        var state = stateses.states[i];
+                        var hasState = stateses.HasState(i);
 
                         var stateName = typesAsset.GetTypeName(i);
                         
@@ -45,14 +45,14 @@ namespace Editor
                             {
                                 if (GUILayout.Button("Exit"))
                                 {
-                                    states.Exit(i);
+                                    stateses.Exit(i);
                                 }
                             }
                             else
                             {
                                 if (GUILayout.Button("Enter"))
                                 {
-                                    states.Enter(i);
+                                    stateses.Enter(i);
                                 }
                             }
                            
@@ -65,7 +65,7 @@ namespace Editor
                                     $"{i} || {state.time:0.00} || {state.updateCount}");
                                 if (GUILayout.Button("Exit"))
                                 {
-                                    states.Exit(i);
+                                    stateses.Exit(i);
                                 }
                             }
                         }
@@ -74,12 +74,12 @@ namespace Editor
                 }
                 else
                 {
-                    for (var i = 0; i < states.states.Length; i++)
+                    for (var i = 0; i < stateses.states.Length; i++)
                     {
-                        var state = states.states[i];
+                        var state = stateses.states[i];
                         
                         EditorGUILayout.BeginHorizontal();
-                        var hasState = states.HasState(i);
+                        var hasState = stateses.HasState(i);
                         
                         if (hasState)
                         {
@@ -87,7 +87,7 @@ namespace Editor
                                 $"{i} || {state.time:0.00} || {state.updateCount}");
                             if (GUILayout.Button("Exit"))
                             {
-                                states.Exit(i);
+                                stateses.Exit(i);
                             }
                         }
                         EditorGUILayout.EndHorizontal();
