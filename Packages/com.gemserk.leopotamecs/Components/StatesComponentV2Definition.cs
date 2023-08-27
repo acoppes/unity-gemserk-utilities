@@ -52,9 +52,21 @@ namespace MyGame
             return (statesBitmask & stateMask) == stateMask;
         }
 
-        public StateV2 GetState(int state)
+        public ref StateV2 GetState(int state)
         {
-            return states[state];
+            return ref states[state];
+        }
+
+        public bool TryGetState(int state, out StateV2 stateData)
+        {
+            if (HasState(state))
+            {
+                stateData = GetState(state);
+                return true;
+            }
+
+            stateData = default;
+            return false;
         }
 
         public void Enter(int state, float duration = 0)

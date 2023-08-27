@@ -188,5 +188,39 @@ namespace Gemserk.Leopotam.Ecs.Tests
             
             Assert.AreEqual(false, statesComponent.HasState(state));
         }
+        
+        [Test]
+        public void Test_TryGetState_NewAPI()
+        {
+            var states = StatesComponentV2.Create();
+            states.Enter(0, 2.0f);
+            
+            Assert.IsTrue(states.TryGetState(0, out var s0));
+            Assert.IsFalse(states.TryGetState(1, out var s1));
+
+            var state = states.GetState(0);
+
+            if (states.TryGetState(0, out var stateTest))
+            {
+                Assert.AreEqual(state, stateTest);
+            }
+        }
+        
+        [Test]
+        public void Test_GetState_AsReference()
+        {
+            var states = StatesComponentV2.Create();
+            states.Enter(0, 2.0f);
+
+            var state = states.GetState(0);
+            state.updateCount = 5;
+            
+            Assert.AreEqual(0, states.GetState(0).updateCount);
+            
+            ref var stateref = ref states.GetState(0);
+            stateref.updateCount = 5;
+            
+            Assert.AreEqual(5, states.GetState(0).updateCount);
+        }
     }
 }
