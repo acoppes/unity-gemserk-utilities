@@ -136,27 +136,15 @@ namespace Gemserk.Leopotam.Ecs.Tests
         [Test]
         public void AutoExit_OnDurationCompleted()
         {
-            var statesComponent = StatesComponentV2.Create();
-            var statesHandler = new StatesHandlerMock();
+            var states = StatesComponentV2.Create();
+            states.Enter(0, 1.0f);
+            Assert.IsTrue(states.HasState(0));
             
-            statesComponent.onStatesEnterEvent += statesHandler.OnStatesEnter;
-            statesComponent.onStatesExitEvent += statesHandler.OnStatesExit;
-            
-            statesComponent.Enter(0);
-            
-            StatesSystemV2.UpdateStatesComponent(ref statesComponent, 0.5f);
-            
-            Assert.IsTrue(statesComponent.HasState(0));
-            Assert.AreEqual(0.5f, statesComponent.GetState(0).time);
-            
-            statesComponent.Enter(1, 0.1f);
-            
-            Assert.IsTrue(statesComponent.HasState(1));
-            Assert.AreEqual(0.1f, statesComponent.GetState(1).duration, 0.01f);
-            
-            StatesSystemV2.UpdateStatesComponent(ref statesComponent, 0.2f);
-            
-            Assert.IsFalse(statesComponent.HasState(1));
+            StatesSystemV2.UpdateStatesComponent(ref states, 0.5f);
+            Assert.IsTrue(states.HasState(0));
+            StatesSystemV2.UpdateStatesComponent(ref states, 0.51f);
+            Assert.IsFalse(states.HasState(0));
+            Assert.AreEqual(1.0f, states.GetState(0).time, 0.01f);
         }
         
         [Test]

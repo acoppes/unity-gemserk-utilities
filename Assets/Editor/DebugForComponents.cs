@@ -40,7 +40,7 @@ namespace Editor
                         if (!string.IsNullOrEmpty(stateName))
                         {
                             EditorGUILayout.LabelField(
-                                $"{stateName} || {state.time:0.00} || {state.updateCount}");
+                                $"{stateName} || t:{state.time:0.00} || d:{state.duration:0.0}  || {state.updateCount}");
                             
                             if (hasState)
                             {
@@ -63,7 +63,7 @@ namespace Editor
                             if (hasState)
                             {
                                 EditorGUILayout.LabelField(
-                                    $"{i} || {state.time:0.00} || {state.updateCount}");
+                                    $"{i} || t:{state.time:0.0} || d:{state.duration:0.0} || {state.updateCount}");
                                 if (GUILayout.Button("Exit"))
                                 {
                                     stateses.Exit(i);
@@ -85,7 +85,7 @@ namespace Editor
                         if (hasState)
                         {
                             EditorGUILayout.LabelField(
-                                $"{i} || {state.time:0.00} || {state.updateCount}");
+                                $"{i} || t:{state.time:0.0} || d:{state.duration:0.0} || {state.updateCount}");
                             if (GUILayout.Button("Exit"))
                             {
                                 stateses.Exit(i);
