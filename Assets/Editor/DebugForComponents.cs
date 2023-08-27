@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Gemserk.Leopotam.Ecs;
-using Gemserk.Leopotam.Ecs.Components;
 using Leopotam.EcsLite.UnityEditor;
 using MyGame;
 using UnityEditor;
@@ -35,7 +33,7 @@ namespace Editor
                         var state = states.states[i];
                         var hasState = states.HasState(i);
 
-                        var stateName = typesAsset.GetTypeName(1 << i);
+                        var stateName = typesAsset.GetTypeName(i);
                         
                         EditorGUILayout.BeginHorizontal();
                         if (!string.IsNullOrEmpty(stateName))

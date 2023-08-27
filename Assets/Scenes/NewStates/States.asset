@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   types:
   - {fileID: 11400000, guid: 37d1f5b3b2166f24eac9fd75278678b8, type: 2}
-  - {fileID: 11400000, guid: ad82bcd3f90dede4d9ee993ffa0e0ce2, type: 2}
-  - {fileID: 11400000, guid: fa8867d569a41de4bbf3e68ab8a2b95e, type: 2}
+  - {fileID: 11400000, guid: 54ba39b14eec99d4d8fa7229b483e8ed, type: 2}
+  - {fileID: 11400000, guid: 0b45c92d99f89194dbbf14bf49a0b31e, type: 2}
   generateCode: 1
   className: MyGameStates
   namespaceName: MyGame
   outputFolder: 
+  partialClass: 1
+  appendGeneratedToFileName: 1

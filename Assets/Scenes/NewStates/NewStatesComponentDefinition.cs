@@ -24,7 +24,7 @@ namespace MyGame
         public bool debugTransitions;
         
         // optional for debug
-        public GenericTypeCategoryAsset typesAsset;
+        public TypeSetAsset typesAsset;
 
         public bool HasState(int state)
         {
@@ -57,7 +57,7 @@ namespace MyGame
         public bool debugTransitions;
 
         // optional for debug
-        public GenericTypeCategoryAsset typesAsset;
+        public TypeSetAsset typesAsset;
         
         public override string GetComponentName()
         {
