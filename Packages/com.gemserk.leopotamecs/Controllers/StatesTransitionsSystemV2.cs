@@ -55,17 +55,17 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void InvokeStatesCallbacks(StatesComponentV2 statesComponent)
+        public static void InvokeStatesCallbacks(ref StatesComponentV2 statesComponent)
         {
-            // if (statesComponent.statesExited.Count > 0)
-            // {
-            //     statesComponent.OnStatesExit();
-            // }
-            //
-            // if (statesComponent.statesEntered.Count > 0)
-            // {
-            //     statesComponent.OnStatesEnter();
-            // }
+            if (statesComponent.statesExitedLastFrame != 0)
+            {
+                statesComponent.OnStatesExit();
+            }
+            
+            if (statesComponent.statesEnteredLastFrame != 0)
+            {
+                statesComponent.OnStatesEnter();
+            }
         }
 
         public void Run(EcsSystems systems)
@@ -74,7 +74,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             {
                 var statesComponent = stateComponents.Value.Get(entity);
                 UpdateStatesTransitions(ref statesComponent);
-                InvokeStatesCallbacks(statesComponent);
+                InvokeStatesCallbacks(ref statesComponent);
             }
         }
     }

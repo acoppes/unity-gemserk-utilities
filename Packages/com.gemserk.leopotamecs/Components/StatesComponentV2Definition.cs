@@ -82,6 +82,22 @@ namespace MyGame
             onStatesEnterEvent = null;
             onStatesExitEvent = null;
         }
+        
+        public void OnStatesEnter()
+        {
+            if (onStatesEnterEvent != null)
+            {
+                onStatesEnterEvent(this);
+            }
+        }
+        
+        public void OnStatesExit()
+        {
+            if (onStatesExitEvent != null)
+            {
+                onStatesExitEvent(this);
+            }
+        }
     }
     
     public class StatesComponentV2Definition : ComponentDefinitionBase

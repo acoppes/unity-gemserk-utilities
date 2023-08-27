@@ -66,31 +66,32 @@ namespace Gemserk.Leopotam.Ecs.Tests
             Assert.IsTrue(statesComponent.HasExitLastFrame(0));
         }
         
-        // [Test]
-        // public void State_Callbacks_Tests()
-        // {
-        //     var statesComponent = StatesComponent.Create();
-        //     var statesHandler = new StatesHandlerMock();
-        //     
-        //     statesComponent.EnterState("A");
-        //     
-        //     statesComponent.onStatesEnterEvent += statesHandler.OnStatesEnter;
-        //     statesComponent.onStatesExitEvent += statesHandler.OnStatesExit;
-        //
-        //     StatesTransitionsSystem.UpdateStatesTransitions(statesComponent);
-        //     StatesTransitionsSystem.InvokeStatesCallbacks(statesComponent);
-        //
-        //     Assert.AreEqual(1, statesHandler.onEnterCalls);
-        //     Assert.AreEqual(0, statesHandler.onExitCalls);
-        //     
-        //     statesComponent.ExitState("A");
-        //     
-        //     StatesTransitionsSystem.UpdateStatesTransitions(statesComponent);
-        //     StatesTransitionsSystem.InvokeStatesCallbacks(statesComponent);
-        //     
-        //     Assert.AreEqual(1, statesHandler.onEnterCalls);
-        //     Assert.AreEqual(1, statesHandler.onExitCalls);
-        // }
+        [Test]
+        public void State_Callbacks_Tests()
+        {
+            var statesComponent = StatesComponentV2.Create();
+            var statesHandler = new StatesHandlerMock();
+            
+            statesComponent.Enter(0);
+            
+            statesComponent.onStatesEnterEvent += statesHandler.OnStatesEnter;
+            statesComponent.onStatesExitEvent += statesHandler.OnStatesExit;
+        
+            StatesTransitionsSystemV2.UpdateStatesTransitions(ref statesComponent);
+            StatesTransitionsSystemV2.InvokeStatesCallbacks(ref statesComponent);
+        
+            Assert.AreEqual(1, statesHandler.onEnterCalls);
+            Assert.AreEqual(0, statesHandler.onExitCalls);
+            
+            statesComponent.Exit(0);
+            
+            StatesTransitionsSystemV2.UpdateStatesTransitions(ref statesComponent);
+            StatesTransitionsSystemV2.InvokeStatesCallbacks(ref statesComponent);
+            
+            Assert.AreEqual(1, statesHandler.onEnterCalls);
+            Assert.AreEqual(1, statesHandler.onExitCalls);
+        }
+        
         //
         // [Test]
         // public void ExitStates_Before_EnterStates()
