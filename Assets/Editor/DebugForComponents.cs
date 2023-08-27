@@ -82,6 +82,7 @@ namespace Editor
                         EditorGUILayout.BeginHorizontal();
                         var hasState = stateses.HasState(i);
                         
+                        
                         if (hasState)
                         {
                             EditorGUILayout.LabelField(
