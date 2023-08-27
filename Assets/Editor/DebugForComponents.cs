@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Gemserk.Leopotam.Ecs.Components;
 using Leopotam.EcsLite.UnityEditor;
 using MyGame;
 using UnityEditor;

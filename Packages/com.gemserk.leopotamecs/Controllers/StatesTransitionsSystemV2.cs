@@ -3,7 +3,6 @@ using System.Text;
 using Gemserk.Leopotam.Ecs.Components;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using MyGame;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Controllers

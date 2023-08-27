@@ -1,6 +1,6 @@
-﻿using Leopotam.EcsLite;
+﻿using Gemserk.Leopotam.Ecs.Components;
+using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using MyGame;
 
 namespace Gemserk.Leopotam.Ecs.Controllers
 {

@@ -1,7 +1,6 @@
 ﻿using Gemserk.BitmaskTypes;
-using Gemserk.Leopotam.Ecs;
 
-namespace MyGame
+namespace Gemserk.Leopotam.Ecs.Components
 {
     public struct StateV2
     {

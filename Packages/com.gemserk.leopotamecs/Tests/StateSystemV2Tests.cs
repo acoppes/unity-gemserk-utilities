@@ -1,7 +1,6 @@
 ﻿using System;
 using Gemserk.Leopotam.Ecs.Components;
 using Gemserk.Leopotam.Ecs.Controllers;
-using MyGame;
 using NUnit.Framework;
 using UnityEngine;
 
