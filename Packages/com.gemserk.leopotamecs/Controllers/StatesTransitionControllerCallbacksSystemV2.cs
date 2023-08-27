@@ -1,13 +1,12 @@
-﻿using Gemserk.Leopotam.Ecs.Components;
-using Leopotam.EcsLite;
+﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using MyGame;
 
 namespace Gemserk.Leopotam.Ecs.Controllers
 {
-    public class StatesTransitionControllerCallbacksSystem : BaseSystem, IEcsRunSystem
+    public class StatesTransitionControllerCallbacksSystemV2 : BaseSystem, IEcsRunSystem
     {
-        readonly EcsFilterInject<Inc<ControllerComponent, StatesComponent>, Exc<DisabledComponent>> filter = default;
+        readonly EcsFilterInject<Inc<ControllerComponent, StatesComponentV2>, Exc<DisabledComponent>> filter = default;
         
         public void Run(EcsSystems systems)
         {
@@ -18,7 +17,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                 
                 var worldEntity = world.GetEntity(entity);
                 
-                if (statesComponent.statesExited.Count > 0)
+                if (statesComponent.statesExitedLastFrame != 0)
                 {
                     foreach (var stateChanged in controllerComponent.stateChangedListeners)
                     {
@@ -26,7 +25,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                     }
                 }
                 
-                if (statesComponent.statesEntered.Count > 0)
+                if (statesComponent.statesEnteredLastFrame != 0)
                 {
                     foreach (var stateChanged in controllerComponent.stateChangedListeners)
                     {
