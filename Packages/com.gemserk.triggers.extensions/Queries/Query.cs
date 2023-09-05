@@ -1,10 +1,14 @@
+using System;
 using UnityEngine;
 
 namespace Gemserk.Triggers.Queries
 {
     public class Query : MonoBehaviour
     {
+        [NonSerialized]
         private EntityQuery entityQuery;
+        [NonSerialized]
+        private bool cached;
         
         public EntityQuery GetEntityQuery()
         {
@@ -14,12 +18,12 @@ namespace Gemserk.Triggers.Queries
                 return EntityQuery.Create(GetComponents<IQueryParameter>());
             }
 #endif
+            if (!cached)
+            {
+                entityQuery = EntityQuery.Create(GetComponents<IQueryParameter>());
+            }
+            
             return entityQuery;
-        }
-
-        private void Awake()
-        {
-            entityQuery = EntityQuery.Create(GetComponents<IQueryParameter>());
         }
 
         public override string ToString()
