@@ -111,6 +111,12 @@ namespace Gemserk.Leopotam.Ecs
             newT = t;
         }
         
+        public void AddComponent<T>(int e, T t) where T : struct
+        {
+            ref var newT = ref world.GetPool<T>().Add(e);
+            newT = t;
+        }
+        
         public ref T GetComponent<T>(Entity entity) where T : struct
         {
             return ref world.GetPool<T>().Get(entity);
