@@ -3,7 +3,7 @@
 namespace Gemserk.Leopotam.Ecs
 {
     [Serializable]
-    public class WorldReference : MultiSingletonReference<World>
+    public class WorldReference : CachedObjectReference<World>
     {
         
     }

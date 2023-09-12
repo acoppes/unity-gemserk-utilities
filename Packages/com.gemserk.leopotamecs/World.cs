@@ -19,7 +19,7 @@ namespace Gemserk.Leopotam.Ecs
         void OnEntityDestroyed(World world, Entity entity);
     }
 
-    public class World : MultiSingletonBehaviour<World>
+    public class World : CachedObjectBehaviour<World>
     {
         [SerializeField]
         private bool disableLeoEcsDebug;

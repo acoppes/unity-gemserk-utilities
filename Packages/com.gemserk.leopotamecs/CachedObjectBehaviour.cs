@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace Gemserk.Leopotam.Ecs
 {
-    public class MultiSingletonBehaviour<T> : MonoBehaviour where T : MonoBehaviour
+    public class CachedObjectBehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {
         private static readonly List<T> instances = new ();
 

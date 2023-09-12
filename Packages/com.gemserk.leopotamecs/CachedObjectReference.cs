@@ -14,7 +14,7 @@ namespace Gemserk.Leopotam.Ecs
     }
     
     [Serializable]
-    public class MultiSingletonReference<T> where T: MonoBehaviour
+    public class CachedObjectReference<T> where T: MonoBehaviour
     {
         public ReferenceType type;
 
@@ -30,27 +30,27 @@ namespace Gemserk.Leopotam.Ecs
         {
             if (type == ReferenceType.Default)
             {
-                return MultiSingletonBehaviour<T>.Default;
+                return CachedObjectBehaviour<T>.Default;
             }
             
             if (type == ReferenceType.Name)
             {
-                return MultiSingletonBehaviour<T>.GetByName(name);
+                return CachedObjectBehaviour<T>.GetByName(name);
             }
 
             if (type == ReferenceType.Tag)
             {
-                return MultiSingletonBehaviour<T>.GetByTag(tag);
+                return CachedObjectBehaviour<T>.GetByTag(tag);
             }
 
             if (type == ReferenceType.SameScene && go != null)
             {
-                return MultiSingletonBehaviour<T>.GetByScene(go.scene);
+                return CachedObjectBehaviour<T>.GetByScene(go.scene);
             }
             
             if (type == ReferenceType.SceneName)
             {
-                return MultiSingletonBehaviour<T>.GetBySceneName(name);
+                return CachedObjectBehaviour<T>.GetBySceneName(name);
             }
 
             return null;
