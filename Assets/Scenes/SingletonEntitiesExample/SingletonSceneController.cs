@@ -8,8 +8,8 @@ public class SingletonSceneController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var emptyEntity = World.Instance.CreateEntity();
-        World.Instance.AddComponent<NameComponent>(emptyEntity, new NameComponent()
+        var emptyEntity = World.Default.CreateEntity();
+        World.Default.AddComponent<NameComponent>(emptyEntity, new NameComponent()
         {
             singleton = true,
             name = "UniqueName1"
@@ -21,7 +21,7 @@ public class SingletonSceneController : MonoBehaviour
     IEnumerator CheckForUniqueEntity()
     {
         yield return null;
-        var entity = World.Instance.GetEntityByName("UniqueName1");
+        var entity = World.Default.GetEntityByName("UniqueName1");
         Assert.IsFalse(entity == Entity.NullEntity);
     }
 }

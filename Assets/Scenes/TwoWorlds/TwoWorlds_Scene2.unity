@@ -1229,7 +1229,7 @@ GameObject:
   - component: {fileID: 2423438963911234103}
   - component: {fileID: 6888008607295014636}
   m_Layer: 0
-  m_Name: ~World
+  m_Name: SecodaryWorld
   m_TagString: SecondaryWorld
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

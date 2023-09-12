@@ -482,7 +482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onInstantiateActionType: 2
   instantiationType: 1
-  worldTag: MainWorld
+  worldTag: Untagged
   entityDefinition: {fileID: 7919730612617244969}
 --- !u!1 &1822720270
 GameObject:
@@ -1238,7 +1238,7 @@ GameObject:
   - component: {fileID: 2423438963911234103}
   - component: {fileID: 6888008607295014636}
   m_Layer: 0
-  m_Name: ~World
+  m_Name: MainWorld
   m_TagString: MainWorld
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

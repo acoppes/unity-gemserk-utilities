@@ -19,7 +19,7 @@ namespace Gemserk.Leopotam.Ecs
         void OnEntityDestroyed(World world, Entity entity);
     }
 
-    public class World : SingletonBehaviour<World>
+    public class World : MultiSingletonBehaviour<World>
     {
         [SerializeField]
         private bool disableLeoEcsDebug;
@@ -203,8 +203,9 @@ namespace Gemserk.Leopotam.Ecs
             }
         }
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             Init();
         }
 

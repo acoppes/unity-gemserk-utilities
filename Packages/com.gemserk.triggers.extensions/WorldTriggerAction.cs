@@ -8,7 +8,7 @@ namespace Gemserk.Triggers
 
         private void OnEnable()
         {
-            world = World.Instance;
+            world = World.Default;
         }
 
         private void OnDisable()

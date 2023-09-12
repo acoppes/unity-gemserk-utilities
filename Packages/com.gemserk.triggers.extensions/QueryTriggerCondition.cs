@@ -20,7 +20,7 @@ namespace Gemserk.Triggers
         
         public override bool Evaluate(object activator = null)
         {
-            var world = World.Instance;
+            var world = World.Default;
 
             if (activator == null)
             {

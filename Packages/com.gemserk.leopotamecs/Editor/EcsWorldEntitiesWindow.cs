@@ -78,8 +78,10 @@ namespace Gemserk.Leopotam.Ecs.Editor
         
         private bool openAll;
         private bool closeAll;
+
+        private int selectedWorld = 0;
+        private Vector2[] scrollPositions = new Vector2[10];
         
-        private Vector2 scrollPosition;
         private Entity selectedEntity = Entity.NullEntity;
         
         private Dictionary<Type, bool> foldouts = new Dictionary<Type, bool>();
@@ -270,9 +272,9 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 return;
             }
             
-            var world = World.Instance;
+            var worlds = World.Instances;
 
-            if (world == null)
+            if (worlds.Count == 0)
             {
                 EditorGUILayout.LabelField("No world found");
                 selectedEntity = Entity.NullEntity;
@@ -313,6 +315,13 @@ namespace Gemserk.Leopotam.Ecs.Editor
             EditorGUILayout.EndVertical();
             
             EditorGUILayout.Separator();
+
+            if (worlds.Count > 1)
+            {
+                EditorGUILayout.BeginHorizontal();
+                selectedWorld = GUILayout.Toolbar(selectedWorld, worlds.Select(w => w.name).ToArray());
+                EditorGUILayout.EndHorizontal();
+            }
             
             EditorGUILayout.BeginHorizontal();
             
@@ -320,7 +329,9 @@ namespace Gemserk.Leopotam.Ecs.Editor
             EditorGUILayout.LabelField("-- ENTITIES --", titleStyle);
             EditorGUILayout.Separator();
 
-            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, false, false);
+            var world = worlds[selectedWorld];
+
+            scrollPositions[selectedWorld] = EditorGUILayout.BeginScrollView(scrollPositions[selectedWorld], false, false);
             
             var filter = world.Filter<EcsWorldEntitiesDebugComponent>();
             var debugComponents = world.GetComponents<EcsWorldEntitiesDebugComponent>();

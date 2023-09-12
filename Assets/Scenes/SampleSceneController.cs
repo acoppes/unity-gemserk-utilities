@@ -14,7 +14,7 @@ public class SampleSceneController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var world = World.Instance;
+        var world = World.Default;
  
         world.sharedData.sharedData = new GameSharedData();
         
@@ -29,7 +29,7 @@ public class SampleSceneController : MonoBehaviour
 
     private void Update()
     {
-        var world = World.Instance;
+        var world = World.Default;
         
         if (Input.GetKeyUp(KeyCode.Alpha1))
         {
