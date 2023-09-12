@@ -114,5 +114,20 @@ namespace Gemserk.Utilities
             
 #endif
         }
+
+        public static T GetInstanceFromRoot<T>(this Transform transform) where T : Component
+        {
+            return transform.root.GetComponentInChildren<T>();
+        }
+        
+        public static T GetInstanceFromRoot<T>(this GameObject gameObject) where T : Component
+        {
+            var rootObjects = gameObject.scene.GetRootGameObjects();
+            foreach (var rootObject in rootObjects)
+            {
+                
+            }
+            return gameObject.transform.GetInstanceFromRoot<T>();
+        }
     }
 }
