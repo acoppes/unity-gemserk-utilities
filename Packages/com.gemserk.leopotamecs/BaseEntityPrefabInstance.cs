@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Gemserk.Utilities;
+using MyBox;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -40,6 +42,9 @@ namespace Gemserk.Leopotam.Ecs
         
         // cant AutoDestroy or AutoDisable with LinkWithGameObject
 
+        [Tag]
+        public string worldTag;
+
         public abstract IEntityDefinition GetEntityDefinition();
         
         private void OnEnable()
@@ -52,16 +57,13 @@ namespace Gemserk.Leopotam.Ecs
 
         public void InstantiateEntity()
         {
-            var world = World.Instance;
+            var world = GameObject.FindWithTag(worldTag).GetComponent<World>();
 
-            if (world != null)
+            var instanceEntity = world.CreateEntity();
+            world.AddComponent(instanceEntity, new EntityPrefabComponent()
             {
-                var instanceEntity = world.CreateEntity();
-                world.AddComponent(instanceEntity, new EntityPrefabComponent()
-                {
-                    prefabInstance = this
-                });
-            }
+                prefabInstance = this
+            });
         }
 
         public void GetEntityParameters(List<IEntityInstanceParameter> list)
