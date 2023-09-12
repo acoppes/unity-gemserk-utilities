@@ -4,7 +4,7 @@ using MyBox;
 
 namespace Gemserk.Triggers
 {
-    public class QueryTriggerCondition : TriggerCondition
+    public class QueryTriggerCondition : WorldTriggerCondition
     {
         [DisplayInspector]
         public Query query;
@@ -13,20 +13,17 @@ namespace Gemserk.Triggers
         {
             if (query == null)
             {
-                return $"MatchQuery()";
+                return "MatchQuery()";
             }
             return $"MatchQuery({query.GetEntityQuery().ToString()})";
         }
         
         public override bool Evaluate(object activator = null)
         {
-            var world = World.Default;
-
             if (activator == null)
             {
                 return false;
             }
-
             return query.GetEntityQuery().MatchQuery(world, (Entity) activator);
         }
     }

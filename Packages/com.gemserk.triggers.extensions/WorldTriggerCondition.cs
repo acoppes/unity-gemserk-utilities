@@ -1,8 +1,8 @@
-using Gemserk.Leopotam.Ecs;
+﻿using Gemserk.Leopotam.Ecs;
 
 namespace Gemserk.Triggers
 {
-    public abstract class WorldTriggerAction : TriggerAction
+    public abstract class WorldTriggerCondition : TriggerCondition
     {
         public WorldReference worldReference;
         
