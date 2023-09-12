@@ -12,16 +12,17 @@ namespace Gemserk.Leopotam.Ecs
             Default = 0,
             Name = 1,
             Tag = 2,
-            SameScene = 3
+            SameScene = 3,
+            SceneName = 4
         }
 
         public Type type;
 
-        [ConditionalField(nameof(type), false, Type.Name)]
+        [ConditionalField(nameof(type), false, Type.Name, Type.SceneName)]
         public string name;
         
-       // [Tag]
         [ConditionalField(nameof(type), false, Type.Tag)]
+        [Tag]
         public string tag;
 
         public World GetWorld(GameObject go = null)
@@ -38,12 +39,17 @@ namespace Gemserk.Leopotam.Ecs
 
             if (type == Type.Tag)
             {
-                return World.GetByTag(name);
+                return World.GetByTag(tag);
             }
 
             if (type == Type.SameScene && go != null)
             {
                 return World.GetByScene(go.scene);
+            }
+            
+            if (type == Type.SceneName)
+            {
+                return World.GetBySceneName(name);
             }
 
             return null;

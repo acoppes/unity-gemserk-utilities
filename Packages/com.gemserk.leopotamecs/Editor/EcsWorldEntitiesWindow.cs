@@ -397,7 +397,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
             EditorGUILayout.BeginVertical(GUILayout.ExpandWidth(true));
             
-            if (!selectedEntity.Exists())
+            if (!world.Exists(selectedEntity))
             {
                 EditorGUILayout.LabelField("-- SELECT ENTITY --", titleStyle);
                 EditorGUILayout.Separator();

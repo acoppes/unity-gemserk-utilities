@@ -29,6 +29,11 @@ namespace Gemserk.Leopotam.Ecs
             return instances.First(i => i.gameObject.scene == scene);
         }
         
+        public static T GetBySceneName(string name)
+        {
+            return instances.First(i => i.gameObject.scene.name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
+        
         protected virtual void Awake()
         {
             instances.Add(gameObject.GetComponent<T>());
