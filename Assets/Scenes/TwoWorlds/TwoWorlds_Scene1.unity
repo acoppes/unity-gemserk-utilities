@@ -482,7 +482,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onInstantiateActionType: 2
   instantiationType: 1
-  worldTag: Untagged
+  worldReference:
+    type: 3
+    name: SecondaryWorld
+    tag: 
   entityDefinition: {fileID: 7919730612617244969}
 --- !u!1 &1822720270
 GameObject:

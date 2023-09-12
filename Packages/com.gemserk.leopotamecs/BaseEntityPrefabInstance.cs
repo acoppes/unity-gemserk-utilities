@@ -42,8 +42,7 @@ namespace Gemserk.Leopotam.Ecs
         
         // cant AutoDestroy or AutoDisable with LinkWithGameObject
 
-        [Tag]
-        public string worldTag;
+        public WorldReference worldReference;
 
         public abstract IEntityDefinition GetEntityDefinition();
         
@@ -58,7 +57,7 @@ namespace Gemserk.Leopotam.Ecs
         public void InstantiateEntity()
         {
             // var world = GameObject.FindWithTag(worldTag).GetComponent<World>();
-            var world = World.Default;
+            var world = worldReference.GetWorld(gameObject);
 
             var instanceEntity = world.CreateEntity();
             world.AddComponent(instanceEntity, new EntityPrefabComponent()
