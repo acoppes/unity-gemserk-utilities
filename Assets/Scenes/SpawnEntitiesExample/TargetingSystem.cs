@@ -22,7 +22,7 @@ public class TargetingSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandle
     public void Run(EcsSystems systems)
     {
         var filter = world.GetFilter<WeaponComponent>().Exc<DelayedDestroyComponent>().End();
-        // var weapons = systems.GetWorld().GetPool<Weapon>();
+        // var weapons = systems.GetReference().GetPool<Weapon>();
         var weaponComponents = world.GetComponents<WeaponComponent>();
         // var targetComponents = world.GetComponents<TargetComponent>();
 

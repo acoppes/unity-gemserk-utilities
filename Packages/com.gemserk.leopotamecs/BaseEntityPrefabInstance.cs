@@ -57,7 +57,7 @@ namespace Gemserk.Leopotam.Ecs
         public void InstantiateEntity()
         {
             // var world = GameObject.FindWithTag(worldTag).GetComponent<World>();
-            var world = worldReference.GetWorld(gameObject);
+            var world = worldReference.GetReference(gameObject);
 
             var instanceEntity = world.CreateEntity();
             world.AddComponent(instanceEntity, new EntityPrefabComponent()
