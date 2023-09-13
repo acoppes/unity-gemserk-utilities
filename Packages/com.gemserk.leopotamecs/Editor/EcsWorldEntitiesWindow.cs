@@ -316,6 +316,12 @@ namespace Gemserk.Leopotam.Ecs.Editor
             
             EditorGUILayout.Separator();
 
+            // reset selected world if now there are less worlds
+            if (selectedWorld >= worlds.Count)
+            {
+                selectedWorld = 0;
+            }
+            
             if (worlds.Count > 1)
             {
                 EditorGUILayout.BeginHorizontal();
