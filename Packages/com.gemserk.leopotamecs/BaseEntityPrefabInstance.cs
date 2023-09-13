@@ -22,6 +22,7 @@ namespace Gemserk.Leopotam.Ecs
         {
             Manual = 0,
             AutomaticOnEnable = 1,
+            AutomaticOnceOnStart = 2
         }
         
         // rename to link type
@@ -49,6 +50,14 @@ namespace Gemserk.Leopotam.Ecs
         private void OnEnable()
         {
             if (instantiationType == InstantiationType.AutomaticOnEnable)
+            {
+                InstantiateEntity();
+            }
+        }
+
+        private void Start()
+        {
+            if (instantiationType == InstantiationType.AutomaticOnceOnStart)
             {
                 InstantiateEntity();
             }

@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onInstantiateActionType: 2
-  instantiationType: 1
+  instantiationType: 2
   worldReference:
     type: 3
     name: MainWorld
@@ -754,7 +754,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onInstantiateActionType: 2
-  instantiationType: 1
+  instantiationType: 2
   worldReference:
     type: 1
     name: MainWorld
@@ -1313,7 +1313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onInstantiateActionType: 2
-  instantiationType: 1
+  instantiationType: 2
   worldReference:
     type: 2
     name: MainWorld
@@ -1432,7 +1432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onInstantiateActionType: 2
-  instantiationType: 1
+  instantiationType: 2
   worldReference:
     type: 4
     name: TwoWorlds_Scene1
@@ -1551,7 +1551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onInstantiateActionType: 2
-  instantiationType: 1
+  instantiationType: 2
   worldReference:
     type: 0
     name: SecondaryWorld
