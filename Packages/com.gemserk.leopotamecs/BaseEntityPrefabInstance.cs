@@ -77,7 +77,7 @@ namespace Gemserk.Leopotam.Ecs
 
         public void GetEntityParameters(List<IEntityInstanceParameter> list)
         {
-            GetComponents(list);
+            gameObject.GetComponents<IEntityInstanceParameter>(list);
         }
 
     }
