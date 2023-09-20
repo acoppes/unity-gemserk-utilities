@@ -1,0 +1,13 @@
+{
+  "name": "com.gemserk.gamescore",
+  "version": "0.0.1",
+  "displayName": "com.gemserk.gamescore",
+  "description": "Gemserk Games Core",
+  "unity": "2022.2",
+  "unityRelease": "4f1",
+  "author": {
+    "name": "acoppes",
+    "email": "ariel.coppes@gmail.com",
+    "url": "https://arielcoppes.dev/"
+  }
+}

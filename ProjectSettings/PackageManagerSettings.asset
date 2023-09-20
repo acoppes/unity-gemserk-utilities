@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EnablePreReleasePackages: 0
-  m_EnablePackageDependencies: 0
   m_AdvancedSettingsExpanded: 1
   m_ScopedRegistriesSettingsExpanded: 1
   m_SeeAllPackageVersions: 0
+  m_DismissPreviewPackagesInUse: 0
   oneTimeWarningShown: 0
   m_Registries:
   - m_Id: main
@@ -33,6 +33,8 @@ MonoBehaviour:
     - com.leoecscommunity.ecslite
     - com.gemserk
     - com.domybest.mybox
+    - com.vertx
+    - com.oss.leantween
     m_IsDefault: 0
     m_Capabilities: 0
     m_ConfigSource: 4
@@ -41,6 +43,6 @@ MonoBehaviour:
   m_RegistryInfoDraft:
     m_Modified: 0
     m_ErrorMessage: 
-    m_UserModificationsInstanceId: -826
-    m_OriginalInstanceId: -830
+    m_UserModificationsInstanceId: -830
+    m_OriginalInstanceId: -834
   m_LoadAssets: 0
