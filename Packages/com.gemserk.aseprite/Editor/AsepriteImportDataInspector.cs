@@ -19,8 +19,11 @@ namespace Gemserk.Aseprite.Editor
 
         private void ReloadFiles()
         {
-            var importData = target as AsepriteImportData;
-            sourceFiles = importData.GetSourceFiles();
+            if (target != null)
+            {
+                var importData = target as AsepriteImportData;
+                sourceFiles = importData.GetSourceFiles();
+            }
         }
 
         public override void OnInspectorGUI()
