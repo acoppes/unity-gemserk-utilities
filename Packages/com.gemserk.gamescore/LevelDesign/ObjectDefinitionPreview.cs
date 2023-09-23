@@ -131,8 +131,16 @@ namespace Game.LevelDesign
                     if (modelComponentDefinition.sortingLayerType ==
                         ModelComponent.SortingLayerType.CopyFromComponent)
                     {
-                        model.sortingGroup.sortingLayerName = modelComponentDefinition.sortingLayer;
-                        model.sortingGroup.sortingOrder = modelComponentDefinition.sortingOrder;
+                        if (model.sortingGroup != null)
+                        {
+                            model.sortingGroup.sortingLayerName = modelComponentDefinition.sortingLayer;
+                            model.sortingGroup.sortingOrder = modelComponentDefinition.sortingOrder;
+                        }
+                        else if (model.spriteRenderer != null)
+                        {
+                            model.spriteRenderer.sortingOrder =  modelComponentDefinition.sortingOrder;
+                            model.spriteRenderer.sortingLayerName =  modelComponentDefinition.sortingLayer;
+                        }
                     }
                 }
             }
