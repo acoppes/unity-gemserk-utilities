@@ -36,10 +36,17 @@ namespace Game.Systems
                     model.spriteRenderer.color = modelComponent.color;
                 }
                 
-                if (modelComponent.sortingLayerType == ModelComponent.SortingLayerType.CopyFromComponent && model.sortingGroup != null)
+                if (modelComponent.sortingLayerType == ModelComponent.SortingLayerType.CopyFromComponent)
                 {
-                    model.sortingGroup.sortingOrder = modelComponent.sortingOrder;
-                    model.sortingGroup.sortingLayerID = modelComponent.sortingLayer;
+                    if (model.sortingGroup != null)
+                    {
+                        model.sortingGroup.sortingOrder = modelComponent.sortingOrder;
+                        model.sortingGroup.sortingLayerID = modelComponent.sortingLayer;
+                    } else if (model.spriteRenderer != null)
+                    {
+                        model.spriteRenderer.sortingOrder = modelComponent.sortingOrder;
+                        model.spriteRenderer.sortingLayerID = modelComponent.sortingLayer;
+                    }
                 }
 
                 if (model.gameObject.activeSelf && !modelComponent.IsVisible)
