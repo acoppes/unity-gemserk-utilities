@@ -142,6 +142,12 @@ namespace Game.LevelDesign
                             model.spriteRenderer.sortingLayerName =  modelComponentDefinition.sortingLayer;
                         }
                     }
+                    
+                    if (unitInstanceParameter.overrideLookingDirection && model.spriteRenderer)
+                    {
+                        var lookingDirection = unitInstanceParameter.startLookingDirection;
+                        model.spriteRenderer.flipX = lookingDirection.x < 0;
+                    }
                 }
             }
         }
