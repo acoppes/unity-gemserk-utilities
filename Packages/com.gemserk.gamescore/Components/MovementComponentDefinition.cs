@@ -34,8 +34,10 @@ namespace Game.Components
 
         public Constraints constraints;
 
+        public float totalSpeed => speed * speedMultiplier;
+
         public bool isMoving => movingDirection.sqrMagnitude > Mathf.Epsilon 
-                                && speed > GameConstants.MinSpeedMovement;
+                                && totalSpeed > GameConstants.MinSpeedMovement;
 
         public InitialSpeedType initialSpeedType;
 
