@@ -1,36 +1,24 @@
 ﻿using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using UnityEngine;
 
 namespace Game.Systems
 {
-    public class LimitPhysicsMaxFallingVelocitySystem : BaseSystem, IEcsRunSystem, IEcsInitSystem
+    public class LimitPhysicsMaxFallingVelocitySystem : BaseSystem, IEcsRunSystem
     {
+        readonly EcsFilterInject<Inc<PhysicsComponent>, Exc<DisabledComponent>> physicsFilter = default;
+        readonly EcsFilterInject<Inc<Physics2dComponent, ConfigurationComponent>, Exc<DisabledComponent>> physics2dFilter = default;
+        
         public float maxVerticalVelocity = 1;
-
-        private EcsFilter physicsFilter;
-        private EcsFilter physics2dFilter;
-
-        public void Init(EcsSystems systems)
-        {
-            physicsFilter = world.GetFilter<PhysicsComponent>()
-                .Exc<DisabledComponent>()
-                .End();
-            
-            physics2dFilter = world.GetFilter<Physics2dComponent>()
-                .Exc<DisabledComponent>()
-                .End();
-        }
         
         public void Run(EcsSystems systems)
         {
-            var physicsComponents = world.GetComponents<PhysicsComponent>();
-
-            foreach (var entity in physicsFilter)
+            foreach (var entity in physicsFilter.Value)
             {
                 // copy from body to position`
-                ref var physicsComponent = ref physicsComponents.Get(entity);
+                ref var physicsComponent = ref physicsFilter.Pools.Inc1.Get(entity);
 
                 if (physicsComponent.isStatic)
                 {
@@ -49,13 +37,11 @@ namespace Game.Systems
                     physicsComponent.body.velocity = velocity;
                 }
             }
-            
-            var physics2dComponents = world.GetComponents<Physics2dComponent>();
 
-            foreach (var entity in physics2dFilter)
+            foreach (var entity in physics2dFilter.Value)
             {
                 // copy from body to position`
-                ref var physics2dComponent = ref physics2dComponents.Get(entity);
+                ref var physics2dComponent = ref physics2dFilter.Pools.Inc1.Get(entity);
 
                 if (physics2dComponent.isStatic)
                 {
