@@ -30,10 +30,10 @@ namespace Gemserk.Utilities
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector2 FixToAngles(this Vector2 direction, int angles)
+        public static Vector2 FixToAngles(this Vector2 direction, float angle)
         {
             var angleInDegrees = Vector2.SignedAngle(Vector2.right, direction);
-            var newAngle = Mathf.RoundToInt(angleInDegrees / angles) * angles;
+            var newAngle = Mathf.RoundToInt(angleInDegrees / angle) * angle;
             return Vector2.right.Rotate(newAngle * Mathf.Deg2Rad);
         }
     }
