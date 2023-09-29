@@ -28,5 +28,13 @@ namespace Gemserk.Utilities
         {
             return (v - otherVector).SqrMagnitude();
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 FixToAngles(this Vector2 direction, int angles)
+        {
+            var angleInDegrees = Vector2.SignedAngle(Vector2.right, direction);
+            var newAngle = Mathf.RoundToInt(angleInDegrees / angles) * angles;
+            return Vector2.right.Rotate(newAngle * Mathf.Deg2Rad);
+        }
     }
 }
