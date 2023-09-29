@@ -24,12 +24,7 @@ namespace Game.Systems
 
                 if (copyMovement.fixedAngles > 0 && input.direction().vector2.SqrMagnitude() > 0)
                 {
-                    var direction = input.direction().vector2;
-                    var angleInDegrees = Vector2.SignedAngle(Vector2.right, direction);
-
-                    var newAngle = Mathf.RoundToInt(angleInDegrees / copyMovement.fixedAngles) * copyMovement.fixedAngles;
-                    direction = Vector2.right.Rotate(newAngle * Mathf.Deg2Rad);
-
+                    var direction = input.direction().vector2.FixToAngles(copyMovement.fixedAngles);
                     movement.movingDirection = new Vector3(direction.x, 0, direction.y);
                 }
             }
