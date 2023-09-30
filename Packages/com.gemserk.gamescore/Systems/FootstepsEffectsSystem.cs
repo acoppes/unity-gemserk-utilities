@@ -9,6 +9,7 @@ namespace Game.Systems
 {
     public class FootstepsEffectsSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler, IEntityDestroyedHandler
     {
+        readonly EcsFilterInject<Inc<FootstepsComponent>, Exc<DisabledComponent>> footstepFilter = default;
         readonly EcsFilterInject<Inc<FootstepsComponent, MovementComponent>, Exc<DisabledComponent>> movementFilter = default;
         readonly EcsFilterInject<Inc<FootstepsComponent, Physics2dComponent>, Exc<DisabledComponent>> physicsFilter = default;
         readonly EcsFilterInject<Inc<FootstepsComponent, GravityComponent>, Exc<DisabledComponent>> gravityFilter = default;
@@ -44,19 +45,25 @@ namespace Game.Systems
 
         public void Run(EcsSystems systems)
         {
+            foreach (var e in footstepFilter.Value)
+            {
+                ref var footsteps = ref footstepFilter.Pools.Inc1.Get(e);
+                footsteps.isWalking = false;
+            }
+            
             foreach (var e in movementFilter.Value)
             {
                 ref var footsteps = ref movementFilter.Pools.Inc1.Get(e);
                 var movement = movementFilter.Pools.Inc2.Get(e);
-                footsteps.isWalking = movement.currentVelocity.sqrMagnitude > GameConstants.MinSpeedMovement;
+                footsteps.isWalking = footsteps.isWalking || movement.currentVelocity.sqrMagnitude > GameConstants.MinSpeedMovement;
             }
             
             foreach (var e in physicsFilter.Value)
             {
                 ref var footsteps = ref physicsFilter.Pools.Inc1.Get(e);
                 var physics2d = physicsFilter.Pools.Inc2.Get(e);
-                footsteps.isWalking = physics2d.body.velocity.sqrMagnitude >
-                                   GameConstants.MinSpeedMovement;
+                footsteps.isWalking = footsteps.isWalking || physics2d.body.velocity.sqrMagnitude >
+                                      GameConstants.MinSpeedMovement;
             }
             
             foreach (var e in gravityFilter.Value)
@@ -82,8 +89,14 @@ namespace Game.Systems
                         footsteps.walkingParticleSystem.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                     }
 
-                    footsteps.walkingParticleSystem.transform.position =
-                        GamePerspective.ConvertFromWorld(position.value);
+                    if (position.type == 0)
+                    {
+                        footsteps.walkingParticleSystem.transform.position =
+                            GamePerspective.ConvertFromWorld(position.value);
+                    } else if (position.type == 1)
+                    {
+                        footsteps.walkingParticleSystem.transform.position = position.value;
+                    }
                 }
 
                 var positionXZ = position.value.XZ();
