@@ -119,6 +119,11 @@ namespace Gemserk.Leopotam.Ecs
             return ref newT;
         }
         
+        public ref T GetComponent<T>(int e) where T : struct
+        {
+            return ref world.GetPool<T>().Get(e);
+        }
+        
         public ref T GetComponent<T>(Entity entity) where T : struct
         {
             return ref world.GetPool<T>().Get(entity);
@@ -136,6 +141,11 @@ namespace Gemserk.Leopotam.Ecs
                 return false;
             component = GetComponent<T>(entity);
             return true;
+        }
+        
+        public bool HasComponent<T>(int e) where T : struct
+        {
+            return world.GetPool<T>().Has(e);
         }
 
         public bool HasComponent<T>(Entity entity) where T : struct
