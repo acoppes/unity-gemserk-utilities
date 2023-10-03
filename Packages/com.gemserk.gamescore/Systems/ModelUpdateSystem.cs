@@ -173,7 +173,7 @@ namespace Game.Systems
                     
                     var objectModel = modelComponent.instance;
 
-                    var t = objectModel.spriteRenderer.transform;
+                    var t = objectModel.model;
                     
                     t.localEulerAngles = t.localEulerAngles.SetZ(angle);
                     var modelScale = t.localScale;
