@@ -41,11 +41,15 @@ namespace Game.Systems
             if (physicsComponent.shapeType == PhysicsComponent.ShapeType.Circle)
             {
                 var colliderObject = poolMap.Get(circleColliderPrefab);
+                colliderObject.SetActive(true);
+                
                 colliderObject.layer = layer;
                 
                 // colliderObject.transform.parent = physicsComponent.transform;
 
                 var collider = colliderObject.GetComponent<SphereCollider>();
+                collider.enabled = true;
+
                 collider.isTrigger = physicsComponent.isTrigger;
                 collider.radius = physicsComponent.size.x;
                 
@@ -69,10 +73,14 @@ namespace Game.Systems
             if (physicsComponent.shapeType == PhysicsComponent.ShapeType.Box)
             {
                 var colliderObject = poolMap.Get(boxColliderPrefab);
+                colliderObject.SetActive(true);
+                
                 colliderObject.layer = layer;
                 // colliderObject.transform.parent = physicsGameObject.transform;
                     
                 var collider = colliderObject.GetComponent<BoxCollider>();
+                collider.enabled = true;
+                
                 collider.isTrigger = physicsComponent.isTrigger;
                 collider.size = physicsComponent.size;
                 
@@ -96,10 +104,14 @@ namespace Game.Systems
             if (physicsComponent.shapeType == PhysicsComponent.ShapeType.Capsule)
             {
                 var colliderObject = poolMap.Get(capsuleColliderPrefab);
+                colliderObject.SetActive(true);
+                
                 colliderObject.layer = layer;
                 // colliderObject.transform.parent = physicsGameObject.transform;
                     
                 var collider = colliderObject.GetComponent<CapsuleCollider>();
+                collider.enabled = true;
+                
                 collider.isTrigger = physicsComponent.isTrigger;
                 collider.radius = physicsComponent.size.x;
                 collider.height = physicsComponent.size.y;
