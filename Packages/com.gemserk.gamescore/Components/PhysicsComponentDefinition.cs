@@ -96,6 +96,7 @@ namespace Game.Components
         public EntityCollision2dDelegate collisionsEventsDelegate;
 
         public bool isStatic;
+        public RigidbodyType2D startingBodyType;
         public bool isTrigger;
         public float mass;
         
@@ -140,6 +141,9 @@ namespace Game.Components
         
         [ConditionalField(nameof(prefab), true)]
         public bool isStatic;
+        
+        [ConditionalField(nameof(physicsComponentType), false, PhysicsComponentType.Physics2d)]
+        public RigidbodyType2D startingBodyType;
         
         [ConditionalField(nameof(prefab), true)]
         public bool isTrigger;
@@ -217,7 +221,8 @@ namespace Game.Components
                         colliderType = colliderType,
                         center = center,
                         contacts = new List<ContactPoint2D>(),
-                        colliders = new List<Collider2D>()
+                        colliders = new List<Collider2D>(),
+                        startingBodyType = startingBodyType
                     });
                 }
             }

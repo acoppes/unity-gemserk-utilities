@@ -168,6 +168,8 @@ namespace Game.Systems
                         physics2dComponent.body.freezeRotation = true;
                         physics2dComponent.body.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
+                        physics2dComponent.body.bodyType = physics2dComponent.startingBodyType;
+                        
                         if (world.HasComponent<PositionComponent>(entity))
                         {
                             var position = world.GetComponent<PositionComponent>(entity);
