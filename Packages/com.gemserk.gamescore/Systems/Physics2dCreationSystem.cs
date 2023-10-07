@@ -141,7 +141,7 @@ namespace Game.Systems
                     var entityReference = physics2dComponent.gameObject.AddComponent<EntityReference>();
                     entityReference.entity = entity;
 
-                    var layer = physics2dComponent.isStatic ? LayerMask.NameToLayer("StaticObstacle") : 
+                    var layer = (physics2dComponent.isStatic || physics2dComponent.startingBodyType == RigidbodyType2D.Static) ? LayerMask.NameToLayer("StaticObstacle") : 
                         LayerMask.NameToLayer("DynamicObstacle");
                     
                     if (physics2dComponent.isStatic)
