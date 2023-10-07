@@ -146,7 +146,14 @@ namespace Game.LevelDesign
                     if (unitInstanceParameter.overrideLookingDirection && model.spriteRenderer)
                     {
                         var lookingDirection = unitInstanceParameter.startLookingDirection;
-                        model.spriteRenderer.flipX = lookingDirection.x < 0;
+                        if (modelComponentDefinition.rotationType == ModelComponent.RotationType.FlipToLookingDirection)
+                        {
+                            model.spriteRenderer.flipX = lookingDirection.x < 0;
+                        } else if (modelComponentDefinition.rotationType == ModelComponent.RotationType.Rotate)
+                        {
+                            model.model.localEulerAngles = new Vector3(0, 0,
+                                Vector2.SignedAngle(Vector2.right, new Vector2(lookingDirection.x, lookingDirection.y)));
+                        }
                     }
                 }
             }
