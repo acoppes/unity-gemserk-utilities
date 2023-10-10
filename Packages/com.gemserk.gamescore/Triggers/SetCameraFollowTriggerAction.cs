@@ -21,6 +21,7 @@ namespace Game.Triggers
         public string cameraName;
 
         public bool useModel;
+        public bool forceCameraPosition;
 
         public override string GetObjectName()
         {
@@ -53,6 +54,11 @@ namespace Game.Triggers
                     {
                         virtualCamera.Follow = modelComponent.instance.model;
                         virtualCamera.LookAt = modelComponent.instance.model;
+                    }
+
+                    if (forceCameraPosition)
+                    {
+                        virtualCamera.ForceCameraPosition(virtualCamera.Follow.transform.position, Quaternion.identity);
                     }
                 }
             } else if (actionType == ActionType.StopFollowing)
