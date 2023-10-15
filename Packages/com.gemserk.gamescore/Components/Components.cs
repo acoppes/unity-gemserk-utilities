@@ -237,8 +237,13 @@ namespace Game.Components
         public AliveType previousAliveState;
         public AliveType aliveType => current > 0 ? AliveType.Alive : AliveType.Death;
 
+        public bool wasKilledLastFrame => previousAliveState == AliveType.Alive &&
+                                         aliveType == AliveType.Death;
+
         public bool autoDestroyOnDeath;
         public bool autoDisableOnDeath;
+
+        public bool triggerForceDeath;
         
         public bool IsFull() => Mathf.Approximately(current, total);
 

@@ -57,6 +57,12 @@ namespace Game.Systems
                 
                 health.damages.Clear();
                 health.healEffects.Clear();
+
+                if (health.current > 0 && health.triggerForceDeath)
+                {
+                    health.triggerForceDeath = false;
+                    health.current = 0;
+                }
             }
         }
     }
