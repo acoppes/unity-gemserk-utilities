@@ -8,7 +8,8 @@ namespace Game.Systems
 {
     public class HorizontalMovementSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler
     {
-        readonly EcsFilterInject<Inc<MovementComponent, PositionComponent>, Exc<DisabledComponent>> filter = default;
+        readonly EcsFilterInject<Inc<MovementComponent, PositionComponent>, Exc<DisabledComponent>> stationaryFilter = default;
+        readonly EcsFilterInject<Inc<MovementComponent, PositionComponent>, Exc<DisabledComponent, PhysicsMovementComponent>> filter = default;
         
         public float distanceToConsiderStationary = 0.01f;
 
@@ -26,6 +27,24 @@ namespace Game.Systems
         
         public void Run(EcsSystems systems)
         {
+            foreach (var entity in stationaryFilter.Value)
+            {
+                ref var movement = ref stationaryFilter.Pools.Inc1.Get(entity);
+                ref var position = ref stationaryFilter.Pools.Inc2.Get(entity);
+                
+                // first check if didn't move last time
+                if ((position.value - movement.previousPosition).sqrMagnitude < distanceToConsiderStationary * distanceToConsiderStationary)
+                {
+                    movement.stationaryTime += dt;
+                }
+                else
+                {
+                    movement.stationaryTime = 0;
+                }
+                
+                movement.previousPosition = position.value;
+            }
+
             foreach (var entity in filter.Value)
             {
                 ref var movement = ref filter.Pools.Inc1.Get(entity);
@@ -59,8 +78,6 @@ namespace Game.Systems
                 }
 
                 var newPosition = position.value;
-
-                movement.previousPosition = position.value;
 
                 var d = movement.disableNormalizeDirection ? direction : direction.normalized;
                 var velocity = d * movement.speed * movement.speedMultiplier;
