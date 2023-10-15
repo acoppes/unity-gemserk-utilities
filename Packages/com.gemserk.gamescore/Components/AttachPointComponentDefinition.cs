@@ -12,6 +12,11 @@ namespace Game.Components
         public Vector3 localPosition;
 
         public Vector3 position => entityPosition + localPosition;
+
+        public Vector3 GetPosition(Vector3 p)
+        {
+            return p + localPosition;
+        }
     }
     
     public struct AttachPointsComponent : IEntityComponent
