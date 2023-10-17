@@ -54,7 +54,8 @@ namespace Gemserk.Triggers
 
                 if (trigger.State == ITrigger.ExecutionState.Executing)
                 {
-                    if (trigger.Execute() == ITrigger.ExecutionResult.Completed)
+                    var result = trigger.Execute();
+                    if (result == ITrigger.ExecutionResult.Completed || result == ITrigger.ExecutionResult.Interrupt)
                     {
                         trigger.CompleteCurrentExecution();
                     }

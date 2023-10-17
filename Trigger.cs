@@ -90,7 +90,7 @@ namespace Gemserk.Triggers
                 var action = actions[executingAction];
                 var result = action.Execute(currentActivator);
                 
-                if (result == ITrigger.ExecutionResult.Running)
+                if (result == ITrigger.ExecutionResult.Running || result == ITrigger.ExecutionResult.Interrupt)
                 {
                     return result;
                 }

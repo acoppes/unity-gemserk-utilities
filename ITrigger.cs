@@ -12,7 +12,8 @@ namespace Gemserk.Triggers
         public enum ExecutionResult
         {
             Running,
-            Completed
+            Completed,
+            Interrupt
             // TODO: failure result so we could debug and see if it run or not...
         }
         
