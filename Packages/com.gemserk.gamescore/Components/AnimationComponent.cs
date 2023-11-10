@@ -41,6 +41,7 @@ namespace Game.Components
 
         public StartingAnimationType startingAnimationType;
         public bool randomizeStartFrame;
+        public float alpha;
         public string name;
         public bool loop;
     }

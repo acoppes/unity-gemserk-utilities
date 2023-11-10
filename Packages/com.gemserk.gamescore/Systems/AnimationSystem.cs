@@ -5,6 +5,7 @@ using Game.Definitions;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace Game.Systems
@@ -75,6 +76,10 @@ namespace Game.Systems
             if (startingAnimationComponent.randomizeStartFrame)
             {
                 startingFrame = UnityEngine.Random.Range(0, animationDefinition.TotalFrames);
+            }
+            else
+            {
+                startingFrame = Mathf.FloorToInt(startingAnimationComponent.alpha * animationDefinition.TotalFrames);
             }
 
             animations.Play(animation, startingFrame, startingAnimationComponent.loop);
