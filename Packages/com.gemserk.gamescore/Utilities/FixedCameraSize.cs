@@ -1,4 +1,4 @@
-﻿using Cinemachine;
+﻿using Unity.Cinemachine;
 using Unity.Collections;
 using UnityEngine;
 
@@ -64,7 +64,7 @@ namespace Game.Utilities
                 var heightMatch = match;
 
                 result = (sizeToMatchWidth * widthMatch + sizeToMatchHeight * heightMatch);
-                virtualCamera.m_Lens.OrthographicSize = result;
+                virtualCamera.Lens.OrthographicSize = result;
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿using Cinemachine;
+﻿using Unity.Cinemachine;
 using Gemserk.Triggers;
 using UnityEngine;
 
@@ -54,13 +54,13 @@ namespace Game.Triggers
 
                 if (cameraConfiner == null)
                 {
-                    cinemachineConfiner2D.m_BoundingShape2D = null;
+                    cinemachineConfiner2D.BoundingShape2D = null;
                     cinemachineConfiner2D.enabled = false;
                 }
                 else
                 {
                     cinemachineConfiner2D.enabled = true;
-                    cinemachineConfiner2D.m_BoundingShape2D =
+                    cinemachineConfiner2D.BoundingShape2D =
                         cameraConfiner.GetComponentInChildren<Collider2D>();
                     cinemachineConfiner2D.InvalidateCache();
                 }
@@ -73,7 +73,7 @@ namespace Game.Triggers
                 //     perlinNoise = virtualCamera.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
                 // }
                 //
-                perlinNoise.m_NoiseProfile = noiseSettings;
+                perlinNoise.NoiseProfile = noiseSettings;
             }
 
             return ITrigger.ExecutionResult.Completed;

@@ -1,4 +1,4 @@
-﻿using Cinemachine;
+﻿using Unity.Cinemachine;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using UnityEngine;
@@ -19,7 +19,7 @@ namespace Game.Systems
         
         public void Run(EcsSystems systems)
         {
-            if (brain != null && brain.m_UpdateMethod == CinemachineBrain.UpdateMethod.ManualUpdate)
+            if (brain != null && brain.UpdateMethod == CinemachineBrain.UpdateMethods.ManualUpdate)
             {
                 brain.ManualUpdate();
             }

@@ -1,4 +1,4 @@
-﻿using Cinemachine;
+﻿using Unity.Cinemachine;
 using Game.Components;
 using Gemserk.Triggers;
 using Gemserk.Triggers.Queries;
