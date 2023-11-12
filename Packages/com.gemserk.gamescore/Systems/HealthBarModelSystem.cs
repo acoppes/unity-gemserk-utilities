@@ -3,6 +3,7 @@ using Game.Models;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Utilities.Pooling;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using MyBox;
 using UnityEngine;
 
@@ -10,6 +11,14 @@ namespace Game.Systems
 {
     public class HealthBarModelSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler, IEntityDestroyedHandler, IEcsInitSystem
     {
+        readonly EcsFilterInject<Inc<HealthBarComponent, HealthComponent>, Exc<DisabledComponent>> filter = default;
+        
+        readonly EcsFilterInject<Inc<HealthBarComponent, PositionComponent>, Exc<DisabledComponent>> positionsFilter = default;
+        readonly EcsFilterInject<Inc<HealthBarComponent, PlayerComponent>, Exc<DisabledComponent>> playersFilter = default;
+        readonly EcsFilterInject<Inc<HealthBarComponent, TargetComponent>, Exc<DisabledComponent>> targetsFilter = default;
+        
+        readonly EcsFilterInject<Inc<HealthBarComponent>, Exc<DisabledComponent>> healthbarFilter = default;
+        
         public GameObject[] healthBarPrefabs;
 
         private GameObjectPoolMap poolMap;
@@ -62,12 +71,6 @@ namespace Game.Systems
 
         public void Run(EcsSystems systems)
         {
-            var healthBarComponents = world.GetComponents<HealthBarComponent>();
-            var healthComponents = world.GetComponents<HealthComponent>();
-            var positionsComponent = world.GetComponents<PositionComponent>();
-            var playerComponents = world.GetComponents<PlayerComponent>();
-            var targetComponents = world.GetComponents<TargetComponent>();
-
             var mainPlayer = 0;
 
             if (world.TryGetSingletonEntity<MainPlayerComponent, PlayerComponent>(out Entity singletonEntity))
@@ -75,44 +78,42 @@ namespace Game.Systems
                 mainPlayer = singletonEntity.Get<PlayerComponent>().player;
             }
             
-            foreach (var entity in world.GetFilter<HealthBarComponent>()
-                         .Inc<HealthComponent>()
-                         .End())
+            foreach (var entity in filter.Value)
             {
-                ref var healthBarComponent = ref healthBarComponents.Get(entity);
-                var healthComponent = healthComponents.Get(entity);
+                ref var healthBarComponent = ref filter.Pools.Inc1.Get(entity);
+                var healthComponent = filter.Pools.Inc2.Get(entity);
 
                 healthBarComponent.factor = healthComponent.current / healthComponent.total;
                 healthBarComponent.visible = healthComponent.current < healthComponent.total &&
                                              healthComponent.current > 0;
             }
 
-            foreach (var entity in world.GetFilter<HealthBarComponent>().Inc<PositionComponent>().End())
+            foreach (var entity in positionsFilter.Value)
             {
-                ref var healthBarComponent = ref healthBarComponents.Get(entity);
-                var positionComponent = positionsComponent.Get(entity);
+                ref var healthBarComponent = ref positionsFilter.Pools.Inc1.Get(entity);
+                var positionComponent = positionsFilter.Pools.Inc2.Get(entity);
 
                 healthBarComponent.position = positionComponent.value + healthBarComponent.offset;
             }
             
-            foreach (var entity in world.GetFilter<HealthBarComponent>().Inc<PlayerComponent>().End())
+            foreach (var entity in playersFilter.Value)
             {
-                ref var healthBarComponent = ref healthBarComponents.Get(entity);
-                var playerComponent = playerComponents.Get(entity);
+                ref var healthBarComponent = ref playersFilter.Pools.Inc1.Get(entity);
+                var playerComponent = playersFilter.Pools.Inc2.Get(entity);
 
                 healthBarComponent.player = playerComponent.player;
             }
             
-            foreach (var entity in world.GetFilter<HealthBarComponent>().Inc<TargetComponent>().End())
+            foreach (var entity in targetsFilter.Value)
             {
-                ref var healthBarComponent = ref healthBarComponents.Get(entity);
-                var targetComponent = targetComponents.Get(entity);
+                ref var healthBarComponent = ref targetsFilter.Pools.Inc1.Get(entity);
+                var targetComponent = targetsFilter.Pools.Inc2.Get(entity);
                 healthBarComponent.highlighted = targetComponent.target.targeted;
             }
             
-            foreach (var entity in world.GetFilter<HealthBarComponent>().End())
+            foreach (var entity in healthbarFilter.Value)
             {
-                ref var healthBarComponent = ref healthBarComponents.Get(entity);
+                ref var healthBarComponent = ref healthbarFilter.Pools.Inc1.Get(entity);
 
                 if (healthBarComponent.instance != null)
                 {
