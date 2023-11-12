@@ -100,11 +100,6 @@ namespace Gemserk.Leopotam.Ecs
             return ref world.GetPool<T>().Add(entity);
         }
         
-        public void RemoveComponent<T>(Entity entity) where T : struct
-        {
-            world.GetPool<T>().Del(entity);
-        }
-        
         public ref T AddComponent<T>(Entity entity, T t) where T : struct
         {
             ref var newT = ref world.GetPool<T>().Add(entity);
@@ -117,6 +112,16 @@ namespace Gemserk.Leopotam.Ecs
             ref var newT = ref world.GetPool<T>().Add(e);
             newT = t;
             return ref newT;
+        }
+        
+        public void RemoveComponent<T>(Entity entity) where T : struct
+        {
+            world.GetPool<T>().Del(entity);
+        }
+        
+        public void RemoveComponent<T>(int entity) where T : struct
+        {
+            world.GetPool<T>().Del(entity);
         }
         
         public ref T GetComponent<T>(int e) where T : struct
