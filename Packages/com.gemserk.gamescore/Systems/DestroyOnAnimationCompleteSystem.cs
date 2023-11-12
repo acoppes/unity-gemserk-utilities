@@ -14,11 +14,11 @@ namespace Game.Systems
         {
             foreach (var entity in filter.Value)
             {
-                var animations = filter.Pools.Inc1.Get(entity);
-                ref var destroyable = ref filter.Pools.Inc2.Get(entity);
+                ref var animations = ref filter.Pools.Inc1.Get(entity);
 
                 if (animations.isCompleted)
                 {
+                    ref var destroyable = ref filter.Pools.Inc2.Get(entity);
                     destroyable.destroy = true;
                 }
             }
