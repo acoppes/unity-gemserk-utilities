@@ -42,7 +42,12 @@ namespace Game.Systems
                 ref var offScreenDisableComponent = ref offscreenFilter.Pools.Inc2.Get(entity);
 
                 var objectBounds = offScreenDisableComponent.bounds;
-                objectBounds.center = GamePerspective.ConvertFromWorld(positionComponent.value);
+                objectBounds.center = positionComponent.value;
+
+                if (positionComponent.type == 0)
+                {
+                    objectBounds.center = GamePerspective.ConvertFromWorld(positionComponent.value);
+                }
                 
                 var insideCamera = cameraBounds.Intersects(objectBounds);
                 
@@ -66,7 +71,12 @@ namespace Game.Systems
                 var offScreenDisableComponent = disabledFilter.Pools.Inc2.Get(entity);
 
                 var objectBounds = offScreenDisableComponent.bounds;
-                objectBounds.center = GamePerspective.ConvertFromWorld(positionComponent.value);
+                objectBounds.center = positionComponent.value;
+
+                if (positionComponent.type == 0)
+                {
+                    objectBounds.center = GamePerspective.ConvertFromWorld(positionComponent.value);
+                }
                 
                 var insideCamera = cameraBounds.Intersects(objectBounds);
                 
