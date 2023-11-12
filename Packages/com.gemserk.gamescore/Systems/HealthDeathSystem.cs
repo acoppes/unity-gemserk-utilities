@@ -3,11 +3,15 @@ using Gemserk.Leopotam.Ecs;
 using Gemserk.Leopotam.Ecs.Components;
 using Gemserk.Utilities.Signals;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 
 namespace Game.Systems
 {
     public class HealthDeathSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler
     {
+        readonly EcsFilterInject<Inc<HealthComponent>, Exc<DisabledComponent>> filter = default;
+        readonly EcsFilterInject<Inc<HealthComponent, DestroyableComponent>> destroyableFilter = default;
+        
         public SignalAsset onEntityDeathSignal;
         
         public void OnEntityDestroyed(World world, Entity entity)
@@ -21,13 +25,9 @@ namespace Game.Systems
         
         public void Run(EcsSystems systems)
         {
-            var healthComponents = world.GetComponents<HealthComponent>();
-            var destroyableComponents = world.GetComponents<DestroyableComponent>();
-            
-            foreach (var entity in world.GetFilter<HealthComponent>()
-                         .Exc<DisabledComponent>().End())
+            foreach (var entity in filter.Value)
             {
-                var healthComponent = healthComponents.Get(entity);
+                var healthComponent = filter.Pools.Inc1.Get(entity);
                 var worldEntity = world.GetEntity(entity);
                 
                 if (healthComponent.previousAliveState == HealthComponent.AliveType.Alive &&
@@ -42,10 +42,9 @@ namespace Game.Systems
                 }
             }
             
-            foreach (var entity in world.GetFilter<HealthComponent>()
-                         .Exc<DisabledComponent>().End())
+            foreach (var entity in filter.Value)
             {
-                var healthComponent = healthComponents.Get(entity);
+                var healthComponent = filter.Pools.Inc1.Get(entity);
                 if (healthComponent.autoDisableOnDeath)
                 {
                     if (healthComponent.previousAliveState == HealthComponent.AliveType.Alive &&
@@ -56,11 +55,10 @@ namespace Game.Systems
                 }
             }
             
-            foreach (var entity in world.GetFilter<HealthComponent>()
-                         .Inc<DestroyableComponent>().End())
+            foreach (var entity in destroyableFilter.Value)
             {
-                var healthComponent = healthComponents.Get(entity);
-                ref var destroyableComponent = ref destroyableComponents.Get(entity);
+                var healthComponent = destroyableFilter.Pools.Inc1.Get(entity);
+                ref var destroyableComponent = ref destroyableFilter.Pools.Inc2.Get(entity);
 
                 if (!healthComponent.autoDestroyOnDeath)
                 {
