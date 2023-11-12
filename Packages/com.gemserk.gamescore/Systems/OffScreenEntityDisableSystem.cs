@@ -1,22 +1,32 @@
 ﻿using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using MyBox;
 using UnityEngine;
 
 namespace Game.Systems
 {
-    public class OffScreenEntityDisableSystem : BaseSystem, IEcsRunSystem
+    public class OffScreenEntityDisableSystem : BaseSystem, IEcsRunSystem, IEcsInitSystem
     {
+        readonly EcsFilterInject<Inc<PositionComponent, OffScreenDisableComponent>, Exc<DisabledComponent>> offscreenFilter = default;
+        readonly EcsFilterInject<Inc<PositionComponent, OffScreenDisableComponent, DisabledComponent>> 
+            disabledFilter = default;
+        
         public Camera worldCamera;
+        
+        public void Init(EcsSystems systems)
+        {
+            if (worldCamera == null)
+            {
+                worldCamera = GameObject.FindWithTag("WorldCamera").GetComponent<Camera>();
+            }
+        }
 
         public void Run(EcsSystems systems)
         {
             if (worldCamera == null)
                 return;
-            
-            var positionComponents = world.GetComponents<PositionComponent>();
-            var offScreenComponents = world.GetComponents<OffScreenDisableComponent>();
 
             var cameraBounds = worldCamera.GetBounds();
             cameraBounds.center = cameraBounds.center.SetZ(0);
@@ -26,15 +36,10 @@ namespace Game.Systems
             // objects being activated after already inside the screen
             cameraBounds.Expand(1);
 
-            var filter = world.GetFilter<OffScreenDisableComponent>()
-                .Inc<PositionComponent>()
-                .Exc<DisabledComponent>()
-                .End();
-            
-            foreach (var entity in filter)
+            foreach (var entity in offscreenFilter.Value)
             {
-                var positionComponent = positionComponents.Get(entity);
-                ref var offScreenDisableComponent = ref offScreenComponents.Get(entity);
+                var positionComponent = offscreenFilter.Pools.Inc1.Get(entity);
+                ref var offScreenDisableComponent = ref offscreenFilter.Pools.Inc2.Get(entity);
 
                 var objectBounds = offScreenDisableComponent.bounds;
                 objectBounds.center = GamePerspective.ConvertFromWorld(positionComponent.value);
@@ -55,15 +60,10 @@ namespace Game.Systems
                 }
             }
             
-            filter = world.GetFilter<OffScreenDisableComponent>()
-                .Inc<PositionComponent>()
-                .Inc<DisabledComponent>()
-                .End();
-            
-            foreach (var entity in filter)
+            foreach (var entity in disabledFilter.Value)
             {
-                var positionComponent = positionComponents.Get(entity);
-                var offScreenDisableComponent = offScreenComponents.Get(entity);
+                var positionComponent = disabledFilter.Pools.Inc1.Get(entity);
+                var offScreenDisableComponent = disabledFilter.Pools.Inc2.Get(entity);
 
                 var objectBounds = offScreenDisableComponent.bounds;
                 objectBounds.center = GamePerspective.ConvertFromWorld(positionComponent.value);
@@ -81,5 +81,7 @@ namespace Game.Systems
                 }
             }
         }
+
+
     }
 }
