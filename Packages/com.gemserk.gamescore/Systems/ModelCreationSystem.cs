@@ -28,38 +28,17 @@ namespace Game.Systems
             
             foreach (var entity in filter.Value)
             {
-                ref var modelComponent = ref filter.Pools.Inc1.Get(entity);
-                
-                if (modelComponent.prefab != null && modelComponent.modelGameObject == null)
-                {
-                    modelComponent.modelGameObject = poolMap.Get(modelComponent.prefab);
-
-                    if (!modelComponent.modelGameObject.HasComponent<EntityReference>())
-                    {
-                        modelComponent.modelGameObject.AddComponent<EntityReference>();
-                    }
-                    
-                    var entityReference = modelComponent.modelGameObject.GetComponent<EntityReference>();
-                    entityReference.entity = world.GetEntity(entity);
-
-                    modelComponent.instance = modelComponent.modelGameObject.GetComponent<Model>();
-                }
-                
-                if (!modelComponent.modelGameObject.activeSelf)
-                {
-                    modelComponent.modelGameObject.SetActive(true);
-                }
-
-                world.AddComponent(entity, new ModelEnabledComponent());
+                ref var model = ref filter.Pools.Inc1.Get(entity);
+                CreateModel(entity, ref model);
             }
             
             foreach (var entity in disabledFilter.Value)
             {
-                ref var modelComponent = ref disabledFilter.Pools.Inc1.Get(entity);
+                ref var model = ref disabledFilter.Pools.Inc1.Get(entity);
                 
-                if (modelComponent.modelGameObject != null && modelComponent.modelGameObject.activeSelf)
+                if (model.modelGameObject != null && model.modelGameObject.activeSelf)
                 {
-                    modelComponent.modelGameObject.SetActive(false);
+                    model.modelGameObject.SetActive(false);
                 }
                 
                 world.RemoveComponent<ModelEnabledComponent>(entity);
@@ -67,29 +46,36 @@ namespace Game.Systems
             
             Profiler.EndSample();
         }
+
+        private void CreateModel(int entity, ref ModelComponent model)
+        {
+            if (model.prefab != null && model.modelGameObject == null)
+            {
+                model.modelGameObject = poolMap.Get(model.prefab);
+
+                if (!model.modelGameObject.HasComponent<EntityReference>())
+                {
+                    model.modelGameObject.AddComponent<EntityReference>();
+                }
+                    
+                var entityReference = model.modelGameObject.GetComponent<EntityReference>();
+                entityReference.entity = world.GetEntity(entity);
+
+                model.instance = model.modelGameObject.GetComponent<Model>();
+                model.hasSubModelObject = model.instance.model != null;
+                
+                model.modelGameObject.SetActive(true);
+                world.AddComponent(entity, new ModelEnabledComponent());
+            }
+        }
         
         public void OnEntityCreated(World world, Entity entity)
         {
             var modelComponents = world.GetComponents<ModelComponent>();
             if (modelComponents.Has(entity))
             {
-                ref var modelComponent = ref modelComponents.Get(entity);
-                
-                if (modelComponent.prefab != null && modelComponent.instance == null)
-                {
-                    var modelInstance = poolMap.Get(modelComponent.prefab);
-
-                    if (!modelInstance.HasComponent<EntityReference>())
-                    {
-                        modelInstance.AddComponent<EntityReference>();
-                    }
-                    
-                    var entityReference = modelInstance.GetComponent<EntityReference>();
-                    entityReference.entity = world.GetEntity(entity);
-
-                    modelComponent.instance = modelInstance.GetComponent<Model>();
-                    modelComponent.instance.gameObject.SetActive(true);
-                }
+                ref var model = ref modelComponents.Get(entity);
+                CreateModel(entity, ref model);
             }
         }
 
@@ -102,9 +88,10 @@ namespace Game.Systems
                 if (model.instance != null)
                 {
                     model.instance.ResetModel();
-                    poolMap.Release(model.instance.gameObject);
+                    poolMap.Release(model.modelGameObject);
                 }
                 model.instance = null;
+                model.modelGameObject = null;
             }
         }
 

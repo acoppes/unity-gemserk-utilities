@@ -138,7 +138,7 @@ namespace Game.Components
         public GameObject modelGameObject;
 
         // TODO: cache this on creation
-        public bool hasSubModelObject => instance.model != null;
+        public bool hasSubModelObject;
 
         public RotationType rotation;
         public bool flipUseRotation;
