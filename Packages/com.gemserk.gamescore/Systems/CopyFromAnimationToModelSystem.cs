@@ -14,20 +14,22 @@ namespace Game.Systems
             foreach (var entity in filter.Value)
             {
                 var animationComponent = filter.Pools.Inc1.Get(entity);
-                ref var modelComponent = ref filter.Pools.Inc2.Get(entity);
 
                 if (animationComponent.currentAnimation == AnimationComponent.NoAnimation)
                 {
                     continue;
                 }
                 
+                ref var modelComponent = ref filter.Pools.Inc2.Get(entity);
+                
                 var animation = animationComponent.animationsAsset.animations[animationComponent.currentAnimation];
                 var frame = animation.frames[animationComponent.currentFrame];
                 
-                if (modelComponent.instance.spriteRenderer != null)
-                {
-                    modelComponent.instance.spriteRenderer.sprite = frame.sprite;
-                }
+                modelComponent.instance.spriteRenderer.sprite = frame.sprite;
+                
+                // if (modelComponent.instance.spriteRenderer != null)
+                // {
+                // }
             }
         }
     }
