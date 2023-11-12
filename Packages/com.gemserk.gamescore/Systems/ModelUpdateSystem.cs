@@ -12,14 +12,17 @@ namespace Game.Systems
         readonly EcsFilterInject<Inc<ModelComponent>, Exc<DisabledComponent>> modelFilter = default;
         readonly EcsFilterInject<Inc<ModelComponent, PositionComponent>, Exc<DisabledComponent>> positionFilter = default;
         
+        readonly EcsFilterInject<Inc<ModelComponent, PositionComponent, LookingDirection>, Exc<DisabledComponent>> 
+            modelAllFilter = default;
+        
+        readonly EcsFilterInject<Inc<ModelComponent, ModelInterpolationComponent>, Exc<DisabledComponent>> 
+            modelInterpolationFilter = default;
+        
+        readonly EcsFilterInject<Inc<ModelComponent, DisabledComponent>> 
+            disabledFilter = default;
+        
         public void Run(EcsSystems systems)
         {
-            var modelComponents = world.GetComponents<ModelComponent>();
-            var interpolationComponents = world.GetComponents<ModelInterpolationComponent>();
-            
-            var positionComponents = world.GetComponents<PositionComponent>();
-            var lookingDirectionComponents = world.GetComponents<LookingDirection>();
-
             foreach (var entity in modelFilter.Value)
             {
                 var modelComponent = modelFilter.Pools.Inc1.Get(entity);
@@ -94,13 +97,10 @@ namespace Game.Systems
                 }
             }
             
-            foreach (var entity in world.GetFilter<ModelComponent>()
-                         .Inc<ModelInterpolationComponent>()
-                         .Exc<DisabledComponent>()
-                         .End())
+            foreach (var entity in modelInterpolationFilter.Value)
             {
-                ref var modelComponent = ref modelComponents.Get(entity);
-                var interpolationComponent = interpolationComponents.Get(entity);
+                ref var modelComponent = ref modelInterpolationFilter.Pools.Inc1.Get(entity);
+                var interpolationComponent = modelInterpolationFilter.Pools.Inc2.Get(entity);
 
                 var position = interpolationComponent.position;
                 
@@ -115,15 +115,11 @@ namespace Game.Systems
                 }
             }
 
-            foreach (var entity in world.GetFilter<ModelComponent>()
-                         .Inc<PositionComponent>()
-                         .Inc<LookingDirection>()
-                         .Exc<DisabledComponent>()
-                         .End())
+            foreach (var entity in modelAllFilter.Value)
             {
-                var modelComponent = modelComponents.Get(entity);
-                var lookingDirection = lookingDirectionComponents.Get(entity);
-                var positionComponent = positionComponents.Get(entity);
+                var modelComponent = modelAllFilter.Pools.Inc1.Get(entity);
+                var lookingDirection = modelAllFilter.Pools.Inc2.Get(entity);
+                var positionComponent = modelAllFilter.Pools.Inc3.Get(entity);
                 
                 var modelInstance = modelComponent.instance;
 
@@ -181,11 +177,9 @@ namespace Game.Systems
                 }
             }
 
-            foreach (var entity in world.GetFilter<ModelComponent>()
-                         .Inc<DisabledComponent>()
-                         .End())
+            foreach (var entity in disabledFilter.Value)
             {
-                var modelComponent = modelComponents.Get(entity);
+                var modelComponent = disabledFilter.Pools.Inc1.Get(entity);
                 if (modelComponent.instance != null)
                 {
                     if (modelComponent.instance.isActiveAndEnabled)
