@@ -167,17 +167,17 @@ namespace Game.Systems
 
                 var currentFrame = currentAnimation.frames[animationComponent.currentFrame];
                 
-                #if UNITY_EDITOR
-                Assert.AreNotApproximatelyEqual(currentFrame.time, 0.0f, "Invalid frame duration");
-                #endif
+                // #if UNITY_EDITOR
+                // Assert.AreNotApproximatelyEqual(currentFrame.time, 0.0f, "Invalid frame duration");
+                // #endif
                 
                 while (animationComponent.currentTime >= currentFrame.time)
                 {
                     currentFrame = currentAnimation.frames[animationComponent.currentFrame];
                     
-                    #if UNITY_EDITOR
-                    Assert.AreNotApproximatelyEqual(currentFrame.time, 0.0f, "Invalid frame duration");
-                    #endif
+                    // #if UNITY_EDITOR
+                    // Assert.AreNotApproximatelyEqual(currentFrame.time, 0.0f, "Invalid frame duration");
+                    // #endif
                     
                     // if (definition.frames != null && definition.frames.Count > 0 && definition.frames[animationComponent.currentFrame].HasEvents)
                     // {

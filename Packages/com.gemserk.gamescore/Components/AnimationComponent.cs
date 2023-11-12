@@ -123,6 +123,16 @@ namespace Game.Components
             return currentAnimation == cachedAnimations[animationName];
         }
 
+        public bool IsPlaying(int animation)
+        {
+            return currentAnimation == animation;
+        }
+
+        public int GetAnimationIndex(string animationName)
+        {
+            return cachedAnimations[animationName];
+        }
+
         public bool HasAnimation(string animationName)
         {
             return cachedAnimations.ContainsKey(animationName);
