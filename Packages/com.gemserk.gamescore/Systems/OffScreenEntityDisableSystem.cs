@@ -36,20 +36,41 @@ namespace Game.Systems
             // objects being activated after already inside the screen
             cameraBounds.Expand(1);
 
+            var cameraMax = cameraBounds.max;
+            var cameraMin = cameraBounds.min;
+
             foreach (var entity in offscreenFilter.Value)
             {
                 var positionComponent = offscreenFilter.Pools.Inc1.Get(entity);
                 ref var offScreenDisableComponent = ref offscreenFilter.Pools.Inc2.Get(entity);
 
+                var position = positionComponent.value;
+                
                 var objectBounds = offScreenDisableComponent.bounds;
                 objectBounds.center = positionComponent.value;
 
                 if (positionComponent.type == 0)
                 {
                     objectBounds.center = GamePerspective.ConvertFromWorld(positionComponent.value);
+                    position = GamePerspective.ConvertFromWorld(positionComponent.value);
                 }
                 
-                var insideCamera = cameraBounds.Intersects(objectBounds);
+                // var insideCamera = cameraBounds.Intersects(objectBounds);
+                
+                // don't check z and we don't care about double precision
+
+
+                var insideCamera = true;
+
+                if (offScreenDisableComponent.boundsType == OffScreenDisableComponent.BoundsType.Fixed)
+                {
+                    var objectBoundsMax = objectBounds.max;
+                    var objectBoundsMin = objectBounds.min;
+                    insideCamera = cameraMin.x <= objectBoundsMax.x && cameraMax.x >= objectBoundsMin.x && cameraMin.y <= objectBoundsMax.y && cameraMax.y >= objectBoundsMin.y;
+                } else if (offScreenDisableComponent.boundsType == OffScreenDisableComponent.BoundsType.NoBounds)
+                {
+                    insideCamera = cameraMin.x <= position.x && cameraMax.x >= position.x && cameraMin.y <= position.y && cameraMax.y >= position.y;
+                }
                 
                 if (!insideCamera)
                 {
@@ -70,15 +91,28 @@ namespace Game.Systems
                 var positionComponent = disabledFilter.Pools.Inc1.Get(entity);
                 var offScreenDisableComponent = disabledFilter.Pools.Inc2.Get(entity);
 
+                var position = positionComponent.value;
+                
                 var objectBounds = offScreenDisableComponent.bounds;
                 objectBounds.center = positionComponent.value;
 
                 if (positionComponent.type == 0)
                 {
                     objectBounds.center = GamePerspective.ConvertFromWorld(positionComponent.value);
+                    position = GamePerspective.ConvertFromWorld(positionComponent.value);
                 }
                 
-                var insideCamera = cameraBounds.Intersects(objectBounds);
+                var insideCamera = true;
+
+                if (offScreenDisableComponent.boundsType == OffScreenDisableComponent.BoundsType.Fixed)
+                {
+                    var objectBoundsMax = objectBounds.max;
+                    var objectBoundsMin = objectBounds.min;
+                    insideCamera = cameraMin.x <= objectBoundsMax.x && cameraMax.x >= objectBoundsMin.x && cameraMin.y <= objectBoundsMax.y && cameraMax.y >= objectBoundsMin.y;
+                } else if (offScreenDisableComponent.boundsType == OffScreenDisableComponent.BoundsType.NoBounds)
+                {
+                    insideCamera = cameraMin.x <= position.x && cameraMax.x >= position.x && cameraMin.y <= position.y && cameraMax.y >= position.y;
+                }
                 
                 if (insideCamera)
                 {

@@ -15,6 +15,7 @@ namespace Game.Components
         public enum BoundsType
         {
             Fixed = 0,
+            NoBounds = 1
             // CopyFromModel = 1
         }
         
@@ -29,6 +30,8 @@ namespace Game.Components
     
     public class OffScreenDisableComponentDefinition : ComponentDefinitionBase
     {
+        public OffScreenDisableComponent.BoundsType boundsType;
+        
         public override string GetComponentName()
         {
             return nameof(OffScreenDisableComponent);
@@ -36,7 +39,10 @@ namespace Game.Components
 
         public override void Apply(World world, Entity entity)
         {
-            world.AddComponent(entity, new OffScreenDisableComponent());
+            world.AddComponent(entity, new OffScreenDisableComponent()
+            {
+                boundsType = boundsType
+            });
         }
     }
 }
