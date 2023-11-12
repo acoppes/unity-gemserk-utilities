@@ -133,7 +133,9 @@ namespace Game.Components
         }
         
         public GameObject prefab;
+        
         public Model instance;
+        public GameObject modelGameObject;
 
         // TODO: cache this on creation
         public bool hasSubModelObject => instance.model != null;

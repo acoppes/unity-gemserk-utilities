@@ -30,24 +30,24 @@ namespace Game.Systems
             {
                 ref var modelComponent = ref filter.Pools.Inc1.Get(entity);
                 
-                if (modelComponent.prefab != null && modelComponent.instance == null)
+                if (modelComponent.prefab != null && modelComponent.modelGameObject == null)
                 {
-                    var modelInstance = poolMap.Get(modelComponent.prefab);
+                    modelComponent.modelGameObject = poolMap.Get(modelComponent.prefab);
 
-                    if (!modelInstance.HasComponent<EntityReference>())
+                    if (!modelComponent.modelGameObject.HasComponent<EntityReference>())
                     {
-                        modelInstance.AddComponent<EntityReference>();
+                        modelComponent.modelGameObject.AddComponent<EntityReference>();
                     }
                     
-                    var entityReference = modelInstance.GetComponent<EntityReference>();
+                    var entityReference = modelComponent.modelGameObject.GetComponent<EntityReference>();
                     entityReference.entity = world.GetEntity(entity);
 
-                    modelComponent.instance = modelInstance.GetComponent<Model>();
+                    modelComponent.instance = modelComponent.modelGameObject.GetComponent<Model>();
                 }
                 
-                if (!modelComponent.instance.gameObject.activeSelf)
+                if (!modelComponent.modelGameObject.activeSelf)
                 {
-                    modelComponent.instance.gameObject.SetActive(true);
+                    modelComponent.modelGameObject.SetActive(true);
                 }
 
                 world.AddComponent(entity, new ModelEnabledComponent());
@@ -57,9 +57,9 @@ namespace Game.Systems
             {
                 ref var modelComponent = ref disabledFilter.Pools.Inc1.Get(entity);
                 
-                if (modelComponent.instance != null && modelComponent.instance.gameObject.activeSelf)
+                if (modelComponent.modelGameObject != null && modelComponent.modelGameObject.activeSelf)
                 {
-                    modelComponent.instance.gameObject.SetActive(false);
+                    modelComponent.modelGameObject.SetActive(false);
                 }
                 
                 world.RemoveComponent<ModelEnabledComponent>(entity);

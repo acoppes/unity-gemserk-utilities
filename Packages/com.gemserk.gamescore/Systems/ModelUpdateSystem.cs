@@ -29,9 +29,9 @@ namespace Game.Systems
 
                 var model = modelComponent.instance;
                 
-                if (!modelComponent.instance.isActiveAndEnabled)
+                if (!modelComponent.modelGameObject.activeSelf)
                 {
-                    modelComponent.instance.gameObject.SetActive(true);
+                    modelComponent.modelGameObject.SetActive(true);
                 }
                 
                 if (model.spriteRenderer != null)
@@ -52,12 +52,12 @@ namespace Game.Systems
                     }
                 }
 
-                if (model.gameObject.activeSelf && !modelComponent.IsVisible)
+                if (modelComponent.modelGameObject.activeSelf && !modelComponent.IsVisible)
                 {
-                    model.gameObject.SetActive(false);
-                } else if (!model.gameObject.activeSelf && modelComponent.IsVisible)
+                    modelComponent.modelGameObject.SetActive(false);
+                } else if (!modelComponent.modelGameObject.activeSelf && modelComponent.IsVisible)
                 {
-                    model.gameObject.SetActive(true);
+                    modelComponent.modelGameObject.SetActive(true);
                 }
             }
             
@@ -180,11 +180,11 @@ namespace Game.Systems
             foreach (var entity in disabledFilter.Value)
             {
                 var modelComponent = disabledFilter.Pools.Inc1.Get(entity);
-                if (modelComponent.instance != null)
+                if (modelComponent.modelGameObject != null)
                 {
-                    if (modelComponent.instance.isActiveAndEnabled)
+                    if (modelComponent.modelGameObject.activeSelf)
                     {
-                        modelComponent.instance.gameObject.SetActive(false);
+                        modelComponent.modelGameObject.SetActive(false);
                     }
                 }
             }
