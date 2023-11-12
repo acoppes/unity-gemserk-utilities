@@ -106,6 +106,11 @@ namespace Game.Components
         }
     }
 
+    public struct ModelEnabledComponent : IEntityComponent
+    {
+        
+    }
+
     public struct ModelComponent : IEntityComponent
     {
         public enum Visiblity

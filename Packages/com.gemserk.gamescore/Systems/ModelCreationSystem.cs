@@ -3,13 +3,18 @@ using Game.Models;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Utilities.Pooling;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using MyBox;
+using UnityEngine.Profiling;
 
 namespace Game.Systems
 {
     public class ModelCreationSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler, IEntityDestroyedHandler,
         IEcsInitSystem
     {
+        readonly EcsFilterInject<Inc<ModelComponent>, Exc<ModelEnabledComponent, DisabledComponent>> filter = default;
+        readonly EcsFilterInject<Inc<ModelComponent, ModelEnabledComponent, DisabledComponent>> disabledFilter = default;
+        
         private GameObjectPoolMap poolMap;
 
         public void Init(EcsSystems systems)
@@ -19,13 +24,11 @@ namespace Game.Systems
 
         public void Run(EcsSystems systems)
         {
-            var modelComponents = world.GetComponents<ModelComponent>();
-
-            foreach (var entity in world.GetFilter<ModelComponent>()
-                         .Exc<DisabledComponent>()
-                         .End())
+            Profiler.BeginSample("ModelSystem");
+            
+            foreach (var entity in filter.Value)
             {
-                ref var modelComponent = ref modelComponents.Get(entity);
+                ref var modelComponent = ref filter.Pools.Inc1.Get(entity);
                 
                 if (modelComponent.prefab != null && modelComponent.instance == null)
                 {
@@ -46,19 +49,23 @@ namespace Game.Systems
                 {
                     modelComponent.instance.gameObject.SetActive(true);
                 }
+
+                world.AddComponent(entity, new ModelEnabledComponent());
             }
             
-            foreach (var entity in world.GetFilter<ModelComponent>()
-                         .Inc<DisabledComponent>()
-                         .End())
+            foreach (var entity in disabledFilter.Value)
             {
-                ref var modelComponent = ref modelComponents.Get(entity);
+                ref var modelComponent = ref disabledFilter.Pools.Inc1.Get(entity);
                 
                 if (modelComponent.instance != null && modelComponent.instance.gameObject.activeSelf)
                 {
                     modelComponent.instance.gameObject.SetActive(false);
                 }
+                
+                world.RemoveComponent<ModelEnabledComponent>(entity);
             }
+            
+            Profiler.EndSample();
         }
         
         public void OnEntityCreated(World world, Entity entity)
