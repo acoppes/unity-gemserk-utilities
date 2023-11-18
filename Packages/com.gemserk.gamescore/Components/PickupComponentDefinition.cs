@@ -56,7 +56,7 @@ namespace Game.Components
         {
             world.AddComponent(entity, new PickupComponent() {
                 // name = name,
-                type = type.value, 
+                type = type != null ? type.value : 0, 
                 value = value,
                 autoDestroyOnPickup = autoDestroyOnPickup,
                 pickedByEntities = new List<Entity>()
