@@ -7,11 +7,11 @@ namespace Game
     {
         // TODO: move these utils to core
         
-        public static T GetSingleton<T>(this World world) where T : struct
+        public static ref T GetSingleton<T>(this World world) where T : struct
         {
             foreach (var entity in world.Filter<T>())
             {
-                return world.GetComponents<T>().Get(entity);
+                return ref world.GetComponents<T>().Get(entity);
             }
             throw new Exception("Couldn't find singleton entity with specified component.");
         } 
