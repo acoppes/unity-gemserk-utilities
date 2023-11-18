@@ -230,7 +230,11 @@ namespace Game.Components
         
         public bool IsFull() => Mathf.Approximately(current, total);
 
-        public float factor => current / total;
+        public float factor
+        {
+            get => current / total;
+            set => current = total * value;
+        }
 
         // public bool interrumpible;
         
