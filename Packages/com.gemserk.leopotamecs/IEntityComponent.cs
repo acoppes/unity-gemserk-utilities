@@ -4,4 +4,10 @@ namespace Gemserk.Leopotam.Ecs
     {
         
     }
+    
+    // Just to mark components that meant to be one instance
+    public interface ISingletonEntityComponent : IEntityComponent
+    {
+        
+    }
 }
