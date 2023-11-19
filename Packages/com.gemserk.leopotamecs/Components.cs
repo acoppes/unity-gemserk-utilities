@@ -20,6 +20,24 @@ namespace Gemserk.Leopotam.Ecs
         public Vector3 value;
         public int type;
     }
+    
+    public struct StartingPositionComponent : IEntityComponent
+    {
+        public Vector3 value;
+    }
+    
+    public struct StartingPositionParameter : IEntityInstanceParameter
+    {
+        public Vector3 value;
+        
+        public void Apply(World world, Entity entity)
+        {
+            entity.AddOrSet(new StartingPositionComponent()
+            {
+                value = value
+            });
+        }
+    }
 
     public struct PlayerComponent : IEntityComponent
     {
