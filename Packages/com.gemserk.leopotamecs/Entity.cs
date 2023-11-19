@@ -24,6 +24,12 @@ namespace Gemserk.Leopotam.Ecs
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddOrSet<T>(this Entity entity, T t) where T : struct
+        {
+            entity.world.AddOrSetComponent(entity, t);
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref T Get<T>(this Entity entity) where T : struct
         {
             return ref entity.world.GetComponent<T>(entity);
