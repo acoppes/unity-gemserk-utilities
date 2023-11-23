@@ -92,6 +92,9 @@ namespace Gemserk.Leopotam.Ecs
         
         public Entity GetEntity(int entity)
         {
+            if (entity < 0)
+                return Entity.NullEntity;
+            
             return Entity.Create(this, entity, world.GetEntityGen(entity));
         }
 
