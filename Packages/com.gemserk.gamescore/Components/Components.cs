@@ -270,13 +270,7 @@ namespace Game.Components
         }
     }
     
-    public struct HealthRegenerationComponent : IEntityComponent
-    {
-        public bool enabled;
-        public Cooldown tick;
-        public float regenerationPerTick;
-    }
-    
+
     public struct HealthBarComponent : IEntityComponent
     {
         public HealthBarModel instance;
@@ -290,9 +284,7 @@ namespace Game.Components
         public bool visible;
         public bool highlighted;
     }
-
-
-
+    
     public struct ActiveControllerComponent : IEntityComponent
     {
         public float controlledTime;

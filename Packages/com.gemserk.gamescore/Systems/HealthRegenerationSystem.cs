@@ -1,52 +1,55 @@
 using Game.Components;
 using Gemserk.Leopotam.Ecs;
+using Gemserk.Utilities;
 using Leopotam.EcsLite;
-using UnityEngine;
+using Leopotam.EcsLite.Di;
 
 namespace Game.Systems
 {
-    public class HealthRegenerationSystem : BaseSystem, IEcsRunSystem
+    public class HealthRegenerationSystem : BaseSystem, IEcsRunSystem, IEcsInitSystem
     {
+        readonly EcsFilterInject<Inc<HealthRegenerationComponent, HealthComponent>, Exc<DisabledComponent>> 
+            filter = default;
+        
         public float regenerationTick = 4.0f / 15.0f;
+
+        private Cooldown regenerationCooldown;
+        
+        public void Init(EcsSystems systems)
+        {
+            regenerationCooldown = new Cooldown(regenerationTick);
+        }
         
         public void Run(EcsSystems systems)
         {
-            var dt = Time.deltaTime;
+            regenerationCooldown.Increase(dt);
             
-            var healthComponents = world.GetComponents<HealthComponent>();
-            var healthRegenerationComponents = world.GetComponents<HealthRegenerationComponent>();
-            
-            foreach (var entity in world.GetFilter<HealthRegenerationComponent>().End())
+            foreach (var entity in filter.Value)
             {
-                ref var healthRegenerationComponent = ref healthRegenerationComponents.Get(entity);
-                healthRegenerationComponent.tick.SetTotal(regenerationTick);
-            }
-            
-            foreach (var entity in world.GetFilter<HealthComponent>().Inc<HealthRegenerationComponent>().End())
-            {
-                ref var healthComponent = ref healthComponents.Get(entity);
-                ref var healthRegenerationComponent = ref healthRegenerationComponents.Get(entity);
+                ref var healthRegenerationComponent = ref filter.Pools.Inc1.Get(entity);
+                ref var healthComponent = ref filter.Pools.Inc2.Get(entity);
                 
-                healthRegenerationComponent.tick.SetTotal(regenerationTick);
-
                 if (!healthRegenerationComponent.enabled || healthComponent.IsFull())
                 {
-                    healthRegenerationComponent.tick.Reset();
                     continue;
                 }
-                
-                healthRegenerationComponent.tick.Increase(dt);
 
-                if (healthRegenerationComponent.tick.IsReady)
+                if (regenerationCooldown.IsReady)
                 {
-                    healthComponent.current += healthRegenerationComponent.regenerationPerTick;
+                    healthComponent.current += healthRegenerationComponent.deltaHealth;
                     if (healthComponent.current >= healthComponent.total)
                     {
                         healthComponent.current = healthComponent.total;
                     }
-                    healthRegenerationComponent.tick.Reset();
                 }
             }
+
+            if (regenerationCooldown.IsReady)
+            {
+                regenerationCooldown.Reset();
+            }
         }
+
+
     }
 }
