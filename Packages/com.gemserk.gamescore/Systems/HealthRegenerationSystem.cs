@@ -34,13 +34,22 @@ namespace Game.Systems
                     continue;
                 }
 
-                if (regenerationCooldown.IsReady)
+                if (healthRegenerationComponent.regenerationType ==
+                    HealthRegenerationComponent.RegenerationType.PerTick)
                 {
-                    healthComponent.current += healthRegenerationComponent.deltaHealth;
-                    if (healthComponent.current >= healthComponent.total)
+                    if (regenerationCooldown.IsReady)
                     {
-                        healthComponent.current = healthComponent.total;
+                        healthComponent.current += healthRegenerationComponent.deltaHealth;
                     }
+                } else if (healthRegenerationComponent.regenerationType ==
+                           HealthRegenerationComponent.RegenerationType.PerTime)
+                {
+                    healthComponent.current += healthRegenerationComponent.deltaHealth * dt;
+                }
+                
+                if (healthComponent.current >= healthComponent.total)
+                {
+                    healthComponent.current = healthComponent.total;
                 }
             }
 
