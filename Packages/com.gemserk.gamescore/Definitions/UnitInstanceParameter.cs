@@ -5,6 +5,7 @@ using Gemserk.Leopotam.Ecs;
 using Gemserk.Utilities;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Game.Definitions
 {
@@ -68,10 +69,10 @@ namespace Game.Definitions
         [ConditionalField(nameof(startingAnimationType), true, StartingAnimationComponent.StartingAnimationType.None)]
         public bool startLooping = true;
         
-        [Separator("HitPoints")]
-        public bool overrideHitPoints;
-        [ConditionalField(nameof(overrideHitPoints))]
-        public int hitPoints;
+        [FormerlySerializedAs("overrideHitPoints")] [Separator("HitPoints")]
+        public bool overrideHealth;
+        [FormerlySerializedAs("hitPoints")] [ConditionalField(nameof(overrideHealth))]
+        public float health;
 
         [Separator("Spawner")]
         public bool isSpawner;
@@ -162,11 +163,11 @@ namespace Game.Definitions
                 startingAnimationComponent.loop = startLooping;
             }
 
-            if (overrideHitPoints && world.HasComponent<HealthComponent>(entity))
+            if (overrideHealth && world.HasComponent<HealthComponent>(entity))
             {
-                ref var hitPointsComponent = ref world.GetComponent<HealthComponent>(entity);
-                hitPointsComponent.total = hitPoints;
-                hitPointsComponent.current = hitPoints;
+                ref var health = ref world.GetComponent<HealthComponent>(entity);
+                health.total = this.health;
+                health.current = this.health;
             }
 
             if (overridePlayer)
