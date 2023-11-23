@@ -211,6 +211,7 @@ namespace Game.Components
         public float current;
 
         public float timeSinceLastHit;
+        public float timeInFullHealth;
 
         public Cooldown temporaryInvulnerability;
         

@@ -63,6 +63,15 @@ namespace Game.Systems
                     health.triggerForceDeath = false;
                     health.current = 0;
                 }
+
+                if (health.IsFull())
+                {
+                    health.timeInFullHealth += dt;
+                }
+                else
+                {
+                    health.timeInFullHealth = 0;
+                }
             }
         }
     }
