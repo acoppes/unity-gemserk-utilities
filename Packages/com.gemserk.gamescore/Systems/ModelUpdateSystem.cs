@@ -84,12 +84,12 @@ namespace Game.Systems
                     
                     if (modelComponent.hasSubModelObject)
                     {
-                        modelComponent.instance.transform.position = new Vector3(position.x, position.y, 0);
+                        modelComponent.instance.cachedTransform.position = new Vector3(position.x, position.y, 0);
                         modelComponent.instance.model.localPosition = new Vector3(0, position.z, 0);
                     }
                     else
                     {
-                        modelComponent.instance.transform.position =
+                        modelComponent.instance.cachedTransform.position =
                             new Vector3(position.x, position.y + position.z, 0);
                     }
                 }
@@ -99,12 +99,12 @@ namespace Game.Systems
                     
                     if (modelComponent.hasSubModelObject)
                     {
-                        modelComponent.instance.transform.position = new Vector3(position.x, 0, position.z);
+                        modelComponent.instance.cachedTransform.position = new Vector3(position.x, 0, position.z);
                         modelComponent.instance.model.localPosition = new Vector3(0, position.y, 0);
                     }
                     else
                     {
-                        modelComponent.instance.transform.position = position;
+                        modelComponent.instance.cachedTransform.position = position;
                     }
                 }
             }
@@ -120,12 +120,12 @@ namespace Game.Systems
                 
                 if (modelComponent.hasSubModelObject)
                 {
-                    modelComponent.instance.transform.position = new Vector3(position.x, position.y, 0);
+                    modelComponent.instance.cachedTransform.position = new Vector3(position.x, position.y, 0);
                     modelComponent.instance.model.localPosition = new Vector3(0, position.z, 0);
                 }
                 else
                 {
-                    modelComponent.instance.transform.position = new Vector3(position.x, position.y + position.z, 0);
+                    modelComponent.instance.cachedTransform.position = new Vector3(position.x, position.y + position.z, 0);
                 }
             }
             Profiler.EndSample();
@@ -139,7 +139,9 @@ namespace Game.Systems
                 
                 var modelInstance = modelComponent.instance;
 
-                var scale = modelInstance.transform.localScale;
+                var modelTransform = modelInstance.cachedTransform;
+
+                var scale = modelTransform.localScale;
 
                 if (modelComponent.rotation == ModelComponent.RotationType.FlipToLookingDirection)
                 {
@@ -158,10 +160,8 @@ namespace Game.Systems
                         {
                             scale.x = flip ? -1 : 1;
                         }
-
-                        var t = modelInstance.transform;
-
-                        t.localScale = scale;
+                        
+                        modelTransform.localScale = scale;
 
                         modelComponent.instance.model.localEulerAngles = Vector3.zero;
                     }
@@ -169,7 +169,7 @@ namespace Game.Systems
                     {
                         if (shouldFlip)
                         {
-                            modelInstance.transform.localEulerAngles = new Vector3(0, flip ? 180 : 0, 0);
+                            modelTransform.localEulerAngles = new Vector3(0, flip ? 180 : 0, 0);
                         }
                     }
                 }

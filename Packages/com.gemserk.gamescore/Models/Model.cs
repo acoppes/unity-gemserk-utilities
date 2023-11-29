@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -13,6 +14,14 @@ namespace Game.Models
         public SortingGroup sortingGroup;
 
         public ParticleSystem particleSystem;
+
+        [NonSerialized] 
+        public Transform cachedTransform;
+
+        private void Awake()
+        {
+            cachedTransform = this.GetComponent<Transform>();
+        }
 
         private void OnEnable()
         {
