@@ -4,6 +4,7 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Game.Systems
 {
@@ -23,15 +24,22 @@ namespace Game.Systems
         
         public void Run(EcsSystems systems)
         {
+            Profiler.BeginSample("Update1");
             foreach (var entity in modelFilter.Value)
             {
                 var modelComponent = modelFilter.Pools.Inc1.Get(entity);
 
                 var model = modelComponent.instance;
                 
-                if (!modelComponent.modelGameObject.activeSelf)
+                if (!modelComponent.isModelActive && modelComponent.IsVisible)
                 {
                     modelComponent.modelGameObject.SetActive(true);
+                    modelComponent.isModelActive = true;
+                } else if (modelComponent.isModelActive && !modelComponent.IsVisible)
+                {
+                    modelComponent.modelGameObject.SetActive(false);
+                    modelComponent.isModelActive = false;
+                    continue;
                 }
                 
                 if (model.spriteRenderer != null)
@@ -52,15 +60,19 @@ namespace Game.Systems
                     }
                 }
 
-                if (modelComponent.modelGameObject.activeSelf && !modelComponent.IsVisible)
-                {
-                    modelComponent.modelGameObject.SetActive(false);
-                } else if (!modelComponent.modelGameObject.activeSelf && modelComponent.IsVisible)
-                {
-                    modelComponent.modelGameObject.SetActive(true);
-                }
+                // if (!modelComponent.IsVisible)
+                // {
+                //     modelComponent.modelGameObject.SetActive(false);
+                //     modelComponent.isModelActive = false;
+                // } else if (modelComponent.IsVisible)
+                // {
+                //     modelComponent.modelGameObject.SetActive(true);
+                //     modelComponent.isModelActive = true;
+                // }
             }
+            Profiler.EndSample();
             
+            Profiler.BeginSample("Update2");
             foreach (var entity in positionFilter.Value)
             {
                 ref var modelComponent = ref positionFilter.Pools.Inc1.Get(entity);
@@ -96,7 +108,9 @@ namespace Game.Systems
                     }
                 }
             }
+            Profiler.EndSample();
             
+            Profiler.BeginSample("Update3");
             foreach (var entity in modelInterpolationFilter.Value)
             {
                 ref var modelComponent = ref modelInterpolationFilter.Pools.Inc1.Get(entity);
@@ -114,7 +128,9 @@ namespace Game.Systems
                     modelComponent.instance.transform.position = new Vector3(position.x, position.y + position.z, 0);
                 }
             }
+            Profiler.EndSample();
 
+            Profiler.BeginSample("Update4");
             foreach (var entity in modelAllFilter.Value)
             {
                 var modelComponent = modelAllFilter.Pools.Inc1.Get(entity);
@@ -176,18 +192,22 @@ namespace Game.Systems
                     t.localScale = new Vector3(direction2d.magnitude, modelScale.y, modelScale.z);
                 }
             }
-
+            Profiler.EndSample();
+            
+            Profiler.BeginSample("Update5");
             foreach (var entity in disabledFilter.Value)
             {
                 var modelComponent = disabledFilter.Pools.Inc1.Get(entity);
                 if (modelComponent.modelGameObject != null)
                 {
-                    if (modelComponent.modelGameObject.activeSelf)
+                    if (modelComponent.isModelActive)
                     {
                         modelComponent.modelGameObject.SetActive(false);
+                        modelComponent.isModelActive = false;
                     }
                 }
             }
+            Profiler.EndSample();
         }
     }
 }

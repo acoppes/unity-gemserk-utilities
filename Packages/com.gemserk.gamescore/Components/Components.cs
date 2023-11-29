@@ -136,6 +136,7 @@ namespace Game.Components
         
         public Model instance;
         public GameObject modelGameObject;
+        public bool isModelActive;
 
         // TODO: cache this on creation
         public bool hasSubModelObject;

@@ -36,9 +36,10 @@ namespace Game.Systems
             {
                 ref var model = ref disabledFilter.Pools.Inc1.Get(entity);
                 
-                if (model.modelGameObject != null && model.modelGameObject.activeSelf)
+                if (model.modelGameObject != null && model.isModelActive)
                 {
                     model.modelGameObject.SetActive(false);
+                    model.isModelActive = false;
                 }
                 
                 world.RemoveComponent<ModelEnabledComponent>(entity);
@@ -65,6 +66,8 @@ namespace Game.Systems
                 model.hasSubModelObject = model.instance.model != null;
                 
                 model.modelGameObject.SetActive(true);
+                model.isModelActive = true;
+                
                 world.AddComponent(entity, new ModelEnabledComponent());
             }
         }
@@ -92,6 +95,7 @@ namespace Game.Systems
                 }
                 model.instance = null;
                 model.modelGameObject = null;
+                model.isModelActive = false;
             }
         }
 
