@@ -5,6 +5,11 @@ using UnityEngine;
 
 namespace Game.Components
 {
+    public struct CopyLookingDirectionFromPhysics : IEntityComponent
+    {
+        
+    }
+    
     public class LookingDirectionComponentDefinition : ComponentDefinitionBase
     {
         public enum StartingLookingDirectionType
@@ -17,6 +22,8 @@ namespace Game.Components
         
         [ConditionalField(nameof(defaultLookingDirectionType), false, StartingLookingDirectionType.Fixed)]
         public Vector3 defaultLookingDirection = Vector3.right;
+
+        public bool copyFromPhysicsRotation;
         
         public override string GetComponentName()
         {
@@ -39,6 +46,11 @@ namespace Game.Components
             {
                 value = direction
             });
+
+            if (copyFromPhysicsRotation)
+            {
+                world.AddComponent(entity, new CopyLookingDirectionFromPhysics());
+            }
         }
     }
 }
