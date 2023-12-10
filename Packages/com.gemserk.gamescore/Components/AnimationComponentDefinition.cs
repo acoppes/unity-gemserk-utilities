@@ -1,5 +1,6 @@
 ﻿using Game.Definitions;
 using Gemserk.Leopotam.Ecs;
+using MyBox;
 
 namespace Game.Components
 {
@@ -8,7 +9,12 @@ namespace Game.Components
         public AnimationsAsset animationsAsset;
         public SpritesMetadata spritesMetadata;
         
+        public StartingAnimationComponent.StartingAnimationType startingAnimationType = StartingAnimationComponent.StartingAnimationType.Name;
+        [ConditionalField(nameof(startingAnimationType), false, StartingAnimationComponent.StartingAnimationType.Name)]
         public string defaultAnimation;
+        [ConditionalField(nameof(startingAnimationType), true, StartingAnimationComponent.StartingAnimationType.None)]
+        public bool randomizeStartFrame = false;
+        [ConditionalField(nameof(startingAnimationType), true, StartingAnimationComponent.StartingAnimationType.None)]
         public bool defaultAnimationLoop = true;
         
         // TODO: int loops to be configured here optional
@@ -33,19 +39,34 @@ namespace Game.Components
                 speed = 1
             });
 
-            if (!string.IsNullOrEmpty(defaultAnimation))
+            if (startingAnimationType == StartingAnimationComponent.StartingAnimationType.Name &&
+                !string.IsNullOrEmpty(defaultAnimation))
             {
                 if (!world.HasComponent<StartingAnimationComponent>(entity))
                 {
                     world.AddComponent(entity, new StartingAnimationComponent());
                 }
-
+                    
                 ref var startingAnimationComponent = ref world.GetComponent<StartingAnimationComponent>(entity);
                 
-                startingAnimationComponent.loop = defaultAnimationLoop;
+                startingAnimationComponent.startingAnimationType = startingAnimationType;
+                startingAnimationComponent.randomizeStartFrame = randomizeStartFrame;
                 startingAnimationComponent.name = defaultAnimation;
-                startingAnimationComponent.randomizeStartFrame = false;
-                startingAnimationComponent.startingAnimationType = StartingAnimationComponent.StartingAnimationType.Name;
+                startingAnimationComponent.loop = defaultAnimationLoop;
+            }
+                
+            if (startingAnimationType == StartingAnimationComponent.StartingAnimationType.Random)
+            {
+                if (!world.HasComponent<StartingAnimationComponent>(entity))
+                {
+                    world.AddComponent(entity, new StartingAnimationComponent());
+                }
+                    
+                ref var startingAnimationComponent = ref world.GetComponent<StartingAnimationComponent>(entity);
+                
+                startingAnimationComponent.startingAnimationType = startingAnimationType;
+                startingAnimationComponent.randomizeStartFrame = randomizeStartFrame;
+                startingAnimationComponent.loop = defaultAnimationLoop;
             }
         }
     }
