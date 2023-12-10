@@ -74,8 +74,17 @@ namespace Game.Systems
                         var randomPosition = UnityEngine.Random.insideUnitCircle * spawner.randomRadius;
                         
                         ref var spawnedEntityPosition = ref world.GetComponent<PositionComponent>(spawnedEntity);
-                        spawnedEntityPosition.value = position.value + new Vector3(randomPosition.x, 0, randomPosition.y);
-
+                        
+                        if (spawnedEntityPosition.type == 0)
+                        {
+                            spawnedEntityPosition.value =
+                                position.value + new Vector3(randomPosition.x, 0, randomPosition.y);
+                        } else if (spawnedEntityPosition.type == 1)
+                        {
+                            spawnedEntityPosition.value =
+                                position.value + new Vector3(randomPosition.x,  randomPosition.y, 0);
+                        }
+                        
                         if (world.HasComponent<PlayerComponent>(spawnedEntity))
                         {
                             ref var spawnedEntityPlayer = ref world.GetComponent<PlayerComponent>(spawnedEntity);
