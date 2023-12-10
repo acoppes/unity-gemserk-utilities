@@ -186,6 +186,12 @@ namespace Game.Systems
                     var objectModel = modelComponent.instance;
 
                     var t = objectModel.model;
+
+                    if (modelComponent.fixedRotationAngles > 0)
+                    {
+                        var partitions = 360 / modelComponent.fixedRotationAngles;
+                        angle = Mathf.Round(partitions * (angle / 360.0f)) * modelComponent.fixedRotationAngles;
+                    }
                     
                     t.localEulerAngles = t.localEulerAngles.SetZ(angle);
                     var modelScale = t.localScale;

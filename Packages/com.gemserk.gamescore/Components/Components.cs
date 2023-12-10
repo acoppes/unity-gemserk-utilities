@@ -153,6 +153,8 @@ namespace Game.Components
         public SortingLayerType sortingLayerType;
         public int sortingOrder;
         public int sortingLayer;
+
+        public float fixedRotationAngles;
     }
 
     public struct ModelShakeComponent : IEntityComponent

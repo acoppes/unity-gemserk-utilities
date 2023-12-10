@@ -17,6 +17,9 @@ namespace Game.Components
         public ModelComponent.SortingLayerType sortingLayerType = ModelComponent.SortingLayerType.None;
         public int sortingOrder;
         public string sortingLayer;
+
+        [Tooltip("Fix final model rotation angle to rotate in partitions, use 0 or less to disable")]
+        public float fixedRotationAngles = 0;
         
         public override string GetComponentName()
         {
@@ -33,7 +36,8 @@ namespace Game.Components
                 sortingLayerType = sortingLayerType,
                 sortingLayer = SortingLayer.NameToID(sortingLayer),
                 sortingOrder = sortingOrder,
-                flipUseRotation = flipUseRotation
+                flipUseRotation = flipUseRotation,
+                fixedRotationAngles = fixedRotationAngles
             });
         }
     }
