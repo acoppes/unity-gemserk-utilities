@@ -134,8 +134,8 @@ namespace Game.Systems
             foreach (var entity in modelAllFilter.Value)
             {
                 var modelComponent = modelAllFilter.Pools.Inc1.Get(entity);
-                var lookingDirection = modelAllFilter.Pools.Inc2.Get(entity);
-                var positionComponent = modelAllFilter.Pools.Inc3.Get(entity);
+                var positionComponent = modelAllFilter.Pools.Inc2.Get(entity);
+                var lookingDirection = modelAllFilter.Pools.Inc3.Get(entity);
                 
                 var modelInstance = modelComponent.instance;
 
