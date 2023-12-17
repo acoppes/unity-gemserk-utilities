@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Game.Components;
 using Game.Models;
 using Game.Systems;
@@ -78,6 +80,12 @@ namespace Game.Definitions
         public bool isSpawner;
         [ConditionalField(nameof(isSpawner))]
         public Object spawnArea;
+
+        // public bool autoSpawnsOnStarts;
+        // [ConditionalField(nameof(autoSpawnsOnStarts))]
+        // public string spawnInstanceName;
+        // [ConditionalField(nameof(autoSpawnsOnStarts))]
+        // public List<Object> spawnDefinitions = new List<Object>(); 
 
         //
         public void Apply(World world, Entity entity)
@@ -208,6 +216,17 @@ namespace Game.Definitions
             {
                 ref var spawnerComponent = ref world.GetComponent<SpawnerComponent>(entity);
                 spawnerComponent.area = spawnArea;
+                
+                // // if autospawns on init
+                // if (autoSpawnsOnStarts)
+                // {
+                //     spawnerComponent.pending.Add(new SpawnPackData()
+                //     {
+                //         name = spawnInstanceName,
+                //         definitions = spawnDefinitions.Select(o => o.GetInterface<IEntityDefinition>()).ToList()
+                //     });
+                // }
+
             }
         }
 

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Utilities;
+using MyBox;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -36,6 +38,14 @@ namespace Game.Components
         public Object spawnPackDefinition;
         public float cooldown;
         public float randomRadius;
+        
+        public bool autoSpawnsOnStarts;
+        [ConditionalField(nameof(autoSpawnsOnStarts))]
+        public string spawnInstanceName;
+        [ConditionalField(nameof(autoSpawnsOnStarts))]
+        public MinMaxInt randomCount;
+        [ConditionalField(nameof(autoSpawnsOnStarts))]
+        public List<Object> spawnDefinitions = new List<Object>(); 
 
         public override string GetComponentName()
         {
@@ -55,6 +65,19 @@ namespace Game.Components
             }
             
             world.AddComponent(entity, spawnerComponent);
+            
+            if (autoSpawnsOnStarts)
+            {
+                var count = randomCount.RandomInRange();
+                for (var i = 0; i < count; i++)
+                {
+                    spawnerComponent.pending.Add(new SpawnPackData()
+                    {
+                        name = spawnInstanceName,
+                        definitions = spawnDefinitions.Select(o => o.GetInterface<IEntityDefinition>()).ToList()
+                    });
+                }
+            }
         }
 
         private void OnDrawGizmosSelected()
