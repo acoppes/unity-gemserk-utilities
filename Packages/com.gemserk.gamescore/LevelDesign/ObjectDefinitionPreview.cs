@@ -108,6 +108,13 @@ namespace Game.LevelDesign
                     var defaultAnimation = string.IsNullOrEmpty(animationComponentDefinition.defaultAnimation)
                         ? "None"
                         : animationComponentDefinition.defaultAnimation;
+
+                    // instance overrides definitioin 
+                    if (unitInstanceParameter.startingAnimationType ==
+                        StartingAnimationComponent.StartingAnimationType.Name)
+                    {
+                        defaultAnimation = unitInstanceParameter.startingAnimation;
+                    }
                     
                     if (!string.IsNullOrEmpty(defaultAnimation))
                     {
