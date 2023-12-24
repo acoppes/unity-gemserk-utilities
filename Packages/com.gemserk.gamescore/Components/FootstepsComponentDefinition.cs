@@ -18,6 +18,8 @@ namespace Game.Components
         public Vector2 lastSpawnPosition;
 
         public bool isWalking;
+
+        public bool disabled;
     }
     
     public class FootstepsComponentDefinition : ComponentDefinitionBase

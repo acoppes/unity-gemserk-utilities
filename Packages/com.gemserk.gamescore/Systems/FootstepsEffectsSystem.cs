@@ -77,6 +77,11 @@ namespace Game.Systems
             {
                 ref var footsteps = ref filter.Pools.Inc1.Get(e);
                 var position = filter.Pools.Inc2.Get(e);
+
+                if (footsteps.disabled)
+                {
+                    continue;
+                }
                 
                 if (footsteps.walkingParticleSystem != null)
                 {
