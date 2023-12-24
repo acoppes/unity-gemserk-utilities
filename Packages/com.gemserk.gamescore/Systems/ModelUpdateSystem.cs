@@ -27,7 +27,7 @@ namespace Game.Systems
             Profiler.BeginSample("Update1");
             foreach (var entity in modelFilter.Value)
             {
-                var modelComponent = modelFilter.Pools.Inc1.Get(entity);
+                ref var modelComponent = ref modelFilter.Pools.Inc1.Get(entity);
 
                 var model = modelComponent.instance;
                 
