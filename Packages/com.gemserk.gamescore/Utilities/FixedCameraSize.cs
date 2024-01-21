@@ -64,7 +64,7 @@ namespace Game.Utilities
                 var heightMatch = match;
 
                 result = (sizeToMatchWidth * widthMatch + sizeToMatchHeight * heightMatch);
-                virtualCamera.Lens.OrthographicSize = result;
+                virtualCamera.m_Lens.OrthographicSize = result;
             }
         }
     }
