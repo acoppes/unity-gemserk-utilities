@@ -427,6 +427,21 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 debug.scrollPosition = EditorGUILayout.BeginScrollView(debug.scrollPosition, false, false);
                 DrawComponents(world.EcsWorld, selectedEntity);
                 EditorGUILayout.EndScrollView();
+
+                if (!selectedEntity.Has<DisabledComponent>())
+                {
+                    if (GUILayout.Button("Disable"))
+                    {
+                        selectedEntity.Add(new DisabledComponent());
+                    }
+                }
+                else
+                {
+                    if (GUILayout.Button("Enable"))
+                    {
+                        selectedEntity.Remove<DisabledComponent>();
+                    }
+                }
             }
 
             EditorGUILayout.EndVertical();

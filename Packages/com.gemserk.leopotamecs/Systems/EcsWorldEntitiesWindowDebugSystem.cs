@@ -1,6 +1,5 @@
 ﻿using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Systems
 {
