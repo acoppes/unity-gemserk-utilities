@@ -51,10 +51,21 @@ namespace Game.Systems
                 
                 if (sfxComponent.source != null)
                 {
-                    sfxComponent.source.Stop();
-                    sfxComponent.source.clip = null;
-                    poolMap.Release(sfxComponent.source.gameObject);
-                    sfxComponent.source = null;
+                    if (sfxComponent.clip != null)
+                    {
+                        sfxComponent.source.Stop();
+                        sfxComponent.source.clip = null;
+
+                        poolMap.Release(sfxComponent.source.gameObject);
+                        sfxComponent.source = null;
+
+                    }
+                    else if (sfxComponent.prefab != null)
+                    {
+                        sfxComponent.source.Stop();
+                        poolMap.Release(sfxComponent.source.gameObject);
+                        sfxComponent.source = null;
+                    }
                 }
             }
         }
