@@ -91,5 +91,20 @@ namespace Game.Components
         {
             return ref entity.Get<Physics2dComponent>();
         }
+
+        public static bool IsEnabled(this Entity entity)
+        {
+            return !entity.Has<DisabledComponent>();
+        }
+        
+        public static void Disable(this Entity entity)
+        {
+            entity.Add<DisabledComponent>();
+        }
+        
+        public static void Enable(this Entity entity)
+        {
+            entity.Remove<DisabledComponent>();
+        }
     }
 }
