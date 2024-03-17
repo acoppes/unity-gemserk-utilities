@@ -272,7 +272,16 @@ namespace Game.Components
             onDeathEvent = null;
         }
     }
+
+    public struct HealthAliveStateControllerEvent : IEntityComponent
+    {
+        
+    }
     
+    public interface IHealthStateChanged
+    {
+        void OnHealthStateChanged(World world, Entity entity);
+    }
 
     public struct HealthBarComponent : IEntityComponent
     {
