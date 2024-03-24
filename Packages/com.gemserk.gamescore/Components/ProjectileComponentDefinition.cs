@@ -49,6 +49,11 @@ namespace Game.Components
 
         public Entity impactEntity;
     }
+
+    public struct ProjectileFireComponent : IEntityComponent
+    {
+        public Vector3 direction;
+    }
     
     public class ProjectileComponentDefinition : ComponentDefinitionBase
     {

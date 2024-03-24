@@ -9,6 +9,9 @@ namespace Game.Systems
 {
     public class ProjectileSystem : BaseSystem, IEcsRunSystem
     {
+        readonly EcsFilterInject<Inc<ProjectileComponent, ProjectileFireComponent>, Exc<DisabledComponent>> 
+            pendingProjectiles = default;
+        
         readonly EcsFilterInject<Inc<ProjectileComponent, PositionComponent, PhysicsComponent, LookingDirection>, Exc<DisabledComponent>> 
             projectilesPhysicsFilter = default;
         
@@ -23,6 +26,17 @@ namespace Game.Systems
         
         public void Run(EcsSystems systems)
         {
+            foreach (var e in pendingProjectiles.Value)
+            {
+                ref var projectile = ref pendingProjectiles.Pools.Inc1.Get(e);
+                ref var projectileFire = ref pendingProjectiles.Pools.Inc2.Get(e);
+
+                projectile.initialVelocity = projectileFire.direction;
+                projectile.state = ProjectileComponent.State.Pending;
+                
+                world.RemoveComponent<ProjectileFireComponent>(e);
+            }
+
             // play vfx animation if didn't start yet
             foreach (var entity in projectilesPhysicsFilter.Value)
             {
