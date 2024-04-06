@@ -8,8 +8,18 @@ namespace Game.Components
     [Serializable]
     public struct Effect
     {
+        public enum TargetType
+        {
+            Target = 0, 
+            Source = 1,
+            TargetsFromTargeting = 2
+        }
+        
         // public int type;
         public float value;
+        
+        public TargetType targetType;
+        public Targeting targeting;
     }
     
     public struct EffectsComponent : IEntityComponent
