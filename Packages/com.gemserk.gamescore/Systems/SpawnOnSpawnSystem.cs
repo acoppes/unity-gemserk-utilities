@@ -18,10 +18,17 @@ namespace Game.Systems
                 var spawnOnSpawn = filter.Pools.Inc1.Get(e);
                 var position = filter.Pools.Inc2.Get(e);
 
+                var entity = world.GetEntity(e);
+
                 foreach (var spawnDefinition in spawnOnSpawn.definitions)
                 {
                     var spawnedEntity = world.CreateEntity(spawnDefinition);
                     spawnedEntity.Get<PositionComponent>().value = position.value;
+                    
+                    if (entity.Has<PlayerComponent>() && spawnedEntity.Has<PlayerComponent>())
+                    {
+                        spawnedEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
+                    }
                 }
                
                 world.RemoveComponent<SpawnOnSpawnComponent>(e);
