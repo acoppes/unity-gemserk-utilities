@@ -8,7 +8,9 @@ namespace Game.Systems
 {
     public class DestroyOnAnimationCompleteSystem : BaseSystem, IEcsRunSystem
     {
-        readonly EcsFilterInject<Inc<AnimationComponent, DestroyableComponent, DestroyOnAnimationCompleteComponent>, Exc<DisabledComponent>> filter = default;
+        // Just in case avoid destroying animation entities if they have a pending start animation component.
+        readonly EcsFilterInject<Inc<AnimationComponent, DestroyableComponent, DestroyOnAnimationCompleteComponent>, 
+            Exc<DisabledComponent, StartingAnimationComponent>> filter = default;
         
         public void Run(EcsSystems systems)
         {
