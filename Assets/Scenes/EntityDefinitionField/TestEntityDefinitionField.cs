@@ -23,4 +23,7 @@ public class TestEntityDefinitionField : MonoBehaviour
     public GameObject gameObjectDefinition2;
     
     public Object definitionNoCheck2;
+
+    [ObjectType(typeof(IEntityDefinition))]
+    public Object objectTypeTest;
 }
