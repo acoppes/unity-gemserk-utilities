@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Gemserk.RefactorTools.Editor;
 using UnityEditor;
@@ -8,89 +7,6 @@ using Object = UnityEngine.Object;
 
 namespace Gemserk.Utilities.Editor
 {
-    public class TempWindowTest : EditorWindow
-    {
-        public static void OpenWindow(IEnumerable<Object> objects, Action<Object> onSelected = null)
-        {
-            var window = GetWindow<TempWindowTest>();
-            window.titleContent = new GUIContent("Select Reference");
-            window.objects.Clear();
-            window.objects.AddRange(objects);
-            // window.onClose = onClose;
-            window.onSelected = onSelected;
-        }
-        
-        private List<Object> objects = new List<Object>();
-        
-        private Action<Object> onSelected;
-        // private Action onClose;
-        
-        // [MenuItem("Window/Gemserk/All Things Window")]
-
-        private Vector2 scrollPosition;
-        private string searchText = "";
-        
-        private void OnGUI()
-        {
-            string[] searchTexts = null;
-            
-            EditorGUILayout.BeginHorizontal();
-            searchText = EditorGUILayout.TextField("Search", searchText);
-            EditorGUILayout.EndHorizontal();
-
-            if (!string.IsNullOrEmpty(searchText))
-            {
-                searchText = searchText.TrimStart().TrimEnd();
-                if (!string.IsNullOrEmpty(searchText))
-                {
-                    searchTexts = searchText.Split(' ');
-                }
-            }
-            
-            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
-            foreach (var obj in objects)
-            {
-                var match = true;
-                
-                if (searchTexts != null && searchTexts.Length > 0)
-                {
-                    foreach (var text in searchTexts)
-                    {
-                        if (!obj.name.Contains(text, StringComparison.OrdinalIgnoreCase))
-                        {
-                            match = false;
-                            break;
-                        }
-                    }
-                }
-
-                if (!match)
-                {
-                    continue;
-                }
-                
-                // if there is a path, show wpath
-                EditorGUILayout.BeginHorizontal();
-                
-                EditorGUI.BeginDisabledGroup(true);
-                EditorGUILayout.ObjectField(obj, obj.GetType(), false);
-                EditorGUI.EndDisabledGroup();
-                
-                // EditorGUILayout.LabelField(obj.name);
-                // EditorGUILayout.LabelField(obj.GetType().Name);
-                
-                if (GUILayout.Button("Select"))
-                {
-                    onSelected.Invoke(obj);
-                    Close();
-                }
-                
-                EditorGUILayout.EndHorizontal();
-            }
-            EditorGUILayout.EndScrollView();
-        }
-    }
-    
     [CustomPropertyDrawer(typeof(ObjectTypeAttribute), true)]
     public class ObjectTypeAttributePropertyDrawer : PropertyDrawer
     {
@@ -112,15 +28,18 @@ namespace Gemserk.Utilities.Editor
             
             EditorGUI.BeginChangeCheck();
 
-            var buttonPosition = new Rect(position.x, position.y, position.width, elementHeight);
+            var buttonPosition = new Rect(position.x + position.width * 0.25f, position.y, position.width * 0.75f, elementHeight);
+            var labelPosition = new Rect(position.x, position.y, position.width * 0.25f, elementHeight * 2);
           //  var optionsPosition = new Rect(position.x, position.y + elementHeight, position.width, elementHeight);
-            var objectPosition = new Rect(position.x, position.y + elementHeight * 1, position.width, elementHeight);
+            var objectPosition = new Rect(position.x + position.width * 0.25f, position.y + elementHeight * 1, position.width * 0.75f, elementHeight);
 
             if (lastSelectedObject != null)
             {
                 property.objectReferenceValue = lastSelectedObject;
                 lastSelectedObject = null;
             }
+            
+            EditorGUI.LabelField(labelPosition, property.displayName);
             
             if (GUI.Button(buttonPosition, "Select"))
             {
@@ -139,7 +58,7 @@ namespace Gemserk.Utilities.Editor
                 var assets = AssetDatabaseExt.FindAssetsAll(typeToSelect, null, new[] { "Assets" });
                 options.AddRange(assets);
                 
-                TempWindowTest.OpenWindow(options, o =>
+                SelectReferenceWindow.OpenWindow(options, o =>
                 {
                     lastSelectedObject = o;
                 });
@@ -160,7 +79,9 @@ namespace Gemserk.Utilities.Editor
             //     EditorGUI.LabelField(optionsPosition, "Not loaded");
             // }
 
-            EditorGUI.ObjectField(objectPosition, property);
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUI.ObjectField(objectPosition, property, GUIContent.none);
+            EditorGUI.EndDisabledGroup();
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
