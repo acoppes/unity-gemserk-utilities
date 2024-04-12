@@ -13,7 +13,7 @@ namespace Gemserk.Utilities.Editor
     public class ObjectTypeAttributePropertyDrawer : PropertyDrawer
     {
         private const float elementHeight = 18f;
-        private List<Object> options = new List<Object>();
+        private List<SelectReferenceWindow.ObjectReference> options = new List<SelectReferenceWindow.ObjectReference>();
 
         private Object lastSelectedObject;
         
@@ -52,7 +52,11 @@ namespace Gemserk.Utilities.Editor
                     var sceneObjects = Object.FindObjectsByType(typeof(Component), FindObjectsInactive.Include,
                         FindObjectsSortMode.None);
                     var filteredSceneObjects = sceneObjects.Where(c => typeToSelect.IsInstanceOfType(c));
-                    options.AddRange(filteredSceneObjects);
+                    options.AddRange(filteredSceneObjects.Select(o => new SelectReferenceWindow.ObjectReference()
+                    {
+                        reference = o,
+                        source = SelectReferenceWindow.ObjectReference.Source.Scene
+                    }));
                 }
 
                 if (!objectTypeAttribute.disablePrefabReferences)
@@ -63,24 +67,42 @@ namespace Gemserk.Utilities.Editor
                             "Assets"
                         });
 
-                    options.AddRange(prefabsWithType);
+                    options.AddRange(prefabsWithType.Select(o => new SelectReferenceWindow.ObjectReference()
+                    {
+                        reference = o,
+                        source = SelectReferenceWindow.ObjectReference.Source.Prefab
+                    }));
                 }
 
                 if (!objectTypeAttribute.disableAssetReferences)
                 {
                     var assets = AssetDatabaseExt.FindAssetsAll(typeToSelect, null, new[] { "Assets" });
-                    options.AddRange(assets);
+                    // options.AddRange(assets);
+                    
+                    options.AddRange(assets.Select(o => new SelectReferenceWindow.ObjectReference()
+                    {
+                        reference = o,
+                        source = SelectReferenceWindow.ObjectReference.Source.Asset
+                    }));
                 }
                 
-                SelectReferenceWindow.OpenWindow(options, o =>
+                SelectReferenceWindow.OpenWindow(options, new SelectReferenceWindow.Configuration()
                 {
-                    lastSelectedObject = o;
+                    canSelectAssetReferences = !objectTypeAttribute.disableAssetReferences,
+                    canSelectPrefabReferences = !objectTypeAttribute.disablePrefabReferences,
+                    canSelectSceneReferences = !objectTypeAttribute.disableSceneReferences,
+                    onSelectReferenceCallback = OnReferenceObjectSelected
                 });
             }
 
             EditorGUI.BeginDisabledGroup(true);
             EditorGUI.ObjectField(objectPosition, property, GUIContent.none);
             EditorGUI.EndDisabledGroup();
+        }
+
+        private void OnReferenceObjectSelected(SelectReferenceWindow.ObjectReference objectReference)
+        {
+            lastSelectedObject = objectReference.reference;
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)

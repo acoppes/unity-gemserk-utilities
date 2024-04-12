@@ -8,25 +8,49 @@ namespace Gemserk.Utilities.Editor
 {
     public class SelectReferenceWindow : EditorWindow
     {
-        public static void OpenWindow(IEnumerable<Object> objects, System.Action<Object> onSelected = null)
+        public struct Configuration
+        {
+            public bool canSelectSceneReferences;
+            public bool canSelectAssetReferences;
+            public bool canSelectPrefabReferences;
+
+            public Action<ObjectReference> onSelectReferenceCallback;
+        }
+
+        public struct ObjectReference
+        {
+            public enum Source
+            {
+                Scene, Prefab, Asset
+            }
+
+            public Source source;
+            public Object reference;
+        }
+        
+        public static void OpenWindow(IEnumerable<ObjectReference> objects, Configuration configuration)
         {
             var window = GetWindow<SelectReferenceWindow>();
             window.titleContent = new GUIContent("Select Reference");
             window.objects.Clear();
             window.objects.AddRange(objects);
-            // window.onClose = onClose;
-            window.onSelected = onSelected;
+            window.configuration = configuration;
         }
+
+        private Configuration configuration;
         
-        private List<Object> objects = new List<Object>();
+        private List<ObjectReference> objects = new List<ObjectReference>();
         
-        private System.Action<Object> onSelected;
         // private Action onClose;
         
         // [MenuItem("Window/Gemserk/All Things Window")]
 
         private Vector2 scrollPosition;
         private string searchText = "";
+
+        private bool showSceneReferences = true;
+        private bool showAssetsReferences = true;
+        private bool showPrefabReferences = true;
         
         private void OnGUI()
         {
@@ -35,6 +59,29 @@ namespace Gemserk.Utilities.Editor
             EditorGUILayout.BeginHorizontal();
             searchText = EditorGUILayout.TextField("Search", searchText);
             EditorGUILayout.EndHorizontal();
+
+            var toggleOptionsCount = 0;
+            toggleOptionsCount += configuration.canSelectAssetReferences ? 1 : 0;
+            toggleOptionsCount += configuration.canSelectPrefabReferences ? 1 : 0;
+            toggleOptionsCount += configuration.canSelectSceneReferences ? 1 : 0;
+            
+            if (toggleOptionsCount > 1)
+            {
+                EditorGUILayout.BeginHorizontal();
+                if (configuration.canSelectSceneReferences)
+                {
+                    showSceneReferences = GUILayout.Toggle(showSceneReferences, "Scene", "Button");
+                }
+                if (configuration.canSelectPrefabReferences)
+                {
+                    showPrefabReferences = GUILayout.Toggle(showPrefabReferences, "Prefabs", "Button");
+                }
+                if (configuration.canSelectAssetReferences)
+                {
+                    showAssetsReferences = GUILayout.Toggle(showAssetsReferences, "Assets", "Button");
+                }
+                EditorGUILayout.EndHorizontal();
+            }
 
             if (!string.IsNullOrEmpty(searchText))
             {
@@ -46,21 +93,30 @@ namespace Gemserk.Utilities.Editor
             }
             
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
-            foreach (var obj in objects)
+            foreach (var objectReference in objects)
             {
-                if (obj == null)
+                var match = true;
+
+                if (objectReference.source == ObjectReference.Source.Scene && !showSceneReferences)
                 {
-                    Debug.LogError("obj null");
                     continue;
                 }
                 
-                var match = true;
+                if (objectReference.source == ObjectReference.Source.Prefab && !showPrefabReferences)
+                {
+                    continue;
+                }
+                
+                if (objectReference.source == ObjectReference.Source.Asset && !showAssetsReferences)
+                {
+                    continue;
+                }
                 
                 if (searchTexts != null && searchTexts.Length > 0)
                 {
                     foreach (var text in searchTexts)
                     {
-                        if (!obj.name.Contains(text, StringComparison.OrdinalIgnoreCase))
+                        if (!objectReference.reference.name.Contains(text, StringComparison.OrdinalIgnoreCase))
                         {
                             match = false;
                             break;
@@ -77,7 +133,7 @@ namespace Gemserk.Utilities.Editor
                 EditorGUILayout.BeginHorizontal();
                 
                 EditorGUI.BeginDisabledGroup(true);
-                EditorGUILayout.ObjectField(obj, obj.GetType(), true);
+                EditorGUILayout.ObjectField(objectReference.reference, objectReference.reference.GetType(), true);
                 EditorGUI.EndDisabledGroup();
                 
                 // EditorGUILayout.LabelField(obj.name);
@@ -85,7 +141,7 @@ namespace Gemserk.Utilities.Editor
                 
                 if (GUILayout.Button("Select"))
                 {
-                    onSelected.Invoke(obj);
+                    configuration.onSelectReferenceCallback.Invoke(objectReference);
                     Close();
                 }
                 
