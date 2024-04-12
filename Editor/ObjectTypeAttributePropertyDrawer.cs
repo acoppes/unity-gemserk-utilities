@@ -1,16 +1,61 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Gemserk.RefactorTools.Editor;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Gemserk.Utilities.Editor
 {
+    public class TempWindowTest : EditorWindow
+    {
+        public static void OpenWindow(IEnumerable<Object> objects, Action<Object> onSelected = null)
+        {
+            var window = GetWindow<TempWindowTest>();
+            window.titleContent = new GUIContent("Select Reference");
+            window.objects.Clear();
+            window.objects.AddRange(objects);
+            // window.onClose = onClose;
+            window.onSelected = onSelected;
+        }
+        
+        private List<Object> objects = new List<Object>();
+        
+        private Action<Object> onSelected;
+        // private Action onClose;
+        
+        // [MenuItem("Window/Gemserk/All Things Window")]
+
+        private Vector2 scrollPosition;
+        
+        private void OnGUI()
+        {
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+            foreach (var obj in objects)
+            {
+                // if there is a path, show wpath
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField(obj.name);
+                EditorGUILayout.LabelField(obj.GetType().Name);
+                if (GUILayout.Button("Select"))
+                {
+                    onSelected.Invoke(obj);
+                    Close();
+                }
+                EditorGUILayout.EndHorizontal();
+            }
+            EditorGUILayout.EndScrollView();
+        }
+    }
+    
     [CustomPropertyDrawer(typeof(ObjectTypeAttribute), true)]
     public class ObjectTypeAttributePropertyDrawer : PropertyDrawer
     {
         private const float elementHeight = 18f;
         private List<Object> options = new List<Object>();
+
+        private Object lastSelectedObject;
         
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -26,12 +71,21 @@ namespace Gemserk.Utilities.Editor
             EditorGUI.BeginChangeCheck();
 
             var buttonPosition = new Rect(position.x, position.y, position.width, elementHeight);
-            var optionsPosition = new Rect(position.x, position.y + elementHeight, position.width, elementHeight);
-            var objectPosition = new Rect(position.x, position.y + elementHeight * 2, position.width, elementHeight);
+          //  var optionsPosition = new Rect(position.x, position.y + elementHeight, position.width, elementHeight);
+            var objectPosition = new Rect(position.x, position.y + elementHeight * 1, position.width, elementHeight);
+
+            if (lastSelectedObject != null)
+            {
+                property.objectReferenceValue = lastSelectedObject;
+                lastSelectedObject = null;
+            }
             
-            if (GUI.Button(buttonPosition, "Load"))
+            if (GUI.Button(buttonPosition, "Select"))
             {
                 options.Clear();
+
+                // var sceneObjects = GameObject.FindObjectsByType(typeToSelect, FindObjectsInactive.Include, FindObjectsSortMode.None);
+                // options.AddRange(sceneObjects);
                 
                 var prefabsWithType = AssetDatabaseExt.FindPrefabs(new []{typeToSelect}, AssetDatabaseExt.FindOptions.ConsiderInactiveChildren, new []
                 {
@@ -42,29 +96,34 @@ namespace Gemserk.Utilities.Editor
 
                 var assets = AssetDatabaseExt.FindAssetsAll(typeToSelect, null, new[] { "Assets" });
                 options.AddRange(assets);
+                
+                TempWindowTest.OpenWindow(options, o =>
+                {
+                    lastSelectedObject = o;
+                });
             }
 
-            if (options.Count > 0)
-            {
-                var selectedIndex = options.IndexOf(property.objectReferenceValue);
-                var newIndex = EditorGUI.Popup(optionsPosition, selectedIndex, options.Select(o => $"{AssetDatabase.GetAssetPath(o)}").ToArray());
-                
-                if (newIndex >= 0 && newIndex < options.Count)
-                {
-                    property.objectReferenceValue = options[newIndex];
-                }
-            }
-            else
-            {
-                EditorGUI.LabelField(optionsPosition, "Not loaded");
-            }
+            // if (options.Count > 0)
+            // {
+            //     var selectedIndex = options.IndexOf(property.objectReferenceValue);
+            //     var newIndex = EditorGUI.Popup(optionsPosition, selectedIndex, options.Select(o => $"{AssetDatabase.GetAssetPath(o)}").ToArray());
+            //     
+            //     if (newIndex >= 0 && newIndex < options.Count)
+            //     {
+            //         property.objectReferenceValue = options[newIndex];
+            //     }
+            // }
+            // else
+            // {
+            //     EditorGUI.LabelField(optionsPosition, "Not loaded");
+            // }
 
             EditorGUI.ObjectField(objectPosition, property);
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return base.GetPropertyHeight(property, label) * 3; 
+            return base.GetPropertyHeight(property, label) * 2; 
         }
     }
 }
