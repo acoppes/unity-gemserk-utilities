@@ -28,21 +28,63 @@ namespace Gemserk.Utilities.Editor
         // [MenuItem("Window/Gemserk/All Things Window")]
 
         private Vector2 scrollPosition;
+        private string searchText = "";
         
         private void OnGUI()
         {
+            string[] searchTexts = null;
+            
+            EditorGUILayout.BeginHorizontal();
+            searchText = EditorGUILayout.TextField("Search", searchText);
+            EditorGUILayout.EndHorizontal();
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                searchText = searchText.TrimStart().TrimEnd();
+                if (!string.IsNullOrEmpty(searchText))
+                {
+                    searchTexts = searchText.Split(' ');
+                }
+            }
+            
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
             foreach (var obj in objects)
             {
+                var match = true;
+                
+                if (searchTexts != null && searchTexts.Length > 0)
+                {
+                    foreach (var text in searchTexts)
+                    {
+                        if (!obj.name.Contains(text, StringComparison.OrdinalIgnoreCase))
+                        {
+                            match = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (!match)
+                {
+                    continue;
+                }
+                
                 // if there is a path, show wpath
                 EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField(obj.name);
-                EditorGUILayout.LabelField(obj.GetType().Name);
+                
+                EditorGUI.BeginDisabledGroup(true);
+                EditorGUILayout.ObjectField(obj, obj.GetType(), false);
+                EditorGUI.EndDisabledGroup();
+                
+                // EditorGUILayout.LabelField(obj.name);
+                // EditorGUILayout.LabelField(obj.GetType().Name);
+                
                 if (GUILayout.Button("Select"))
                 {
                     onSelected.Invoke(obj);
                     Close();
                 }
+                
                 EditorGUILayout.EndHorizontal();
             }
             EditorGUILayout.EndScrollView();
