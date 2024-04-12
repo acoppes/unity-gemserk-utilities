@@ -2,9 +2,7 @@
 using System.Linq;
 using Gemserk.RefactorTools.Editor;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 namespace Gemserk.Utilities.Editor
@@ -49,7 +47,7 @@ namespace Gemserk.Utilities.Editor
 
                 if (!objectTypeAttribute.disableSceneReferences)
                 {
-                    var sceneObjects = Object.FindObjectsByType(typeof(Component), FindObjectsInactive.Include,
+                    var sceneObjects = Object.FindObjectsByType(typeof(Component), FindObjectsInactive.Exclude,
                         FindObjectsSortMode.None);
                     var filteredSceneObjects = sceneObjects.Where(c => typeToSelect.IsInstanceOfType(c));
                     options.AddRange(filteredSceneObjects.Select(o => new SelectReferenceWindow.ObjectReference()
@@ -61,8 +59,8 @@ namespace Gemserk.Utilities.Editor
 
                 if (!objectTypeAttribute.disablePrefabReferences)
                 {
-                    var prefabsWithType = AssetDatabaseExt.FindPrefabs(new[] { typeToSelect },
-                        AssetDatabaseExt.FindOptions.ConsiderInactiveChildren, new[]
+                    var prefabsWithType = AssetDatabaseExt.FindPrefabs(new[] { typeToSelect }, 
+                        AssetDatabaseExt.FindOptions.ConsiderChildren, objectTypeAttribute.filterString, new[]
                         {
                             "Assets"
                         });
@@ -76,7 +74,7 @@ namespace Gemserk.Utilities.Editor
 
                 if (!objectTypeAttribute.disableAssetReferences)
                 {
-                    var assets = AssetDatabaseExt.FindAssetsAll(typeToSelect, null, new[] { "Assets" });
+                    var assets = AssetDatabaseExt.FindAssetsAll(typeToSelect, objectTypeAttribute.filterString, new[] { "Assets" });
                     // options.AddRange(assets);
                     
                     options.AddRange(assets.Select(o => new SelectReferenceWindow.ObjectReference()

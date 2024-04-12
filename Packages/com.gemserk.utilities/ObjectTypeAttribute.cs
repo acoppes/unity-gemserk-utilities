@@ -8,6 +8,11 @@ namespace Gemserk.Utilities
     {
         public Type typeToSelect;
 
+        /// <summary>
+        /// This is used to prefilter objects/prefabs/assets having that string in the name.
+        /// </summary>
+        public string filterString = null;
+
         public bool disableSceneReferences;
         public bool disablePrefabReferences;
         public bool disableAssetReferences;

@@ -18,6 +18,7 @@ namespace Scenes.EntityDefinitionField
         [ObjectType(typeof(IEntityDefinition), disablePrefabReferences = true, disableSceneReferences = true)]
         public Object onlyAssets;
 
-        
+        [ObjectType(typeof(IEntityDefinition), filterString = "Weapon")]
+        public Object weaponDefinitions;
     }
 }
