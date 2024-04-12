@@ -27,35 +27,38 @@ namespace Game.Systems
                 
                 foreach (var effect in effects.effects)
                 {
-                    if (effect.targetType == Effect.TargetType.Target)
+                    var modifiedEffect = effect;
+                    // modifiedEffect.value = effect.value * effects.factor;
+                    
+                    if (modifiedEffect.targetType == Effect.TargetType.Target)
                     {
                         if (effects.target != null && effects.target.entity.Exists())
                         {
-                            ApplyDamageEffect(effects.target.entity, effects.source, effect, position.value);
+                            ApplyDamageEffect(effects.target.entity, effects.source, modifiedEffect, position.value);
                         }
                     }
 
-                    if (effect.targetType == Effect.TargetType.Source)
+                    if (modifiedEffect.targetType == Effect.TargetType.Source)
                     {
                         if (effects.source.Exists())
                         {
-                            ApplyDamageEffect(effects.source, effects.source, effect, position.value);
+                            ApplyDamageEffect(effects.source, effects.source, modifiedEffect, position.value);
                         }
                     }
 
-                    if (effect.targetType == Effect.TargetType.TargetsFromTargeting)
+                    if (modifiedEffect.targetType == Effect.TargetType.TargetsFromTargeting)
                     {
                         world.GetTargets(new RuntimeTargetingParameters()
                         {
                             alliedPlayersBitmask = player.GetAlliedPlayers(),
                             position = position.value,
                             direction = new Vector3(1, 0, 0),
-                            filter = effect.targeting.targetingFilter
+                            filter = modifiedEffect.targeting.targetingFilter
                         }, targets);
 
                         foreach (var target in targets)
                         {
-                            ApplyDamageEffect(target.entity, effects.source, effect, position.value);
+                            ApplyDamageEffect(target.entity, effects.source, modifiedEffect, position.value);
                         }
                         
                         targets.Clear();

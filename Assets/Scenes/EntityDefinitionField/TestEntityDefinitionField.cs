@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Utilities;
 using UnityEngine;
@@ -26,4 +27,7 @@ public class TestEntityDefinitionField : MonoBehaviour
 
     [ObjectType(typeof(IEntityDefinition))]
     public Object objectTypeTest;
+    
+    [ObjectType(typeof(IEntityDefinition))]
+    public List<Object> testObjects;
 }

@@ -27,6 +27,7 @@ namespace Game.Components
         public Target target;
         public Entity source;
         public List<Effect> effects;
+        // public float factor;
     }
     
     public class EffectsComponentDefinition : ComponentDefinitionBase
