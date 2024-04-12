@@ -8,6 +8,10 @@ namespace Gemserk.Utilities
     {
         public Type typeToSelect;
 
+        public bool disableSceneReferences;
+        public bool disablePrefabReferences;
+        public bool disableAssetReferences;
+
         public ObjectTypeAttribute(Type typeToSelect)
         {
             this.typeToSelect = typeToSelect;

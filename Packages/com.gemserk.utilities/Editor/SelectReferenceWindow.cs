@@ -48,6 +48,12 @@ namespace Gemserk.Utilities.Editor
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
             foreach (var obj in objects)
             {
+                if (obj == null)
+                {
+                    Debug.LogError("obj null");
+                    continue;
+                }
+                
                 var match = true;
                 
                 if (searchTexts != null && searchTexts.Length > 0)
@@ -71,7 +77,7 @@ namespace Gemserk.Utilities.Editor
                 EditorGUILayout.BeginHorizontal();
                 
                 EditorGUI.BeginDisabledGroup(true);
-                EditorGUILayout.ObjectField(obj, obj.GetType(), false);
+                EditorGUILayout.ObjectField(obj, obj.GetType(), true);
                 EditorGUI.EndDisabledGroup();
                 
                 // EditorGUILayout.LabelField(obj.name);
@@ -86,6 +92,11 @@ namespace Gemserk.Utilities.Editor
                 EditorGUILayout.EndHorizontal();
             }
             EditorGUILayout.EndScrollView();
+            
+            if (GUILayout.Button("Close"))
+            {
+                Close();
+            }
         }
     }
 }

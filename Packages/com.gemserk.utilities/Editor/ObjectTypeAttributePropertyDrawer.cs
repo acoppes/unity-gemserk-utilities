@@ -2,7 +2,9 @@
 using System.Linq;
 using Gemserk.RefactorTools.Editor;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 namespace Gemserk.Utilities.Editor
@@ -45,39 +47,36 @@ namespace Gemserk.Utilities.Editor
             {
                 options.Clear();
 
-                // var sceneObjects = GameObject.FindObjectsByType(typeToSelect, FindObjectsInactive.Include, FindObjectsSortMode.None);
-                // options.AddRange(sceneObjects);
-                
-                var prefabsWithType = AssetDatabaseExt.FindPrefabs(new []{typeToSelect}, AssetDatabaseExt.FindOptions.ConsiderInactiveChildren, new []
+                if (!objectTypeAttribute.disableSceneReferences)
                 {
-                    "Assets"
-                });
-                
-                options.AddRange(prefabsWithType);
+                    var sceneObjects = Object.FindObjectsByType(typeof(Component), FindObjectsInactive.Include,
+                        FindObjectsSortMode.None);
+                    var filteredSceneObjects = sceneObjects.Where(c => typeToSelect.IsInstanceOfType(c));
+                    options.AddRange(filteredSceneObjects);
+                }
 
-                var assets = AssetDatabaseExt.FindAssetsAll(typeToSelect, null, new[] { "Assets" });
-                options.AddRange(assets);
+                if (!objectTypeAttribute.disablePrefabReferences)
+                {
+                    var prefabsWithType = AssetDatabaseExt.FindPrefabs(new[] { typeToSelect },
+                        AssetDatabaseExt.FindOptions.ConsiderInactiveChildren, new[]
+                        {
+                            "Assets"
+                        });
+
+                    options.AddRange(prefabsWithType);
+                }
+
+                if (!objectTypeAttribute.disableAssetReferences)
+                {
+                    var assets = AssetDatabaseExt.FindAssetsAll(typeToSelect, null, new[] { "Assets" });
+                    options.AddRange(assets);
+                }
                 
                 SelectReferenceWindow.OpenWindow(options, o =>
                 {
                     lastSelectedObject = o;
                 });
             }
-
-            // if (options.Count > 0)
-            // {
-            //     var selectedIndex = options.IndexOf(property.objectReferenceValue);
-            //     var newIndex = EditorGUI.Popup(optionsPosition, selectedIndex, options.Select(o => $"{AssetDatabase.GetAssetPath(o)}").ToArray());
-            //     
-            //     if (newIndex >= 0 && newIndex < options.Count)
-            //     {
-            //         property.objectReferenceValue = options[newIndex];
-            //     }
-            // }
-            // else
-            // {
-            //     EditorGUI.LabelField(optionsPosition, "Not loaded");
-            // }
 
             EditorGUI.BeginDisabledGroup(true);
             EditorGUI.ObjectField(objectPosition, property, GUIContent.none);

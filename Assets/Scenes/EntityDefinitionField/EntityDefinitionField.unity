@@ -1642,20 +1642,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1150128254}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9490c701913cd7440842e803e50a50c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 64712e2e0692448cbfe423a897b985c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectDefinition: {fileID: 0}
-  gameObjectDefinition: {fileID: 0}
-  definitionNoCheck1: {fileID: 11400000, guid: 12d81de5d502fc042b12cdd68d211f38, type: 2}
-  test: 0
-  objectDefinition2: {fileID: 11400000, guid: 12d81de5d502fc042b12cdd68d211f38, type: 2}
-  gameObjectDefinition2: {fileID: 0}
-  definitionNoCheck2: {fileID: 11400000, guid: 12d81de5d502fc042b12cdd68d211f38, type: 2}
-  objectTypeTest: {fileID: 110416511414605169, guid: aca7326dd49b8da4685e963ad9c93a29,
+  referenceExample: {fileID: 637553569}
+  onlyScene: {fileID: 1645325274}
+  onlyPrefabs: {fileID: 1857474353711054764, guid: 10f6fed06357f154599b92ad315aa121,
     type: 3}
-  testObjects:
-  - {fileID: 1857474353711054764, guid: 10f6fed06357f154599b92ad315aa121, type: 3}
+  onlyAssets: {fileID: 11400000, guid: 12d81de5d502fc042b12cdd68d211f38, type: 2}
 --- !u!1 &1244653753
 GameObject:
   m_ObjectHideFlags: 0
