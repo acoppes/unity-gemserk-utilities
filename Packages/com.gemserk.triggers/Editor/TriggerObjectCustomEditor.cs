@@ -58,7 +58,7 @@ namespace Gemserk.Triggers.Editor
                 {
                     var newActionObject = new GameObject(type.Name);
                     newActionObject.AddComponent(type);
-                    newActionObject.transform.SetParent(parent);
+                    newActionObject.transform.SetParent(parent, false);
                     EditorGUIUtility.PingObject(newActionObject);
                     Selection.activeObject = newActionObject;
                 }
