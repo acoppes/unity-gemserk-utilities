@@ -27,6 +27,16 @@ namespace Gemserk.Leopotam.Ecs.Components
         public event StateChangedHandler onStatesEnterEvent;
         public event StateChangedHandler onStatesExitEvent;
 
+        public bool HasExitState(string stateName)
+        {
+            return statesExited.Contains(stateName);
+        }
+        
+        public bool HasEnterState(string stateName)
+        {
+            return statesEntered.Contains(stateName);
+        }
+
         public bool HasState(string stateName)
         {
             return states.ContainsKey(stateName);
