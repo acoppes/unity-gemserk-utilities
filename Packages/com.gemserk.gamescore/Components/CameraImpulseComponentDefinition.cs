@@ -1,17 +1,28 @@
 ﻿using Gemserk.Leopotam.Ecs;
 using Unity.Cinemachine;
+using UnityEngine;
 
 namespace Game.Components
 {
     public struct CameraImpulseComponent : IEntityComponent
     {
+        public enum DirectionSource
+        {
+            FromImpulseSource = 0,
+            FromLookingDirection = 1,
+            Random = 2
+        }
+        
         public float force;
+        public Vector3 direction;
+        public DirectionSource directionSource;
         public CinemachineImpulseSource impulseSource;
     }
     
     public class CameraImpulseComponentDefinition : ComponentDefinitionBase
     {
         public float force;
+        public CameraImpulseComponent.DirectionSource directionSource = CameraImpulseComponent.DirectionSource.FromImpulseSource;
         public CinemachineImpulseSource impulseSource;
         
         public override string GetComponentName()
