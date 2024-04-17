@@ -102,7 +102,7 @@ namespace Gemserk.Utilities.Editor
                 
                 if (!validType && newObject is GameObject go)
                 {
-                    validType = go.GetComponentInChildren(typeToSelect, true) != null;
+                    validType = go.GetComponentInChildren(typeToSelect, false) != null;
                 }
                 
                 if (validType)
