@@ -10,7 +10,7 @@ namespace Gemserk.Utilities.Editor
     [CustomPropertyDrawer(typeof(ObjectTypeAttribute), true)]
     public class ObjectTypeAttributePropertyDrawer : PropertyDrawer
     {
-        private const float elementHeight = 18f;
+        private const float elementHeight = 20f;
         private List<SelectReferenceWindow.ObjectReference> options = new List<SelectReferenceWindow.ObjectReference>();
 
         private Object lastSelectedObject;
@@ -28,10 +28,10 @@ namespace Gemserk.Utilities.Editor
             
             EditorGUI.BeginChangeCheck();
 
-            var buttonPosition = new Rect(position.x + position.width * 0.25f, position.y, position.width * 0.75f, elementHeight);
-            var labelPosition = new Rect(position.x, position.y, position.width * 0.25f, elementHeight * 2);
+            var labelPosition = new Rect(position.x, position.y, position.width * 0.25f, elementHeight * 1);
           //  var optionsPosition = new Rect(position.x, position.y + elementHeight, position.width, elementHeight);
-            var objectPosition = new Rect(position.x + position.width * 0.25f, position.y + elementHeight * 1, position.width * 0.75f, elementHeight);
+            var objectPosition = new Rect(position.x + position.width * 0.25f, position.y + elementHeight * 0, position.width * 0.6f, elementHeight);
+            var buttonPosition = new Rect(position.x + position.width * 0.85f, position.y, position.width * 0.15f, elementHeight);
 
             if (lastSelectedObject != null)
             {
@@ -93,9 +93,23 @@ namespace Gemserk.Utilities.Editor
                 });
             }
 
-            EditorGUI.BeginDisabledGroup(true);
-            EditorGUI.ObjectField(objectPosition, property, GUIContent.none);
-            EditorGUI.EndDisabledGroup();
+            var previousObject = property.objectReferenceValue;
+            EditorGUI.BeginChangeCheck();
+            var newObject = EditorGUI.ObjectField(objectPosition, GUIContent.none, previousObject, typeof(Object), true);
+            if (EditorGUI.EndChangeCheck())
+            {
+                var validType = typeToSelect.IsInstanceOfType(newObject);
+                
+                if (!validType && newObject is GameObject go)
+                {
+                    validType = go.GetComponentInChildren(typeToSelect, true) != null;
+                }
+                
+                if (validType)
+                {
+                    property.objectReferenceValue = newObject;
+                }
+            }
         }
 
         private void OnReferenceObjectSelected(SelectReferenceWindow.ObjectReference objectReference)
@@ -105,7 +119,7 @@ namespace Gemserk.Utilities.Editor
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return base.GetPropertyHeight(property, label) * 2; 
+            return base.GetPropertyHeight(property, label) * 1; 
         }
     }
 }
