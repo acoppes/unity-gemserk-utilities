@@ -258,7 +258,8 @@ namespace Game.Editor
                         time = frameTime
                     });
                 }
-                
+
+                animationDefinition.duration = animation.keyframes.Count * frameTime;
                 animationsAsset.animations.Add(animationDefinition);
             }
             

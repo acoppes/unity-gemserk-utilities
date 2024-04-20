@@ -25,8 +25,10 @@ namespace Game.Components
         public const float DefaultFrameRate = 15.0f;
         
         public string name;
+        public float duration;
         
         public List<AnimationFrame> frames = new ();
+        
         public int TotalFrames => frames.Count;
     }
 
@@ -92,7 +94,14 @@ namespace Game.Components
         {
             if (currentAnimation != NoAnimation && currentFrame != NoFrame)
             {
-                return (float) currentFrame / (float) animationsAsset.animations[currentAnimation].TotalFrames;
+                var animation = animationsAsset.animations[currentAnimation];
+
+                if (animation.duration > 0)
+                {
+                    return playingTime / animation.duration;
+                }
+                
+                return currentFrame / (float) animation.TotalFrames;
             }
 
             return 0f;

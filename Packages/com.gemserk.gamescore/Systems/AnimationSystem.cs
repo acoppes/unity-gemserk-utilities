@@ -189,9 +189,19 @@ namespace Game.Systems
 
                     if (animationComponent.currentFrame >= currentAnimation.TotalFrames)
                     {
-                        if (animationComponent.loops > 0)
+                        if (animationComponent.loops != 0)
                         {
-                            animationComponent.loops -= 1;
+                            if (animationComponent.loops > 0)
+                                animationComponent.loops -= 1;
+                            
+                            if (currentAnimation.duration > 0)
+                            {
+                                animationComponent.playingTime -= currentAnimation.duration;
+                            }
+                            else
+                            {
+                                animationComponent.playingTime = 0;
+                            }
                         }
 
                         // if (animationComponent.loops == -1)
@@ -203,6 +213,10 @@ namespace Game.Systems
                         {
                             animationComponent.state = AnimationComponent.State.Completed;
                             animationComponent.currentFrame = currentAnimation.TotalFrames - 1;
+                            
+                            if (currentAnimation.duration > 0)
+                                animationComponent.playingTime = currentAnimation.duration;
+                            
                             // animationComponent.OnComplete();
                             break;
                         }
