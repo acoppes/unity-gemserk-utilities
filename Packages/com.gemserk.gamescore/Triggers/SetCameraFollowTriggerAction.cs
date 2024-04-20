@@ -35,7 +35,7 @@ namespace Game.Triggers
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
             var cameraObject = GameObject.Find(cameraName);
-            var virtualCamera = cameraObject.GetComponent<CinemachineVirtualCamera>();
+            var virtualCamera = cameraObject.GetComponent<CinemachineCamera>();
             
             if (actionType == ActionType.Follow)
             {

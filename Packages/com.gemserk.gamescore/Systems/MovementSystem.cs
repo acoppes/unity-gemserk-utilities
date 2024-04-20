@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game.Systems
 {
-    public class HorizontalMovementSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler
+    public class MovementSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler
     {
         readonly EcsFilterInject<Inc<MovementComponent, PositionComponent>, Exc<DisabledComponent>> stationaryFilter = default;
         readonly EcsFilterInject<Inc<MovementComponent, PositionComponent>, Exc<DisabledComponent, PhysicsMovementComponent>> filter = default;
@@ -78,14 +78,37 @@ namespace Game.Systems
                 }
 
                 var newPosition = position.value;
-
-                var d = movement.disableNormalizeDirection ? direction : direction.normalized;
-                var velocity = d * movement.speed * movement.speedMultiplier;
-
-                newPosition += velocity * Time.deltaTime;
+                Vector3 velocity;
                 
-                position.value = newPosition;
+                var d = movement.disableNormalizeDirection ? direction : direction.normalized;
+                
+                if (movement.useAcceleration)
+                {
+                    if (direction.sqrMagnitude > 0.01f)
+                    {
+                        // accelerate
+                        movement.currentSpeed += movement.acceleration * dt;
+                    }
+                    else
+                    {
+                        // deacelerate
+                        movement.currentSpeed -= movement.deceleration * dt;
+                        // in case of deceleration, I use the current direction
+                        d = movement.currentVelocity.normalized;
+                    }
+                    
+                    movement.currentSpeed = Mathf.Clamp(movement.currentSpeed, 0, 
+                        movement.speed);
+                    velocity = d * movement.currentSpeed * movement.speedMultiplier;
+                }
+                else
+                {
+                    movement.currentSpeed = movement.speed;
+                    velocity = d * movement.speed * movement.speedMultiplier;
+                }
 
+                newPosition += velocity * dt;
+                position.value = newPosition;
                 movement.currentVelocity = velocity;
             }
         }

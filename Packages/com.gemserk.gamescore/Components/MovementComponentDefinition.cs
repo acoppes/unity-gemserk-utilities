@@ -42,6 +42,13 @@ namespace Game.Components
         public InitialSpeedType initialSpeedType;
 
         public bool disableNormalizeDirection;
+
+        public bool useAcceleration;
+        
+        // used with acceleration
+        public float currentSpeed;
+        public float acceleration;
+        public float deceleration;
     }
     
     public class MovementComponentDefinition : ComponentDefinitionBase
@@ -52,6 +59,11 @@ namespace Game.Components
         public MovementComponent.InitialSpeedType initialSpeedType = MovementComponent.InitialSpeedType.None;
 
         public bool normalizeDirection = true;
+
+        public bool useAcceleration;
+        
+        public float acceleration = 0;
+        public float deceleration = 0;
         
         public override string GetComponentName()
         {
@@ -66,7 +78,10 @@ namespace Game.Components
                 speedMultiplier = 1.0f,
                 constraints = constraints,
                 initialSpeedType = initialSpeedType,
-                disableNormalizeDirection = !normalizeDirection
+                disableNormalizeDirection = !normalizeDirection,
+                useAcceleration = useAcceleration,
+                acceleration = acceleration,
+                deceleration = deceleration
             });
         }
     }
