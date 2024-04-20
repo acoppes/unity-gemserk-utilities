@@ -88,6 +88,16 @@ namespace Game.Components
         
         public IDictionary<string, int> cachedAnimations;
         
+        public float GetCurrentAnimationFactor()
+        {
+            if (currentAnimation != NoAnimation && currentFrame != NoFrame)
+            {
+                return (float) currentFrame / (float) animationsAsset.animations[currentAnimation].TotalFrames;
+            }
+
+            return 0f;
+        }
+        
         public void Play(int animation, int startFrame, bool loop)
         {
             Play(animation, startFrame, loop ? -1 : 0);
