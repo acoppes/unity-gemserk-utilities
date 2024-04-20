@@ -78,8 +78,7 @@ namespace Game.Systems
                 }
 
                 var newPosition = position.value;
-                Vector3 velocity;
-                
+
                 var d = movement.disableNormalizeDirection ? direction : direction.normalized;
                 
                 if (movement.useAcceleration)
@@ -99,13 +98,13 @@ namespace Game.Systems
                     
                     movement.currentSpeed = Mathf.Clamp(movement.currentSpeed, 0, 
                         movement.speed);
-                    velocity = d * movement.currentSpeed * movement.speedMultiplier;
                 }
                 else
                 {
                     movement.currentSpeed = movement.speed;
-                    velocity = d * movement.speed * movement.speedMultiplier;
                 }
+                
+                var velocity = d * movement.currentSpeed * movement.speedMultiplier;
 
                 newPosition += velocity * dt;
                 position.value = newPosition;
