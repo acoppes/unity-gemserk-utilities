@@ -79,21 +79,20 @@ namespace Game.Systems
                 var position = filter.Pools.Inc2.Get(e);
 
                 if (footsteps.disabled)
-                {
+                { 
+                    if (footsteps.walkingParticleSystem != null)
+                    {
+                        if (footsteps.walkingParticleSystem.isPlaying )
+                        {
+                            footsteps.walkingParticleSystem.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                        }
+                    }
+                    
                     continue;
                 }
                 
                 if (footsteps.walkingParticleSystem != null)
                 {
-                    if (!footsteps.walkingParticleSystem.isPlaying && footsteps.isWalking)
-                    {
-                        footsteps.walkingParticleSystem.Play(true);
-                    }
-                    else if (footsteps.walkingParticleSystem.isPlaying && !footsteps.isWalking)
-                    {
-                        footsteps.walkingParticleSystem.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                    }
-
                     if (position.type == 0)
                     {
                         footsteps.walkingParticleSystem.transform.position =
@@ -102,6 +101,17 @@ namespace Game.Systems
                     {
                         footsteps.walkingParticleSystem.transform.position = position.value;
                     }
+                    
+                    if (!footsteps.walkingParticleSystem.isPlaying && footsteps.isWalking)
+                    {
+                        footsteps.walkingParticleSystem.Play(true);
+                    }
+                    else if (footsteps.walkingParticleSystem.isPlaying && !footsteps.isWalking)
+                    {
+                        footsteps.walkingParticleSystem.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                    }
+                    
+
                 }
 
                 var positionXZ = position.value.XZ();
