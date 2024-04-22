@@ -9,11 +9,11 @@ namespace Game.Systems
     {
         public void Run(EcsSystems systems)
         {
-            var animations = world.GetComponents<AnimationComponent>();
+            var animations = world.GetComponents<AnimationsComponent>();
             var currentFrames = world.GetComponents<CurrentAnimationAttackComponent>();
             var hitBoxes = world.GetComponents<HitBoxComponent>();
             
-            foreach (var entity in world.GetFilter<AnimationComponent>()
+            foreach (var entity in world.GetFilter<AnimationsComponent>()
                          .Inc<CurrentAnimationAttackComponent>().Inc<HitBoxComponent>().End())
             {
                 var animationComponent = animations.Get(entity);
@@ -22,7 +22,7 @@ namespace Game.Systems
                 
                 currentAnimationFrameComponent.currentFrameHit = false;
 
-                if (animationComponent.currentAnimation == AnimationComponent.NoAnimation)
+                if (animationComponent.currentAnimation == AnimationsComponent.NoAnimation)
                 {
                     continue;
                 }

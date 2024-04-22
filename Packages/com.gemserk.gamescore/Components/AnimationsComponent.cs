@@ -48,7 +48,72 @@ namespace Game.Components
         public bool loop;
     }
 
-    public struct AnimationComponent : IEntityComponent
+    public struct AnimationCommand
+    {
+        public enum Command
+        {
+            None = 0,
+            Play = 1
+        }
+    
+        public Command command;
+        public string name;
+        public int frame;
+        public int loops;
+    }
+
+    public struct AnimationDirectionsComponent : IEntityComponent
+    {
+        public AnimationsAsset animationsAsset;
+        
+        // cached anims
+        // Dictionary<string, Animations[]> cachedDirections;
+
+        public enum DirectionSource
+        {
+            LookingDirection = 0
+        }
+
+        public DirectionSource directionSource;
+        
+        public Vector2 direction;
+        
+        // public int currentDirection;
+        public string currentAnimation;
+
+        // public int loops;
+        public AnimationCommand pendingCommand;
+
+        // allow changing animation during play
+        // public bool updatesDirectionDuringPlay;
+        
+        public void Play(string animation, int loops = -1) // updatesDuringPlay = false)
+        {
+            Play(animation, 0, loops);
+        }
+        
+        public void Play(string animation, int frame, int loops) // updatesDuringPlay = false)
+        {
+            currentAnimation = animation;
+            
+            // stores animation to be played
+            pendingCommand = new AnimationCommand()
+            {
+                command = AnimationCommand.Command.Play,
+                loops = loops,
+                name = animation,
+                frame = frame
+            };
+        }
+
+        public bool IsPlaying(string animation)
+        {
+            // calculates direction, delegates to animation component?
+            return animation.Equals(currentAnimation, StringComparison.OrdinalIgnoreCase);
+        }
+    }
+
+    public struct AnimationsComponent : IEntityComponent
     {
         public const int NoAnimation = -1;
         public const int NoFrame = -1;
@@ -89,6 +154,8 @@ namespace Game.Components
         // public bool onStartEventPending;
         
         public IDictionary<string, int> cachedAnimations;
+
+        // public AnimationCommand pendingCommand;
         
         public float GetCurrentAnimationFactor()
         {
@@ -135,6 +202,14 @@ namespace Game.Components
             var animationIndex = cachedAnimations[animation];
             // Assert.IsTrue(animationIndex >= 0, $"Couldn't find {animation}");
             Play(animationIndex, loops);
+
+            // pendingCommand = new AnimationCommand
+            // {
+            //     command = AnimationCommand.Command.Play,
+            //     name = animation,
+            //     loops = loops,
+            //     frame = 0
+            // };
         }
 
         public bool IsPlaying(string animationName)

@@ -156,7 +156,7 @@ namespace Game.Definitions
                 }
             }
             
-            if (startingAnimationType != StartingAnimationComponent.StartingAnimationType.None && world.HasComponent<AnimationComponent>(entity))
+            if (startingAnimationType != StartingAnimationComponent.StartingAnimationType.None && world.HasComponent<AnimationsComponent>(entity))
             {
                 if (!entity.Has<StartingAnimationComponent>())
                 {

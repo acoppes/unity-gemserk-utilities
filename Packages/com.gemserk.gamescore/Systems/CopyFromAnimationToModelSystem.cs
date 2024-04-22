@@ -7,7 +7,7 @@ namespace Game.Systems
 {
     public class CopyFromAnimationToModelSystem : BaseSystem, IEcsRunSystem
     {
-        readonly EcsFilterInject<Inc<AnimationComponent, ModelComponent>, Exc<DisabledComponent>> filter = default;
+        readonly EcsFilterInject<Inc<AnimationsComponent, ModelComponent>, Exc<DisabledComponent>> filter = default;
         
         public void Run(EcsSystems systems)
         {
@@ -15,7 +15,7 @@ namespace Game.Systems
             {
                 var animationComponent = filter.Pools.Inc1.Get(entity);
 
-                if (animationComponent.currentAnimation == AnimationComponent.NoAnimation)
+                if (animationComponent.currentAnimation == AnimationsComponent.NoAnimation)
                 {
                     continue;
                 }

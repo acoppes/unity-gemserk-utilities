@@ -13,7 +13,7 @@ namespace Game.Editor.Tests
         [Test]
         public void Test_TotalAnimationTime_IgnorePause()
         {
-            var animationComponent = new AnimationComponent();
+            var animationComponent = new AnimationsComponent();
             animationComponent.speed = 1;
             
             animationComponent.animationsAsset = ScriptableObject.CreateInstance<AnimationsAsset>();

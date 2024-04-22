@@ -36,7 +36,7 @@ namespace Game.Controllers
                 return;
             }
 
-            ref var animations = ref entity.Get<AnimationComponent>();
+            ref var animations = ref entity.Get<AnimationsComponent>();
             ref var input = ref entity.Get<InputComponent>();
             
             var walkAnimation = 

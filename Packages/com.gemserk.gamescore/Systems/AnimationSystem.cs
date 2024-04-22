@@ -12,8 +12,8 @@ namespace Game.Systems
 {
     public class AnimationSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler, IEntityDestroyedHandler, IEcsDestroySystem
     {
-        readonly EcsFilterInject<Inc<AnimationComponent, StartingAnimationComponent>, Exc<DisabledComponent>> startingAnimationFilter = default;
-        readonly EcsFilterInject<Inc<AnimationComponent>, Exc<DisabledComponent>> animationFilter = default;
+        readonly EcsFilterInject<Inc<AnimationsComponent, StartingAnimationComponent>, Exc<DisabledComponent>> startingAnimationFilter = default;
+        readonly EcsFilterInject<Inc<AnimationsComponent>, Exc<DisabledComponent>> animationFilter = default;
 
         private IDictionary<AnimationsAsset, IDictionary<string, int>> cachedAnimationsPerAsset = 
             new Dictionary<AnimationsAsset, IDictionary<string, int>>();
@@ -25,9 +25,9 @@ namespace Game.Systems
         
         public void OnEntityCreated(World world, Entity entity)
         {
-            if (world.HasComponent<AnimationComponent>(entity))
+            if (world.HasComponent<AnimationsComponent>(entity))
             {
-                ref var animations = ref world.GetComponent<AnimationComponent>(entity);
+                ref var animations = ref world.GetComponent<AnimationsComponent>(entity);
                 var asset = animations.animationsAsset;
                 if (asset != null)
                 {
@@ -49,15 +49,15 @@ namespace Game.Systems
         
         public void OnEntityDestroyed(World world, Entity entity)
         {
-            if (world.HasComponent<AnimationComponent>(entity))
+            if (world.HasComponent<AnimationsComponent>(entity))
             {
-                ref var animations = ref world.GetComponent<AnimationComponent>(entity);
+                ref var animations = ref world.GetComponent<AnimationsComponent>(entity);
                 animations.cachedAnimations = null;
                 animations.animationsAsset = null;
             }
         }
 
-        public static void ProcessStartAnimation(ref AnimationComponent animations, StartingAnimationComponent startingAnimationComponent)
+        public static void ProcessStartAnimation(ref AnimationsComponent animations, StartingAnimationComponent startingAnimationComponent)
         {
             var animation = 0;
                 
@@ -132,27 +132,27 @@ namespace Game.Systems
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void UpdateAnimation(ref AnimationComponent animationComponent, float dt)
+        public static void UpdateAnimation(ref AnimationsComponent animations, float dt)
         {
-            if (animationComponent.paused)
+            if (animations.paused)
             {
                 return;
             }
             
-            var animationDt = dt * animationComponent.speed;
+            var animationDt = dt * animations.speed;
             
-            if (animationComponent.state == AnimationComponent.State.Playing)
+            if (animations.state == AnimationsComponent.State.Playing)
             {
-                animationComponent.totalPlayingTime += animationDt;
+                animations.totalPlayingTime += animationDt;
             }
 
-            if (animationComponent.pauseTime > 0)
+            if (animations.pauseTime > 0)
             {
-                animationComponent.pauseTime -= animationDt;
+                animations.pauseTime -= animationDt;
                 return;
             }
 
-            if (animationComponent.state == AnimationComponent.State.Playing)
+            if (animations.state == AnimationsComponent.State.Playing)
             {
                 // if (animationComponent.onStartEventPending)
                 // {
@@ -160,20 +160,20 @@ namespace Game.Systems
                 //     animationComponent.onStartEventPending = false;
                 // }
 
-                var currentAnimation = animationComponent.animationsAsset.animations[animationComponent.currentAnimation];
+                var currentAnimation = animations.animationsAsset.animations[animations.currentAnimation];
 
-                animationComponent.currentTime += animationDt;
-                animationComponent.playingTime += animationDt;
+                animations.currentTime += animationDt;
+                animations.playingTime += animationDt;
 
-                var currentFrame = currentAnimation.frames[animationComponent.currentFrame];
+                var currentFrame = currentAnimation.frames[animations.currentFrame];
                 
                 // #if UNITY_EDITOR
                 // Assert.AreNotApproximatelyEqual(currentFrame.time, 0.0f, "Invalid frame duration");
                 // #endif
                 
-                while (animationComponent.currentTime >= currentFrame.time)
+                while (animations.currentTime >= currentFrame.time)
                 {
-                    currentFrame = currentAnimation.frames[animationComponent.currentFrame];
+                    currentFrame = currentAnimation.frames[animations.currentFrame];
                     
                     // #if UNITY_EDITOR
                     // Assert.AreNotApproximatelyEqual(currentFrame.time, 0.0f, "Invalid frame duration");
@@ -184,23 +184,23 @@ namespace Game.Systems
                     //     animationComponent.OnEvent();
                     // }
 
-                    animationComponent.currentTime -= currentFrame.time;
-                    animationComponent.currentFrame++;
+                    animations.currentTime -= currentFrame.time;
+                    animations.currentFrame++;
 
-                    if (animationComponent.currentFrame >= currentAnimation.TotalFrames)
+                    if (animations.currentFrame >= currentAnimation.TotalFrames)
                     {
-                        if (animationComponent.loops != 0)
+                        if (animations.loops != 0)
                         {
-                            if (animationComponent.loops > 0)
-                                animationComponent.loops -= 1;
+                            if (animations.loops > 0)
+                                animations.loops -= 1;
                             
                             if (currentAnimation.duration > 0)
                             {
-                                animationComponent.playingTime -= currentAnimation.duration;
+                                animations.playingTime -= currentAnimation.duration;
                             }
                             else
                             {
-                                animationComponent.playingTime = 0;
+                                animations.playingTime = 0;
                             }
                         }
 
@@ -209,19 +209,19 @@ namespace Game.Systems
                         //     animationComponent.OnCompletedLoop();
                         // }
 
-                        if (animationComponent.loops == 0)
+                        if (animations.loops == 0)
                         {
-                            animationComponent.state = AnimationComponent.State.Completed;
-                            animationComponent.currentFrame = currentAnimation.TotalFrames - 1;
+                            animations.state = AnimationsComponent.State.Completed;
+                            animations.currentFrame = currentAnimation.TotalFrames - 1;
                             
                             if (currentAnimation.duration > 0)
-                                animationComponent.playingTime = currentAnimation.duration;
+                                animations.playingTime = currentAnimation.duration;
                             
                             // animationComponent.OnComplete();
                             break;
                         }
 
-                        animationComponent.currentFrame = 0;
+                        animations.currentFrame = 0;
                     }
                 }
             }

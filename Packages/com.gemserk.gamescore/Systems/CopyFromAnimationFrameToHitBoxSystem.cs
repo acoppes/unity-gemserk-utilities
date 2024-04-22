@@ -9,19 +9,19 @@ namespace Game.Systems
     {
         public void Run(EcsSystems systems)
         {
-            var animations = world.GetComponents<AnimationComponent>();
+            var animations = world.GetComponents<AnimationsComponent>();
             var hitBoxes = world.GetComponents<HitBoxComponent>();
             var positions = world.GetComponents<PositionComponent>();
             var lookingDirections = world.GetComponents<LookingDirection>();
 
-            foreach (var entity in world.GetFilter<AnimationComponent>()
+            foreach (var entity in world.GetFilter<AnimationsComponent>()
                          .Inc<HitBoxComponent>()
                          .Inc<PositionComponent>()
                          .Inc<LookingDirection>().End())
             {
                 var animationComponent = animations.Get(entity);
 
-                if (animationComponent.currentAnimation == AnimationComponent.NoAnimation)
+                if (animationComponent.currentAnimation == AnimationsComponent.NoAnimation)
                 {
                     continue;
                 }

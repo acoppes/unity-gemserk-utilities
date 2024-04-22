@@ -8,8 +8,8 @@ namespace Game.Systems
 {
     public class VisualEffectsSystem : BaseSystem, IEcsRunSystem
     {
-        readonly EcsFilterInject<Inc<VfxComponent, AnimationComponent>, Exc<DisabledComponent>> animationFilter = default;
-        readonly EcsFilterInject<Inc<VfxComponent, AnimationComponent, DestroyableComponent>, Exc<DisabledComponent>> destroyableFilter = default;
+        readonly EcsFilterInject<Inc<VfxComponent, AnimationsComponent>, Exc<DisabledComponent>> animationFilter = default;
+        readonly EcsFilterInject<Inc<VfxComponent, AnimationsComponent, DestroyableComponent>, Exc<DisabledComponent>> destroyableFilter = default;
         
         public void Run(EcsSystems systems)
         {
@@ -31,7 +31,7 @@ namespace Game.Systems
                 var animationComponent = destroyableFilter.Pools.Inc2.Get(e);
                 ref var destroyableComponent = ref destroyableFilter.Pools.Inc3.Get(e);
 
-                if (animationComponent.state == AnimationComponent.State.Completed)
+                if (animationComponent.state == AnimationsComponent.State.Completed)
                 {
                     destroyableComponent.destroy = true;
                 }
