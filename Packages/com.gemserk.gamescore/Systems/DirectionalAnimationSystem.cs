@@ -3,6 +3,8 @@ using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using MyBox;
+using UnityEngine;
 
 namespace Game.Systems
 {
@@ -48,25 +50,27 @@ namespace Game.Systems
                 animationName = startingAnimationComponent.name;
             } else if (startingAnimationComponent.startingAnimationType == StartingAnimationComponent.StartingAnimationType.Random)
             {
-                throw new NotImplementedException();
-                
-                // ideally use cached animations (no directions yet) from directions component.
+                var random = animationsDirections.metadata.animations.GetRandom();
+                animationName = random.Key;
             }
 
             var startingFrame = 0;
-                
-           // var animationDefinition = animations.animationsAsset.animations[animation];
 
-            // if (startingAnimationComponent.randomizeStartFrame)
-            // {
-            //     startingFrame = UnityEngine.Random.Range(0, animationDefinition.TotalFrames);
-            // }
-            // else
-            // {
-            //     startingFrame = Mathf.FloorToInt(startingAnimationComponent.alpha * animationDefinition.TotalFrames);
-            // }
+            animationsDirections.metadata.GetDirectionalAnimation(animationName, animationsDirections.direction, 
+                out animationsDirections.currentDirectionalAnimation, out animationsDirections.currentDirectionIndex);
 
-            animationsDirections.Play(animationName, startingFrame, startingAnimationComponent.loop ? -1 : 1);
+            var animationDefinition =
+                animationsDirections.animationsAsset.GetAnimationByName(
+                    animationsDirections.currentDirectionalAnimation);
+
+            if (startingAnimationComponent.randomizeStartFrame)
+            {
+                startingFrame = UnityEngine.Random.Range(0, animationDefinition.TotalFrames);
+            }
+            else
+            {
+                startingFrame = Mathf.FloorToInt(startingAnimationComponent.alpha * animationDefinition.TotalFrames);
+            }
                 
             // if (startingAnimationComponent.randomizeStartFrame)
             // {
@@ -75,6 +79,8 @@ namespace Game.Systems
             //         UnityEngine.Random.Range(0, animationDefinition.frames[startingFrame].time);
             //     animations.playingTime = animations.currentTime;
             // }
+            
+            animationsDirections.Play(animationName, startingFrame, startingAnimationComponent.loop ? -1 : 1);
         }
         
         public void Run(EcsSystems systems)

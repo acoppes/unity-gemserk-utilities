@@ -38,9 +38,14 @@ namespace Game.Definitions
             return -1;
         }
         
+        public AnimationDefinition GetAnimationByName(string animationName)
+        {
+            return animations.FirstOrDefault(a => a.name.Equals(animationName, StringComparison.OrdinalIgnoreCase));
+        }
+        
         public bool HasAnimation(string animationName)
         {
-            return animations.Any(a => a.name.Equals(animationName, StringComparison.OrdinalIgnoreCase));
+            return GetAnimationByName(animationName) != null;
         }
     }
 }

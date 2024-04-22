@@ -13,11 +13,12 @@ namespace Game
         {
             var metadata = new AnimationsDirectionsMetadata();
 
-            foreach (var animationDefinition in asset.animations)
+            for (var i = 0; i < asset.animations.Count; i++)
             {
+                var animationDefinition = asset.animations[i];
                 var animationNameParts = animationDefinition.name.Split("-");
                 var animationName = animationNameParts[0];
-                
+
                 if (!metadata.animations.ContainsKey(animationName))
                 {
                     metadata.animations[animationName] = new AnimationDirectionMetadata();
@@ -26,11 +27,14 @@ namespace Game
                 if (animationNameParts.Length == 1)
                 {
                     metadata.animations[animationName].animationNames.Add($"{animationName}");
+                    metadata.animations[animationName].animationIndexes.Add(i);
                     metadata.animations[animationName].directions = 1;
                 }
                 else
                 {
-                    metadata.animations[animationName].animationNames.Add($"{animationName}-{metadata.animations[animationName].directions}");
+                    metadata.animations[animationName].animationNames
+                        .Add($"{animationName}-{metadata.animations[animationName].directions}");
+                    metadata.animations[animationName].animationIndexes.Add(i);
                     metadata.animations[animationName].directions++;
                 }
             }

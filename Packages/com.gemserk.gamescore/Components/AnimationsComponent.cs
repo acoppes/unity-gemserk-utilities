@@ -66,6 +66,7 @@ namespace Game.Components
     {
         public int directions;
         public List<string> animationNames = new List<string>();
+        public List<int> animationIndexes = new List<int>();
     }
     
     public class AnimationsDirectionsMetadata
