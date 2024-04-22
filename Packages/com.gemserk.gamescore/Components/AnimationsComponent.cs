@@ -62,6 +62,7 @@ namespace Game.Components
         public int loops;
     }
 
+    [Serializable]
     public struct DirectionalAnimationData
     {
         public int animationIndex;
@@ -79,7 +80,7 @@ namespace Game.Components
     {
         public Dictionary<string, AnimationDirectionMetadata> animations = new Dictionary<string, AnimationDirectionMetadata>();
 
-        public void GetDirectionalAnimation(string animationName, Vector2 direction, out string animationDirectionName, out int animationDirection)
+        public DirectionalAnimationData GetDirectionalAnimation(string animationName, Vector2 direction)
         {
             if (direction.x < 0)
             {
@@ -87,36 +88,29 @@ namespace Game.Components
             }
             
             var angle = Vector2.SignedAngle(Vector2.right, direction);
-            GetDirectionalAnimation(animationName, angle, out animationDirectionName, out animationDirection);
+            return GetDirectionalAnimation(animationName, angle);
         }
         
-        public void GetDirectionalAnimation(string animationName, float angle, out string animationDirectionName, out int animationDirection)
+        public DirectionalAnimationData GetDirectionalAnimation(string animationName, float angle)
         {
             var directions = animations[animationName].directions;
             
-            if (directions > 0)
-            {
-                var anglePerDirection = 180 / directions;
-                var currentAngle = -90;
-                var nextAngle = currentAngle + anglePerDirection;
+            var anglePerDirection = 180 / directions;
+            var currentAngle = -90;
+            var nextAngle = currentAngle + anglePerDirection;
                 
-                for (var i = 0; i < directions; i++)
+            for (var i = 0; i < directions; i++)
+            {
+                if (angle >= currentAngle && angle <= nextAngle)
                 {
-                    if (angle >= currentAngle && angle <= nextAngle)
-                    {
-                        animationDirectionName = animations[animationName].directionsList[i].animationName;
-                        animationDirection = animations[animationName].directionsList[i].direction;
-                        return;
-                        // return $"{animationName}-{i}";
-                    }
-
-                    currentAngle += anglePerDirection;
-                    nextAngle += anglePerDirection;
+                    return animations[animationName].directionsList[i];
                 }
+
+                currentAngle += anglePerDirection;
+                nextAngle += anglePerDirection;
             }
 
-            animationDirectionName = animationName;
-            animationDirection = 0;
+            return animations[animationName].directionsList[0];
         }
     }
 
@@ -142,8 +136,7 @@ namespace Game.Components
         public string currentAnimation;
 
         // READONLY
-        public int currentDirectionIndex;
-        public string currentDirectionalAnimation;
+        public DirectionalAnimationData directionalAnimation;
 
         // public int loops;
         public AnimationCommand pendingCommand;

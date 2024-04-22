@@ -56,12 +56,11 @@ namespace Game.Systems
 
             var startingFrame = 0;
 
-            animationsDirections.metadata.GetDirectionalAnimation(animationName, animationsDirections.direction, 
-                out animationsDirections.currentDirectionalAnimation, out animationsDirections.currentDirectionIndex);
+            animationsDirections.directionalAnimation =  animationsDirections.metadata.GetDirectionalAnimation(animationName, animationsDirections.direction);
 
             var animationDefinition =
-                animationsDirections.animationsAsset.GetAnimationByName(
-                    animationsDirections.currentDirectionalAnimation);
+                animationsDirections.animationsAsset.animations[
+                    animationsDirections.directionalAnimation.animationIndex];
 
             if (startingAnimationComponent.randomizeStartFrame)
             {
@@ -119,12 +118,10 @@ namespace Game.Systems
                 
                 if (command.command == AnimationCommand.Command.Play)
                 {
-                    animationDirections.metadata.GetDirectionalAnimation(command.name,
-                        animationDirections.direction, out animationDirections.currentDirectionalAnimation, out animationDirections.currentDirectionIndex);
+                    animationDirections.directionalAnimation = animationDirections.metadata.GetDirectionalAnimation(command.name,
+                        animationDirections.direction);
                     
-                    var animationIndex = animationDirections.animationsAsset.GetAnimationIndexByName(animationDirections.currentDirectionalAnimation);
-                    
-                    animations.Play(animationIndex, command.frame, command.loops);
+                    animations.Play(animationDirections.directionalAnimation.animationIndex, command.frame, command.loops);
                     
                     animationDirections.pendingCommand = new AnimationCommand()
                     {
@@ -133,14 +130,13 @@ namespace Game.Systems
                 }
                 else
                 {
-                    animationDirections.metadata.GetDirectionalAnimation(animationDirections.currentAnimation,
-                        animationDirections.direction, out animationDirections.currentDirectionalAnimation, out animationDirections.currentDirectionIndex);
+                    animationDirections.directionalAnimation = animationDirections.metadata.GetDirectionalAnimation(animationDirections.currentAnimation,
+                        animationDirections.direction);
 
-                    if (!animations.IsPlaying(animationDirections.currentDirectionalAnimation))
+                    if (!animations.IsPlaying(animationDirections.directionalAnimation.animationIndex))
                     {
                         // NOTE: I just change the anim without restarting it, I assume it has the same frames count and/or durations.
-                        var animationIndex = animationDirections.animationsAsset.GetAnimationIndexByName(animationDirections.currentDirectionalAnimation);
-                        animations.currentAnimation = animationIndex;
+                        animations.currentAnimation = animationDirections.directionalAnimation.animationIndex;
                     }
                 }
             }

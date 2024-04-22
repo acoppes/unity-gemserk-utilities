@@ -88,6 +88,10 @@ namespace Game.Editor.Tests
             var animationAsset = ScriptableObject.CreateInstance<AnimationsAsset>();
             animationAsset.animations.Add(new AnimationDefinition()
             {
+                name = "Idle"
+            });
+            animationAsset.animations.Add(new AnimationDefinition()
+            {
                 name = "Walk-0"
             });
             animationAsset.animations.Add(new AnimationDefinition()
@@ -98,10 +102,7 @@ namespace Game.Editor.Tests
             {
                 name = "Walk-2"
             });
-            animationAsset.animations.Add(new AnimationDefinition()
-            {
-                name = "Idle"
-            });
+         
 
             var directionsData = animationAsset.GetDirectionsData();
             
@@ -113,16 +114,16 @@ namespace Game.Editor.Tests
             
             Assert.AreEqual("Walk-0", directionsData.animations["Walk"].directionsList[0].animationName);
 
-            string directionName;
-            var directionIndex = -1;
-
-            directionsData.GetDirectionalAnimation("Walk", new Vector2(1, 0), out directionName, out directionIndex);
-            Assert.AreEqual("Walk-1", directionName);
-            Assert.AreEqual(1, directionIndex);
+            var directionalAnimation = directionsData.GetDirectionalAnimation("Walk", new Vector2(1, 0));
             
-            directionsData.GetDirectionalAnimation("Idle", new Vector2(1, 0), out directionName, out directionIndex);
-            Assert.AreEqual("Idle", directionName);
-            Assert.AreEqual(0, directionIndex);
+            Assert.AreEqual("Walk-1", directionalAnimation.animationName);
+            Assert.AreEqual(1, directionalAnimation.direction);
+            Assert.AreEqual(2, directionalAnimation.animationIndex);
+            
+            directionalAnimation =directionsData.GetDirectionalAnimation("Idle", new Vector2(1, 0));
+            Assert.AreEqual("Idle", directionalAnimation.animationName);
+            Assert.AreEqual(0, directionalAnimation.direction);
+            Assert.AreEqual(0, directionalAnimation.animationIndex);
         }
 
     }

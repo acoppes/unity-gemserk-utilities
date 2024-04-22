@@ -167,4 +167,15 @@ namespace Game.Editor
             }
         }
     }
+    
+    sealed class DirectionalAnimationDataInspector : EcsComponentInspectorTyped<DirectionalAnimationData> {
+        public override bool OnGuiTyped (string label, ref DirectionalAnimationData value, EcsEntityDebugView entityView) {
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.LabelField("AnimationName", value.animationName);
+            EditorGUILayout.IntField("Index", value.animationIndex);
+            EditorGUILayout.IntField("Direction", value.direction);
+            EditorGUI.EndDisabledGroup();
+            return false;
+        }
+    }
 }
