@@ -111,7 +111,7 @@ namespace Game.Editor.Tests
             Assert.AreEqual(3, directionsData.animations["Walk"].directions);
             Assert.AreEqual(1, directionsData.animations["Idle"].directions);
             
-            Assert.AreEqual("Walk-0", directionsData.animations["Walk"].animationNames[0]);
+            Assert.AreEqual("Walk-0", directionsData.animations["Walk"].directionsList[0].animationName);
 
             string directionName;
             var directionIndex = -1;

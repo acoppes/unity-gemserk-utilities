@@ -26,16 +26,23 @@ namespace Game
 
                 if (animationNameParts.Length == 1)
                 {
-                    metadata.animations[animationName].animationNames.Add($"{animationName}");
-                    metadata.animations[animationName].animationIndexes.Add(i);
-                    metadata.animations[animationName].directions = 1;
+                    metadata.animations[animationName].directionsList.Add(new DirectionalAnimationData()
+                    {
+                        animationName = animationName,
+                        animationIndex = i,
+                        direction = 0
+                    });
                 }
                 else
                 {
-                    metadata.animations[animationName].animationNames
-                        .Add($"{animationName}-{metadata.animations[animationName].directions}");
-                    metadata.animations[animationName].animationIndexes.Add(i);
-                    metadata.animations[animationName].directions++;
+                    var currentDirections = metadata.animations[animationName].directions;
+                    
+                    metadata.animations[animationName].directionsList.Add(new DirectionalAnimationData()
+                    {
+                        animationName = $"{animationName}-{metadata.animations[animationName].directions}",
+                        animationIndex = i,
+                        direction = currentDirections
+                    });
                 }
             }
 

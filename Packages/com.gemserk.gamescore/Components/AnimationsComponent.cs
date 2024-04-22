@@ -62,11 +62,17 @@ namespace Game.Components
         public int loops;
     }
 
+    public struct DirectionalAnimationData
+    {
+        public int animationIndex;
+        public int direction;
+        public string animationName;
+    }
+
     public class AnimationDirectionMetadata
     {
-        public int directions;
-        public List<string> animationNames = new List<string>();
-        public List<int> animationIndexes = new List<int>();
+        public int directions => directionsList.Count;
+        public List<DirectionalAnimationData> directionsList = new List<DirectionalAnimationData>();
     }
     
     public class AnimationsDirectionsMetadata
@@ -98,8 +104,8 @@ namespace Game.Components
                 {
                     if (angle >= currentAngle && angle <= nextAngle)
                     {
-                        animationDirectionName = animations[animationName].animationNames[i];
-                        animationDirection = i;
+                        animationDirectionName = animations[animationName].directionsList[i].animationName;
+                        animationDirection = animations[animationName].directionsList[i].direction;
                         return;
                         // return $"{animationName}-{i}";
                     }
