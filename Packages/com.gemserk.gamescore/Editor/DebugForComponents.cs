@@ -178,4 +178,15 @@ namespace Game.Editor
             return false;
         }
     }
+    
+    sealed class AnimationDefinitionInspector : EcsComponentInspectorTyped<AnimationDefinition> {
+        public override bool OnGuiTyped (string label, ref AnimationDefinition value, EcsEntityDebugView entityView) {
+            EditorGUI.BeginDisabledGroup(true);
+            EditorGUILayout.LabelField("Name", value.name);
+            EditorGUILayout.IntField("Frames", value.TotalFrames);
+            EditorGUILayout.FloatField("Duration", value.duration);
+            EditorGUI.EndDisabledGroup();
+            return false;
+        }
+    }
 }

@@ -120,8 +120,8 @@ namespace Game.Components
 
         public AnimationsDirectionsMetadata metadata;
         
-        // cached anims
-        // Dictionary<string, Animations[]> cachedDirections;
+        // Idle -> [Idle, 0]
+        // Walk -> [Walk-0, 0], [Walk-1, 1]
 
         public enum DirectionSource
         {
@@ -188,6 +188,8 @@ namespace Game.Components
         public SpritesMetadata metadata;
 
         public int currentAnimation;
+        public AnimationDefinition currentAnimationDefinition;
+        
         public int currentFrame;
         public float currentTime;
         public int loops;
@@ -201,6 +203,8 @@ namespace Game.Components
 
         public float pauseTime;
 
+        // public AnimationCommand pendingCommand;
+        
         public bool isCompleted => state == State.Completed;
 
         // public event OnAnimatorEventHandler onStart;

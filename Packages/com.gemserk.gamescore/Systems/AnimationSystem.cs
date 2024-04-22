@@ -162,6 +162,8 @@ namespace Game.Systems
 
                 var currentAnimation = animations.animationsAsset.animations[animations.currentAnimation];
 
+                animations.currentAnimationDefinition = currentAnimation;
+
                 animations.currentTime += animationDt;
                 animations.playingTime += animationDt;
 
