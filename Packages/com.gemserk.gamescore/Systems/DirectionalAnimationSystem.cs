@@ -18,8 +18,7 @@ namespace Game.Systems
             {
                 // var animations = world.GetComponent<AnimationsComponent>(entity);
                 ref var animationDirections = ref world.GetComponent<AnimationDirectionsComponent>(entity);
-
-                // CACHE ANIMATIONS PER DIRECTION
+                animationDirections.metadata = animationDirections.animationsAsset.GetDirectionsData();
 
                 if (world.HasComponent<StartingAnimationComponent>(entity))
                 {
@@ -114,12 +113,10 @@ namespace Game.Systems
                 
                 if (command.command == AnimationCommand.Command.Play)
                 {
-                    // process here
-                    // get directional animation
-                    // TODO: CACHE DIRECTIONS TOO
-                    var animationName = animationDirections.animationsAsset.GetDirectionalAnimation(command.name,
-                        animationDirections.direction);
-                    var animationIndex = animationDirections.animationsAsset.GetAnimationIndexByName(animationName);
+                    animationDirections.metadata.GetDirectionalAnimation(command.name,
+                        animationDirections.direction, out animationDirections.currentDirectionalAnimation, out animationDirections.currentDirectionIndex);
+                    
+                    var animationIndex = animationDirections.animationsAsset.GetAnimationIndexByName(animationDirections.currentDirectionalAnimation);
                     
                     animations.Play(animationIndex, command.frame, command.loops);
                     
@@ -130,18 +127,17 @@ namespace Game.Systems
                 }
                 else
                 {
-                    var animationName = animationDirections.animationsAsset.GetDirectionalAnimation(animationDirections.currentAnimation,
-                        animationDirections.direction);
+                    animationDirections.metadata.GetDirectionalAnimation(animationDirections.currentAnimation,
+                        animationDirections.direction, out animationDirections.currentDirectionalAnimation, out animationDirections.currentDirectionIndex);
 
-                    if (!animations.IsPlaying(animationName))
+                    if (!animations.IsPlaying(animationDirections.currentDirectionalAnimation))
                     {
-                        var animationIndex = animationDirections.animationsAsset.GetAnimationIndexByName(animationName);
+                        // NOTE: I just change the anim without restarting it, I assume it has the same frames count and/or durations.
+                        var animationIndex = animationDirections.animationsAsset.GetAnimationIndexByName(animationDirections.currentDirectionalAnimation);
                         animations.currentAnimation = animationIndex;
                     }
                 }
             }
-            
-            // if pending animation change, then get animation real name, call animation play in the other component
         }
     }
 }

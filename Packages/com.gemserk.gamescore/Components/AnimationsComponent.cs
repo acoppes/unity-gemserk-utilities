@@ -62,9 +62,62 @@ namespace Game.Components
         public int loops;
     }
 
+    public class AnimationDirectionMetadata
+    {
+        public int directions;
+        public List<string> animationNames = new List<string>();
+    }
+    
+    public class AnimationsDirectionsMetadata
+    {
+        public Dictionary<string, AnimationDirectionMetadata> animations = new Dictionary<string, AnimationDirectionMetadata>();
+
+        public void GetDirectionalAnimation(string animationName, Vector2 direction, out string animationDirectionName, out int animationDirection)
+        {
+            if (direction.x < 0)
+            {
+                direction.x *= -1;
+            }
+            
+            var angle = Vector2.SignedAngle(Vector2.right, direction);
+            GetDirectionalAnimation(animationName, angle, out animationDirectionName, out animationDirection);
+        }
+        
+        public void GetDirectionalAnimation(string animationName, float angle, out string animationDirectionName, out int animationDirection)
+        {
+            var directions = animations[animationName].directions;
+            
+            if (directions > 0)
+            {
+                var anglePerDirection = 180 / directions;
+                var currentAngle = -90;
+                var nextAngle = currentAngle + anglePerDirection;
+                
+                for (var i = 0; i < directions; i++)
+                {
+                    if (angle >= currentAngle && angle <= nextAngle)
+                    {
+                        animationDirectionName = animations[animationName].animationNames[i];
+                        animationDirection = i;
+                        return;
+                        // return $"{animationName}-{i}";
+                    }
+
+                    currentAngle += anglePerDirection;
+                    nextAngle += anglePerDirection;
+                }
+            }
+
+            animationDirectionName = animationName;
+            animationDirection = 0;
+        }
+    }
+
     public struct AnimationDirectionsComponent : IEntityComponent
     {
         public AnimationsAsset animationsAsset;
+
+        public AnimationsDirectionsMetadata metadata;
         
         // cached anims
         // Dictionary<string, Animations[]> cachedDirections;
@@ -80,6 +133,10 @@ namespace Game.Components
         
         // public int currentDirection;
         public string currentAnimation;
+
+        // READONLY
+        public int currentDirectionIndex;
+        public string currentDirectionalAnimation;
 
         // public int loops;
         public AnimationCommand pendingCommand;

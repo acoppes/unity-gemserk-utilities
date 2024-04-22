@@ -1,4 +1,6 @@
-﻿using Game.Definitions;
+﻿using System.Collections.Generic;
+using Game.Components;
+using Game.Definitions;
 using UnityEngine;
 
 namespace Game
@@ -6,6 +8,35 @@ namespace Game
     public static class AnimationExtensions
     {
         private const int MaxDirections = 100;
+
+        public static AnimationsDirectionsMetadata GetDirectionsData(this AnimationsAsset asset)
+        {
+            var metadata = new AnimationsDirectionsMetadata();
+
+            foreach (var animationDefinition in asset.animations)
+            {
+                var animationNameParts = animationDefinition.name.Split("-");
+                var animationName = animationNameParts[0];
+                
+                if (!metadata.animations.ContainsKey(animationName))
+                {
+                    metadata.animations[animationName] = new AnimationDirectionMetadata();
+                }
+
+                if (animationNameParts.Length == 1)
+                {
+                    metadata.animations[animationName].animationNames.Add($"{animationName}");
+                    metadata.animations[animationName].directions = 1;
+                }
+                else
+                {
+                    metadata.animations[animationName].animationNames.Add($"{animationName}-{metadata.animations[animationName].directions}");
+                    metadata.animations[animationName].directions++;
+                }
+            }
+
+            return metadata;
+        }
             
         public static string GetDirectionalAnimation(this AnimationsAsset asset, string animationName,
             Vector2 direction)
