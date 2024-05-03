@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Gemserk.Utilities;
 
-namespace Gemserk.Triggers
+namespace Gemserk.Triggers.Conditions
 {
     public class AndTriggerCondition : TriggerCondition
     {

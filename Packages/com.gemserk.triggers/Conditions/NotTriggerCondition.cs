@@ -1,6 +1,6 @@
 ﻿using Gemserk.Utilities;
 
-namespace Gemserk.Triggers
+namespace Gemserk.Triggers.Conditions
 {
     public class NotTriggerCondition : TriggerCondition
     {
