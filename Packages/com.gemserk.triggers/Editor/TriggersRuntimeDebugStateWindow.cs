@@ -69,7 +69,7 @@ namespace Gemserk.Triggers.Editor
         {
             CreateInternalList();
             
-            var newList = FindObjectsByType<TriggerSystem>(FindObjectsInactive.Include, FindObjectsSortMode.None).ToList();
+            var newList = FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).ToList();
             triggerSystemsCount = 0;
             
             for (var i = 0; i < triggersSystemList.Length; i++)
