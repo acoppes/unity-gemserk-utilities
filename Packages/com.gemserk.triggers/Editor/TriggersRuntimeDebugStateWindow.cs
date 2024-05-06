@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,12 +6,12 @@ namespace Gemserk.Triggers.Editor
 {
     public class TriggersRuntimeDebugStateWindow : EditorWindow
     {
-        [MenuItem("Window/Gemserk/Triggers/Runtime Debug State")]
+        [MenuItem("Window/Gemserk/Triggers/Debug State")]
         public static void ShowWindow()
         {
             // This method is called when the user selects the menu item in the Editor
             EditorWindow wnd = GetWindow<TriggersRuntimeDebugStateWindow>();
-            wnd.titleContent = new GUIContent("Triggers - Runtime Debug");
+            wnd.titleContent = new GUIContent("Triggers - Debug");
         }
 
         public class TriggerSystemFoldout
@@ -24,23 +22,48 @@ namespace Gemserk.Triggers.Editor
             public TriggerSystem triggerSystem;
         }
 
-        private TriggerSystemFoldout[] triggersSystemList = new TriggerSystemFoldout[10];
+        private TriggerSystemFoldout[] triggersSystemList;
         private int triggerSystemsCount;
 
         private void OnEnable()
         {
-            for (var i = 0; i < triggersSystemList.Length; i++)
+            CreateInternalList();
+        }
+
+        private void CreateInternalList()
+        {
+            if (triggersSystemList == null)
             {
-                triggersSystemList[i] = new TriggerSystemFoldout()
+                triggersSystemList = new TriggerSystemFoldout[10];
+                for (var i = 0; i < triggersSystemList.Length; i++)
                 {
-                    foldout = true,
-                    triggerSystem = null
-                };
+                    triggersSystemList[i] = new TriggerSystemFoldout()
+                    {
+                        foldout = true,
+                        triggerSystem = null
+                    };
+                }
+            }
+        }
+        
+        private void OnHierarchyChange()
+        {
+            if (!Application.isPlaying)
+            {
+                ReloadTriggers();
+                Repaint();
             }
         }
 
         private void OnFocus()
         {
+            ReloadTriggers();
+        }
+
+        private void ReloadTriggers()
+        {
+            CreateInternalList();
+            
             var newList = FindObjectsByType<TriggerSystem>(FindObjectsInactive.Include, FindObjectsSortMode.None).ToList();
             triggerSystemsCount = 0;
             
@@ -107,11 +130,17 @@ namespace Gemserk.Triggers.Editor
                         
                         if (triggerObject.isActiveAndEnabled)
                         {
-                            EditorGUILayout.LabelField(triggerObject.name, trigger.State.ToString());
+                            EditorGUILayout.BeginHorizontal();
+                            EditorGUILayout.LabelField(triggerObject.name);
+                            EditorGUILayout.LabelField(trigger.State.ToString());
+                            EditorGUILayout.EndHorizontal();
                         }
                         else
                         {
-                            EditorGUILayout.LabelField(triggerObject.name, "INACTIVE");
+                            EditorGUILayout.BeginHorizontal();
+                            EditorGUILayout.LabelField(triggerObject.name);
+                            EditorGUILayout.LabelField("INACTIVE");
+                            EditorGUILayout.EndHorizontal();
                         }
                         
                         EditorGUILayout.BeginHorizontal();
