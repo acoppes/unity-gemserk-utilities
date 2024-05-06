@@ -728,7 +728,7 @@ GameObject:
   - component: {fileID: 870932396}
   - component: {fileID: 870932397}
   m_Layer: 0
-  m_Name: Deactivate(Time(3))
+  m_Name: Deactivate(OnTimer_SpawnNextWave_Second)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -761,7 +761,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82287c876d214098bb7bd633ec2fa620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 778843775}
+  target: {fileID: 258570490}
   actionType: 1
 --- !u!1 &942586210
 GameObject:
