@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -51,14 +52,20 @@ namespace Gemserk.Utilities.Editor
         private bool showSceneReferences = true;
         private bool showAssetsReferences = true;
         private bool showPrefabReferences = true;
+
+        private SearchField searchField;
         
         private void OnGUI()
         {
             string[] searchTexts = null;
-            
-            EditorGUILayout.BeginHorizontal();
-            searchText = EditorGUILayout.TextField("Search", searchText);
-            EditorGUILayout.EndHorizontal();
+             
+            if (searchField == null)
+            {
+                searchField = new SearchField();
+            }
+
+            var rect = EditorGUILayout.GetControlRect();
+            searchText = searchField.OnGUI(rect, searchText);
 
             var toggleOptionsCount = 0;
             toggleOptionsCount += configuration.canSelectAssetReferences ? 1 : 0;
