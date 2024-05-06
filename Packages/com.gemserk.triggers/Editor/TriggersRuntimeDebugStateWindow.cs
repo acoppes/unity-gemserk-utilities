@@ -189,35 +189,45 @@ namespace Gemserk.Triggers.Editor
                         EditorGUI.EndDisabledGroup();
                         EditorGUILayout.EndHorizontal();
 
-                        EditorGUI.BeginDisabledGroup(true);
-                        if (trigger.actions.Count > 0 && trigger.State == ITrigger.ExecutionState.Executing)
+                        if (Application.isPlaying)
                         {
-                            var actionObject = trigger.actions[trigger.executingAction] as MonoBehaviour;
-                            EditorGUILayout.ObjectField("Current Action", 
-                                actionObject.gameObject, typeof(GameObject), true);
-                        }
-                        else
-                        {
-                            EditorGUILayout.ObjectField("Current Action", 
-                                null, typeof(GameObject), true);
-                        }
-                        EditorGUI.EndDisabledGroup();
+                            EditorGUI.BeginDisabledGroup(true);
+                            if (trigger.actions.Count > 0 && trigger.State == ITrigger.ExecutionState.Executing)
+                            {
+                                var actionObject = trigger.actions[trigger.executingAction] as MonoBehaviour;
+                                EditorGUILayout.ObjectField("Current Action",
+                                    actionObject.gameObject, typeof(GameObject), true);
+                            }
+                            else
+                            {
+                                EditorGUILayout.ObjectField("Current Action",
+                                    null, typeof(GameObject), true);
+                            }
 
+                            EditorGUI.EndDisabledGroup();
+                        }
+                        
                         if (!actionsDisabled)
                         {
                             EditorGUILayout.BeginHorizontal();
+                            
+                            if (GUILayout.Button(new GUIContent("Queue", "Queue execution, checks conditions.")))
+                            {
+                                trigger.QueueExecution();
+                            }
+
+                            if (GUILayout.Button(new GUIContent("Force Execution", "Ignores conditions and force object activation.")))
+                            {
+                                if (!triggerObject.isActiveAndEnabled)
+                                {
+                                    triggerObject.gameObject.SetActive(true);
+                                }
+                                
+                                trigger.ForceQueueExecution();
+                            }
+                            
                             if (triggerObject.isActiveAndEnabled)
                             {
-                                if (GUILayout.Button("Queue"))
-                                {
-                                    trigger.QueueExecution();
-                                }
-
-                                if (GUILayout.Button("Force"))
-                                {
-                                    trigger.ForceQueueExecution();
-                                }
-
                                 if (GUILayout.Button("Deactivate"))
                                 {
                                     triggerObject.gameObject.SetActive(false);
