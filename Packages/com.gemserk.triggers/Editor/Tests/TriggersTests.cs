@@ -80,5 +80,36 @@ namespace Gemserk.Triggers.Editor
             Assert.IsTrue(trigger.State == ITrigger.ExecutionState.Completed);
             Assert.AreEqual(1, trigger.executionTimes);
         }
+        
+        [Test]
+        public void Trigger_Completed_CanForceExecutionAgain()
+        {
+            // Use the Assert class to test conditions
+
+            var trigger = new Trigger();
+            
+            trigger.actions.Add(new MockTriggerAction()
+            {
+                result = ITrigger.ExecutionResult.Completed
+            });
+
+            trigger.maxExecutionTimes = 1;
+            trigger.QueueExecution();
+            
+            trigger.StartExecution();
+            trigger.Execute();
+            trigger.CompleteCurrentExecution();
+            
+            trigger.ForceQueueExecution();
+            Assert.AreEqual(1, trigger.pendingExecutions.Count);
+            Assert.IsTrue(trigger.State == ITrigger.ExecutionState.PendingExecution);
+            
+            trigger.StartExecution();
+            trigger.Execute();
+            trigger.CompleteCurrentExecution();
+            
+            Assert.IsTrue(trigger.State == ITrigger.ExecutionState.Completed);
+            Assert.AreEqual(2, trigger.executionTimes);
+        }
     }
 }

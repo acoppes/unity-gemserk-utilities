@@ -170,7 +170,7 @@ namespace Gemserk.Triggers.Editor
                         
                         if (triggerObject.isActiveAndEnabled)
                         {
-                            EditorGUILayout.LabelField($"STATUS: {trigger.State.ToString()}");
+                            EditorGUILayout.LabelField($"STATUS: {trigger.State.ToString().ToUpper()}");
                         }
                         else
                         {

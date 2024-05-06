@@ -40,7 +40,7 @@ namespace Gemserk.Triggers
         {
             pendingExecutions.Add(activator);
             
-            if (state == ITrigger.ExecutionState.Waiting)
+            if (state == ITrigger.ExecutionState.Waiting || state == ITrigger.ExecutionState.Completed)
             {
                 state = ITrigger.ExecutionState.PendingExecution;
             }
