@@ -28,6 +28,7 @@ namespace Gemserk.Triggers.Editor
         private int triggerSystemsCount;
         
         private SearchField searchField;
+        private Vector2 scroll;
 
         private void OnEnable()
         {
@@ -122,6 +123,7 @@ namespace Gemserk.Triggers.Editor
                 searchTexts = StringUtilities.SplitSearchText(searchText);
             }
 
+            scroll = EditorGUILayout.BeginScrollView(scroll);
             foreach (var triggersSystemFoldout in triggersSystemList)
             {
                 if (!triggersSystemFoldout.visible)
@@ -187,6 +189,20 @@ namespace Gemserk.Triggers.Editor
                         EditorGUI.EndDisabledGroup();
                         EditorGUILayout.EndHorizontal();
 
+                        EditorGUI.BeginDisabledGroup(true);
+                        if (trigger.actions.Count > 0 && trigger.State == ITrigger.ExecutionState.Executing)
+                        {
+                            var actionObject = trigger.actions[trigger.executingAction] as MonoBehaviour;
+                            EditorGUILayout.ObjectField("Current Action", 
+                                actionObject.gameObject, typeof(GameObject), true);
+                        }
+                        else
+                        {
+                            EditorGUILayout.ObjectField("Current Action", 
+                                null, typeof(GameObject), true);
+                        }
+                        EditorGUI.EndDisabledGroup();
+
                         if (!actionsDisabled)
                         {
                             EditorGUILayout.BeginHorizontal();
@@ -220,9 +236,12 @@ namespace Gemserk.Triggers.Editor
                         EditorGUILayout.EndVertical();
 
                         EditorGUI.indentLevel--;
+                        EditorGUILayout.Separator();
                     }
+                 
                 }
             }
+            EditorGUILayout.EndScrollView();
         }
     }
 }
