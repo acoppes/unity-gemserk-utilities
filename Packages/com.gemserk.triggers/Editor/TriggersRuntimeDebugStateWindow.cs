@@ -160,14 +160,21 @@ namespace Gemserk.Triggers.Editor
                         if (triggerObject.isActiveAndEnabled)
                         {
                             EditorGUILayout.BeginHorizontal();
-                            EditorGUILayout.LabelField(triggerObject.name);
+                            // EditorGUILayout.LabelField(triggerObject.name);
+                            
+                            EditorGUI.BeginDisabledGroup(true);
+                            EditorGUILayout.ObjectField(triggerObject.gameObject,  typeof(GameObject), true);
+                            EditorGUI.EndDisabledGroup();
+                            
                             EditorGUILayout.LabelField(trigger.State.ToString());
                             EditorGUILayout.EndHorizontal();
                         }
                         else
                         {
                             EditorGUILayout.BeginHorizontal();
-                            EditorGUILayout.LabelField(triggerObject.name);
+                            EditorGUI.BeginDisabledGroup(true);
+                            EditorGUILayout.ObjectField(triggerObject.gameObject,  typeof(GameObject), true);
+                            EditorGUI.EndDisabledGroup();
                             EditorGUILayout.LabelField("INACTIVE");
                             EditorGUILayout.EndHorizontal();
                         }
