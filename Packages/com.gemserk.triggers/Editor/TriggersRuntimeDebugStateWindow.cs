@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using Gemserk.Utilities;
 using UnityEditor;
 using UnityEngine;
+using SearchField = UnityEditor.IMGUI.Controls.SearchField;
 
 namespace Gemserk.Triggers.Editor
 {
@@ -24,6 +26,8 @@ namespace Gemserk.Triggers.Editor
 
         private TriggerSystemFoldout[] triggersSystemList;
         private int triggerSystemsCount;
+        
+        private SearchField searchField;
 
         private void OnEnable()
         {
@@ -89,6 +93,8 @@ namespace Gemserk.Triggers.Editor
 
             triggerSystemsCount = triggersSystemList.Count(t => t.visible);
         }
+        
+        private string searchText;
 
         private void OnGUI()
         {
@@ -97,10 +103,24 @@ namespace Gemserk.Triggers.Editor
             //     EditorGUILayout.LabelField("Only available while running");
             //     triggerSystems.Clear();
             // }
+            
+            if (searchField == null)
+            {
+                searchField = new SearchField();
+            }
 
+            var rect = EditorGUILayout.GetControlRect();
+            searchText = searchField.OnGUI(rect, searchText);
+            
             var actionsDisabled = !Application.isPlaying;
 
             var multipleTriggersRoot = triggerSystemsCount > 1;
+
+            string[] searchTexts = null;
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                searchTexts = StringUtilities.SplitSearchText(searchText);
+            }
 
             foreach (var triggersSystemFoldout in triggersSystemList)
             {
@@ -120,8 +140,17 @@ namespace Gemserk.Triggers.Editor
                     var triggerSystem = triggersSystemFoldout.triggerSystem;
                     var triggerObjects = triggerSystem.GetComponentsInChildren<TriggerObject>(true);
 
+
                     foreach (var triggerObject in triggerObjects)
                     {
+                        if (searchTexts != null)
+                        {
+                            if (!StringUtilities.MatchAll(triggerObject.name, searchTexts))
+                            {
+                                continue;
+                            }
+                        }
+                        
                         var trigger = triggerObject.trigger;
 
                         EditorGUI.indentLevel++;

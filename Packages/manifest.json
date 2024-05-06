@@ -5,7 +5,7 @@
     "com.esotericsoftware.spine.spine-unity": "https://github.com/EsotericSoftware/spine-runtimes.git?path=spine-unity/Assets/Spine#4.1",
     "com.gemserk.bitmasktypes": "0.0.14",
     "com.gemserk.refactortools": "0.0.16",
-    "com.gemserk.selectionhistory": "1.3.0",
+    "com.gemserk.selectionhistory": "1.5.4",
     "com.gemserk.upmgitpusher": "0.0.21",
     "com.leoecscommunity.ecslite": "1.0.0",
     "com.leoecscommunity.ecslite.di": "https://github.com/LeoECSCommunity/ecslite-di.git",
