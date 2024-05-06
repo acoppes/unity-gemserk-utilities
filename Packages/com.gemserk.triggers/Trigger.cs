@@ -10,6 +10,7 @@ namespace Gemserk.Triggers
 
         public int executingAction;
         public int executionTimes;
+        public int maxExecutionTimes;
 
         public readonly List<object> pendingExecutions = new List<object>();
 
@@ -47,6 +48,11 @@ namespace Gemserk.Triggers
 
         public void QueueExecution(object activator = null)
         {
+            if (state == ITrigger.ExecutionState.Completed)
+            {
+                return;
+            }
+            
             if (!Evaluate(activator))
             {
                 return;
@@ -80,6 +86,11 @@ namespace Gemserk.Triggers
             else
             {
                 state = ITrigger.ExecutionState.PendingExecution;
+            }
+
+            if (maxExecutionTimes > 0 && executionTimes >= maxExecutionTimes)
+            {
+                state = ITrigger.ExecutionState.Completed;
             }
         }
 

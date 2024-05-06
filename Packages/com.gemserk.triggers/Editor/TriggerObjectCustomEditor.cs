@@ -76,6 +76,10 @@ namespace Gemserk.Triggers.Editor
             var trigger = triggerObject.trigger;
 
             EditorGUILayout.BeginVertical();
+            
+            triggerObject.maxExecutions = EditorGUILayout.IntField(new GUIContent("Max Executions", 
+                "Max times the trigger can execute. Use 0 or below to ignore."), triggerObject.maxExecutions);
+            
             // show 
             EditorGUI.BeginDisabledGroup(true);
             

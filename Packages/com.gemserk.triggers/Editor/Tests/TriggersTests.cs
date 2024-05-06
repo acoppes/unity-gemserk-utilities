@@ -51,5 +51,34 @@ namespace Gemserk.Triggers.Editor
             Assert.AreEqual(ITrigger.ExecutionResult.Interrupt, trigger.Execute());
             Assert.IsTrue(trigger.State == ITrigger.ExecutionState.Executing);
         }
+        
+        [Test]
+        public void TriggerWith_MaxExecutions_DoNotExecuteAgain()
+        {
+            // Use the Assert class to test conditions
+
+            var trigger = new Trigger();
+            
+            trigger.actions.Add(new MockTriggerAction()
+            {
+                result = ITrigger.ExecutionResult.Completed
+            });
+
+            trigger.maxExecutionTimes = 1;
+            trigger.QueueExecution();
+            Assert.AreEqual(1, trigger.pendingExecutions.Count);
+            
+            trigger.StartExecution();
+            Assert.AreEqual(ITrigger.ExecutionResult.Completed, trigger.Execute());
+            trigger.CompleteCurrentExecution();
+            
+            Assert.AreEqual(1, trigger.executionTimes);
+            Assert.IsTrue(trigger.State == ITrigger.ExecutionState.Completed);
+            
+            trigger.QueueExecution();
+            Assert.AreEqual(0, trigger.pendingExecutions.Count);
+            Assert.IsTrue(trigger.State == ITrigger.ExecutionState.Completed);
+            Assert.AreEqual(1, trigger.executionTimes);
+        }
     }
 }

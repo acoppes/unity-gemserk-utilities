@@ -159,34 +159,39 @@ namespace Gemserk.Triggers.Editor
                         
                         EditorGUILayout.BeginVertical();
                         
+                        EditorGUI.BeginDisabledGroup(true);
+                        EditorGUILayout.ObjectField(triggerObject.gameObject,  typeof(GameObject), true);
+                        EditorGUI.EndDisabledGroup();
+                        
+                        EditorGUILayout.BeginHorizontal();
+                        // EditorGUILayout.LabelField("State", trigger.State.ToString());
+                        
+                        // EditorGUILayout.IntField("Pending", trigger.pendingExecutions.Count);
+                        
                         if (triggerObject.isActiveAndEnabled)
                         {
-                            EditorGUILayout.BeginHorizontal();
-                            // EditorGUILayout.LabelField(triggerObject.name);
-                            
-                            EditorGUI.BeginDisabledGroup(true);
-                            EditorGUILayout.ObjectField(triggerObject.gameObject,  typeof(GameObject), true);
-                            EditorGUI.EndDisabledGroup();
-                            
-                            EditorGUILayout.LabelField(trigger.State.ToString());
-                            EditorGUILayout.EndHorizontal();
+                            EditorGUILayout.LabelField($"STATUS: {trigger.State.ToString()}");
                         }
                         else
                         {
-                            EditorGUILayout.BeginHorizontal();
-                            EditorGUI.BeginDisabledGroup(true);
-                            EditorGUILayout.ObjectField(triggerObject.gameObject,  typeof(GameObject), true);
-                            EditorGUI.EndDisabledGroup();
-                            EditorGUILayout.LabelField("INACTIVE");
-                            EditorGUILayout.EndHorizontal();
+                            EditorGUILayout.LabelField("STATUS: INACTIVE");
+                        }
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.BeginHorizontal();
+                        
+                        EditorGUILayout.LabelField($"Pending: {trigger.pendingExecutions.Count}");
+                        
+                        if (triggerObject.maxExecutions > 0)
+                        {
+                            EditorGUILayout.LabelField($"Completed: {trigger.executionTimes}/{triggerObject.maxExecutions}");
+                        }
+                        else
+                        {
+                            EditorGUILayout.LabelField($"Completed: {trigger.executionTimes}");
+                            // EditorGUILayout.IntField("Completed", trigger.executionTimes);
                         }
                         
-                        EditorGUILayout.BeginHorizontal();
-                        EditorGUI.BeginDisabledGroup(true);
-                        // EditorGUILayout.LabelField("State", trigger.State.ToString());
-                        EditorGUILayout.IntField("Pending", trigger.pendingExecutions.Count);
-                        EditorGUILayout.IntField("Completed", trigger.executionTimes);
-                        EditorGUI.EndDisabledGroup();
+                        
                         EditorGUILayout.EndHorizontal();
 
                         if (Application.isPlaying)

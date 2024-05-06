@@ -8,12 +8,14 @@ namespace Gemserk.Triggers
     {
         [NonSerialized]
         public readonly Trigger trigger = new ();
-
-
+        
         private Transform eventsParent;
         private Transform conditionsParent;
         private Transform actionsParent;
 
+        // Max times the trigger executes. Use 0 or negative to ignore.
+        public int maxExecutions;
+        
         public ITrigger.ExecutionState State
         {
             get
@@ -29,6 +31,8 @@ namespace Gemserk.Triggers
         
         private void Awake()
         {
+            trigger.maxExecutionTimes = maxExecutions;
+            
             eventsParent = transform.Find("Events");
             conditionsParent = transform.Find("Conditions");
             actionsParent = transform.Find("Actions");

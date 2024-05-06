@@ -6,7 +6,8 @@ namespace Gemserk.Triggers
         {
             Waiting,
             PendingExecution,
-            Executing
+            Executing,
+            Completed
         }
         
         public enum ExecutionResult
