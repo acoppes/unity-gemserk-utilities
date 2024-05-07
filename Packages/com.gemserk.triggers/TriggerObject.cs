@@ -6,6 +6,13 @@ namespace Gemserk.Triggers
 {
     public class TriggerObject : MonoBehaviour, ITrigger
     {
+        public enum ExecutionType
+        {
+            Disabled = 0,
+            Once = 1,
+            More = 2
+        }
+        
         [NonSerialized]
         public readonly Trigger trigger = new ();
         
@@ -14,6 +21,7 @@ namespace Gemserk.Triggers
         private Transform actionsParent;
 
         // Max times the trigger executes. Use 0 or negative to ignore.
+        public ExecutionType executionType;
         public int maxExecutions;
         
         public ITrigger.ExecutionState State
@@ -31,7 +39,15 @@ namespace Gemserk.Triggers
         
         private void Awake()
         {
-            trigger.maxExecutionTimes = maxExecutions;
+            if (executionType == ExecutionType.Disabled)
+                trigger.maxExecutionTimes = 0;
+            else if (executionType == ExecutionType.Once)
+            {
+                trigger.maxExecutionTimes = 1;
+            } else if (executionType == ExecutionType.More)
+            {
+                trigger.maxExecutionTimes = maxExecutions;
+            }
             
             eventsParent = transform.Find("Events");
             conditionsParent = transform.Find("Conditions");

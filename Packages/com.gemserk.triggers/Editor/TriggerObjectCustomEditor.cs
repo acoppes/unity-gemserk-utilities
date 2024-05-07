@@ -33,6 +33,7 @@ namespace Gemserk.Triggers.Editor
             EditorGUILayout.Separator();
             EditorGUILayout.LabelField($"Add {category}");
             EditorGUILayout.BeginVertical();
+            
             foreach (var type in typesCollection)
             {
                 if (type.IsAbstract)
@@ -76,9 +77,14 @@ namespace Gemserk.Triggers.Editor
             var trigger = triggerObject.trigger;
 
             EditorGUILayout.BeginVertical();
+
+            triggerObject.executionType = (TriggerObject.ExecutionType) EditorGUILayout.EnumPopup("Max Executions", triggerObject.executionType);
             
-            triggerObject.maxExecutions = EditorGUILayout.IntField(new GUIContent("Max Executions", 
-                "Max times the trigger can execute. Use 0 or below to ignore."), triggerObject.maxExecutions);
+            if (triggerObject.executionType == TriggerObject.ExecutionType.More)
+            {
+                triggerObject.maxExecutions = EditorGUILayout.IntField(triggerObject.maxExecutions);
+                triggerObject.maxExecutions = Mathf.Clamp(triggerObject.maxExecutions, 1, 9999);
+            }
             
             // show 
             EditorGUI.BeginDisabledGroup(true);
