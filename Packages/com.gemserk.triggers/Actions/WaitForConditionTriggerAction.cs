@@ -1,4 +1,4 @@
-﻿namespace Gemserk.Triggers
+﻿namespace Gemserk.Triggers.Actions
 {
     public class WaitForConditionTriggerAction : TriggerAction
     {

@@ -1,4 +1,4 @@
-﻿namespace Gemserk.Triggers
+﻿namespace Gemserk.Triggers.Actions
 {
     /// <summary>
     /// This trigger action use just used to fill spaces like when performing random actions

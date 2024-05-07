@@ -3,7 +3,7 @@ using System.Linq;
 using Gemserk.Utilities;
 using Random = UnityEngine.Random;
 
-namespace Gemserk.Triggers
+namespace Gemserk.Triggers.Actions
 {
     [TriggerEditor("Random Action")]
     public class RandomTriggerAction : TriggerAction
