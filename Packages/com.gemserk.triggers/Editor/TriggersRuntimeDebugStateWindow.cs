@@ -1,12 +1,13 @@
 ﻿using System.Linq;
 using Gemserk.Utilities;
+using Gemserk.Utilities.Editor;
 using UnityEditor;
 using UnityEngine;
 using SearchField = UnityEditor.IMGUI.Controls.SearchField;
 
 namespace Gemserk.Triggers.Editor
 {
-    public class TriggersRuntimeDebugStateWindow : EditorWindow
+    public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
     {
         [MenuItem("Window/Gemserk/Triggers/Debug State")]
         public static void ShowWindow()
@@ -257,6 +258,11 @@ namespace Gemserk.Triggers.Editor
                 }
             }
             EditorGUILayout.EndScrollView();
+        }
+
+        public void AddItemsToMenu(GenericMenu menu)
+        {
+            EditorWindowExtensions.AddEditScript(menu, nameof(TriggersRuntimeDebugStateWindow));
         }
     }
 }
