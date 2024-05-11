@@ -6,6 +6,7 @@ using Gemserk.Leopotam.Ecs.Components;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
+using Vertx.Debugging;
 
 namespace Game.Systems
 {
@@ -48,6 +49,11 @@ namespace Game.Systems
 
                     if (modifiedEffect.targetType == Effect.TargetType.TargetsFromTargeting)
                     {
+                        var normal = Quaternion.Euler(-45, 0, 0) * Vector3.up;
+                        
+                        D.raw(new Shape.Circle(GamePerspective.ConvertFromWorld(position.value), normal, 
+                            Vector3.right, modifiedEffect.targeting.targetingFilter.range.Max), Color.red, 1f);
+                        
                         world.GetTargets(new RuntimeTargetingParameters()
                         {
                             alliedPlayersBitmask = player.GetAlliedPlayers(),
