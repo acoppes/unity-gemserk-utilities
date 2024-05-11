@@ -9,6 +9,8 @@ namespace Gemserk.Triggers.Editor
 {
     public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
     {
+        private const string TriggersruntimedebugHideinactivetriggers = "TriggersRuntimeDebug.HideInactiveTriggers";
+
         [MenuItem("Window/Gemserk/Triggers/Debug State")]
         public static void ShowWindow()
         {
@@ -124,6 +126,14 @@ namespace Gemserk.Triggers.Editor
                 searchTexts = StringUtilities.SplitSearchText(searchText);
             }
 
+            var hideInactiveTriggers = SessionState.GetBool(TriggersruntimedebugHideinactivetriggers, true);
+            EditorGUI.BeginChangeCheck();
+            hideInactiveTriggers = EditorGUILayout.Toggle("Hide Inactive Triggers", hideInactiveTriggers);
+            if (EditorGUI.EndChangeCheck())
+            {
+                SessionState.SetBool(TriggersruntimedebugHideinactivetriggers, hideInactiveTriggers);
+            }
+            
             scroll = EditorGUILayout.BeginScrollView(scroll);
             foreach (var triggersSystemFoldout in triggersSystemList)
             {
@@ -146,6 +156,11 @@ namespace Gemserk.Triggers.Editor
 
                     foreach (var triggerObject in triggerObjects)
                     {
+                        if (hideInactiveTriggers && !triggerObject.isActiveAndEnabled)
+                        {
+                            continue;
+                        }
+                        
                         if (searchTexts != null)
                         {
                             if (!StringUtilities.MatchAll(triggerObject.name, searchTexts))
@@ -156,7 +171,8 @@ namespace Gemserk.Triggers.Editor
                         
                         var trigger = triggerObject.trigger;
 
-                        EditorGUI.indentLevel++;
+                        if (multipleTriggersRoot)
+                            EditorGUI.indentLevel++;
                         
                         EditorGUILayout.BeginVertical();
                         
@@ -251,7 +267,9 @@ namespace Gemserk.Triggers.Editor
                         
                         EditorGUILayout.EndVertical();
 
-                        EditorGUI.indentLevel--;
+                        if (multipleTriggersRoot)
+                            EditorGUI.indentLevel--;
+                        
                         EditorGUILayout.Separator();
                     }
                  
