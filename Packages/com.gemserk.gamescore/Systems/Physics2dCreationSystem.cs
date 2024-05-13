@@ -3,6 +3,7 @@ using Game.Utilities;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Utilities.Pooling;
 using Leopotam.EcsLite;
+using MyBox;
 using UnityEngine;
 
 namespace Game.Systems
@@ -121,12 +122,12 @@ namespace Game.Systems
 
                 if (physics2dComponent.prefab != null)
                 {
-                    physics2dComponent.gameObject = GameObject.Instantiate(physics2dComponent.prefab);
+                    physics2dComponent.gameObject = poolMap.Get(physics2dComponent.prefab);
                     physics2dComponent.gameObject.SetActive(true);
                     
                     physics2dComponent.body = physics2dComponent.gameObject.GetComponent<Rigidbody2D>();
                     
-                    var entityReference = physics2dComponent.gameObject.AddComponent<EntityReference>();
+                    var entityReference = physics2dComponent.gameObject.GetOrAddComponent<EntityReference>();
                     entityReference.entity = entity;
 
                     physics2dComponent.gameObject.GetComponentsInChildren(physics2dComponent.colliders);
@@ -199,7 +200,7 @@ namespace Game.Systems
                 if (physics2dComponent.body != null)
                 {
                     physics2dComponent.collisionsEventsDelegate =
-                        physics2dComponent.gameObject.AddComponent<EntityCollision2dDelegate>();
+                        physics2dComponent.gameObject.GetOrAddComponent<EntityCollision2dDelegate>();
                     physics2dComponent.collisionsEventsDelegate.world = world;
                     physics2dComponent.collisionsEventsDelegate.entity = world.GetEntity(entity);
                 }
@@ -238,7 +239,14 @@ namespace Game.Systems
                 
                 if (physics2dComponent.gameObject != null)
                 {
-                    GameObject.Destroy(physics2dComponent.gameObject);
+                    if (physics2dComponent.prefab != null)
+                    {
+                        poolMap.Release(physics2dComponent.gameObject);
+                    }
+                    else
+                    {
+                        GameObject.Destroy(physics2dComponent.gameObject);
+                    }
                 }
 
                 physics2dComponent.gameObject = null;
