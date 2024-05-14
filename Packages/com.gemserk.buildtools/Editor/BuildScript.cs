@@ -1,9 +1,13 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Gemserk.RefactorTools.Editor;
 using UnityEditor;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace Gemserk.BuildTools.Editor
 {
@@ -98,11 +102,44 @@ namespace Gemserk.BuildTools.Editor
             buildOptions.locationPathName = buildPath;
             buildOptions.scenes = EditorBuildSettings.scenes.Select(s => s.path).ToArray();
 
-            var buildReport = BuildPipeline.BuildPlayer(buildOptions);
+            var timerBuild = Stopwatch.StartNew();
 
-            if (buildReport.summary.totalErrors > 0)
+            var buildReport = BuildPipeline.BuildPlayer(buildOptions);
+            
+            var buildSummary = new StringBuilder();
+            buildSummary.AppendLine("BUILDSUMMARY");
+            buildSummary.AppendFormat("Build: {0}\n", timerBuild.Elapsed.TotalSeconds);
+
+            buildSummary.AppendLine("-----------");
+            buildSummary.AppendLine("BUILD REPORT");
+            buildSummary.AppendLine("-----------");
+            
+            foreach (var buildReportStep in buildReport.steps)
             {
-                Debug.Log(JsonUtility.ToJson(buildReport, true));
+                buildSummary.AppendFormat("Step: {0} - Duration: {1}\n", buildReportStep.name,
+                    buildReportStep.duration.TotalSeconds);
+            }
+            
+            Debug.Log(buildSummary.ToString());
+
+            if (buildReport.summary.result == BuildResult.Failed)
+            {
+                var errorReport = new StringBuilder();
+                
+                foreach (var step in buildReport.steps)
+                {
+                    foreach (var message in step.messages)
+                    {
+                        if (message.type == LogType.Error || message.type == LogType.Exception || message.type == LogType.Assert)
+                        {
+                            errorReport.AppendLine($"ERROR: step:{step.name} - {message.content}");
+                        }
+                    }
+                }
+
+                var errorMessage = $"Build Failed with :{buildReport.summary.totalErrors} errors";
+                Debug.Log($"{errorMessage}\n{errorReport}");
+                
                 EditorApplication.Exit(1);
             }
             
