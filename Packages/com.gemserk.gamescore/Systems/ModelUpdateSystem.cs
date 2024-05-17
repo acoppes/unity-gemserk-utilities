@@ -11,6 +11,10 @@ namespace Game.Systems
     public class ModelUpdateSystem : BaseSystem, IEcsRunSystem
     {
         readonly EcsFilterInject<Inc<ModelComponent>, Exc<DisabledComponent>> modelFilter = default;
+        
+        readonly EcsFilterInject<Inc<ModelComponent>, Exc<DisabledComponent, ModelSortingGroupComponent>> modelWithoutSortingFilter = default;
+        readonly EcsFilterInject<Inc<ModelComponent, ModelSortingGroupComponent>, Exc<DisabledComponent>> modelWithSortingFilter = default;
+        
         readonly EcsFilterInject<Inc<ModelComponent, PositionComponent>, Exc<DisabledComponent>> positionFilter = default;
         
         readonly EcsFilterInject<Inc<ModelComponent, PositionComponent, LookingDirection>, Exc<DisabledComponent>> 
@@ -47,18 +51,18 @@ namespace Game.Systems
                     model.spriteRenderer.color = modelComponent.color;
                 }
                 
-                if (modelComponent.sortingLayerType == ModelComponent.SortingLayerType.CopyFromComponent)
-                {
-                    if (model.sortingGroup != null)
-                    {
-                        model.sortingGroup.sortingOrder = modelComponent.sortingOrder;
-                        model.sortingGroup.sortingLayerID = modelComponent.sortingLayer;
-                    } else if (model.spriteRenderer != null)
-                    {
-                        model.spriteRenderer.sortingOrder = modelComponent.sortingOrder;
-                        model.spriteRenderer.sortingLayerID = modelComponent.sortingLayer;
-                    }
-                }
+                // if (modelComponent.sortingLayerType == ModelComponent.SortingLayerType.CopyFromComponent)
+                // {
+                //     if (model.sortingGroup != null)
+                //     {
+                //         model.sortingGroup.sortingOrder = modelComponent.sortingOrder;
+                //         model.sortingGroup.sortingLayerID = modelComponent.sortingLayer;
+                //     } else if (model.spriteRenderer != null)
+                //     {
+                //         model.spriteRenderer.sortingOrder = modelComponent.sortingOrder;
+                //         model.spriteRenderer.sortingLayerID = modelComponent.sortingLayer;
+                //     }
+                // }
 
                 // if (!modelComponent.IsVisible)
                 // {
@@ -70,6 +74,48 @@ namespace Game.Systems
                 //     modelComponent.isModelActive = true;
                 // }
             }
+            
+            foreach (var entity in modelWithoutSortingFilter.Value)
+            {
+                ref var modelComponent = ref modelWithoutSortingFilter.Pools.Inc1.Get(entity);
+            
+                // For now will assume we don't want to update sorting all the time.
+                if (modelComponent.sortingUpdated)
+                {
+                    continue;
+                }
+                
+                if (modelComponent.sortingLayerType == ModelComponent.SortingLayerType.CopyFromComponent)
+                {
+                    var model = modelComponent.instance;
+                    model.spriteRenderer.sortingOrder = modelComponent.sortingOrder;
+                    model.spriteRenderer.sortingLayerID = modelComponent.sortingLayer;
+                    modelComponent.sortingUpdated = true;
+                }
+            }
+            
+            foreach (var entity in modelWithSortingFilter.Value)
+            {
+                var modelComponent = modelWithSortingFilter.Pools.Inc1.Get(entity);
+                ref var modelSortingGroupComponent = ref modelWithSortingFilter.Pools.Inc2.Get(entity);
+                
+                if (modelSortingGroupComponent.updated)
+                {
+                    continue;
+                }
+                
+                if (modelComponent.sortingLayerType == ModelComponent.SortingLayerType.CopyFromComponent)
+                {
+                    // For now will assume we don't want to update sorting all the time.
+                    if (!modelSortingGroupComponent.updated)
+                    {
+                        modelSortingGroupComponent.sortingGroup.sortingOrder = modelSortingGroupComponent.order;
+                        modelSortingGroupComponent.sortingGroup.sortingLayerID = modelSortingGroupComponent.layer;
+                        modelSortingGroupComponent.updated = true;
+                    }
+                }
+            }
+            
             Profiler.EndSample();
             
             Profiler.BeginSample("Update2");

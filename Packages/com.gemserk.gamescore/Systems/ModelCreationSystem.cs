@@ -69,6 +69,17 @@ namespace Game.Systems
                 model.isModelActive = true;
                 
                 world.AddComponent(entity, new ModelEnabledComponent());
+
+                if (model.instance.sortingGroup != null)
+                {
+                    world.AddComponent(entity, new ModelSortingGroupComponent()
+                    {
+                        sortingGroup = model.instance.sortingGroup,
+                        layer = model.sortingLayer,
+                        order = model.sortingOrder,
+                        updated = false
+                    });
+                }
             }
         }
         
