@@ -11,15 +11,16 @@ namespace Game.Systems
         
         public void Run(EcsSystems systems)
         {
+            var deltaTime = base.dt;
+            
             foreach (var entity in filter.Value)
             {
                 ref var health = ref filter.Pools.Inc1.Get(entity);
-                var worldEntity = world.GetEntity(entity);
-
-                health.temporaryInvulnerability.Decrease(dt);
+                
+                health.temporaryInvulnerability.Decrease(deltaTime);
                 health.processedDamages.Clear();
                 
-                health.timeSinceLastHit += dt;
+                health.timeSinceLastHit += deltaTime;
 
                 health.previousAliveState = health.aliveType;
                 
@@ -27,8 +28,9 @@ namespace Game.Systems
 
                 if (canReceiveDamage)
                 {
-                    foreach (var damage in health.damages)
+                    for (var i = 0; i < health.damages.Count; i++)
                     {
+                        var damage = health.damages[i];
                         health.timeSinceLastHit = 0;
                         health.current -= damage.value;
                         health.processedDamages.Add(damage);
@@ -40,19 +42,20 @@ namespace Game.Systems
                         }
                     }
                 }
-                
-                foreach (var effect in health.healEffects)
+
+                for (var i = 0; i < health.healEffects.Count; i++)
                 {
+                    var effect = health.healEffects[i];
                     health.current += effect.value;
                     if (health.current > health.total)
                     {
                         health.current = health.total;
                     }
                 }
-                
+
                 if (health.processedDamages.Count > 0)
                 {
-                    health.OnDamageEvent(world, worldEntity);
+                    health.OnDamageEvent(world, world.GetEntity(entity));
                 }
                 
                 health.damages.Clear();
@@ -66,7 +69,7 @@ namespace Game.Systems
 
                 if (health.IsFull())
                 {
-                    health.timeInFullHealth += dt;
+                    health.timeInFullHealth += deltaTime;
                 }
                 else
                 {
