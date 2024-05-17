@@ -110,6 +110,8 @@ namespace Game.Components
         public List<ContactPoint2D> contacts;
 
         public bool disableCollisions;
+
+        public bool disableContactsCalculations;
     }
     
     public class PhysicsComponentDefinition : ComponentDefinitionBase
@@ -155,6 +157,8 @@ namespace Game.Components
                                                             PhysicsComponent.ColliderType.CollideWithStaticObstacles;
 
         // public RigidbodyConstraints rigidbodyConstraints;
+
+        public bool disableContactsCalculations;
         
         public override string GetComponentName()
         {
@@ -204,7 +208,8 @@ namespace Game.Components
                         prefab = prefab,
                         syncType = defaultSyncType,
                         contacts = new List<ContactPoint2D>(),
-                        colliders = new List<Collider2D>()
+                        colliders = new List<Collider2D>(), 
+                        disableContactsCalculations = disableContactsCalculations
                     });
                 }
                 else
@@ -222,7 +227,8 @@ namespace Game.Components
                         center = center,
                         contacts = new List<ContactPoint2D>(),
                         colliders = new List<Collider2D>(),
-                        startingBodyType = startingBodyType
+                        startingBodyType = startingBodyType,
+                        disableContactsCalculations = disableContactsCalculations
                     });
                 }
             }

@@ -1,29 +1,32 @@
 ﻿using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using UnityEngine;
 
 namespace Game.Systems
 {
     public class PhysicsCleanupCollisionsSystem : BaseSystem, IEcsRunSystem
     {
+        readonly EcsFilterInject<Inc<PhysicsComponent>, Exc<DisabledComponent>> physicsFilter = default;
+        readonly EcsFilterInject<Inc<Physics2dComponent>, Exc<DisabledComponent>> physics2dFilter = default;
+        
         public void Run(EcsSystems systems)
         {
-            var physicsComponents = world.GetComponents<PhysicsComponent>();
-
-            foreach (var entity in world.GetFilter<PhysicsComponent>().End())
+            foreach (var e in physicsFilter.Value)
             {
-                ref var physicsComponent = ref physicsComponents.Get(entity);
+                ref var physicsComponent = ref physicsFilter.Pools.Inc1.Get(e);
                 physicsComponent.collisions.Clear();
                 physicsComponent.contactsCount = 0;
             }
-            
-            var physics2dComponents = world.GetComponents<Physics2dComponent>();
 
-            foreach (var entity in world.GetFilter<Physics2dComponent>().End())
+            foreach (var e in physics2dFilter.Value)
             {
-                ref var physics2dComponent = ref physics2dComponents.Get(entity);
+                ref var physics2dComponent = ref physics2dFilter.Pools.Inc1.Get(e);
                 physics2dComponent.contacts.Clear();
+
+                if (physics2dComponent.disableContactsCalculations)
+                    continue;
                 
                 if (physics2dComponent.body != null)
                 {

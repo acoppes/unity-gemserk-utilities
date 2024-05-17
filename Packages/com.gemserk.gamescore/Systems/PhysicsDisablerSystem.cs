@@ -35,8 +35,9 @@ namespace Game.Systems
                             !physics2dComponent.disableCollisions;
                     }
 
-                    foreach (var collider in physics2dComponent.colliders)
+                    for (var i = 0; i < physics2dComponent.colliders.Count; i++)
                     {
+                        var collider = physics2dComponent.colliders[i];
                         collider.enabled = !physics2dComponent.disableCollisions;
                     }
                 }
