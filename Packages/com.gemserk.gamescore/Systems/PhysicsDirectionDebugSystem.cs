@@ -1,6 +1,7 @@
 ﻿using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using UnityEngine;
 using Vertx.Debugging;
 
@@ -8,14 +9,16 @@ namespace Game.Systems
 {
     public class PhysicsDirectionDebugSystem : BaseSystem, IEcsRunSystem
     {
+        readonly EcsFilterInject<Inc<PhysicsComponent>, Exc<DisabledComponent>> filter = default;
+        
         public void Run(EcsSystems systems)
-        {
-            var physicsComponents = world.GetComponents<PhysicsComponent>();
+        {   
+#if UNITY_EDITOR
             
-            foreach (var entity in world.GetFilter<PhysicsComponent>().End())
+            foreach (var e in filter.Value)
             {
-                ref var physicsComponent = ref physicsComponents.Get(entity);
-
+                var physicsComponent = filter.Pools.Inc1.Get(e);
+                
                 if (physicsComponent.isStatic)
                 {
                     continue;
@@ -30,8 +33,7 @@ namespace Game.Systems
                 D.raw(new Shape.Arrow(position3d, direction), Color.red);
                 D.raw(new Shape.Arrow(position2d, direction2d), Color.yellow);
             }
+#endif
         }
-
-
     }
 }
