@@ -7,7 +7,8 @@ namespace Gemserk.Triggers
         public enum ActionType
         {
             Activate = 0,
-            Deactivate = 1
+            Deactivate = 1, 
+            Toggle = 2
         }
         
         public GameObject target;
@@ -25,7 +26,16 @@ namespace Gemserk.Triggers
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
-            target.SetActive(actionType == ActionType.Activate);
+            if (actionType == ActionType.Activate)
+            {
+                target.SetActive(true);
+            } else if (actionType == ActionType.Deactivate)
+            {
+                target.SetActive(false);
+            } else if (actionType == ActionType.Toggle)
+            {
+                target.SetActive(!target.activeSelf);
+            }
             return ITrigger.ExecutionResult.Completed;
         }
     }
