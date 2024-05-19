@@ -56,7 +56,7 @@ namespace Game.Systems
                     continue;
                 }
 
-                if (physics2dComponent.body == null || physics2dComponent.body.bodyType == RigidbodyType2D.Static)
+                if (physics2dComponent.isStatic || physics2dComponent.body.bodyType == RigidbodyType2D.Static)
                 {
                     physics2dComponent.transform.position = positionComponent.value;
                 }

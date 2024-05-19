@@ -127,6 +127,7 @@ namespace Game.Systems
                     physics2dComponent.gameObject.SetActive(true);
                     
                     physics2dComponent.body = physics2dComponent.gameObject.GetComponent<Rigidbody2D>();
+                    physics2dComponent.isStatic = physics2dComponent.body == null;
                     
                     var entityReference = physics2dComponent.gameObject.GetOrAddComponent<EntityReference>();
                     entityReference.entity = entity;
