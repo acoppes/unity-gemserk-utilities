@@ -145,6 +145,7 @@ namespace Game.Systems
                 if (physicsComponent.prefab != null)
                 {
                     physicsComponent.gameObject = GameObject.Instantiate(physicsComponent.prefab);
+                    physicsComponent.transform = physicsComponent.gameObject.transform;
                     physicsComponent.gameObject.SetActive(true);
                     
                     physicsComponent.body = physicsComponent.gameObject.GetComponent<Rigidbody>();
@@ -155,6 +156,7 @@ namespace Game.Systems
                 else
                 {
                     physicsComponent.gameObject = new GameObject("~PhysicsObject");
+                    physicsComponent.transform = physicsComponent.gameObject.transform;
 
                     var entityReference = physicsComponent.gameObject.AddComponent<EntityReference>();
                     entityReference.entity = entity;
@@ -249,6 +251,7 @@ namespace Game.Systems
                 }
 
                 physicsComponent.gameObject = null;
+                physicsComponent.transform = null;
                 physicsComponent.body = null;
             }
         }

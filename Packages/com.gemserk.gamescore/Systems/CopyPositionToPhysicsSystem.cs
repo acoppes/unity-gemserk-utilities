@@ -31,7 +31,7 @@ namespace Game.Systems
 
                 if (physicsComponent.isStatic)
                 {
-                    physicsComponent.gameObject.transform.position = positionComponent.value;
+                    physicsComponent.transform.position = positionComponent.value;
                 }
                 else
                 {
@@ -58,7 +58,7 @@ namespace Game.Systems
 
                 if (physics2dComponent.body == null || physics2dComponent.body.bodyType == RigidbodyType2D.Static)
                 {
-                    physics2dComponent.gameObject.transform.position = positionComponent.value;
+                    physics2dComponent.transform.position = positionComponent.value;
                 }
                 else
                 {

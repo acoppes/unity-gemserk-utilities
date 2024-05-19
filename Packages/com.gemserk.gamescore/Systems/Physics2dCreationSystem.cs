@@ -123,6 +123,7 @@ namespace Game.Systems
                 if (physics2dComponent.prefab != null)
                 {
                     physics2dComponent.gameObject = poolMap.Get(physics2dComponent.prefab);
+                    physics2dComponent.transform = physics2dComponent.gameObject.transform;
                     physics2dComponent.gameObject.SetActive(true);
                     
                     physics2dComponent.body = physics2dComponent.gameObject.GetComponent<Rigidbody2D>();
@@ -138,7 +139,8 @@ namespace Game.Systems
                 else
                 {
                     physics2dComponent.gameObject = new GameObject("~Physics2dObject");
-   
+                    physics2dComponent.transform = physics2dComponent.gameObject.transform;
+                    
                     var entityReference = physics2dComponent.gameObject.AddComponent<EntityReference>();
                     entityReference.entity = entity;
 
@@ -250,6 +252,7 @@ namespace Game.Systems
                 }
 
                 physics2dComponent.gameObject = null;
+                physics2dComponent.transform = null;
                 physics2dComponent.body = null;
             }
         }

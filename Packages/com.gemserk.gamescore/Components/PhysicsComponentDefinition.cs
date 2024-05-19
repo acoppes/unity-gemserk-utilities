@@ -58,6 +58,7 @@ namespace Game.Components
         // public int priority;
 
         public GameObject gameObject;
+        public Transform transform;
         public Rigidbody body;
         
         public Collider collideWithDynamicCollider;
@@ -86,6 +87,7 @@ namespace Game.Components
         public PhysicsComponent.SyncType syncType;
         
         public GameObject gameObject;
+        public Transform transform;
         public Rigidbody2D body;
         
         public Collider2D collideWithStaticCollider;
