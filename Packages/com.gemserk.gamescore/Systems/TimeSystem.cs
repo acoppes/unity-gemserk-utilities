@@ -2,7 +2,6 @@
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using UnityEngine;
 
 namespace Game.Systems
 {
@@ -12,10 +11,12 @@ namespace Game.Systems
         
         public void Run(EcsSystems systems)
         {
+            var deltaTime = dt;
+            
             foreach (var entity in filter.Value)
             {
                 ref var time = ref filter.Pools.Inc1.Get(entity);
-                time.time += Time.deltaTime;
+                time.time += deltaTime;
             }
         }
     }
