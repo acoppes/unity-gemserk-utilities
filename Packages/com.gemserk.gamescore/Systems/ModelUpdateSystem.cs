@@ -46,7 +46,7 @@ namespace Game.Systems
                     continue;
                 }
                 
-                if (model.spriteRenderer != null)
+                if (model.hasSpriteRenderer)
                 {
                     model.spriteRenderer.color = modelComponent.color;
                 }

@@ -18,9 +18,12 @@ namespace Game.Models
         [NonSerialized] 
         public Transform cachedTransform;
 
+        public bool hasSpriteRenderer;
+
         private void Awake()
         {
             cachedTransform = this.GetComponent<Transform>();
+            hasSpriteRenderer = spriteRenderer != null;
         }
 
         private void OnEnable()
