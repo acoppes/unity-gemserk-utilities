@@ -5,31 +5,53 @@ using Leopotam.EcsLite.Di;
 
 namespace Game.Systems
 {
-    public class CopyFromAnimationToModelSystem : BaseSystem, IEcsRunSystem
+    public struct CopyAnimationCacheComponent : IEntityComponent
     {
-        readonly EcsFilterInject<Inc<AnimationsComponent, ModelComponent>, Exc<DisabledComponent>> filter = default;
+        public int animation;
+        public int frame;
+    }
+    
+    public class CopyFromAnimationToModelSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler
+    {
+        readonly EcsFilterInject<Inc<AnimationsComponent, ModelComponent, CopyAnimationCacheComponent>, Exc<DisabledComponent>> filter = default;
+        
+        public void OnEntityCreated(World world, Entity entity)
+        {
+            if (entity.Has<AnimationsComponent>() && entity.Has<ModelComponent>())
+            {
+                entity.Add(new CopyAnimationCacheComponent()
+                {
+                    animation = -1,
+                    frame = -1
+                });
+            }
+        }
         
         public void Run(EcsSystems systems)
         {
-            foreach (var entity in filter.Value)
+            foreach (var e in filter.Value)
             {
-                var animationComponent = filter.Pools.Inc1.Get(entity);
+                var animations = filter.Pools.Inc1.Get(e);
+                ref var copyAnimationCached = ref filter.Pools.Inc3.Get(e);
 
-                if (animationComponent.currentAnimation == AnimationsComponent.NoAnimation)
+                if (animations.currentAnimation == AnimationsComponent.NoAnimation)
                 {
                     continue;
                 }
                 
-                ref var modelComponent = ref filter.Pools.Inc2.Get(entity);
-                
-                var animation = animationComponent.animationsAsset.animations[animationComponent.currentAnimation];
-                var frame = animation.frames[animationComponent.currentFrame];
-                
-                modelComponent.instance.spriteRenderer.sprite = frame.sprite;
-                
-                // if (modelComponent.instance.spriteRenderer != null)
-                // {
-                // }
+                ref var modelComponent = ref filter.Pools.Inc2.Get(e);
+
+                if (copyAnimationCached.animation != animations.currentAnimation || 
+                    copyAnimationCached.frame != animations.currentFrame)
+                {
+                    var currentAnimationDefinition = animations.animationsAsset.animations[animations.currentAnimation];
+                    var frame = currentAnimationDefinition.frames[animations.currentFrame];
+                    
+                    modelComponent.instance.spriteRenderer.sprite = frame.sprite;
+
+                    copyAnimationCached.animation = animations.currentAnimation;
+                    copyAnimationCached.frame = animations.currentFrame;
+                }
             }
         }
     }
