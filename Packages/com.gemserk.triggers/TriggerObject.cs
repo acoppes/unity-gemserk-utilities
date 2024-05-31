@@ -82,5 +82,10 @@ namespace Gemserk.Triggers
         {
             trigger.CompleteCurrentExecution();
         }
+
+        public bool IsDisabled()
+        {
+            return !isActiveAndEnabled && !trigger.IsDisabled();
+        }
     }
 }

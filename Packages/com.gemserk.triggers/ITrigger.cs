@@ -44,5 +44,7 @@ namespace Gemserk.Triggers
         void StartExecution();
         
         void CompleteCurrentExecution();
+
+        bool IsDisabled();
     }
 }

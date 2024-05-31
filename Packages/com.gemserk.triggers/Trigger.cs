@@ -94,6 +94,11 @@ namespace Gemserk.Triggers
             }
         }
 
+        public bool IsDisabled()
+        {
+            return false;
+        }
+
         public ITrigger.ExecutionResult Execute()
         {
             while (executingAction < actions.Count)

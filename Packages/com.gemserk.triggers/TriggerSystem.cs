@@ -19,7 +19,7 @@ namespace Gemserk.Triggers
 
         private void Awake()
         {
-            GetComponentsInChildren(triggers);
+            GetComponentsInChildren(true, triggers);
         }
 
         private void FixedUpdate()
@@ -47,6 +47,11 @@ namespace Gemserk.Triggers
         {
             foreach (var trigger in triggers)
             {
+                if (trigger.IsDisabled())
+                {
+                    continue;
+                }
+                
                 if (trigger.State == ITrigger.ExecutionState.PendingExecution)
                 {
                     trigger.StartExecution();
