@@ -105,7 +105,7 @@ namespace Gemserk.Utilities.Editor
                     validType = go.GetComponentInChildren(typeToSelect, false) != null;
                 }
                 
-                if (validType)
+                if (validType || newObject == null)
                 {
                     property.objectReferenceValue = newObject;
                 }
