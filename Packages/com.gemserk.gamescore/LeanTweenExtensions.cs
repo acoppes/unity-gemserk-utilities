@@ -12,6 +12,14 @@ namespace Game
         public LeanTweenType easing = LeanTweenType.linear;
         public bool useEstimatedTime = false;
     }
+
+    [Serializable]
+    public class LeanTweenData
+    {
+        public float duration;
+        public LeanTweenType tweenType = LeanTweenType.linear;
+        public bool useEstimatedTime = false;
+    }
     
     public static class LeanTweenExtensions
     {

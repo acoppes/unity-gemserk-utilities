@@ -25,25 +25,5 @@ namespace Game.Triggers
             
             return ITrigger.ExecutionResult.Completed;
         }
-
-        // IEnumerator ChangeFrequency(float targetFrequency)
-        // {
-        //     var filter = target.GetComponent<AudioLowPassFilter>();
-        //     var d = targetFrequency - filter.cutoffFrequency;
-        //     
-        //     if (tweenDuration < Mathf.Epsilon)
-        //     {
-        //         filter.cutoffFrequency = targetFrequency;
-        //         yield break;
-        //     }
-        //     
-        //     var deltaFrequency = d / tweenDuration;
-        //     while (Mathf.Abs(targetFrequency - filter.cutoffFrequency) > 1)
-        //     {
-        //         filter.cutoffFrequency += deltaFrequency * Time.deltaTime;
-        //         yield return null;
-        //     }
-        //     
-        // }
     }
 }
