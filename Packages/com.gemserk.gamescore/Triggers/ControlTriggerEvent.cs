@@ -11,13 +11,17 @@ namespace Game.Triggers
         public enum EventType
         {
             AnyKey = 0, 
-            InputAction = 1
+            InputAction = 1,
+            InputActionReference = 2
         }
 
         public EventType eventType = EventType.AnyKey;
 
         [ConditionalField(nameof(eventType), false, EventType.InputAction)]
         public InputAction inputAction;
+
+        [ConditionalField(nameof(eventType), false, EventType.InputActionReference)]
+        public InputActionReference reference;
         
         private IDisposable subscription;
 
@@ -26,6 +30,10 @@ namespace Game.Triggers
             if (eventType == EventType.InputAction)
             {
                 return $"Control{eventType}({inputAction})";
+            }
+            if (eventType == EventType.InputActionReference)
+            {
+                return $"Control{eventType}({reference})";
             }
             return $"Control{eventType}()";
         }
@@ -39,6 +47,13 @@ namespace Game.Triggers
 
             if (eventType == EventType.InputAction)
             {
+                inputAction.performed += OnInputActionPerformed;
+                inputAction.Enable();
+            }
+            
+            if (eventType == EventType.InputActionReference)
+            {
+                inputAction = reference.ToInputAction();
                 inputAction.performed += OnInputActionPerformed;
                 inputAction.Enable();
             }
@@ -56,6 +71,13 @@ namespace Game.Triggers
             {
                 inputAction.performed -= OnInputActionPerformed;
                 inputAction.Disable();
+            }
+
+            if (eventType == EventType.InputActionReference && inputAction != null) 
+            {
+                inputAction.performed -= OnInputActionPerformed;
+                inputAction.Disable();
+                inputAction = null;
             }
         }
 
