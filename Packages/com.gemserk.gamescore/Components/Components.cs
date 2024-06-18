@@ -181,7 +181,11 @@ namespace Game.Components
 
         public bool triggerForceDeath;
         
-        public bool IsFull() => Mathf.Approximately(current, total);
+        // public bool IsFull() => Mathf.Approximately(current, total);
+
+        private const float MinHealthDiff = 0.01f;
+
+        public bool IsFull() => Mathf.Abs(total - current) < MinHealthDiff;
 
         public float factor
         {
