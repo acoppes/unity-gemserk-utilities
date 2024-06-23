@@ -17,6 +17,9 @@ namespace Game.Components
         public Vector3 direction;
         public DirectionSource directionSource;
         public CinemachineImpulseSource impulseSource;
+
+        public bool processed;
+        public int framesToRemove;
     }
     
     public class CameraImpulseComponentDefinition : ComponentDefinitionBase
@@ -24,6 +27,8 @@ namespace Game.Components
         public float force;
         public CameraImpulseComponent.DirectionSource directionSource = CameraImpulseComponent.DirectionSource.FromImpulseSource;
         public CinemachineImpulseSource impulseSource;
+
+        public int framesToRemove = 1;
         
         public override string GetComponentName()
         {
@@ -35,7 +40,8 @@ namespace Game.Components
             world.AddComponent(entity, new CameraImpulseComponent()
             {
                 force = force,
-                impulseSource = impulseSource
+                impulseSource = impulseSource,
+                framesToRemove = framesToRemove
             });
         }
     }

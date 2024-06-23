@@ -32,6 +32,9 @@ namespace Game.Systems
             {
                 ref var cameraImpulse = ref filter.Pools.Inc1.Get(e);
 
+                if (cameraImpulse.processed)
+                    continue;
+                
                 if (cameraImpulse.directionSource == CameraImpulseComponent.DirectionSource.FromImpulseSource)
                 {
                     cameraImpulse.direction = cameraImpulse.impulseSource.DefaultVelocity;
@@ -41,12 +44,21 @@ namespace Game.Systems
                 }
                 
                 cameraImpulse.impulseSource.GenerateImpulse(cameraImpulse.direction.normalized * cameraImpulse.force);
+
+                cameraImpulse.processed = true;
             }
             
             foreach (var e in destroyables.Value)
             {
+                ref var cameraImpulse = ref filter.Pools.Inc1.Get(e);
                 ref var destroyable = ref destroyables.Pools.Inc2.Get(e);
-                destroyable.destroy = true;
+
+                if (cameraImpulse.framesToRemove <= 0)
+                {
+                    destroyable.destroy = true;
+                }
+                
+                cameraImpulse.framesToRemove--;
             }
         }
     }
