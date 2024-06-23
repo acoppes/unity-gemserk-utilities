@@ -28,7 +28,17 @@ namespace Game.Triggers
         {
             if (musicSource != null)
             {
-                return $"Music{actionType}({musicSource.name}, {loop})";
+                if (actionType == ActionType.Play)
+                {
+                    return $"Music{actionType}({musicSource.name}, {loop}, {time}s)";
+                }
+                
+                if (actionType == ActionType.Seek || actionType == ActionType.SeekAlpha)
+                {
+                    return $"Music{actionType}({musicSource.name}, {time}s)";
+                }
+                
+                return $"Music{actionType}({musicSource.name})";
             }
             return $"Music{actionType}({loop})";
         }
