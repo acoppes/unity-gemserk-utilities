@@ -4,23 +4,24 @@ using UnityEngine;
 namespace Game
 {
     [Serializable]
-    public class LeanTweenConfiguration
+    public struct LeanTweenConfiguration
     {
         public Vector3 from;
         public Vector3 to;
         public float time;
-        public LeanTweenType easing = LeanTweenType.linear;
-        public bool useEstimatedTime = false;
+        public LeanTweenType easing;
+        public bool useEstimatedTime;
+
+        public static LeanTweenConfiguration Default()
+        {
+            return new LeanTweenConfiguration()
+            {
+                easing = LeanTweenType.linear,
+                useEstimatedTime = false
+            };
+        }
     }
 
-    [Serializable]
-    public class LeanTweenData
-    {
-        public float duration;
-        public LeanTweenType tweenType = LeanTweenType.linear;
-        public bool useEstimatedTime = false;
-    }
-    
     public static class LeanTweenExtensions
     {
         // ReSharper disable once InconsistentNaming
