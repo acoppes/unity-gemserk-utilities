@@ -18,7 +18,7 @@ namespace Game.Components
         public DirectionSource directionSource;
         public CinemachineImpulseSource impulseSource;
 
-        public bool processed;
+        public int framesToGenerateImpulse;
         public int framesToRemove;
     }
     
@@ -29,6 +29,7 @@ namespace Game.Components
         public CinemachineImpulseSource impulseSource;
 
         public int framesToRemove = 1;
+        public int framesToGenerateImpulse = 1;
         
         public override string GetComponentName()
         {
@@ -41,7 +42,9 @@ namespace Game.Components
             {
                 force = force,
                 impulseSource = impulseSource,
-                framesToRemove = framesToRemove
+                framesToRemove = framesToRemove,
+                directionSource = directionSource,
+                framesToGenerateImpulse = framesToGenerateImpulse
             });
         }
     }
