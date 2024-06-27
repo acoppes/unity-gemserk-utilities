@@ -29,9 +29,24 @@ namespace Game
         {
             return LeanTween.value(source.gameObject, delegate(float volume, object music)
             {
-                var audioSource = music as AudioSource;
-                audioSource.volume = volume;
-            }, from, to, time).setOnUpdateParam(source);
+                source.volume = volume;
+                // if (music is AudioSource audioSource)
+                // {
+                //     audioSource.volume = volume;
+                // } else if (music is GameObject go)
+                // {
+                //     var gameObjectAudioSource = go.GetComponent<AudioSource>();
+                //     gameObjectAudioSource.volume = volume;
+                // }
+            }, from, to, time);
+            
+            // .setOnUpdateParam(source);
+            // .setOnCompleteParam(source)
+            // .setOnComplete(music =>
+            // {
+            //     var audioSource = music as AudioSource;
+            //     audioSource.volume = to;
+            // });
         }     
         
         // ReSharper disable once InconsistentNaming
