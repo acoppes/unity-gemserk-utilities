@@ -12,6 +12,8 @@ namespace Game
         public LeanTweenType easing;
         public bool useEstimatedTime;
 
+        public bool useCurrentValueForFrom;
+        
         public static LeanTweenConfiguration Default()
         {
             return new LeanTweenConfiguration()
