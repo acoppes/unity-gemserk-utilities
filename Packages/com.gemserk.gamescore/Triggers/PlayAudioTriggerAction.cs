@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Triggers
 {
-    public class PlayMusicTriggerAction : WorldTriggerAction
+    public class PlayAudioTriggerAction : WorldTriggerAction
     {
         public enum ActionType
         {
@@ -30,17 +30,17 @@ namespace Game.Triggers
             {
                 if (actionType == ActionType.Play)
                 {
-                    return $"Music{actionType}({musicSource.name}, {loop}, {time}s)";
+                    return $"Audio{actionType}({musicSource.name}, {loop}, {time}s)";
                 }
                 
                 if (actionType == ActionType.Seek || actionType == ActionType.SeekAlpha)
                 {
-                    return $"Music{actionType}({musicSource.name}, {time}s)";
+                    return $"Audio{actionType}({musicSource.name}, {time}s)";
                 }
                 
-                return $"Music{actionType}({musicSource.name})";
+                return $"Audio{actionType}({musicSource.name})";
             }
-            return $"Music{actionType}({loop})";
+            return $"Audio{actionType}({loop})";
         }
 
         private float GetSeekTime()
@@ -60,6 +60,7 @@ namespace Game.Triggers
 
             return seekTime;
         }
+        
         
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
