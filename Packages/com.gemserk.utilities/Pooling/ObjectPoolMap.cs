@@ -22,6 +22,8 @@ namespace Gemserk.Utilities.Pooling
         }
 
         public abstract void Release(T element);
+        
+        public abstract void Release(K key, T element);
 
         public void Clear()
         {

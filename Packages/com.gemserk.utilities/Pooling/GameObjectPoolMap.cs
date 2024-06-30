@@ -40,5 +40,11 @@ namespace Gemserk.Utilities.Pooling
                 Object.Destroy(element);
             }
         }
+
+        public override void Release(GameObject key, GameObject element)
+        {
+            var pool = GetOrCreatePool(key);
+            pool.Release(element);
+        }
     }
 }
