@@ -6,7 +6,6 @@ namespace Gemserk.Leopotam.Ecs.Components
     {
         public GameObject gameObject;
         public GameObject prefab;
-        public bool createdFromPrefab;
     }
     
     public class GameObjectComponentDefinition : ComponentDefinitionBase

@@ -11,7 +11,7 @@ namespace Gemserk.Leopotam.Ecs
         public BaseEntityPrefabInstance prefabInstance;
     }
     
-    public class EntityPrefabInstanceSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler
+    public class EntityPrefabInstanceSystem : BaseSystem, IEcsRunSystem
     {
         private class GameObjectLinkParameter : IEntityInstanceParameter
         {
@@ -31,18 +31,20 @@ namespace Gemserk.Leopotam.Ecs
         
         private readonly List<IEntityInstanceParameter> parameters = new List<IEntityInstanceParameter>();
 
-        public void OnEntityDestroyed(World world, Entity entity)
-        {
-            if (world.HasComponent<GameObjectComponent>(entity))
-            {
-                ref var gameObjectComponent = ref world.GetComponent<GameObjectComponent>(entity);
-                if (gameObjectComponent.gameObject != null)
-                {
-                    GameObject.Destroy(gameObjectComponent.gameObject);
-                }
-                gameObjectComponent.gameObject = null;
-            }
-        }
+        // UPDATE: This is not done by GameObjectEntitySystem
+        
+        // public void OnEntityDestroyed(World world, Entity entity)
+        // {
+        //     if (world.HasComponent<GameObjectComponent>(entity))
+        //     {
+        //         ref var gameObjectComponent = ref world.GetComponent<GameObjectComponent>(entity);
+        //         if (gameObjectComponent.gameObject != null)
+        //         {
+        //             GameObject.Destroy(gameObjectComponent.gameObject);
+        //         }
+        //         gameObjectComponent.gameObject = null;
+        //     }
+        // }
         
         public void Run(EcsSystems systems)
         {

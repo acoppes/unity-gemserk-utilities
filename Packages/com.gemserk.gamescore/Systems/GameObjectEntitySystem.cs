@@ -1,24 +1,32 @@
 ﻿using Gemserk.Leopotam.Ecs;
 using Gemserk.Leopotam.Ecs.Components;
+using Gemserk.Utilities.Pooling;
 using Leopotam.EcsLite;
 
 namespace Game.Systems
 {
-    public class GameObjectEntitySystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler, IEntityDestroyedHandler
+    public class GameObjectEntitySystem : BaseSystem, IEntityCreatedHandler, IEntityDestroyedHandler, IEcsInitSystem
     {
         // mark entities to be destroyed when their gameobject destroyed
+        
+        private GameObjectPoolMap poolMap;
+
+        public void Init(EcsSystems systems)
+        {
+            poolMap = new GameObjectPoolMap("~GameObjects");
+        }
         
         public void OnEntityCreated(World world, Entity entity)
         {
             if (world.HasComponent<GameObjectComponent>(entity))
             {
                 ref var gameObjectComponent = ref world.GetComponent<GameObjectComponent>(entity);
-                if (gameObjectComponent.gameObject == null && gameObjectComponent.prefab != null)
+                if (!gameObjectComponent.gameObject && gameObjectComponent.prefab)
                 {
                     // TODO: use POOL?
-                    gameObjectComponent.gameObject = Instantiate(gameObjectComponent.prefab);
+                    gameObjectComponent.gameObject = poolMap.Get(gameObjectComponent.prefab);
+                    // gameObjectComponent.gameObject = Instantiate(gameObjectComponent.prefab);
                     gameObjectComponent.gameObject.SetActive(true);
-                    gameObjectComponent.createdFromPrefab = true;
                 }
             }
         }
@@ -28,34 +36,20 @@ namespace Game.Systems
             if (world.HasComponent<GameObjectComponent>(entity))
             {
                 ref var gameObjectComponent = ref world.GetComponent<GameObjectComponent>(entity);
-                if (gameObjectComponent.createdFromPrefab && gameObjectComponent.gameObject)
+                if (gameObjectComponent.gameObject)
                 {
-                    Destroy(gameObjectComponent.gameObject);
-                    
-                    gameObjectComponent.gameObject = null;
-                    gameObjectComponent.createdFromPrefab = false;
+                    if (gameObjectComponent.prefab)
+                    {
+                        poolMap.Release(gameObjectComponent.prefab, gameObjectComponent.gameObject);
+                    }
+                    else
+                    {
+                        Destroy(gameObjectComponent.gameObject);
+                    }
                 }
+                
+                gameObjectComponent.gameObject = null;
             }
         }
-        
-        public void Run(EcsSystems systems)
-        {
-            var gameObjectComponents = world.GetComponents<GameObjectComponent>();
-            var destroyableComponents = world.GetComponents<DestroyableComponent>();
-
-            foreach (var entity in world.GetFilter<GameObjectComponent>()
-                         .Inc<DestroyableComponent>()
-                         .End())
-            {
-                var gameObjectComponent = gameObjectComponents.Get(entity);
-                ref var destroyableComponent = ref destroyableComponents.Get(entity);
-
-                if (gameObjectComponent.gameObject == null)
-                {
-                    destroyableComponent.destroy = true;
-                }
-            }
-        }
-
     }
 }
