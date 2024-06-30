@@ -5,11 +5,14 @@ namespace Gemserk.Leopotam.Ecs.Components
     public struct GameObjectComponent : IEntityComponent
     {
         public GameObject gameObject;
+        public GameObject prefab;
+        public bool createdFromPrefab;
     }
     
     public class GameObjectComponentDefinition : ComponentDefinitionBase
     {
         public GameObject linkedObjectInstance;
+        public GameObject prefab;
         
         public override string GetComponentName()
         {
@@ -18,9 +21,10 @@ namespace Gemserk.Leopotam.Ecs.Components
 
         public override void Apply(World world, Entity entity)
         {
-            world.AddComponent(entity, new GameObjectComponent()
+            world.AddComponent(entity, new GameObjectComponent
             {
-                gameObject = linkedObjectInstance
+                gameObject = linkedObjectInstance,
+                prefab = prefab
             });
         }
     }
