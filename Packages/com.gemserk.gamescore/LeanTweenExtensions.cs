@@ -55,6 +55,18 @@ namespace Game
         public static LTDescr fadeAudio(AudioSource source, float to, float time)
         {
             return fadeAudio(source, source.volume, to, time);
-        }     
+        }
+
+        public static LTDescr scale(this LeanTweenConfiguration tweenConfig, GameObject gameObject)
+        {
+            var ltDescr = LeanTween.scale(gameObject, tweenConfig.to, tweenConfig.time)
+                .setEase(tweenConfig.easing)
+                .setUseEstimatedTime(tweenConfig.useEstimatedTime);
+            if (!tweenConfig.useCurrentValueForFrom)
+            {
+                ltDescr.setFrom(tweenConfig.from);
+            }
+            return ltDescr;
+        }
     }
 }
