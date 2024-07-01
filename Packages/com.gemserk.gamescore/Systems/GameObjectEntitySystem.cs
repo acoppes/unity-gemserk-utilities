@@ -2,6 +2,7 @@
 using Gemserk.Leopotam.Ecs.Components;
 using Gemserk.Utilities.Pooling;
 using Leopotam.EcsLite;
+using MyBox;
 
 namespace Game.Systems
 {
@@ -25,6 +26,10 @@ namespace Game.Systems
                 {
                     // TODO: use POOL?
                     gameObjectComponent.gameObject = poolMap.Get(gameObjectComponent.prefab);
+                    
+                    var entityReference = gameObjectComponent.gameObject.GetOrAddComponent<EntityReference>();
+                    entityReference.entity = entity;
+                    
                     // gameObjectComponent.gameObject = Instantiate(gameObjectComponent.prefab);
                     gameObjectComponent.gameObject.SetActive(true);
                 }
