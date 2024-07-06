@@ -13,6 +13,9 @@ namespace Game
         public bool useEstimatedTime;
 
         public bool useCurrentValueForFrom;
+
+        public int loopCount;
+        public bool pingPong;
         
         public static LeanTweenConfiguration Default()
         {
