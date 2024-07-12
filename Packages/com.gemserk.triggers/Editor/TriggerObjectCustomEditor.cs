@@ -114,6 +114,7 @@ namespace Gemserk.Triggers.Editor
 
             // show events, conditions and actions
 
+            #if !TRIGGERS_DISABLE_INSPECTOR
             var eventsParent = triggerObject.transform.FindOrCreateFolder("Events");
             var conditionsParent = triggerObject.transform.FindOrCreateFolder("Conditions");
             var actionsParent = triggerObject.transform.FindOrCreateFolder("Actions");
@@ -134,6 +135,7 @@ namespace Gemserk.Triggers.Editor
                     triggerObject.ForceQueueExecution();
                 }
             }
+            #endif
         }
     }
     
