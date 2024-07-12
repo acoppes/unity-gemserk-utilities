@@ -78,12 +78,22 @@ namespace Gemserk.Triggers.Editor
 
             EditorGUILayout.BeginVertical();
 
-            triggerObject.executionType = (TriggerObject.ExecutionType) EditorGUILayout.EnumPopup("Max Executions", triggerObject.executionType);
-            
-            if (triggerObject.executionType == TriggerObject.ExecutionType.More)
             {
-                triggerObject.maxExecutions = EditorGUILayout.IntField(triggerObject.maxExecutions);
-                triggerObject.maxExecutions = Mathf.Clamp(triggerObject.maxExecutions, 1, 9999);
+                EditorGUI.BeginChangeCheck();
+                triggerObject.executionType =
+                    (TriggerObject.ExecutionType)EditorGUILayout.EnumPopup("Max Executions",
+                        triggerObject.executionType);
+
+                if (triggerObject.executionType == TriggerObject.ExecutionType.More)
+                {
+                    triggerObject.maxExecutions = EditorGUILayout.IntField(triggerObject.maxExecutions);
+                    triggerObject.maxExecutions = Mathf.Clamp(triggerObject.maxExecutions, 1, 9999);
+                }
+
+                if (EditorGUI.EndChangeCheck())
+                {   
+                    EditorUtility.SetDirty(triggerObject);
+                }
             }
             
             // show 
