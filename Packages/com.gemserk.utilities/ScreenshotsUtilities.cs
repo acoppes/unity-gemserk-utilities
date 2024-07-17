@@ -13,7 +13,7 @@ namespace Gemserk.Utilities
             return $"screenshot_{width}x{height}_{date}.png";
         }
         
-        public static void TakeScreenshot()
+        public static string TakeScreenshot()
         {
             var rootFolder = Path.Combine(Application.dataPath, "..", ScreenshotsRootFolder);
         
@@ -23,7 +23,10 @@ namespace Gemserk.Utilities
             }
             
             var screenshotName = GenerateScreenshotName(Screen.width, Screen.height);
-            ScreenCapture.CaptureScreenshot(Path.Combine(rootFolder, screenshotName));
+            var screenshotFileName = Path.Combine(rootFolder, screenshotName);
+            ScreenCapture.CaptureScreenshot(screenshotFileName);
+
+            return screenshotFileName;
         }        
     }
 }
