@@ -2,6 +2,7 @@
 using Game.Definitions;
 using Game.Models;
 using Gemserk.Leopotam.Ecs;
+using Gemserk.Leopotam.Ecs.Components;
 using Gemserk.Utilities;
 using MyBox;
 using UnityEngine;
@@ -201,10 +202,25 @@ namespace Game.LevelDesign
             }
             
             var modelComponentDefinition = objectDefinition.GetComponent<ModelComponentDefinition>();
-           
+            
             if (previewObject == null && modelComponentDefinition != null && modelComponentDefinition.prefab != null)
             {
                 previewObject = GameObject.Instantiate(modelComponentDefinition.prefab, transform, true);
+                previewObject.SetActive(true);
+                
+                previewObject.name = PreviewObjectName;
+                previewObject.AddComponent<PreviewObject>();
+                // previewObject.hideFlags = HideFlags.DontSave | HideFlags.HideInHierarchy;
+                previewObject.hideFlags = HideFlags.DontSave;
+                
+                UpdatePreview();
+                return;
+            }
+            
+            var gameObjectDefinition = objectDefinition.GetComponent<GameObjectComponentDefinition>();
+            if (previewObject == null && gameObjectDefinition != null && gameObjectDefinition.prefab != null)
+            {
+                previewObject = GameObject.Instantiate(gameObjectDefinition.prefab, transform, true);
                 previewObject.SetActive(true);
                 
                 previewObject.name = PreviewObjectName;
