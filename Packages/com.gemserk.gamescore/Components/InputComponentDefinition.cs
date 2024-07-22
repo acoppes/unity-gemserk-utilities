@@ -25,7 +25,7 @@ namespace Game.Components
                 writer.Write(name);
                 writer.Write('=');
                     
-                if (action.type == InputComponent.InputAction.InputTypeButton)
+                if (action.type == InputActionType.Button)
                     writer.Write(action.isPressed ? 1 : 0);
                 else
                 {
@@ -59,7 +59,7 @@ namespace Game.Components
                 var actionValues = actionString.Split('=');
                 var action = input.GetButton(actionValues[0]);
                     
-                if (action.type == InputComponent.InputAction.InputTypeButton)
+                if (action.type == InputActionType.Button)
                 {
                     action.UpdatePressed("1".Equals(actionValues[1]));
                 }
@@ -102,13 +102,13 @@ namespace Game.Components
     {
         public class InputAction
         {
-            public const int InputTypeValue = (int) InputActionType.Value;
-            public const int InputTypeButton = (int) InputActionType.Button;
+            // public const int InputTypeValue = (int) InputActionType.Value;
+            // public const int InputTypeButton = (int) InputActionType.Button;
 
             public string name;
 
             // by default are button
-            public int type = InputTypeButton;
+            public InputActionType type = InputActionType.Button;
         
             public bool isPressed;
             public bool wasPressed;
@@ -117,13 +117,21 @@ namespace Game.Components
 
             //    public bool wasPressedThisFrame => isPressed && wasPressed;
 
-            public InputAction(string name, int type = InputTypeButton)
+            public InputAction(string name)
+            {
+                this.name = name;
+                isPressed = false;
+                wasPressed = false;
+            }
+            
+            public InputAction(string name, InputActionType type)
             {
                 this.type = type;
                 this.name = name;
                 isPressed = false;
                 wasPressed = false;
             }
+
 
             public void UpdatePressed(bool pressed)
             { 
@@ -168,7 +176,7 @@ namespace Game.Components
                     { "button1", new InputAction("button1") },
                     { "button2", new InputAction("button2") },
                     { "button3", new InputAction("button3") },
-                    { "movement", new InputAction("movement", InputAction.InputTypeValue) },
+                    { "movement", new InputAction("movement", InputActionType.Value) },
                 }
             };
         }

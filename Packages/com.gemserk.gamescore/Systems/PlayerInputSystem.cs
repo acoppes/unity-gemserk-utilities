@@ -85,7 +85,7 @@ namespace Game.Systems
                     if (playerInputComponent.inputActions.TryGetValue(buttonName, out var inputAction))
                     {
                         var button = inputComponent.actions[buttonName];
-                        button.type = (int) inputAction.type;
+                        button.type = inputAction.type;
                         
                         if (inputAction.type == InputActionType.Button)
                         {

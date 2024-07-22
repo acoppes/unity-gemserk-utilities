@@ -3,6 +3,7 @@ using Game.Components.Abilities;
 using Leopotam.EcsLite.UnityEditor;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Game.Editor
 {
@@ -71,7 +72,7 @@ namespace Game.Editor
                     var button = buttons[buttonName];
                     EditorGUILayout.BeginHorizontal();
 
-                    if (button.type == 1)
+                    if (button.type == InputActionType.Button)
                     {
                         button.isPressed = EditorGUILayout.Toggle(buttonName, button.isPressed);
                     } else if (button.type == 0)

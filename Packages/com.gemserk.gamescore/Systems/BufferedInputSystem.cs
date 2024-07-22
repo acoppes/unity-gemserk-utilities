@@ -2,6 +2,7 @@
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine.InputSystem;
 
 namespace Game.Systems
 {
@@ -28,7 +29,7 @@ namespace Game.Systems
                 foreach (var actionName in controlComponent.actions.Keys)
                 {
                     var action = controlComponent.actions[actionName];
-                    if (action.type == InputComponent.InputAction.InputTypeButton)
+                    if (action.type == InputActionType.Button)
                     {
                         if (action.wasPressed)
                         {
