@@ -45,6 +45,11 @@ namespace Game.Triggers
                 {
                     virtualCamera.Follow = targetGameObject.transform;
                     virtualCamera.LookAt = targetGameObject.transform;
+                    
+                    if (forceCameraPosition)
+                    {
+                        virtualCamera.ForceCameraPosition(virtualCamera.Follow.transform.position, Quaternion.identity);
+                    }
                 }
                 else
                 {
