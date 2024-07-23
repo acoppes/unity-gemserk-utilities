@@ -1,5 +1,6 @@
 ﻿using Unity.Cinemachine;
 using Game.Components;
+using Gemserk.Leopotam.Ecs.Components;
 using Gemserk.Triggers;
 using Gemserk.Triggers.Queries;
 using UnityEngine;
@@ -25,6 +26,8 @@ namespace Game.Triggers
         public bool useModel;
         public bool forceCameraPosition;
 
+        public bool useGameObject;
+        
         public override string GetObjectName()
         {
             if (query != null)
@@ -45,11 +48,6 @@ namespace Game.Triggers
                 {
                     virtualCamera.Follow = targetGameObject.transform;
                     virtualCamera.LookAt = targetGameObject.transform;
-                    
-                    if (forceCameraPosition)
-                    {
-                        virtualCamera.ForceCameraPosition(virtualCamera.Follow.transform.position, Quaternion.identity);
-                    }
                 }
                 else
                 {
@@ -57,24 +55,34 @@ namespace Game.Triggers
                 
                     foreach (var entity in entities)
                     {
-                        var modelComponent = world.GetComponent<ModelComponent>(entity);
-                    
-                        if (!useModel)
+                        if (useGameObject)
                         {
-                            virtualCamera.Follow = modelComponent.instance.transform;
-                            virtualCamera.LookAt = modelComponent.instance.transform;
+                            var gameObjectComponent = world.GetComponent<GameObjectComponent>(entity);
+                            virtualCamera.Follow = gameObjectComponent.gameObject.transform;
+                            virtualCamera.LookAt = gameObjectComponent.gameObject.transform;
                         }
                         else
                         {
-                            virtualCamera.Follow = modelComponent.instance.model;
-                            virtualCamera.LookAt = modelComponent.instance.model;
+                            var modelComponent = world.GetComponent<ModelComponent>(entity);
+                    
+                            if (!useModel)
+                            {
+                                virtualCamera.Follow = modelComponent.instance.transform;
+                                virtualCamera.LookAt = modelComponent.instance.transform;
+                            }
+                            else
+                            {
+                                virtualCamera.Follow = modelComponent.instance.model;
+                                virtualCamera.LookAt = modelComponent.instance.model;
+                            }
                         }
-
-                        if (forceCameraPosition)
-                        {
-                            virtualCamera.ForceCameraPosition(virtualCamera.Follow.transform.position, Quaternion.identity);
-                        }
+                        
                     }
+                }
+                
+                if (forceCameraPosition)
+                {
+                    virtualCamera.ForceCameraPosition(virtualCamera.Follow.transform.position, Quaternion.identity);
                 }
                 
             } else if (actionType == ActionType.StopFollowing)
