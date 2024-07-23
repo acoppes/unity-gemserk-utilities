@@ -30,8 +30,14 @@ namespace Game.Systems
                     var entityReference = gameObjectComponent.gameObject.GetOrAddComponent<EntityReference>();
                     entityReference.entity = entity;
                     
+                    if (entity.Has<PositionComponent>())
+                    {
+                        gameObjectComponent.gameObject.transform.position = entity.Get<PositionComponent>().value;
+                    }
+                    
                     // gameObjectComponent.gameObject = Instantiate(gameObjectComponent.prefab);
                     gameObjectComponent.gameObject.SetActive(true);
+                    
                 }
             }
         }
