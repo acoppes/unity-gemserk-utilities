@@ -90,10 +90,18 @@ namespace Game.Components
         public static InputComponent.InputAction button3(this InputComponent inputComponent) => inputComponent.actions["button3"];
         
         public static InputComponent.InputAction direction(this InputComponent inputComponent) => inputComponent.actions["movement"];
+        
+        public static InputComponent.InputAction look(this InputComponent inputComponent) => inputComponent.actions["look"];
 
         public static Vector3 direction3d(this InputComponent inputComponent)
         {
             var direction = inputComponent.direction().vector2;
+            return new Vector3(direction.x, 0, direction.y);
+        }
+        
+        public static Vector3 look3d(this InputComponent inputComponent)
+        {
+            var direction = inputComponent.look().vector2;
             return new Vector3(direction.x, 0, direction.y);
         }
     }
@@ -177,6 +185,7 @@ namespace Game.Components
                     { "button2", new InputAction("button2") },
                     { "button3", new InputAction("button3") },
                     { "movement", new InputAction("movement", InputActionType.Value) },
+                    { "look", new InputAction("look", InputActionType.Value) },
                 }
             };
         }

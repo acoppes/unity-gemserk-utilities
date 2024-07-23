@@ -62,9 +62,9 @@ namespace Game.Editor
                 
                 EditorGUI.indentLevel++;
 
-                Vector2 val = EditorGUILayout.Vector2Field("direction", 
-                    inputComponent.direction().vector2);
-                inputComponent.direction().vector2 = val;
+                // Vector2 val = EditorGUILayout.Vector2Field("direction", 
+                //     inputComponent.direction().vector2);
+                // inputComponent.direction().vector2 = val;
 
                 var buttons = inputComponent.actions;
                 foreach (var buttonName in buttons.Keys)
