@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using Gemserk.Leopotam.Ecs.Components;
 using Gemserk.Leopotam.Ecs.Events;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using MyBox;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Controllers
@@ -72,12 +74,19 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             if (world.HasComponent<ControllerComponent>(entity))
             {
                 ref var controllerComponent = ref world.GetComponent<ControllerComponent>(entity);
-                controllerComponent.instance = GetControllerInstance(controllerComponent);
-                
+
+                if (entity.Has<ControllerFromGameObject>())
+                {
+                    controllerComponent.instance = entity.Get<GameObjectComponent>().gameObject;
+                }
+                else
+                {
+                    controllerComponent.instance = GetControllerInstance(controllerComponent);
 #if GEMSERK_CONTROLLERS_DEBUG && UNITY_EDITOR
-                controllerComponent.instance.transform.parent = instancesParent.transform;
-              
+                    controllerComponent.instance.transform.parent = instancesParent.transform;
 #endif
+                }
+                
                 controllerComponent.controllers = new List<IController>();
                 controllerComponent.instance.GetComponentsInChildren(controllerComponent.controllers);
 
@@ -89,17 +98,17 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                 
                 if (!controllerComponent.sharedInstance)
                 {
-                    var entityReference = controllerComponent.instance.AddComponent<EntityReference>();
+                    var entityReference = controllerComponent.instance.GetOrAddComponent<EntityReference>();
                     entityReference.entity = entity;
                 }
             }
         }
         
-        public void OnEntityDestroyed(World world, Entity destroyedEntity)
+        public void OnEntityDestroyed(World world, Entity entity)
         {
-            if (world.HasComponent<ControllerComponent>(destroyedEntity))
+            if (world.HasComponent<ControllerComponent>(entity))
             {
-                var controllerComponent = world.GetComponent<ControllerComponent>(destroyedEntity);
+                var controllerComponent = world.GetComponent<ControllerComponent>(entity);
                 
                 if (controllerComponent.intialized)
                 {
@@ -107,14 +116,17 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                     {
                         if (controller is IDestroyed onDestroyed)
                         {
-                            onDestroyed.OnDestroyed(world, destroyedEntity);
+                            onDestroyed.OnDestroyed(world, entity);
                         }
                     }
                 }
                 
                 if (controllerComponent.instance != null && !controllerComponent.sharedInstance)
                 {
-                    GameObject.Destroy(controllerComponent.instance);
+                    if (!entity.Has<ControllerFromGameObject>())
+                    {
+                        GameObject.Destroy(controllerComponent.instance);
+                    }
                 }
 
                 controllerComponent.instance = null;

@@ -22,4 +22,9 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         public List<IUpdate> updateListeners;
         public List<IStateChanged> stateChangedListeners;
     }
+
+    public struct ControllerFromGameObject : IEntityComponent
+    {
+        
+    }
 }

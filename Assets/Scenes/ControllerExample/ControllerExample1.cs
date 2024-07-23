@@ -18,6 +18,7 @@ public class ControllerExample1 : ControllerBase, IUpdate, IInit, IStateChanged
     public void OnInit(World world, Entity entity)
     {
         initialized = true;
+        myValue = 0;
     }
     
     public void OnUpdate(World world, Entity entity, float dt)

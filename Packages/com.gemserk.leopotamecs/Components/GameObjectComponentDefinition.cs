@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Gemserk.Leopotam.Ecs.Controllers;
+using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Components
 {
@@ -31,6 +32,8 @@ namespace Gemserk.Leopotam.Ecs.Components
         public GameObject prefab;
 
         public CopyPositionType copyPositionType = CopyPositionType.CopyFromEntity;
+
+        public bool isController;
         
         public override string GetComponentName()
         {
@@ -51,6 +54,11 @@ namespace Gemserk.Leopotam.Ecs.Components
             } else if (copyPositionType == CopyPositionType.CopyFromGameObject)
             {
                 world.AddComponent<CopyPositionFromGameObjectComponent>(entity);
+            }
+
+            if (isController)
+            {
+                entity.Add(new ControllerFromGameObject());
             }
         }
     }
