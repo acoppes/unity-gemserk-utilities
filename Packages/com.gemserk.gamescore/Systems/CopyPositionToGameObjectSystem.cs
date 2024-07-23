@@ -7,14 +7,15 @@ namespace Game.Systems
 {
     public class CopyPositionToGameObjectSystem : BaseSystem, IEcsRunSystem
     {
-        readonly EcsFilterInject<Inc<PositionComponent, GameObjectComponent>, Exc<DisabledComponent>> filter = default;
+        readonly EcsFilterInject<Inc<PositionComponent, GameObjectComponent, CopyPositionFromEntityComponent>, Exc<DisabledComponent>> fromEntity = default;
+        readonly EcsFilterInject<Inc<PositionComponent, GameObjectComponent, CopyPositionFromGameObjectComponent>, Exc<DisabledComponent>> fromGameObject = default;
         
         public void Run(EcsSystems systems)
         {
-            foreach (var e in filter.Value)
+            foreach (var e in fromEntity.Value)
             {
-                ref var position = ref filter.Pools.Inc1.Get(e);
-                ref var gameObjectComponent = ref filter.Pools.Inc2.Get(e);
+                ref var position = ref fromEntity.Pools.Inc1.Get(e);
+                ref var gameObjectComponent = ref fromEntity.Pools.Inc2.Get(e);
 
                 if (position.type == 0)
                 {
@@ -24,6 +25,14 @@ namespace Game.Systems
                 {
                     gameObjectComponent.gameObject.transform.position = position.value;
                 }
+            }
+            
+            foreach (var e in fromGameObject.Value)
+            {
+                ref var position = ref fromEntity.Pools.Inc1.Get(e);
+                ref var gameObjectComponent = ref fromEntity.Pools.Inc2.Get(e);
+
+                position.value = gameObjectComponent.gameObject.transform.position;
             }
         }
     }
