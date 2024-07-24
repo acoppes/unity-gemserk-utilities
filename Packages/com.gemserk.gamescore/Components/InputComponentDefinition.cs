@@ -118,10 +118,10 @@ namespace Game.Components
             // by default are button
             public InputActionType type = InputActionType.Button;
         
-            public bool isPressed;
-            public bool wasPressed;
+            public bool isPressed = false;
+            public bool wasPressed = false;
 
-            public Vector2 vector2;
+            public Vector2 vector2 = Vector2.zero;
 
             //    public bool wasPressedThisFrame => isPressed && wasPressed;
 
