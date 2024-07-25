@@ -77,15 +77,15 @@ namespace Game.Components
     
     public static class InputComponentExtensions
     {
-        public static InputComponent.InputAction right(this InputComponent inputComponent) => inputComponent.actions["right"];
-        public static InputComponent.InputAction left(this InputComponent inputComponent) => inputComponent.actions["left"];
+        public static InputComponent.InputAction right(this InputComponent inputComponent) => inputComponent.actions[InputComponent.InputAction.DefaultRight];
+        public static InputComponent.InputAction left(this InputComponent inputComponent) => inputComponent.actions[InputComponent.InputAction.DefaultLeft];
         public static InputComponent.InputAction up(this InputComponent inputComponent) => inputComponent.actions["up"];
         public static InputComponent.InputAction down(this InputComponent inputComponent) => inputComponent.actions["down"];
         
         public static InputComponent.InputAction forward(this InputComponent inputComponent) => inputComponent.actions["forward"];
         public static InputComponent.InputAction backward(this InputComponent inputComponent) => inputComponent.actions["backward"];
         
-        public static InputComponent.InputAction button1(this InputComponent inputComponent) => inputComponent.actions["button1"];
+        public static InputComponent.InputAction button1(this InputComponent inputComponent) => inputComponent.actions[InputComponent.InputAction.DefaultButton1];
         public static InputComponent.InputAction button2(this InputComponent inputComponent) => inputComponent.actions["button2"];
         public static InputComponent.InputAction button3(this InputComponent inputComponent) => inputComponent.actions["button3"];
         
@@ -110,6 +110,11 @@ namespace Game.Components
     {
         public class InputAction
         {
+            public const string DefaultLeft = "left";
+            public const string DefaultRight = "right";
+            
+            public const string DefaultButton1 = "button1";
+            
             // public const int InputTypeValue = (int) InputActionType.Value;
             // public const int InputTypeButton = (int) InputActionType.Button;
 
@@ -175,13 +180,13 @@ namespace Game.Components
             {
                 actions = new Dictionary<string, InputAction>()
                 {
-                    { "right", new InputAction("right") },
-                    { "left", new InputAction("left") },
+                    { InputAction.DefaultRight, new InputAction(InputAction.DefaultRight) },
+                    { InputAction.DefaultLeft, new InputAction(InputAction.DefaultLeft ) },
                     { "up", new InputAction("up") },
                     { "down", new InputAction("down") },
                     { "forward", new InputAction("forward") },
                     { "backward", new InputAction("backward") },
-                    { "button1", new InputAction("button1") },
+                    { InputAction.DefaultButton1, new InputAction(InputAction.DefaultButton1) },
                     { "button2", new InputAction("button2") },
                     { "button3", new InputAction("button3") },
                     { "movement", new InputAction("movement", InputActionType.Value) },
