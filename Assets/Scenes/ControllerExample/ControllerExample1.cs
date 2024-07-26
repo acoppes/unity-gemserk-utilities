@@ -15,6 +15,9 @@ public class ControllerExample1 : ControllerBase, IUpdate, IInit, IStateChanged
 
     [InterfaceReferenceType]
     public InterfaceReference<IEntityDefinition> reference;
+    
+    [InterfaceReferenceType(sceneReferencesFilter = FindObjectsInactive.Exclude)]
+    public InterfaceReference<IEntityDefinition> referenceExcludeDisabled;
 
     [ObjectType(typeof(IEntityDefinition))]
     public Object entityDefinition;

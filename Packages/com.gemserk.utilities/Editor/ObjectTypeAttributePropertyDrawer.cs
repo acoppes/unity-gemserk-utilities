@@ -65,7 +65,7 @@ namespace Gemserk.Utilities.Editor
 
                 if (!objectTypeAttribute.disableSceneReferences)
                 {
-                    var sceneObjects = Object.FindObjectsByType(typeof(Component), FindObjectsInactive.Exclude,
+                    var sceneObjects = Object.FindObjectsByType(typeof(Component), objectTypeAttribute.sceneReferencesFilter,
                         FindObjectsSortMode.None);
                     var filteredSceneObjects = sceneObjects.Where(c => typeToSelect.IsInstanceOfType(c));
                     options.AddRange(filteredSceneObjects.Select(o => new SelectReferenceWindow.ObjectReference()

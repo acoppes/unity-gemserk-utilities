@@ -14,6 +14,10 @@ namespace Gemserk.Utilities
         public bool disableSceneReferences;
         public bool disablePrefabReferences;
         public bool disableAssetReferences;
+        
+        
+
+        public FindObjectsInactive sceneReferencesFilter = FindObjectsInactive.Include; 
 
         public abstract Type GetPropertyType();
     }
