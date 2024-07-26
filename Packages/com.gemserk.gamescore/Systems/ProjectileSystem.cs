@@ -21,8 +21,11 @@ namespace Game.Systems
         readonly EcsFilterInject<Inc<ProjectileComponent>, Exc<DisabledComponent>> 
             projectilesFilter = default;
         
-        readonly EcsFilterInject<Inc<ProjectileComponent, DestroyableComponent>, Exc<DisabledComponent>> 
+        readonly EcsFilterInject<Inc<ProjectileComponent, DestroyableComponent>, Exc<DisabledComponent, HealthComponent>> 
             destroyablesFilter = default;
+        
+        readonly EcsFilterInject<Inc<ProjectileComponent, HealthComponent>, Exc<DisabledComponent>> 
+            destroyWithHealth = default;
         
         public void Run(EcsSystems systems)
         {
@@ -164,6 +167,17 @@ namespace Game.Systems
                 {
                     ref var destroyable = ref destroyablesFilter.Pools.Inc2.Get(entity);
                     destroyable.destroy = true;
+                }
+            }
+            
+            foreach (var entity in destroyWithHealth.Value)
+            {
+                var projectileComponent = destroyWithHealth.Pools.Inc1.Get(entity);
+
+                if (projectileComponent.maxDistance > 0 && projectileComponent.travelDistance > projectileComponent.maxDistance)
+                {
+                    ref var health = ref destroyWithHealth.Pools.Inc2.Get(entity);
+                    health.triggerForceDeath = true;
                 }
             }
         }
