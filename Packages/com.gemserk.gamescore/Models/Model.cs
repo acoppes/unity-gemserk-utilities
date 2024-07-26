@@ -24,6 +24,12 @@ namespace Game.Models
         {
             cachedTransform = this.GetComponent<Transform>();
             hasSpriteRenderer = spriteRenderer != null;
+
+            if (particleSystem)
+            {
+                var main = particleSystem.main;
+                main.stopAction = ParticleSystemStopAction.None;
+            }
         }
 
         private void OnEnable()
