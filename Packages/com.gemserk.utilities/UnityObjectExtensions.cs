@@ -7,16 +7,28 @@ namespace Gemserk.Utilities
         public static T GetInterface<T>(this UnityEngine.Object obj) where T : class
         {
             if (obj is T t)
+            {
                 return t;
-
+            }
+            
             if (obj is GameObject go)
             {
                 return go.GetComponentInChildren<T>();
             }
 
-            if (obj is MonoBehaviour monoBehaviour)
+            if (obj is Component component)
             {
-                return monoBehaviour.GetComponentInChildren<T>();
+                return component.GetComponentInChildren<T>();
+            }
+
+            return null;
+        }
+        
+        public static GameObject GetGameObjectFromInterface(object something)
+        {
+            if (something is Component t)
+            {
+                return t.gameObject;
             }
 
             return null;

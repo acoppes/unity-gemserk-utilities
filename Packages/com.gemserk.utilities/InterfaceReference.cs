@@ -1,15 +1,31 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Gemserk.Utilities
 {
     [Serializable]
     public class InterfaceReference<T> where T : class
     {
-        public UnityEngine.Object source;
+        [SerializeField]
+        private UnityEngine.Object source;
 
+        private T cachedT;
+
+        public UnityEngine.Object Source => source;
+        
         public T Get()
         {
-            return source.GetInterface<T>();
+            if (!source)
+            {
+                return null;
+            }
+
+            if (cachedT == null)
+            {
+                cachedT = source.GetInterface<T>();
+            }
+            
+            return cachedT;
         }
     }
 }
