@@ -229,6 +229,7 @@ Transform:
   m_Children:
   - {fileID: 1994950387}
   - {fileID: 1645325275}
+  - {fileID: 1323041667}
   - {fileID: 2130531309}
   - {fileID: 413513091}
   - {fileID: 258156324}
@@ -964,6 +965,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedObjectInstance: {fileID: 1770808133}
+  prefab: {fileID: 0}
+  copyPositionType: 0
+  isController: 0
 --- !u!114 &637553569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1651,8 +1655,7 @@ MonoBehaviour:
   onlyPrefabs: {fileID: 1857474353711054764, guid: 10f6fed06357f154599b92ad315aa121,
     type: 3}
   onlyAssets: {fileID: 11400000, guid: 12d81de5d502fc042b12cdd68d211f38, type: 2}
-  weaponDefinitions: {fileID: 1857474353711054764, guid: de89a354ea4176441aa52c52edcf23e1,
-    type: 3}
+  weaponDefinitions: {fileID: 986209551}
 --- !u!1 &1244653753
 GameObject:
   m_ObjectHideFlags: 0
@@ -1724,6 +1727,50 @@ Transform:
   - {fileID: 2001102712}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1323041666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1323041667}
+  - component: {fileID: 1323041668}
+  m_Layer: 0
+  m_Name: WeaponDefinition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1323041667
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323041666}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 214458122}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1323041668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323041666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 057162161bac401bb66ec0b44b154cb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1332753439
 GameObject:
   m_ObjectHideFlags: 0
@@ -2099,6 +2146,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedObjectInstance: {fileID: 974573586}
+  prefab: {fileID: 0}
+  copyPositionType: 0
+  isController: 0
 --- !u!114 &1521286693
 MonoBehaviour:
   m_ObjectHideFlags: 0

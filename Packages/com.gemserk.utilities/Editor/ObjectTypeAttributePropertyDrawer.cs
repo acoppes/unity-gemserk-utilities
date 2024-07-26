@@ -12,7 +12,7 @@ namespace Gemserk.Utilities.Editor
     public class ObjectTypeAttributePropertyDrawer : PropertyDrawer
     {
         private const float elementHeight = 20f;
-        private List<SelectReferenceWindow.ObjectReference> options = new List<SelectReferenceWindow.ObjectReference>();
+        // private List<SelectReferenceWindow.ObjectReference> options = new List<SelectReferenceWindow.ObjectReference>();
 
         private Object lastSelectedObject;
 
@@ -41,6 +41,12 @@ namespace Gemserk.Utilities.Editor
             }
 
             var objectTypeAttribute = attribute as BaseObjectTypeAttribute;
+            
+            if (objectTypeAttribute == null)
+            {
+                return;
+            }
+            
             var typeToSelect = GetTypeToSelect(property);
             var objectProperty = GetPropertyToOverride(property);
             
@@ -61,52 +67,62 @@ namespace Gemserk.Utilities.Editor
             
             if (GUI.Button(buttonPosition, "Select"))
             {
-                options.Clear();
+                // options.Clear();
 
-                if (!objectTypeAttribute.disableSceneReferences)
+                Func<List<SelectReferenceWindow.ObjectReference>> getSceneReferences = () =>
                 {
+                    var sceneReferences = new List<SelectReferenceWindow.ObjectReference>();
                     var sceneObjects = Object.FindObjectsByType(typeof(Component), objectTypeAttribute.sceneReferencesFilter,
                         FindObjectsSortMode.None);
                     var filteredSceneObjects = sceneObjects.Where(c => typeToSelect.IsInstanceOfType(c));
-                    options.AddRange(filteredSceneObjects.Select(o => new SelectReferenceWindow.ObjectReference()
+                    if (!string.IsNullOrEmpty(objectTypeAttribute.filterString))
+                    {
+                        filteredSceneObjects = filteredSceneObjects.Where(c => c.name.ToLower().Contains(objectTypeAttribute.filterString.ToLower()));
+                    }
+                    sceneReferences.AddRange(filteredSceneObjects.Select(o => new SelectReferenceWindow.ObjectReference()
                     {
                         reference = o,
                         source = SelectReferenceWindow.ObjectReference.Source.Scene
                     }));
-                }
-
-                if (!objectTypeAttribute.disablePrefabReferences)
+                    return sceneReferences;
+                };
+                
+                Func<List<SelectReferenceWindow.ObjectReference>> getPrefabReferences = () =>
                 {
+                    var prefabReferences = new List<SelectReferenceWindow.ObjectReference>();
                     var prefabsWithType = AssetDatabaseExt.FindPrefabs(new[] { typeToSelect }, 
                         AssetDatabaseExt.FindOptions.ConsiderChildren, objectTypeAttribute.filterString, new[]
                         {
                             "Assets"
                         });
-
-                    options.AddRange(prefabsWithType.Select(o => new SelectReferenceWindow.ObjectReference()
+                    prefabReferences.AddRange(prefabsWithType.Select(o => new SelectReferenceWindow.ObjectReference()
                     {
                         reference = o,
                         source = SelectReferenceWindow.ObjectReference.Source.Prefab
                     }));
-                }
-
-                if (!objectTypeAttribute.disableAssetReferences)
+                    return prefabReferences;
+                };
+                
+                Func<List<SelectReferenceWindow.ObjectReference>> getAssetReferences = () =>
                 {
+                    var assetReferences = new List<SelectReferenceWindow.ObjectReference>();
                     var assets = AssetDatabaseExt.FindAssetsAll(typeToSelect, objectTypeAttribute.filterString, new[] { "Assets" });
-                    // options.AddRange(assets);
-                    
-                    options.AddRange(assets.Select(o => new SelectReferenceWindow.ObjectReference()
+                    assetReferences.AddRange(assets.Select(o => new SelectReferenceWindow.ObjectReference()
                     {
                         reference = o,
                         source = SelectReferenceWindow.ObjectReference.Source.Asset
                     }));
-                }
+                    return assetReferences;
+                };
                 
-                SelectReferenceWindow.OpenWindow(options, new SelectReferenceWindow.Configuration()
+                SelectReferenceWindow.OpenWindow(new SelectReferenceWindow.Configuration()
                 {
-                    canSelectAssetReferences = !objectTypeAttribute.disableAssetReferences,
-                    canSelectPrefabReferences = !objectTypeAttribute.disablePrefabReferences,
-                    canSelectSceneReferences = !objectTypeAttribute.disableSceneReferences,
+                    assetReferencesOpen = objectTypeAttribute.assetReferencesOpen,
+                    prefabReferencesOpen = objectTypeAttribute.prefabReferencesOpen,
+                    sceneReferencesOpen = objectTypeAttribute.sceneReferencesOpen,
+                    getSceneReferences = getSceneReferences,
+                    getPrefabReferences = getPrefabReferences,
+                    getAssetsReferences = getAssetReferences,
                     onSelectReferenceCallback = OnReferenceObjectSelected
                 });
             }

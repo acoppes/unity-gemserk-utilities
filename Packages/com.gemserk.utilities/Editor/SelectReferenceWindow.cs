@@ -11,9 +11,13 @@ namespace Gemserk.Utilities.Editor
     {
         public struct Configuration
         {
-            public bool canSelectSceneReferences;
-            public bool canSelectAssetReferences;
-            public bool canSelectPrefabReferences;
+            public bool sceneReferencesOpen;
+            public bool prefabReferencesOpen;
+            public bool assetReferencesOpen;
+            
+            public Func<List<ObjectReference>> getSceneReferences;
+            public Func<List<ObjectReference>> getPrefabReferences;
+            public Func<List<ObjectReference>> getAssetsReferences;
 
             public Action<ObjectReference> onSelectReferenceCallback;
         }
@@ -29,13 +33,19 @@ namespace Gemserk.Utilities.Editor
             public Object reference;
         }
         
-        public static void OpenWindow(IEnumerable<ObjectReference> objects, Configuration configuration)
+        public static void OpenWindow(Configuration configuration)
         {
             var window = GetWindow<SelectReferenceWindow>();
             window.titleContent = new GUIContent("Select Reference");
             window.objects.Clear();
-            window.objects.AddRange(objects);
+            // window.objects.AddRange(objects);
             window.configuration = configuration;
+
+            window.showSceneReferences = configuration.sceneReferencesOpen;
+            window.showPrefabReferences = configuration.prefabReferencesOpen;
+            window.showAssetsReferences = configuration.assetReferencesOpen;
+            
+            window.RecalculateObjects();
         }
 
         private Configuration configuration;
@@ -54,6 +64,26 @@ namespace Gemserk.Utilities.Editor
         private bool showPrefabReferences = true;
 
         private SearchField searchField;
+
+        private void RecalculateObjects()
+        {
+            objects.Clear();
+            
+            if (showSceneReferences)
+            {
+                objects.AddRange(configuration.getSceneReferences());    
+            }
+            
+            if (showPrefabReferences)
+            {
+                objects.AddRange(configuration.getPrefabReferences());    
+            }
+            
+            if (showAssetsReferences)
+            {
+                objects.AddRange(configuration.getAssetsReferences());    
+            }
+        }
         
         private void OnGUI()
         {
@@ -67,28 +97,13 @@ namespace Gemserk.Utilities.Editor
             var rect = EditorGUILayout.GetControlRect();
             searchText = searchField.OnGUI(rect, searchText);
 
-            var toggleOptionsCount = 0;
-            toggleOptionsCount += configuration.canSelectAssetReferences ? 1 : 0;
-            toggleOptionsCount += configuration.canSelectPrefabReferences ? 1 : 0;
-            toggleOptionsCount += configuration.canSelectSceneReferences ? 1 : 0;
-            
-            if (toggleOptionsCount > 1)
-            {
-                EditorGUILayout.BeginHorizontal();
-                if (configuration.canSelectSceneReferences)
-                {
-                    showSceneReferences = GUILayout.Toggle(showSceneReferences, "Scene", "Button");
-                }
-                if (configuration.canSelectPrefabReferences)
-                {
-                    showPrefabReferences = GUILayout.Toggle(showPrefabReferences, "Prefabs", "Button");
-                }
-                if (configuration.canSelectAssetReferences)
-                {
-                    showAssetsReferences = GUILayout.Toggle(showAssetsReferences, "Assets", "Button");
-                }
-                EditorGUILayout.EndHorizontal();
-            }
+            EditorGUILayout.BeginHorizontal();
+            EditorGUI.BeginChangeCheck();
+            showSceneReferences = GUILayout.Toggle(showSceneReferences, "Scene", "Button");
+            showPrefabReferences = GUILayout.Toggle(showPrefabReferences, "Prefabs", "Button");
+            showAssetsReferences = GUILayout.Toggle(showAssetsReferences, "Assets", "Button");
+            var optionsChanged = EditorGUI.EndChangeCheck();
+            EditorGUILayout.EndHorizontal();
 
             if (!string.IsNullOrEmpty(searchText))
             {
@@ -159,6 +174,12 @@ namespace Gemserk.Utilities.Editor
             if (GUILayout.Button("Close"))
             {
                 Close();
+            }
+
+            if (optionsChanged)
+            {
+                RecalculateObjects();
+                Repaint();
             }
         }
     }
