@@ -4,10 +4,8 @@ using UnityEngine;
 namespace Gemserk.Utilities
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public class ObjectTypeAttribute : PropertyAttribute
+    public abstract class BaseObjectTypeAttribute : PropertyAttribute
     {
-        public Type typeToSelect;
-
         /// <summary>
         /// This is used to prefilter objects/prefabs/assets having that string in the name.
         /// </summary>
@@ -16,28 +14,32 @@ namespace Gemserk.Utilities
         public bool disableSceneReferences;
         public bool disablePrefabReferences;
         public bool disableAssetReferences;
+
+        public abstract Type GetPropertyType();
+    }
+    
+    [AttributeUsage(AttributeTargets.Field)]
+    public class ObjectTypeAttribute : BaseObjectTypeAttribute
+    {
+        public readonly Type typeToSelect;
 
         public ObjectTypeAttribute(Type typeToSelect)
         {
             this.typeToSelect = typeToSelect;
         }
+
+        public override Type GetPropertyType()
+        {
+            return typeToSelect;
+        }
     }
     
     [AttributeUsage(AttributeTargets.Field)]
-    public class InterfaceReferenceTypeAttribute : PropertyAttribute
+    public class InterfaceReferenceTypeAttribute : BaseObjectTypeAttribute
     {
-        /// <summary>
-        /// This is used to prefilter objects/prefabs/assets having that string in the name.
-        /// </summary>
-        public string filterString = null;
-
-        public bool disableSceneReferences;
-        public bool disablePrefabReferences;
-        public bool disableAssetReferences;
-
-        public InterfaceReferenceTypeAttribute()
+        public override Type GetPropertyType()
         {
-            
+            return null;
         }
     }
 }

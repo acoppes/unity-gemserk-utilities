@@ -16,6 +16,9 @@ public class ControllerExample1 : ControllerBase, IUpdate, IInit, IStateChanged
     [InterfaceReferenceType]
     public InterfaceReference<IEntityDefinition> reference;
 
+    [ObjectType(typeof(IEntityDefinition))]
+    public Object entityDefinition;
+
     // [ObjectType()]
     // public Object entityDefinition;
     

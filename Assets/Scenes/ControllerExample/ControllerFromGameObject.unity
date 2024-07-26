@@ -325,7 +325,10 @@ MonoBehaviour:
   cooldown:
     total: 1
   reference:
-    source: {fileID: 110416511414605169, guid: aca7326dd49b8da4685e963ad9c93a29, type: 3}
+    source: {fileID: 1857474353711054764, guid: 10f6fed06357f154599b92ad315aa121,
+      type: 3}
+  entityDefinition: {fileID: 1857474353711054764, guid: de89a354ea4176441aa52c52edcf23e1,
+    type: 3}
 --- !u!1 &949201495
 GameObject:
   m_ObjectHideFlags: 0
