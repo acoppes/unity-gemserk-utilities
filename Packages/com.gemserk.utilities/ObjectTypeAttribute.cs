@@ -22,4 +22,22 @@ namespace Gemserk.Utilities
             this.typeToSelect = typeToSelect;
         }
     }
+    
+    [AttributeUsage(AttributeTargets.Field)]
+    public class InterfaceReferenceTypeAttribute : PropertyAttribute
+    {
+        /// <summary>
+        /// This is used to prefilter objects/prefabs/assets having that string in the name.
+        /// </summary>
+        public string filterString = null;
+
+        public bool disableSceneReferences;
+        public bool disablePrefabReferences;
+        public bool disableAssetReferences;
+
+        public InterfaceReferenceTypeAttribute()
+        {
+            
+        }
+    }
 }

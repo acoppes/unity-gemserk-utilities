@@ -324,6 +324,8 @@ MonoBehaviour:
   testIncrement: 1
   cooldown:
     total: 1
+  reference:
+    source: {fileID: 110416511414605169, guid: aca7326dd49b8da4685e963ad9c93a29, type: 3}
 --- !u!1 &949201495
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,13 +12,28 @@ public class ControllerExample1 : ControllerBase, IUpdate, IInit, IStateChanged
     public float testIncrement;
 
     public Cooldown cooldown;
+
+    [InterfaceReferenceType]
+    public InterfaceReference<IEntityDefinition> reference;
+
+    // [ObjectType()]
+    // public Object entityDefinition;
     
     private bool initialized;
     
     public void OnInit(World world, Entity entity)
     {
         initialized = true;
+
         myValue = 0;
+
+        var def = reference.Get();
+        Debug.Log(def == null);
+
+        // var gameObject = UnityObjectExtensions.GetGameObjectFromInterface(def);
+
+        // var gameObject = reference.AsGameObject();
+        // Debug.Log(gameObject.name);
     }
     
     public void OnUpdate(World world, Entity entity, float dt)
