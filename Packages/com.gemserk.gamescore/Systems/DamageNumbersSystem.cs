@@ -1,4 +1,3 @@
-using System;
 using Game.Components;
 using Game.Models;
 using Gemserk.Leopotam.Ecs;
@@ -6,7 +5,6 @@ using Gemserk.Utilities.Pooling;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Game.Systems
 {
@@ -54,19 +52,15 @@ namespace Game.Systems
 
                 var damageNumberGameObject = gameObjectPool.Get();
                 var model = damageNumberGameObject.GetComponent<DamageNumberModel>();
+
+                var position = positionComponent.value;
                 
-                var position = GamePerspective.ConvertFromWorld(positionComponent.value);
+                if (positionComponent.type == 0)
+                {
+                    position = GamePerspective.ConvertFromWorld(positionComponent.value);
+                }
+                
                 model.Play(position, total, OnNumberAnimComplete);
-                
-                // damageNumberGameObject.transform.position = position;
-                // var text = damageNumberGameObject.GetComponentInChildren<Text>();
-                // text.text = $"{total:0}";
-                //
-                // LeanTween.moveY(damageNumberGameObject, position.y + 2.5f, 0.35f)
-                //     .setFrom(position.y + 1)
-                //     .setEaseOutQuad()
-                //     .setOnCompleteParam(damageNumberGameObject)
-                //     .setOnComplete(OnNumberAnimComplete);
             }
         }
 
