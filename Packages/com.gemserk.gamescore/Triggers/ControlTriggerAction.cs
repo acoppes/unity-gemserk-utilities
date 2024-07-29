@@ -37,7 +37,12 @@ namespace Game.Triggers
         public bool button3;
 
         public List<CustomAction> customActions = new List<CustomAction>();
-        
+
+        public override string GetObjectName()
+        {
+            return $"OverrideControls({query})";
+        }
+
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
             var entities = world.GetEntities(query.GetEntityQuery());
