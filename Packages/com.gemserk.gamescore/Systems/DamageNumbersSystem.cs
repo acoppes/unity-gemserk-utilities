@@ -10,7 +10,7 @@ namespace Game.Systems
 {
     public class DamageNumbersSystem : BaseSystem, IEcsRunSystem, IEcsInitSystem
     {
-        readonly EcsFilterInject<Inc<HealthComponent, PositionComponent>, Exc<DisabledComponent>> 
+        readonly EcsFilterInject<Inc<HealthComponent, PositionComponent, HealthDamageNumberComponent>, Exc<DisabledComponent>> 
             filter = default;
         
         public GameObject numbersPrefab;
@@ -36,31 +36,37 @@ namespace Game.Systems
             {
                 ref var health = ref filter.Pools.Inc1.Get(e);
                 ref var positionComponent = ref filter.Pools.Inc2.Get(e);
-
+                ref var damageNumber = ref filter.Pools.Inc3.Get(e);
+                
                 if (health.processedDamages.Count == 0)
                 {
                     continue;
                 }
 
-                var total = 0.0f;
-
                 for (var i = 0; i < health.processedDamages.Count; i++)
                 {
                     var hit = health.processedDamages[i];
-                    total += hit.value;
+                    damageNumber.current += hit.value;
                 }
 
-                var damageNumberGameObject = gameObjectPool.Get();
-                var model = damageNumberGameObject.GetComponent<DamageNumberModel>();
-
-                var position = positionComponent.value;
-                
-                if (positionComponent.type == 0)
+                if (damageNumber.current >= damageNumber.minToShow)
                 {
-                    position = GamePerspective.ConvertFromWorld(positionComponent.value);
-                }
+                    var damageNumberGameObject = gameObjectPool.Get();
+                    var model = damageNumberGameObject.GetComponent<DamageNumberModel>();
+
+                    var position = positionComponent.value;
                 
-                model.Play(position, total, OnNumberAnimComplete);
+                    if (positionComponent.type == 0)
+                    {
+                        position = GamePerspective.ConvertFromWorld(positionComponent.value);
+                    }
+                
+                    model.Play(position, damageNumber.current, OnNumberAnimComplete);
+
+                    damageNumber.current = 0;
+                }
+
+
             }
         }
 

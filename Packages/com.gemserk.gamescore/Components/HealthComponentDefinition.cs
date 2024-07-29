@@ -19,6 +19,10 @@ namespace Game.Components
         [ConditionalField(nameof(hasHealthBar))] 
         public int healthBarSize = 1;
 
+        public bool hasDamageNumber;
+        [ConditionalField(nameof(hasDamageNumber))] 
+        public float damageNumberAccumulator = 0;
+        
         public override string GetComponentName()
         {
             return nameof(HealthComponent);
@@ -44,6 +48,14 @@ namespace Game.Components
                 {
                     offset = healthBarOffset,
                     size = healthBarSize
+                });
+            }
+            
+            if (hasDamageNumber)
+            {
+                world.AddComponent(entity, new HealthDamageNumberComponent()
+                {
+                    minToShow = damageNumberAccumulator
                 });
             }
         }

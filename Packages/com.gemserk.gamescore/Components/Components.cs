@@ -226,6 +226,12 @@ namespace Game.Components
         }
     }
 
+    public struct HealthDamageNumberComponent : IEntityComponent
+    {
+        public float minToShow;
+        public float current;
+    }
+
     public struct HealthAliveStateControllerEvent : IEntityComponent
     {
         
