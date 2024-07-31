@@ -27,5 +27,11 @@ namespace Scenes.EntityDefinitionField
         [ObjectType(typeof(IEntityDefinition), folders = SuperFolder, 
             disableSceneReferences = true, disableAssetReferences = true, disablePrefabReferences = false)]
         public Object onlyInFolder;
+        
+        [InterfaceReferenceType]
+        public InterfaceReference<IEntityDefinition> reference;
+    
+        [InterfaceReferenceType(sceneReferencesFilter = FindObjectsInactive.Exclude)]
+        public InterfaceReference<IEntityDefinition> referenceExcludeDisabled;
     }
 }

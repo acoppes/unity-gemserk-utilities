@@ -8,48 +8,13 @@ using Object = UnityEngine.Object;
 
 namespace Gemserk.Utilities.Editor
 {
-    [CustomPropertyDrawer(typeof(BaseObjectTypeAttribute), true)]
-    public class ObjectTypeAttributePropertyDrawer : PropertyDrawer
+    public class ObjectTypeAttributeGUI
     {
         private const float elementHeight = 20f;
-        // private List<SelectReferenceWindow.ObjectReference> options = new List<SelectReferenceWindow.ObjectReference>();
-
         private Object lastSelectedObject;
-
-        protected virtual SerializedPropertyType GetValidPropertyType()
-        {
-            return SerializedPropertyType.ObjectReference;
-        }
-
-        protected virtual Type GetTypeToSelect(SerializedProperty property)
-        {
-            var objectTypeAttribute = attribute as BaseObjectTypeAttribute;
-            return objectTypeAttribute.GetPropertyType();
-        }
         
-        protected virtual SerializedProperty GetPropertyToOverride(SerializedProperty property)
+        public void DrawGUI(Rect position, SerializedProperty objectProperty, Type typeToSelect, BaseObjectTypeAttribute objectTypeAttribute)
         {
-            return property;
-        }
-        
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        {
-            if (property.propertyType != GetValidPropertyType())
-            {
-                EditorGUI.LabelField(position, $"Invalid usage of ObjectTypeAttribute for field \"{label.text}\", use with Object references.");
-                return;
-            }
-
-            var objectTypeAttribute = attribute as BaseObjectTypeAttribute;
-            
-            if (objectTypeAttribute == null)
-            {
-                return;
-            }
-            
-            var typeToSelect = GetTypeToSelect(property);
-            var objectProperty = GetPropertyToOverride(property);
-            
             EditorGUI.BeginChangeCheck();
 
             var labelPosition = new Rect(position.x, position.y, position.width * 0.25f, elementHeight * 1);
@@ -144,10 +109,55 @@ namespace Gemserk.Utilities.Editor
                 }
             }
         }
-
+        
         private void OnReferenceObjectSelected(SelectReferenceWindow.ObjectReference objectReference)
         {
             lastSelectedObject = objectReference.reference;
+        }
+
+    }
+    
+    [CustomPropertyDrawer(typeof(BaseObjectTypeAttribute), true)]
+    public class ObjectTypeAttributePropertyDrawer : PropertyDrawer
+    {
+        private ObjectTypeAttributeGUI attributeGUI = new();
+        private Object lastSelectedObject;
+
+        protected virtual SerializedPropertyType GetValidPropertyType()
+        {
+            return SerializedPropertyType.ObjectReference;
+        }
+
+        protected virtual Type GetTypeToSelect(SerializedProperty property)
+        {
+            var objectTypeAttribute = attribute as BaseObjectTypeAttribute;
+            return objectTypeAttribute.GetPropertyType();
+        }
+        
+        protected virtual SerializedProperty GetPropertyToOverride(SerializedProperty property)
+        {
+            return property;
+        }
+        
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            if (property.propertyType != GetValidPropertyType())
+            {
+                EditorGUI.LabelField(position, $"Invalid usage of ObjectTypeAttribute for field \"{label.text}\", use with Object references.");
+                return;
+            }
+
+            var objectTypeAttribute = attribute as BaseObjectTypeAttribute;
+            
+            if (objectTypeAttribute == null)
+            {
+                return;
+            }
+            
+            var typeToSelect = GetTypeToSelect(property);
+            var objectProperty = GetPropertyToOverride(property);
+            
+            attributeGUI.DrawGUI(position, objectProperty, typeToSelect, objectTypeAttribute);
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
