@@ -15,10 +15,6 @@ namespace Gemserk.Utilities
         public bool disablePrefabReferences;
         public bool disableAssetReferences;
         
-        public bool sceneReferencesOpen => !disableSceneReferences;
-        public bool prefabReferencesOpen => !disablePrefabReferences;
-        public bool assetReferencesOpen => !disableAssetReferences;
-        
         public FindObjectsInactive sceneReferencesFilter = FindObjectsInactive.Include;
 
         public string folders = "Assets";

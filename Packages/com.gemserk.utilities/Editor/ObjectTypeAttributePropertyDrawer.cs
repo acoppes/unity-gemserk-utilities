@@ -10,17 +10,27 @@ namespace Gemserk.Utilities.Editor
 {
     public class ObjectTypeAttributeGUI
     {
-        private const float elementHeight = 20f;
+        public class Options
+        {
+            public string filterString = null;
+            public string[] folders;
+            public FindObjectsInactive sceneReferencesFilter = FindObjectsInactive.Include;
+            public bool sceneReferencesOpen;
+            public bool prefabReferencesOpen;
+            public bool assetReferencesOpen;
+        }
+        
+        private const float ElementHeight = 20f;
         private Object lastSelectedObject;
         
-        public void DrawGUI(Rect position, SerializedProperty objectProperty, Type typeToSelect, BaseObjectTypeAttribute objectTypeAttribute)
+        public void DrawGUI(Rect position, SerializedProperty objectProperty, Type typeToSelect, Options objectTypeAttribute)
         {
             EditorGUI.BeginChangeCheck();
 
-            var labelPosition = new Rect(position.x, position.y, position.width * 0.25f, elementHeight * 1);
+            var labelPosition = new Rect(position.x, position.y, position.width * 0.25f, ElementHeight * 1);
           //  var optionsPosition = new Rect(position.x, position.y + elementHeight, position.width, elementHeight);
-            var objectPosition = new Rect(position.x + position.width * 0.25f, position.y + elementHeight * 0, position.width * 0.6f, elementHeight);
-            var buttonPosition = new Rect(position.x + position.width * 0.85f, position.y, position.width * 0.15f, elementHeight);
+            var objectPosition = new Rect(position.x + position.width * 0.25f, position.y + ElementHeight * 0, position.width * 0.6f, ElementHeight);
+            var buttonPosition = new Rect(position.x + position.width * 0.85f, position.y, position.width * 0.15f, ElementHeight);
 
             if (lastSelectedObject != null)
             {
@@ -52,7 +62,7 @@ namespace Gemserk.Utilities.Editor
                     return sceneReferences;
                 };
 
-                var folders = objectTypeAttribute.GetFolders();
+                var folders = objectTypeAttribute.folders;
                 
                 Func<List<SelectReferenceWindow.ObjectReference>> getPrefabReferences = () =>
                 {
@@ -157,7 +167,15 @@ namespace Gemserk.Utilities.Editor
             var typeToSelect = GetTypeToSelect(property);
             var objectProperty = GetPropertyToOverride(property);
             
-            attributeGUI.DrawGUI(position, objectProperty, typeToSelect, objectTypeAttribute);
+            attributeGUI.DrawGUI(position, objectProperty, typeToSelect, new ObjectTypeAttributeGUI.Options()
+            {
+                folders = objectTypeAttribute.GetFolders(),
+                filterString = objectTypeAttribute.filterString,
+                sceneReferencesFilter = objectTypeAttribute.sceneReferencesFilter,
+                sceneReferencesOpen = !objectTypeAttribute.disableSceneReferences,
+                prefabReferencesOpen = !objectTypeAttribute.disablePrefabReferences,
+                assetReferencesOpen = !objectTypeAttribute.disableAssetReferences,
+            });
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
