@@ -6,7 +6,7 @@ namespace Scenes.EntityDefinitionField
 {
     public class ScriptWithObjectTypeExample : MonoBehaviour
     {
-        public const string SuperFolder = "Assets/Scenes/Definitions/SuperWeapons";
+        public const string SuperFolder = "Assets/Scenes/Definitions/SuperWeapons;Assets/Scenes/Definitions/SuperArmors";
         // public const string[] SuperFolderArray = ["Super"];
         
         [ObjectType(typeof(IEntityDefinition))]
@@ -24,8 +24,8 @@ namespace Scenes.EntityDefinitionField
         [ObjectType(typeof(IEntityDefinition), filterString = "Weapon")]
         public Object weaponDefinitions;
         
-        [ObjectType(typeof(IEntityDefinition), folders = new []{SuperFolder}, 
-            disableSceneReferences = true, disableAssetReferences = true)]
+        [ObjectType(typeof(IEntityDefinition), folders = SuperFolder, 
+            disableSceneReferences = true, disableAssetReferences = true, disablePrefabReferences = false)]
         public Object onlyInFolder;
     }
 }

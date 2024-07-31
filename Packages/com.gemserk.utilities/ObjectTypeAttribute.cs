@@ -12,8 +12,8 @@ namespace Gemserk.Utilities
         public string filterString = null;
 
         public bool disableSceneReferences;
-        public bool disablePrefabReferences = true;
-        public bool disableAssetReferences = true;
+        public bool disablePrefabReferences;
+        public bool disableAssetReferences;
         
         public bool sceneReferencesOpen => !disableSceneReferences;
         public bool prefabReferencesOpen => !disablePrefabReferences;
@@ -21,7 +21,12 @@ namespace Gemserk.Utilities
         
         public FindObjectsInactive sceneReferencesFilter = FindObjectsInactive.Include;
 
-        public string[] folders = new[] { "Assets" };
+        public string folders = "Assets";
+
+        public string[] GetFolders()
+        {
+            return folders.Split(";");
+        }
 
         public abstract Type GetPropertyType();
     }

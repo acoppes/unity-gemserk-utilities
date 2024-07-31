@@ -86,12 +86,14 @@ namespace Gemserk.Utilities.Editor
                     }));
                     return sceneReferences;
                 };
+
+                var folders = objectTypeAttribute.GetFolders();
                 
                 Func<List<SelectReferenceWindow.ObjectReference>> getPrefabReferences = () =>
                 {
                     var prefabReferences = new List<SelectReferenceWindow.ObjectReference>();
                     var prefabsWithType = AssetDatabaseExt.FindPrefabs(new[] { typeToSelect }, 
-                        AssetDatabaseExt.FindOptions.ConsiderChildren, objectTypeAttribute.filterString, objectTypeAttribute.folders);
+                        AssetDatabaseExt.FindOptions.ConsiderChildren, objectTypeAttribute.filterString, folders);
                     prefabReferences.AddRange(prefabsWithType.Select(o => new SelectReferenceWindow.ObjectReference()
                     {
                         reference = o,
@@ -103,7 +105,7 @@ namespace Gemserk.Utilities.Editor
                 Func<List<SelectReferenceWindow.ObjectReference>> getAssetReferences = () =>
                 {
                     var assetReferences = new List<SelectReferenceWindow.ObjectReference>();
-                    var assets = AssetDatabaseExt.FindAssetsAll(typeToSelect, objectTypeAttribute.filterString, objectTypeAttribute.folders);
+                    var assets = AssetDatabaseExt.FindAssetsAll(typeToSelect, objectTypeAttribute.filterString, folders);
                     assetReferences.AddRange(assets.Select(o => new SelectReferenceWindow.ObjectReference()
                     {
                         reference = o,
