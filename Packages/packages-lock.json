@@ -34,7 +34,7 @@
       }
     },
     "com.gemserk.bitmasktypes": {
-      "version": "0.0.14",
+      "version": "0.0.15",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -62,14 +62,14 @@
       "dependencies": {}
     },
     "com.gemserk.refactortools": {
-      "version": "0.0.16",
+      "version": "0.0.18",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://package.openupm.com"
     },
     "com.gemserk.selectionhistory": {
-      "version": "1.5.4",
+      "version": "1.5.5",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -265,7 +265,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.rider": {
-      "version": "3.0.28",
+      "version": "3.0.31",
       "depth": 0,
       "source": "registry",
       "dependencies": {

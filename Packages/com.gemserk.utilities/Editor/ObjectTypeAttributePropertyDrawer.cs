@@ -91,10 +91,7 @@ namespace Gemserk.Utilities.Editor
                 {
                     var prefabReferences = new List<SelectReferenceWindow.ObjectReference>();
                     var prefabsWithType = AssetDatabaseExt.FindPrefabs(new[] { typeToSelect }, 
-                        AssetDatabaseExt.FindOptions.ConsiderChildren, objectTypeAttribute.filterString, new[]
-                        {
-                            "Assets"
-                        });
+                        AssetDatabaseExt.FindOptions.ConsiderChildren, objectTypeAttribute.filterString, objectTypeAttribute.folders);
                     prefabReferences.AddRange(prefabsWithType.Select(o => new SelectReferenceWindow.ObjectReference()
                     {
                         reference = o,
@@ -106,7 +103,7 @@ namespace Gemserk.Utilities.Editor
                 Func<List<SelectReferenceWindow.ObjectReference>> getAssetReferences = () =>
                 {
                     var assetReferences = new List<SelectReferenceWindow.ObjectReference>();
-                    var assets = AssetDatabaseExt.FindAssetsAll(typeToSelect, objectTypeAttribute.filterString, new[] { "Assets" });
+                    var assets = AssetDatabaseExt.FindAssetsAll(typeToSelect, objectTypeAttribute.filterString, objectTypeAttribute.folders);
                     assetReferences.AddRange(assets.Select(o => new SelectReferenceWindow.ObjectReference()
                     {
                         reference = o,

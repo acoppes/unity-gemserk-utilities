@@ -1656,6 +1656,8 @@ MonoBehaviour:
     type: 3}
   onlyAssets: {fileID: 11400000, guid: 12d81de5d502fc042b12cdd68d211f38, type: 2}
   weaponDefinitions: {fileID: 986209551}
+  onlyInFolder: {fileID: 1857474353711054764, guid: a2e91cd3e9e4ec447b771832e7ce9a99,
+    type: 3}
 --- !u!1 &1244653753
 GameObject:
   m_ObjectHideFlags: 0
