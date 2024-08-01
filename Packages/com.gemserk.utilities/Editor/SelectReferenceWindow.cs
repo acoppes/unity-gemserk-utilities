@@ -40,10 +40,27 @@ namespace Gemserk.Utilities.Editor
             window.objects.Clear();
             // window.objects.AddRange(objects);
             window.configuration = configuration;
+            
+            window.numToggles = 0;
 
-            window.showSceneReferences = configuration.sceneReferencesOpen;
-            window.showPrefabReferences = configuration.prefabReferencesOpen;
-            window.showAssetsReferences = configuration.assetReferencesOpen;
+            if (configuration.getSceneReferences != null)
+            {
+                window.numToggles++;
+            }
+            
+            if (configuration.getPrefabReferences != null)
+            {
+                window.numToggles++;
+            }
+            
+            if (configuration.getAssetsReferences != null)
+            {
+                window.numToggles++;
+            }
+            
+            window.showSceneReferences = configuration.sceneReferencesOpen || window.numToggles <= 1;
+            window.showPrefabReferences = configuration.prefabReferencesOpen || window.numToggles <= 1;
+            window.showAssetsReferences = configuration.assetReferencesOpen || window.numToggles <= 1;
             
             window.RecalculateObjects();
         }
@@ -51,6 +68,8 @@ namespace Gemserk.Utilities.Editor
         private Configuration configuration;
         
         private List<ObjectReference> objects = new List<ObjectReference>();
+        
+        private int numToggles = 0;
         
         // private Action onClose;
         
@@ -69,17 +88,17 @@ namespace Gemserk.Utilities.Editor
         {
             objects.Clear();
             
-            if (showSceneReferences)
+            if (showSceneReferences&& configuration.getSceneReferences != null)
             {
                 objects.AddRange(configuration.getSceneReferences());    
             }
             
-            if (showPrefabReferences)
+            if (showPrefabReferences && configuration.getPrefabReferences != null)
             {
                 objects.AddRange(configuration.getPrefabReferences());    
             }
             
-            if (showAssetsReferences)
+            if (showAssetsReferences && configuration.getAssetsReferences != null)
             {
                 objects.AddRange(configuration.getAssetsReferences());    
             }
@@ -97,14 +116,32 @@ namespace Gemserk.Utilities.Editor
             var rect = EditorGUILayout.GetControlRect();
             searchText = searchField.OnGUI(rect, searchText);
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUI.BeginChangeCheck();
-            showSceneReferences = GUILayout.Toggle(showSceneReferences, "Scene", "Button");
-            showPrefabReferences = GUILayout.Toggle(showPrefabReferences, "Prefabs", "Button");
-            showAssetsReferences = GUILayout.Toggle(showAssetsReferences, "Assets", "Button");
-            var optionsChanged = EditorGUI.EndChangeCheck();
-            EditorGUILayout.EndHorizontal();
-
+            var optionsChanged = false;
+            
+            if (numToggles > 1)
+            {
+                EditorGUILayout.BeginHorizontal();
+                EditorGUI.BeginChangeCheck();
+                
+                if (configuration.getSceneReferences != null)
+                {
+                    showSceneReferences = GUILayout.Toggle(showSceneReferences, "Scene", "Button");
+                }
+                
+                if (configuration.getPrefabReferences != null)
+                {
+                    showPrefabReferences = GUILayout.Toggle(showPrefabReferences, "Prefabs", "Button");
+                }
+                
+                if (configuration.getAssetsReferences != null)
+                {
+                    showAssetsReferences = GUILayout.Toggle(showAssetsReferences, "Assets", "Button");
+                }
+                
+                optionsChanged = EditorGUI.EndChangeCheck();
+                EditorGUILayout.EndHorizontal();
+            }
+            
             if (!string.IsNullOrEmpty(searchText))
             {
                 searchText = searchText.TrimStart().TrimEnd();

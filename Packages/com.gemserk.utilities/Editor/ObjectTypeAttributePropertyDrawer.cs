@@ -15,15 +15,20 @@ namespace Gemserk.Utilities.Editor
             public string filterString = null;
             public string[] folders;
             public FindObjectsInactive sceneReferencesFilter = FindObjectsInactive.Include;
+            
             public bool sceneReferencesOpen;
             public bool prefabReferencesOpen;
             public bool assetReferencesOpen;
+            
+            public bool disableSceneReferences;
+            public bool disablePrefabReferences;
+            public bool disableAssetReferences;
         }
         
         private const float ElementHeight = 20f;
         private Object lastSelectedObject;
         
-        public void DrawGUI(Rect position, SerializedProperty objectProperty, Type typeToSelect, Options objectTypeAttribute)
+        public void DrawGUI(Rect position, SerializedProperty objectProperty, Type typeToSelect, Options options)
         {
             EditorGUI.BeginChangeCheck();
 
@@ -47,12 +52,12 @@ namespace Gemserk.Utilities.Editor
                 Func<List<SelectReferenceWindow.ObjectReference>> getSceneReferences = () =>
                 {
                     var sceneReferences = new List<SelectReferenceWindow.ObjectReference>();
-                    var sceneObjects = Object.FindObjectsByType(typeof(Component), objectTypeAttribute.sceneReferencesFilter,
+                    var sceneObjects = Object.FindObjectsByType(typeof(Component), options.sceneReferencesFilter,
                         FindObjectsSortMode.None);
                     var filteredSceneObjects = sceneObjects.Where(c => typeToSelect.IsInstanceOfType(c));
-                    if (!string.IsNullOrEmpty(objectTypeAttribute.filterString))
+                    if (!string.IsNullOrEmpty(options.filterString))
                     {
-                        filteredSceneObjects = filteredSceneObjects.Where(c => c.name.ToLower().Contains(objectTypeAttribute.filterString.ToLower()));
+                        filteredSceneObjects = filteredSceneObjects.Where(c => c.name.ToLower().Contains(options.filterString.ToLower()));
                     }
                     sceneReferences.AddRange(filteredSceneObjects.Select(o => new SelectReferenceWindow.ObjectReference()
                     {
@@ -62,13 +67,13 @@ namespace Gemserk.Utilities.Editor
                     return sceneReferences;
                 };
 
-                var folders = objectTypeAttribute.folders;
+                var folders = options.folders;
                 
                 Func<List<SelectReferenceWindow.ObjectReference>> getPrefabReferences = () =>
                 {
                     var prefabReferences = new List<SelectReferenceWindow.ObjectReference>();
                     var prefabsWithType = AssetDatabaseExt.FindPrefabs(new[] { typeToSelect }, 
-                        AssetDatabaseExt.FindOptions.ConsiderChildren, objectTypeAttribute.filterString, folders);
+                        AssetDatabaseExt.FindOptions.ConsiderChildren, options.filterString, folders);
                     prefabReferences.AddRange(prefabsWithType.Select(o => new SelectReferenceWindow.ObjectReference()
                     {
                         reference = o,
@@ -80,7 +85,7 @@ namespace Gemserk.Utilities.Editor
                 Func<List<SelectReferenceWindow.ObjectReference>> getAssetReferences = () =>
                 {
                     var assetReferences = new List<SelectReferenceWindow.ObjectReference>();
-                    var assets = AssetDatabaseExt.FindAssetsAll(typeToSelect, objectTypeAttribute.filterString, folders);
+                    var assets = AssetDatabaseExt.FindAssetsAll(typeToSelect, options.filterString, folders);
                     assetReferences.AddRange(assets.Select(o => new SelectReferenceWindow.ObjectReference()
                     {
                         reference = o,
@@ -91,12 +96,12 @@ namespace Gemserk.Utilities.Editor
                 
                 SelectReferenceWindow.OpenWindow(new SelectReferenceWindow.Configuration()
                 {
-                    assetReferencesOpen = objectTypeAttribute.assetReferencesOpen,
-                    prefabReferencesOpen = objectTypeAttribute.prefabReferencesOpen,
-                    sceneReferencesOpen = objectTypeAttribute.sceneReferencesOpen,
-                    getSceneReferences = getSceneReferences,
-                    getPrefabReferences = getPrefabReferences,
-                    getAssetsReferences = getAssetReferences,
+                    assetReferencesOpen = options.assetReferencesOpen,
+                    prefabReferencesOpen = options.prefabReferencesOpen,
+                    sceneReferencesOpen = options.sceneReferencesOpen,
+                    getSceneReferences = options.disableSceneReferences ? null : getSceneReferences,
+                    getPrefabReferences = options.disablePrefabReferences ? null : getPrefabReferences,
+                    getAssetsReferences = options.disableAssetReferences ? null : getAssetReferences,
                     onSelectReferenceCallback = OnReferenceObjectSelected
                 });
             }
@@ -172,9 +177,12 @@ namespace Gemserk.Utilities.Editor
                 folders = objectTypeAttribute.GetFolders(),
                 filterString = objectTypeAttribute.filterString,
                 sceneReferencesFilter = objectTypeAttribute.sceneReferencesFilter,
-                sceneReferencesOpen = !objectTypeAttribute.disableSceneReferences,
-                prefabReferencesOpen = !objectTypeAttribute.disablePrefabReferences,
-                assetReferencesOpen = !objectTypeAttribute.disableAssetReferences,
+                sceneReferencesOpen = objectTypeAttribute.sceneReferencesOnWhenStart,
+                prefabReferencesOpen = objectTypeAttribute.prefabReferencesOnWhenStart,
+                assetReferencesOpen = objectTypeAttribute.assetReferencesOnWhenStart,
+                disableSceneReferences = objectTypeAttribute.disableSceneReferences,
+                disablePrefabReferences = objectTypeAttribute.disablePrefabReferences,
+                disableAssetReferences = objectTypeAttribute.disableAssetReferences
             });
         }
 
