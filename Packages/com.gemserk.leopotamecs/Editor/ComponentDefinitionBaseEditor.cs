@@ -11,15 +11,15 @@ namespace Gemserk.Leopotam.Ecs.Editor
         {
             // DrawDefaultInspector();
 
-            var componentDefinition = target as ComponentDefinitionBase;
-            
-            var style = new GUIStyle(GUI.skin.label);
-            style.alignment = TextAnchor.MiddleCenter;
-            style.normal.textColor = Color.grey;
+            // var componentDefinition = target as ComponentDefinitionBase;
+            //
+            // var style = new GUIStyle(GUI.skin.label);
+            // style.alignment = TextAnchor.MiddleCenter;
+            // style.normal.textColor = Color.grey;
 
-            EditorGUILayout.LabelField($"<< {componentDefinition.GetComponentName()} >>", style);
+            // EditorGUILayout.LabelField($"<< {componentDefinition.GetComponentName()} >>", style);
 
-            CustomEditorExtensions.DrawInspectorExcept(serializedObject, new []{ "m_Script" });
+            serializedObject.DrawInspectorExcept(new []{ "m_Script" });
         }
     }
 }
