@@ -8,6 +8,12 @@ namespace Game.Components
     [Serializable]
     public struct Effect
     {
+        public enum EffectType
+        {
+            Damage = 0,
+            AreaDamage = 1
+        }
+        
         public enum TargetType
         {
             Target = 0, 
@@ -15,8 +21,10 @@ namespace Game.Components
             TargetsFromTargeting = 2
         }
         
-        // public int type;
-        public float value;
+        public EffectType type;
+
+        public float minValue;
+        public float maxValue;
         
         public TargetType targetType;
         public Targeting targeting;
