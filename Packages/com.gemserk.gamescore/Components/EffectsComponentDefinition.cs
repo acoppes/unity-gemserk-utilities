@@ -22,10 +22,7 @@ namespace Game.Components
         public enum TargetType
         {
             Target = 0, 
-            Source = 1,
-            
-            // deprecated
-            TargetsFromTargeting = 2
+            Source = 1
         }
         
         public EffectType type;
@@ -36,7 +33,6 @@ namespace Game.Components
         public ValueCalculationType valueCalculationType;
         
         public TargetType targetType;
-        public Targeting targeting;
     }
     
     public struct EffectsComponent : IEntityComponent
@@ -47,11 +43,22 @@ namespace Game.Components
         // public float factor;
 
         public float factor;
+        
+        public int minDelay;
+        public int maxDelay;
+
+        public int delayFramesToApply;
+        public bool hasDelaySet;
+
+        public int currentFrame;
     }
     
     public class EffectsComponentDefinition : ComponentDefinitionBase
     {
         public List<Effect> effects;
+        
+        public int minDelay;
+        public int maxDelay;
         
         public override string GetComponentName()
         {
@@ -63,7 +70,9 @@ namespace Game.Components
             world.AddComponent(entity, new EffectsComponent()
             {
                 effects = effects,
-                factor = 1
+                factor = 1,
+                minDelay = minDelay,
+                maxDelay = maxDelay
             });
         }
     }

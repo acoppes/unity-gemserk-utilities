@@ -1,6 +1,5 @@
 ﻿using System;
 using Gemserk.Leopotam.Ecs;
-using UnityEngine.Serialization;
 
 namespace Game.Components
 {
