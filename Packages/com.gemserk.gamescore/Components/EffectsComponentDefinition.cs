@@ -10,8 +10,13 @@ namespace Game.Components
     {
         public enum EffectType
         {
-            Damage = 0,
-            AreaDamage = 1
+            Damage = 0
+        }
+
+        public enum ValueCalculationType
+        {
+            Random = 0,
+            BasedOnDistance = 1
         }
         
         public enum TargetType
@@ -25,6 +30,8 @@ namespace Game.Components
 
         public float minValue;
         public float maxValue;
+
+        public ValueCalculationType valueCalculationType;
         
         public TargetType targetType;
         public Targeting targeting;

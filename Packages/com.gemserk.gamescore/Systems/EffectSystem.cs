@@ -29,38 +29,40 @@ namespace Game.Systems
                 
                 foreach (var effect in effects.effects)
                 {
-                    var modifiedEffect = effect;
+                    // var modifiedEffect = effect;
                     // modifiedEffect.value = effect.value * effects.factor;
                     
-                    if (modifiedEffect.targetType == Effect.TargetType.Target)
+                    if (effect.targetType == Effect.TargetType.Target)
                     {
                         if (effects.target != null && effects.target.entity.Exists())
                         {
-                            ApplyDamageEffect(effects.target.entity, effects.source, modifiedEffect, position.value);
+                            // ApplyDamageEffect(effects.target.entity, effects.source, modifiedEffect, position.value);
+                            ApplyEffect(0, effects.target, effects.source, effect, position.value);
                         }
                     }
 
-                    if (modifiedEffect.targetType == Effect.TargetType.Source)
+                    if (effect.targetType == Effect.TargetType.Source)
                     {
                         if (effects.source.Exists())
                         {
-                            ApplyDamageEffect(effects.source, effects.source, modifiedEffect, position.value);
+                            // ApplyDamageEffect(effects.source, effects.source, modifiedEffect, position.value);
+                            ApplyEffect(0, effects.source.Get<TargetComponent>().target, effects.source, effect, position.value);
                         }
                     }
 
-                    if (modifiedEffect.targetType == Effect.TargetType.TargetsFromTargeting)
+                    if (effect.targetType == Effect.TargetType.TargetsFromTargeting)
                     {
                         if (position.type == 0)
                         {
                             var normal = Quaternion.Euler(-45, 0, 0) * Vector3.up;
 
                             D.raw(new Shape.Circle(GamePerspective.ConvertFromWorld(position.value), normal,
-                                Vector3.right, modifiedEffect.targeting.targetingFilter.range.Max), Color.red, 1f);
+                                Vector3.right, effect.targeting.targetingFilter.range.Max), Color.red, 1f);
                         }
                         else if (position.type == 1)
                         {
                             D.raw(new Shape.Circle(position.value, Quaternion.identity, 
-                                modifiedEffect.targeting.targetingFilter.range.Max), Color.red, 1f);
+                                effect.targeting.targetingFilter.range.Max), Color.red, 1f);
                         }
                         
                         world.GetTargets(new RuntimeTargetingParameters()
@@ -68,18 +70,20 @@ namespace Game.Systems
                             alliedPlayersBitmask = player.GetAlliedPlayers(),
                             position = position.value,
                             direction = new Vector3(1, 0, 0),
-                            filter = modifiedEffect.targeting.targetingFilter
+                            filter = effect.targeting.targetingFilter
                         }, targets);
 
                         foreach (var target in targets)
                         {
-                            if(effect.type == Effect.EffectType.Damage)
-                            {
-                                ApplyDamageEffect(target.entity, effects.source, modifiedEffect, position.value);
-                            } else if(effect.type == Effect.EffectType.AreaDamage)
-                            {
-                                ApplyAreaDamageEffect(modifiedEffect.targeting.targetingFilter, target, effects.source, modifiedEffect, position.value);
-                            }
+                            ApplyEffect(effect.targeting.targetingFilter.range.Max, target, effects.source, effect, position.value);
+                            
+                            // if(effect.type == Effect.EffectType.Damage)
+                            // {
+                            //     ApplyDamageEffect(target.entity, effects.source, modifiedEffect, position.value);
+                            // } else if(effect.type == Effect.EffectType.AreaDamage)
+                            // {
+                            //     ApplyAreaDamageEffect(modifiedEffect.targeting.targetingFilter.maxRangeSqr, target, effects.source, modifiedEffect, position.value);
+                            // }
                         }
                         
                         targets.Clear();
@@ -95,30 +99,41 @@ namespace Game.Systems
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ApplyDamageEffect(Entity target, Entity source, Effect effect, Vector3 position)
-        {
-            ref var health = ref target.Get<HealthComponent>();
-            health.damages.Add(new DamageData()
-            {
-                value = Random.Range(effect.minValue, effect.maxValue),
-                position = position,
-                knockback = false,
-                source = source
-            });
-        }
+        // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        // public static void ApplyDamageEffect(Entity target, Entity source, Effect effect, Vector3 position)
+        // {
+        //     ref var health = ref target.Get<HealthComponent>();
+        //     health.damages.Add(new DamageData()
+        //     {
+        //         value = Random.Range(effect.minValue, effect.maxValue),
+        //         position = position,
+        //         knockback = false,
+        //         source = source
+        //     });
+        // }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ApplyAreaDamageEffect(TargetingFilter targetingFilter, Target target, Entity source, Effect effect, Vector3 position)
+        public static void ApplyEffect(float range, Target target, Entity source, Effect effect, Vector3 position)
         {
-            var distSqr = (target.position - position).sqrMagnitude;
-
-            var factor = Mathf.Clamp01(distSqr / targetingFilter.maxRangeSqr);
-
-            var damage = Mathf.Lerp(effect.maxValue, effect.minValue, factor);
+            var damage = 0f;
+            
+            if (effect.valueCalculationType == Effect.ValueCalculationType.BasedOnDistance && range > 0)
+            {
+                var distSqr = (target.position - position).sqrMagnitude;
+                var factor = Mathf.Clamp01(distSqr / (range * range));
+                damage = Mathf.Lerp(effect.maxValue, effect.minValue, factor);
+            }
+            else if (effect.valueCalculationType == Effect.ValueCalculationType.Random)
+            {
+                damage = Random.Range(effect.minValue, effect.maxValue);
+            }
+            else
+            {
+                damage = effect.maxValue;
+            }
             
             ref var health = ref target.entity.Get<HealthComponent>();
-            health.damages.Add(new DamageData()
+            health.damages.Add(new DamageData
             {
                 value = damage,
                 position = position,
