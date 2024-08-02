@@ -15,7 +15,10 @@ namespace Game.Systems
     {
         readonly EcsFilterInject<Inc<EffectsComponent, PositionComponent, PlayerComponent>, Exc<DisabledComponent>> effectsFilter = default;
         readonly EcsFilterInject<Inc<EffectsComponent, DestroyableComponent>, Exc<DisabledComponent>> destroyableEffectsFilter = default;
-
+        
+        readonly EcsFilterInject<Inc<AreaEffectComponent, PositionComponent, PlayerComponent>, Exc<DisabledComponent>> areaEffects = default;
+        readonly EcsFilterInject<Inc<AreaEffectComponent, DestroyableComponent>, Exc<DisabledComponent>> destroyableAreaEffects = default;
+        
         private static readonly List<Target> targets = new List<Target>();
         
         public void Run(EcsSystems systems)
@@ -95,6 +98,48 @@ namespace Game.Systems
             foreach (var e in destroyableEffectsFilter.Value)
             {
                 ref var destroyable = ref destroyableEffectsFilter.Pools.Inc2.Get(e);
+                destroyable.destroy = true;
+            }
+            
+            // COPY DIRECTION FROM LOOKING DIRECTION?
+            
+            foreach (var e in areaEffects.Value)
+            {
+                // var cursor = ref cursorInputFilter.Pools.Inc1.Get(e);
+                ref var areaEffect = ref areaEffects.Pools.Inc1.Get(e);
+                var position = areaEffects.Pools.Inc2.Get(e);
+                var player = areaEffects.Pools.Inc3.Get(e);
+                
+                world.GetTargets(new RuntimeTargetingParameters()
+                {
+                    alliedPlayersBitmask = player.GetAlliedPlayers(),
+                    position = position.value,
+                    direction = new Vector3(1, 0, 0),
+                    filter = areaEffect.targeting.targetingFilter
+                }, targets);
+
+                foreach (var target in targets)
+                {
+                    foreach (var effectDefinition in areaEffect.effectDefinitions)
+                    {
+                        var effectEntity = world.CreateEntity(effectDefinition);
+                        // create effects
+                        ref var effect = ref effectEntity.Get<EffectsComponent>();
+                        effect.target = target;
+                        effect.source = areaEffect.source;
+                        
+                        effectEntity.Get<PositionComponent>().value = position.value;
+                        effectEntity.Get<PlayerComponent>().player = player.player;
+                    }
+                }
+                        
+                targets.Clear();
+            }
+            
+            // TODO: AREA EFFECTS CAN DO EFFECTS OVER TIME, ONCE PER TARGET OR MULTIPLE TIMES, ETC (AND/OR RETARGET)
+            foreach (var e in destroyableAreaEffects.Value)
+            {
+                ref var destroyable = ref destroyableAreaEffects.Pools.Inc2.Get(e);
                 destroyable.destroy = true;
             }
         }
