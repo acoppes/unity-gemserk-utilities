@@ -118,15 +118,22 @@ namespace Game.Systems
                     filter = areaEffect.targeting.targetingFilter
                 }, targets);
 
+                var rangeSqr = areaEffect.targeting.targetingFilter.maxRangeSqr;
+
                 foreach (var target in targets)
                 {
+                    var distSqr = (target.position - position.value).sqrMagnitude;
+                    
                     foreach (var effectDefinition in areaEffect.effectDefinitions)
                     {
                         var effectEntity = world.CreateEntity(effectDefinition);
                         // create effects
-                        ref var effect = ref effectEntity.Get<EffectsComponent>();
-                        effect.target = target;
-                        effect.source = areaEffect.source;
+                        ref var effects = ref effectEntity.Get<EffectsComponent>();
+                        effects.target = target;
+                        effects.source = areaEffect.source;
+                        effects.factor = Mathf.Clamp01(distSqr / rangeSqr);
+                        
+                        // damage = Mathf.Lerp(effect.maxValue, effect.minValue, factor);
                         
                         effectEntity.Get<PositionComponent>().value = position.value;
                         effectEntity.Get<PlayerComponent>().player = player.player;
@@ -158,14 +165,12 @@ namespace Game.Systems
         // }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ApplyEffect(float range, Target target, Entity source, Effect effect, Vector3 position)
+        public static void ApplyEffect(float factor, Target target, Entity source, Effect effect, Vector3 position)
         {
             var damage = 0f;
             
-            if (effect.valueCalculationType == Effect.ValueCalculationType.BasedOnDistance && range > 0)
+            if (effect.valueCalculationType == Effect.ValueCalculationType.BasedOnFactor && factor > 0)
             {
-                var distSqr = (target.position - position).sqrMagnitude;
-                var factor = Mathf.Clamp01(distSqr / (range * range));
                 damage = Mathf.Lerp(effect.maxValue, effect.minValue, factor);
             }
             else if (effect.valueCalculationType == Effect.ValueCalculationType.Random)

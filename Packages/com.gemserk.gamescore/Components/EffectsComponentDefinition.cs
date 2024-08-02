@@ -16,13 +16,15 @@ namespace Game.Components
         public enum ValueCalculationType
         {
             Random = 0,
-            BasedOnDistance = 1
+            BasedOnFactor = 1
         }
         
         public enum TargetType
         {
             Target = 0, 
             Source = 1,
+            
+            // deprecated
             TargetsFromTargeting = 2
         }
         
@@ -43,6 +45,8 @@ namespace Game.Components
         public Entity source;
         public List<Effect> effects;
         // public float factor;
+
+        public float factor;
     }
     
     public class EffectsComponentDefinition : ComponentDefinitionBase
@@ -58,7 +62,8 @@ namespace Game.Components
         {
             world.AddComponent(entity, new EffectsComponent()
             {
-                effects = effects
+                effects = effects,
+                factor = 1
             });
         }
     }
