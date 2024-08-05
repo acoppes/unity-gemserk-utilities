@@ -9,11 +9,13 @@ namespace Gemserk.Leopotam.Ecs
         
         public void Apply(World world, Entity entity)
         {
-            world.AddComponent(entity, new NameComponent
+            if (!entity.Has<NameComponent>())
             {
-                name = entityName,
-                singleton = singleton
-            });
+                world.AddComponent(entity, new NameComponent());
+            }
+            ref var name = ref entity.Get<NameComponent>();
+            name.name = entityName;
+            name.singleton = singleton;
         }
     }
 }
