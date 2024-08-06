@@ -89,6 +89,8 @@ namespace Game.Components.Abilities
 
         public float executionTime;
 
+        public int maxTargets;
+
         public void Start()
         {
             isExecuting = true;
@@ -139,8 +141,17 @@ namespace Game.Components.Abilities
         public void CopyTargets(List<Target> targets)
         {
             abilityTargets.Clear();
-            foreach (var target in targets)
+
+            var copyCount = targets.Count;
+            
+            if (maxTargets > 0)
             {
+                copyCount = Mathf.Min(targets.Count, maxTargets);
+            }
+            
+            for (var i = 0; i < copyCount; i++)
+            {
+                var target = targets[i];
                 abilityTargets.Add(new AbilityTarget
                 {
                     position = target.position,

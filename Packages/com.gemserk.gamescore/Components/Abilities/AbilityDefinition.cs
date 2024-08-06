@@ -29,6 +29,8 @@ namespace Game.Components.Abilities
 
         public int charges = 1;
 
+        public int maxTargets = 0;
+
         public Ability Create()
         {
             var ability = new Ability
@@ -43,6 +45,7 @@ namespace Game.Components.Abilities
                 targeting = targeting,
                 currentCharges = charges,
                 totalCharges = charges,
+                maxTargets = maxTargets
             };
             
             if (startsLoaded)
