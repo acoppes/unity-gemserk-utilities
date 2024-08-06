@@ -10,6 +10,8 @@ namespace Game.Components
 
     public class TargetComponentDefinition : ComponentDefinitionBase
     {
+        public TargetType targetType = TargetType.TargetType0;
+        
         public override string GetComponentName()
         {
             return nameof(TargetComponent);
@@ -21,7 +23,8 @@ namespace Game.Components
             {
                 target = new Target
                 {
-                    entity = entity
+                    entity = entity,
+                    targetType = targetType
                 }
             });
         }
