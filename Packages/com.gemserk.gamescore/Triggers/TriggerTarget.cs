@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Triggers.Queries;
+using Gemserk.Utilities;
 using MyBox;
 
 namespace Game.Triggers
@@ -44,6 +45,7 @@ namespace Game.Triggers
         public QuerySourceType sourceType = QuerySourceType.Identifier;
 
         [ConditionalField(nameof(sourceType), false, QuerySourceType.Query)]
+        [ObjectType(typeof(Query), disableAssetReferences = true, prefabReferencesOnWhenStart = false)]
         public Query query;
 
         [ConditionalField(nameof(sourceType), false, QuerySourceType.Identifier)]
