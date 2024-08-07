@@ -15,6 +15,8 @@ namespace Game.Utilities
             InsideDistanceXZ = 2,
         }
 
+        public TargetType targetTypes;
+
         public CheckDistanceType distanceType;
         public MinMaxFloat range;
 
@@ -29,4 +31,28 @@ namespace Game.Utilities
 
         public Object sorter;
     }
+    
+    // [Serializable]
+    // public class TargetingFilterObject
+    // {
+    //     public TargetingFilter.CheckDistanceType distanceType;
+    //     public MinMaxFloat range;
+    //     public PlayerAllianceType playerAllianceType;
+    //     public HealthComponent.AliveType aliveType;
+    //     public MinMaxFloat angle;
+    //     public Object sorter;
+    //
+    //     public TargetingFilter GetTargetFilter()
+    //     {
+    //         return new TargetingFilter()
+    //         {
+    //             distanceType = distanceType,
+    //             range = range,
+    //             playerAllianceType = playerAllianceType,
+    //             aliveType = aliveType,
+    //             angle = angle,
+    //             sorter = sorter
+    //         };
+    //     } 
+    // }
 }

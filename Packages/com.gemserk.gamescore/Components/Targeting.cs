@@ -1,4 +1,5 @@
 ﻿using Game.Utilities;
+using MyBox;
 using UnityEngine;
 
 namespace Game.Components
@@ -10,7 +11,16 @@ namespace Game.Components
     
     public class Targeting : MonoBehaviour, ITargeting
     {
-        public TargetingFilter targeting;
+        public TargetingFilter targeting = new TargetingFilter()
+        {
+            targetTypes = TargetType.Everything,
+            playerAllianceType = PlayerAllianceType.Enemies,
+            aliveType = HealthComponent.AliveType.Alive,
+            distanceType = TargetingFilter.CheckDistanceType.Nothing,
+            angle = new MinMaxFloat(0, 360),
+            range = new MinMaxFloat(0, 1),
+            sorter = null
+        };
 
         public TargetingFilter targetingFilter => targeting;
 
