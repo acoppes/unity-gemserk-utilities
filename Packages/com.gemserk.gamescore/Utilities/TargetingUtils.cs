@@ -300,6 +300,11 @@ namespace Game.Utilities
             }
             
             var targetingFilter = runtimeTargetingParameters.filter;
+
+            if (targetingFilter.targetTypes != 0 && !targetingFilter.targetTypes.HasTargetFlag(target.targetType))
+            {
+                return false;
+            }
             
             if (targetingFilter.playerAllianceType != PlayerAllianceType.Everything)
             {

@@ -17,7 +17,7 @@ namespace Game.Utilities
         TargetType6 = 1 << 6,
         TargetType7 = 1 << 7,
         
-        // AllTargetTypes = TargetType0 | TargetType1 | TargetType2 | TargetType3 | TargetType4 | TargetType5 | TargetType6 | TargetType7,
+        Everything = -1
     }
     
     public class Target
@@ -46,6 +46,11 @@ namespace Game.Utilities
         public static Vector3 GetEstimatedPosition(this Target target, float duration, float factor = 1.0f)
         {
             return target.position + target.velocity * (duration * factor);
+        }
+
+        public static bool HasTargetFlag(this TargetType self, TargetType flag)
+        {
+            return (self & flag) == flag;
         }
     }
 }
