@@ -32,7 +32,15 @@ namespace Game.Systems
                     {
                         var damage = health.damages[i];
                         health.timeSinceLastHit = 0;
+                        
                         health.current -= damage.value;
+
+                        if (health.current < 0)
+                        {
+                            damage.value += health.current;
+                            health.current = 0;
+                        }
+                        
                         health.processedDamages.Add(damage);
                         health.temporaryInvulnerability.Fill();
 
