@@ -30,6 +30,8 @@ namespace Gemserk.Utilities.Editor
         
         public void DrawGUI(Rect position, SerializedProperty objectProperty, Type typeToSelect, Options options)
         {
+            EditorGUI.BeginProperty(position, new GUIContent(objectProperty.displayName), objectProperty);
+            
             EditorGUI.BeginChangeCheck();
 
             var labelPosition = new Rect(position.x, position.y, position.width * 0.25f, ElementHeight * 1);
@@ -123,6 +125,8 @@ namespace Gemserk.Utilities.Editor
                     objectProperty.objectReferenceValue = newObject;
                 }
             }
+            
+            EditorGUI.EndProperty();
         }
         
         private void OnReferenceObjectSelected(SelectReferenceWindow.ObjectReference objectReference)
