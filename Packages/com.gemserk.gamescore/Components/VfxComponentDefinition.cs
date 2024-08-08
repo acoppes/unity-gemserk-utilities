@@ -20,6 +20,7 @@ namespace Game.Components
         [ConditionalField(nameof(randomOffsetType), false, VfxComponentData.RandomOffsetType.PlaneXZ)]
         public float range;
         
+        [ObjectType(typeof(IEntityDefinition), filterString = "Definition", assetReferencesOnWhenStart = false, prefabReferencesOnWhenStart = true)]
         public Object definition;
 
         public VfxComponentData ToData()
