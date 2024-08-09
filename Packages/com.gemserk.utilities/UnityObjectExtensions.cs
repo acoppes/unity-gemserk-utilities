@@ -6,6 +6,9 @@ namespace Gemserk.Utilities
     {
         public static T GetInterface<T>(this UnityEngine.Object obj) where T : class
         {
+            if (!obj)
+                return null;
+            
             if (obj is T t)
             {
                 return t;
