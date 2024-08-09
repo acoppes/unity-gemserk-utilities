@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Gemserk.RefactorTools.Editor;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -54,9 +55,21 @@ namespace Gemserk.Utilities.Editor
                 Func<List<SelectReferenceWindow.ObjectReference>> getSceneReferences = () =>
                 {
                     var sceneReferences = new List<SelectReferenceWindow.ObjectReference>();
-                    var sceneObjects = Object.FindObjectsByType(typeof(Component), options.sceneReferencesFilter,
-                        FindObjectsSortMode.None);
-                    var filteredSceneObjects = sceneObjects.Where(c => typeToSelect.IsInstanceOfType(c));
+
+                    var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+                    IEnumerable<Object> filteredSceneObjects = null; 
+
+                    if (prefabStage != null)
+                    {
+                        filteredSceneObjects = prefabStage.prefabContentsRoot.GetComponentsInChildren(typeToSelect);
+                    }
+                    else
+                    {
+                        var sceneObjects = Object.FindObjectsByType(typeof(Component), options.sceneReferencesFilter,
+                            FindObjectsSortMode.None);
+                        filteredSceneObjects = sceneObjects.Where(typeToSelect.IsInstanceOfType);
+                    }
+                    
                     if (!string.IsNullOrEmpty(options.filterString))
                     {
                         filteredSceneObjects = filteredSceneObjects.Where(c => c.name.ToLower().Contains(options.filterString.ToLower()));
