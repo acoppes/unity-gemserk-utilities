@@ -61,13 +61,15 @@ namespace Gemserk.Utilities.Editor
 
                     if (prefabStage != null)
                     {
-                        filteredSceneObjects = prefabStage.prefabContentsRoot.GetComponentsInChildren(typeToSelect);
+                        var components = prefabStage.prefabContentsRoot.GetComponentsInChildren(typeToSelect);
+                        filteredSceneObjects = components.Select(c => c.gameObject);
                     }
                     else
                     {
                         var sceneObjects = Object.FindObjectsByType(typeof(Component), options.sceneReferencesFilter,
-                            FindObjectsSortMode.None);
-                        filteredSceneObjects = sceneObjects.Where(typeToSelect.IsInstanceOfType);
+                            FindObjectsSortMode.None).Select(o => o as Component);
+                        var components = sceneObjects.Where(typeToSelect.IsInstanceOfType);
+                        filteredSceneObjects = components.Select(c => c.gameObject);
                     }
                     
                     if (!string.IsNullOrEmpty(options.filterString))
