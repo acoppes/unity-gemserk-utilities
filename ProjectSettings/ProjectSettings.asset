@@ -699,7 +699,7 @@ PlayerSettings:
   webGLWebAssemblyBigInt: 0
   webGLCloseOnQuit: 0
   scriptingDefineSymbols:
-    Standalone: GEMSERK_POOL_DEBUG;GEMSERK_CONTROLLERS_DEBUG;TRIGGERS_DISABLE_INSPECTOR
+    Standalone: GEMSERK_POOL_DEBUG;GEMSERK_CONTROLLERS_DEBUG
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
