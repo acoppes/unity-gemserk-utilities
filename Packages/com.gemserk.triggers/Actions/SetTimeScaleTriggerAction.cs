@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Globalization;
+using UnityEngine;
 
 namespace Gemserk.Triggers.Actions
 {
@@ -8,7 +9,7 @@ namespace Gemserk.Triggers.Actions
 
         public override string GetObjectName()
         {
-            return $"SetTimeScale({timeScale})";
+            return $"SetTimeScale({timeScale.ToString(CultureInfo.InvariantCulture)})";
         }
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
