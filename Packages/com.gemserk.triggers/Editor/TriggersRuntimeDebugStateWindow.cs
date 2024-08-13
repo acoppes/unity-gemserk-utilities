@@ -9,7 +9,7 @@ namespace Gemserk.Triggers.Editor
 {
     public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
     {
-        private const string TriggersruntimedebugHideinactivetriggers = "TriggersRuntimeDebug.HideInactiveTriggers";
+        private const string TriggersRuntimeDebugHideInactiveTriggers = "TriggersRuntimeDebug.HideInactiveTriggers";
 
         [MenuItem("Window/Gemserk/Triggers/Debug State")]
         public static void ShowWindow()
@@ -126,12 +126,12 @@ namespace Gemserk.Triggers.Editor
                 searchTexts = StringUtilities.SplitSearchText(searchText);
             }
 
-            var hideInactiveTriggers = SessionState.GetBool(TriggersruntimedebugHideinactivetriggers, true);
+            var hideInactiveTriggers = SessionState.GetBool(TriggersRuntimeDebugHideInactiveTriggers, true);
             EditorGUI.BeginChangeCheck();
             hideInactiveTriggers = EditorGUILayout.Toggle("Hide Inactive Triggers", hideInactiveTriggers);
             if (EditorGUI.EndChangeCheck())
             {
-                SessionState.SetBool(TriggersruntimedebugHideinactivetriggers, hideInactiveTriggers);
+                SessionState.SetBool(TriggersRuntimeDebugHideInactiveTriggers, hideInactiveTriggers);
             }
             
             scroll = EditorGUILayout.BeginScrollView(scroll);
