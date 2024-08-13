@@ -62,7 +62,7 @@
       "dependencies": {}
     },
     "com.gemserk.refactortools": {
-      "version": "0.0.18",
+      "version": "0.1.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
