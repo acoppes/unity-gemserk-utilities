@@ -139,10 +139,11 @@ namespace Game.Components
 
     public struct DamageData
     {
-        public Vector3 position;
         public float value;
+        
+        public Vector3 position;
         public Entity source;
-
+        
         public bool knockback;
         public IEntityDefinition vfxDefinition;
     }

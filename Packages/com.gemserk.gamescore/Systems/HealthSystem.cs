@@ -1,13 +1,28 @@
+using System.Runtime.CompilerServices;
 using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
 namespace Game.Systems
 {
     public class HealthSystem : BaseSystem, IEcsRunSystem
     {
         readonly EcsFilterInject<Inc<HealthComponent>, Exc<DisabledComponent>> filter = default;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static DamageData ProcessDamage(ref HealthComponent health, DamageData damage)
+        {
+            health.current -= damage.value;
+
+            if (health.current < 0)
+            {
+                damage.value = Mathf.Max(damage.value + health.current, 0);
+            }
+
+            return damage;
+        }
         
         public void Run(EcsSystems systems)
         {
@@ -32,14 +47,16 @@ namespace Game.Systems
                     {
                         var damage = health.damages[i];
                         health.timeSinceLastHit = 0;
-                        
-                        health.current -= damage.value;
 
-                        if (health.current < 0)
-                        {
-                            damage.value += health.current;
-                            health.current = 0;
-                        }
+                        damage = ProcessDamage(ref health, damage);
+                        
+                        // health.current -= damage.value;
+                        //
+                        // if (health.current < 0)
+                        // {
+                        //     damage.value += health.current;
+                        //     health.current = 0;
+                        // }
                         
                         health.processedDamages.Add(damage);
                         health.temporaryInvulnerability.Fill();
