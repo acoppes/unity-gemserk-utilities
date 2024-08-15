@@ -24,32 +24,37 @@ namespace Game.Systems
         {
             regenerationCooldown.Increase(dt);
             
-            foreach (var entity in filter.Value)
+            foreach (var e in filter.Value)
             {
-                ref var healthRegenerationComponent = ref filter.Pools.Inc1.Get(entity);
-                ref var healthComponent = ref filter.Pools.Inc2.Get(entity);
+                ref var regeneration = ref filter.Pools.Inc1.Get(e);
+                ref var health = ref filter.Pools.Inc2.Get(e);
                 
-                if (!healthRegenerationComponent.enabled || healthComponent.IsFull())
+                if (!regeneration.enabled || health.IsFull())
                 {
                     continue;
                 }
 
-                if (healthRegenerationComponent.regenerationType ==
+                if (health.aliveType != HealthComponent.AliveType.Alive)
+                {
+                    continue;
+                }
+
+                if (regeneration.regenerationType ==
                     HealthRegenerationComponent.RegenerationType.PerTick)
                 {
                     if (regenerationCooldown.IsReady)
                     {
-                        healthComponent.current += healthRegenerationComponent.deltaHealth;
+                        health.current += regeneration.deltaHealth;
                     }
-                } else if (healthRegenerationComponent.regenerationType ==
+                } else if (regeneration.regenerationType ==
                            HealthRegenerationComponent.RegenerationType.PerTime)
                 {
-                    healthComponent.current += healthRegenerationComponent.deltaHealth * dt;
+                    health.current += regeneration.deltaHealth * dt;
                 }
                 
-                if (healthComponent.current >= healthComponent.total)
+                if (health.current >= health.total)
                 {
-                    healthComponent.current = healthComponent.total;
+                    health.current = health.total;
                 }
             }
 

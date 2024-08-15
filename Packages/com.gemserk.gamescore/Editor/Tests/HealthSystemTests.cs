@@ -39,7 +39,7 @@ namespace Game.Editor.Tests
             });
             
             Assert.AreEqual(25, result.value, 0.1f);
-            Assert.AreEqual(-75, health.current, 0.1f);
+            Assert.AreEqual(0, health.current, 0.1f);
             
             var result2 = HealthSystem.ProcessDamage(ref health, new DamageData()
             {
@@ -47,7 +47,7 @@ namespace Game.Editor.Tests
             });
             
             Assert.AreEqual(0, result2.value, 0.1f);
-            Assert.AreEqual(-100, health.current, 0.1f);
+            Assert.AreEqual(0, health.current, 0.1f);
         }
         
     }

@@ -3,7 +3,6 @@ using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using UnityEngine;
 
 namespace Game.Systems
 {
@@ -18,7 +17,8 @@ namespace Game.Systems
 
             if (health.current < 0)
             {
-                damage.value = Mathf.Max(damage.value + health.current, 0);
+                damage.value += health.current;
+                health.current = 0;
             }
 
             return damage;
