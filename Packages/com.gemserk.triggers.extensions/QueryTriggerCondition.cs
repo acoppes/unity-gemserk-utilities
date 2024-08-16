@@ -1,12 +1,12 @@
 ﻿using Gemserk.Leopotam.Ecs;
 using Gemserk.Triggers.Queries;
-using MyBox;
+using Gemserk.Utilities;
 
 namespace Gemserk.Triggers
 {
     public class QueryTriggerCondition : WorldTriggerCondition
     {
-        [DisplayInspector]
+        [ObjectType(typeof(Query), disableAssetReferences = true, prefabReferencesOnWhenStart = false)]        
         public Query query;
         
         public override string GetObjectName()
