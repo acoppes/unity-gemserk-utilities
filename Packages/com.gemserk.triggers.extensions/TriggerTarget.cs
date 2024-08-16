@@ -5,7 +5,7 @@ using Gemserk.Triggers.Queries;
 using Gemserk.Utilities;
 using MyBox;
 
-namespace Game.Triggers
+namespace Gemserk.Triggers
 {
     public static class TriggerTargetExtensions
     {
