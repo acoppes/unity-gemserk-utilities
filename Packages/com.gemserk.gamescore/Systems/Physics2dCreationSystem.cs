@@ -244,6 +244,14 @@ namespace Game.Systems
                 {
                     if (physics2dComponent.prefab != null)
                     {
+                        // reset velocity when returning to pool
+                        if (physics2dComponent.body != null && physics2dComponent.body.bodyType == RigidbodyType2D.Dynamic)
+                        {
+                            physics2dComponent.body.totalForce = Vector2.zero;
+                            physics2dComponent.body.totalTorque = 0;
+                            physics2dComponent.body.velocity = Vector2.zero;
+                        }
+                        
                         poolMap.Release(physics2dComponent.gameObject);
                     }
                     else
