@@ -2,7 +2,7 @@
 
 namespace Gemserk.Leopotam.Ecs
 {
-    public abstract class ComponentDefinitionBase : MonoBehaviour, IComponentDefinition, IEntityInstanceParameter
+    public abstract class ComponentDefinitionBase : MonoBehaviour, IComponentDefinition
     {
         public abstract string GetComponentName();
         
