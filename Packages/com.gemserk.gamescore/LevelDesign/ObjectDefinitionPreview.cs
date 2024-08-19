@@ -87,7 +87,7 @@ namespace Game.LevelDesign
             }
 
             var unitInstanceParameter = GetComponent<UnitInstanceParameter>();
-            var positionType = UnitInstanceParameter.PositionType.CopyFromTransform;
+            var positionType = UnitInstanceParameter.PositionType.CopyFromTransform3d;
 
             if (unitInstanceParameter != null)
             {
@@ -127,10 +127,10 @@ namespace Game.LevelDesign
                     {
                         model.spriteRenderer.sprite = animationComponentDefinition.animationsAsset.animations[defaultAnim].frames[0].sprite;
                         
-                        if (positionType == UnitInstanceParameter.PositionType.CopyFromTransform)
+                        if (positionType == UnitInstanceParameter.PositionType.CopyFromTransform3d)
                         {
                             model.spriteRenderer.transform.localPosition = new Vector3(0, transform.position.z, 0);
-                        } else if (positionType == UnitInstanceParameter.PositionType.CopyFromTransformDontConvert)
+                        } else if (positionType == UnitInstanceParameter.PositionType.CopyFromTransform2d)
                         {
                             model.spriteRenderer.transform.localPosition = new Vector3(0, 0, 0);
                         }

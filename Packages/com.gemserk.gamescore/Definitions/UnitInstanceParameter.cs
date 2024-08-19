@@ -14,8 +14,8 @@ namespace Game.Definitions
         public enum PositionType
         {
             None = 0,
-            CopyFromTransform = 1,
-            CopyFromTransformDontConvert = 2,
+            CopyFromTransform3d = 1,
+            CopyFromTransform2d = 2,
         }
         
         public enum NamingType
@@ -86,15 +86,16 @@ namespace Game.Definitions
                 } 
             }
             
-            if (positionType == PositionType.CopyFromTransform)
+            if (positionType == PositionType.CopyFromTransform3d)
             {
                 ref var position = ref world.GetComponent<PositionComponent>(entity);
-                position.value =
-                    GamePerspective.ConvertToWorld(transform.position);
-            } else if (positionType == PositionType.CopyFromTransformDontConvert)
+                position.value = GamePerspective.ConvertToWorld(transform.position);
+                position.type = 0;
+            } else if (positionType == PositionType.CopyFromTransform2d)
             {
                 ref var position = ref world.GetComponent<PositionComponent>(entity);
                 position.value = transform.position;
+                position.type = 1;
             }
             
             if (controllable)
