@@ -210,8 +210,8 @@ namespace Game.LevelDesign
                 
                 previewObject.name = PreviewObjectName;
                 previewObject.AddComponent<PreviewObject>();
-                // previewObject.hideFlags = HideFlags.DontSave | HideFlags.HideInHierarchy;
-                previewObject.hideFlags = HideFlags.DontSave;
+                previewObject.hideFlags = HideFlags.DontSave | HideFlags.HideInHierarchy;
+                // previewObject.hideFlags = HideFlags.DontSave;
                 
                 UpdatePreview();
                 return;
@@ -225,8 +225,8 @@ namespace Game.LevelDesign
                 
                 previewObject.name = PreviewObjectName;
                 previewObject.AddComponent<PreviewObject>();
-                // previewObject.hideFlags = HideFlags.DontSave | HideFlags.HideInHierarchy;
-                previewObject.hideFlags = HideFlags.DontSave;
+                previewObject.hideFlags = HideFlags.DontSave | HideFlags.HideInHierarchy;
+                // previewObject.hideFlags = HideFlags.DontSave;
                 
                 UpdatePreview();
             }
