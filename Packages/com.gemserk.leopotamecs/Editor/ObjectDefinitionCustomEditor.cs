@@ -14,8 +14,9 @@ namespace Gemserk.Leopotam.Ecs.Editor
         
         private void OnEnable()
         {
-            types = TypeCache.GetTypesDerivedFrom<ComponentDefinitionBase>()
+            types = TypeCache.GetTypesDerivedFrom<IComponentDefinition>()
                 .Where(t => !t.IsAbstract)
+                .Where(t => t.IsSubclassOf(typeof(MonoBehaviour)))
                 .ToList();
             types.Sort(GuiUtilities.NameComparison);
         }
@@ -35,7 +36,11 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 var components = targetObject
                     .GetComponents<IComponentDefinition>().ToList();
 
-                GuiUtilities.DrawSelectTypesGui(targetObject.gameObject, types, components);
+                GuiUtilities.DrawSelectTypesGui(targetObject.gameObject, types, components, new []
+                {
+                    "ComponentDefinition",
+                    "InstanceParameter"
+                });
             }
         }
     }

@@ -17,6 +17,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
         {
             types = TypeCache.GetTypesDerivedFrom<IEntityInstanceParameter>()
                 .Where(t => !t.IsAbstract)
+                .Where(t => t.IsSubclassOf(typeof(MonoBehaviour)))
                 .ToList();
             types.Sort(GuiUtilities.NameComparison);
         }
@@ -33,9 +34,12 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 {
                     var components = entityPrefabInstance
                         .GetComponents<IEntityInstanceParameter>().ToList();
-
-                    GuiUtilities.DrawSelectTypesGui(entityPrefabInstance.gameObject,
-                        types, components);
+                    
+                    GuiUtilities.DrawSelectTypesGui(entityPrefabInstance.gameObject, types, components, new []
+                    {
+                        "ComponentDefinition",
+                        "InstanceParameter"
+                    });
                 }
                 else
                 {

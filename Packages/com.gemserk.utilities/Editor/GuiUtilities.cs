@@ -14,7 +14,7 @@ namespace Gemserk.Utilities.Editor
         }
         
         public static void DrawSelectTypesGui<T>(GameObject gameObject, 
-            IEnumerable<Type> types, IEnumerable<T> components) where T : class
+            IEnumerable<Type> types, IEnumerable<T> components, string[] cleanupFilter = null) where T : class
         {
             var addedTypes = components.Select(c => c.GetType())
                 .ToList();
@@ -26,7 +26,18 @@ namespace Gemserk.Utilities.Editor
             if (addTypes.Count > 0)
             {
                 var typeNames = new List<string>(new[] { "<< SELECT TO ADD >>" });
-                typeNames.AddRange(addTypes.Select(t => t.Name.Replace("Definition", "")));
+
+                var renamedTypes = addTypes.Select(t => t.Name);
+                    
+                if (cleanupFilter != null)
+                {
+                    foreach (var filter in cleanupFilter)
+                    {
+                        renamedTypes = renamedTypes.Select(t => t.Replace(filter, "")).ToList();
+                    }
+                }
+                
+                typeNames.AddRange(renamedTypes);
 
                 var selected = 0;
                 EditorGUI.BeginChangeCheck();
