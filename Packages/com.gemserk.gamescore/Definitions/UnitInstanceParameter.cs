@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using Game.Components;
 using Game.Models;
 using Game.Systems;
@@ -33,6 +31,8 @@ namespace Game.Definitions
         public string entityName;
         [ConditionalField(nameof(namingType), true, NamingType.None)]
         public bool singleton;
+        [ConditionalField(nameof(namingType), false, NamingType.String)]
+        public bool disableSpawnNameOverride;
 
         [Separator("Location")] 
         public PositionType positionType = PositionType.None;
@@ -75,19 +75,7 @@ namespace Game.Definitions
         public bool overrideHealth;
         [FormerlySerializedAs("hitPoints")] [ConditionalField(nameof(overrideHealth))]
         public float health;
-
-        [Separator("Spawner")]
-        public bool isSpawner;
-        [ConditionalField(nameof(isSpawner))]
-        public Object spawnArea;
-
-        // public bool autoSpawnsOnStarts;
-        // [ConditionalField(nameof(autoSpawnsOnStarts))]
-        // public string spawnInstanceName;
-        // [ConditionalField(nameof(autoSpawnsOnStarts))]
-        // public List<Object> spawnDefinitions = new List<Object>(); 
-
-        //
+        
         public void Apply(World world, Entity entity)
         {
             if (positionType != PositionType.None)
@@ -211,28 +199,11 @@ namespace Game.Definitions
                 nameComponent.name = gameObject.name;
                 nameComponent.singleton = singleton;
             }
-
-            if (isSpawner)
-            {
-                ref var spawnerComponent = ref world.GetComponent<SpawnerComponent>(entity);
-                spawnerComponent.area = spawnArea;
-                
-                // // if autospawns on init
-                // if (autoSpawnsOnStarts)
-                // {
-                //     spawnerComponent.pending.Add(new SpawnPackData()
-                //     {
-                //         name = spawnInstanceName,
-                //         definitions = spawnDefinitions.Select(o => o.GetInterface<IEntityDefinition>()).ToList()
-                //     });
-                // }
-
-            }
         }
 
         private void OnValidate()
         {
-            if (!gameObject.IsSafeToModifyName())
+            if (!gameObject.IsSafeToModifyName() || disableSpawnNameOverride)
                 return;
 
             if (namingType == NamingType.String)
@@ -243,7 +214,7 @@ namespace Game.Definitions
                 }
                 else
                 {
-                    gameObject.name = $"Spawn()"; 
+                    gameObject.name = "Spawn()"; 
                 }
             }
         }
