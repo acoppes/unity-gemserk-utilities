@@ -30,11 +30,6 @@ namespace Game.Components
         public bool loop;
 
         public MinMaxFloat randomPitch = new MinMaxFloat(1, 1);
-        
-        public override string GetComponentName()
-        {
-            return nameof(SoundEffectComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

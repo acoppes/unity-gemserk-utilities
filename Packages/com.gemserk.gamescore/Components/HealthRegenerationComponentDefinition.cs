@@ -27,11 +27,6 @@ namespace Game.Components
         [FormerlySerializedAs("regenerationPerTick")] 
         public float deltaHealth;
 
-        public override string GetComponentName()
-        {
-            return nameof(HealthRegenerationComponent);
-        }
-
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new HealthRegenerationComponent

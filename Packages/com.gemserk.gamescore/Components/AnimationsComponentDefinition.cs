@@ -20,11 +20,6 @@ namespace Game.Components
         // TODO: int loops to be configured here optional
 
         public bool hasMultipleDirectionsPerAnimation;
-        
-        public override string GetComponentName()
-        {
-            return nameof(AnimationsComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

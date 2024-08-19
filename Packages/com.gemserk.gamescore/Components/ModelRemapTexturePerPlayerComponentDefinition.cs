@@ -14,11 +14,6 @@ namespace Game.Components
     {
         public ColorMapTexturesAsset colorMapTexturesAsset;
         public Texture2D[] remapTexturesPerPlayer;
-        
-        public override string GetComponentName()
-        {
-            return nameof(ModelRemapTexturePerPlayerComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

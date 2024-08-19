@@ -12,11 +12,6 @@ namespace Game.Components
     {
         public float speed = 1;
         // public float depth = 1;
-        
-        public override string GetComponentName()
-        {
-            return nameof(ParallaxComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

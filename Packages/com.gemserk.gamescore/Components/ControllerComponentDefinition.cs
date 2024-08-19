@@ -11,11 +11,6 @@ namespace Game.Components
 
         public bool hasStateController = true;
 
-        public override string GetComponentName()
-        {
-            return nameof(ControllerComponent);
-        }
-
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new ControllerComponent

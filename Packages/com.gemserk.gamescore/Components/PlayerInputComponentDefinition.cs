@@ -9,11 +9,6 @@ namespace Game.Components
     {
         public List<InputActionReference> predefinedInputActions;
 
-        public override string GetComponentName()
-        {
-            return nameof(PlayerInputComponent);
-        }
-
         public override void Apply(World world, Entity entity)
         {
             Dictionary<string, InputAction> inputActions = null;

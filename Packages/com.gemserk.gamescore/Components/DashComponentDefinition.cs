@@ -20,11 +20,6 @@ namespace Game.Components
         public Vector3 offset;
 
         public bool interruptWithJump = true;
-        
-        public override string GetComponentName()
-        {
-            return nameof(DashComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

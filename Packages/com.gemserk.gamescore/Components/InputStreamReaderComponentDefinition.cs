@@ -11,11 +11,6 @@ namespace Game.Components
     public class InputStreamReaderComponentDefinition : ComponentDefinitionBase, IEntityInstanceParameter
     {
         public string path;
-        
-        public override string GetComponentName()
-        {
-            return nameof(InputReaderComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

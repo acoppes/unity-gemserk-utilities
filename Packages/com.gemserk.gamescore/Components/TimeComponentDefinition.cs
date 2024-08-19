@@ -9,11 +9,6 @@ namespace Game.Components
     
     public class TimeComponentDefinition : ComponentDefinitionBase
     {
-        public override string GetComponentName()
-        {
-            return nameof(TimeComponent);
-        }
-
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new TimeComponent());

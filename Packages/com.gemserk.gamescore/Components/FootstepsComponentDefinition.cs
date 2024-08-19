@@ -31,11 +31,6 @@ namespace Game.Components
         public UnityEngine.Object sfxDefinition;
         public GameObject particlesPrefab;
 
-        public override string GetComponentName()
-        {
-            return nameof(FootstepsComponent);
-        }
-
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new FootstepsComponent()

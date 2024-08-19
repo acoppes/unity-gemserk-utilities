@@ -13,11 +13,6 @@ namespace Game.Components
     {
         public float ttl;
         public int phases;
-        
-        public override string GetComponentName()
-        {
-            return nameof(DecalComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

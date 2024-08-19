@@ -9,11 +9,6 @@ namespace Game.Components
     
     public class LimitMaxFallingVelocityComponentDefinition : ComponentDefinitionBase
     {
-        public override string GetComponentName()
-        {
-            return nameof(LimitMaxFallingVelocityComponent);
-        }
-
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new LimitMaxFallingVelocityComponent());

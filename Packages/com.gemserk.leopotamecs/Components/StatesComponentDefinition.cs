@@ -116,11 +116,6 @@ namespace Gemserk.Leopotam.Ecs.Components
     {
         public List<string> startingStates;
         public bool debugTransitions;
-        
-        public override string GetComponentName()
-        {
-            return nameof(StatesComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

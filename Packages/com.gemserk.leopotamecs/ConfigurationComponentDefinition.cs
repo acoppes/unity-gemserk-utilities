@@ -18,11 +18,6 @@ namespace Gemserk.Leopotam.Ecs
     public class ConfigurationComponentDefinition : ComponentDefinitionBase
     {
         public Object configuration;
-        
-        public override string GetComponentName()
-        {
-            return nameof(ConfigurationComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

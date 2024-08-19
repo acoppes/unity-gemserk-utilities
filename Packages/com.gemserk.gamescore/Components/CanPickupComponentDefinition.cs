@@ -13,11 +13,6 @@ namespace Game.Components
     public class CanPickupComponentDefinition : ComponentDefinitionBase
     {
         public float range;
-        
-        public override string GetComponentName()
-        {
-            return nameof(CanPickupComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

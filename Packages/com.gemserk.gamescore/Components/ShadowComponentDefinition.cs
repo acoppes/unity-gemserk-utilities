@@ -13,11 +13,6 @@ namespace Game.Components
     public class ShadowComponentDefinition : ComponentDefinitionBase
     {
         public LayerMask projectionObstaclesLayerMask;
-        
-        public override string GetComponentName()
-        {
-            return nameof(ShadowComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

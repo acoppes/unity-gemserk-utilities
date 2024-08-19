@@ -65,11 +65,6 @@ namespace Game.Components
 
         [ConditionalField(nameof(trajectoryType), false, ProjectileComponent.TrajectoryType.Linear)]
         public float initialSpeed;
-        
-        public override string GetComponentName()
-        {
-            return nameof(ProjectileComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

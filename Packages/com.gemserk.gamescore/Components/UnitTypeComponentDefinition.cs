@@ -17,11 +17,6 @@ namespace Game.Components
         [ConditionalField(nameof(unitTypeAsset), true)]
         [BitMask(16)]
         public int type;
-        
-        public override string GetComponentName()
-        {
-            return nameof(UnitTypeComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

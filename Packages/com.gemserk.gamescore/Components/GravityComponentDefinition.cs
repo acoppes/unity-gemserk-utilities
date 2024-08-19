@@ -16,11 +16,6 @@ namespace Game.Components
     {
         public float scale = 1.0f;
 
-        public override string GetComponentName()
-        {
-            return nameof(GravityComponent);
-        }
-
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new GravityComponent()

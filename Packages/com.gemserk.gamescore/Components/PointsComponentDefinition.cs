@@ -17,11 +17,6 @@ namespace Game.Components
 
         public int maxCombo = 15;
         public float multiplierPerCombo = 10;
-        
-        public override string GetComponentName()
-        {
-            return nameof(PointsComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

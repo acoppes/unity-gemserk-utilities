@@ -33,11 +33,6 @@ namespace Game.Components
     {
         public ControllableByComponent.ControllableType controllableType;
         public int playerControlId;
-        
-        public override string GetComponentName()
-        {
-            return nameof(ControllableByComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

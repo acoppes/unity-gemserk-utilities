@@ -11,11 +11,6 @@ namespace Game.Components
     public class InputRecorderComponentDefinition : ComponentDefinitionBase, IEntityInstanceParameter
     {
         public string path;
-        
-        public override string GetComponentName()
-        {
-            return nameof(InputRecorderComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

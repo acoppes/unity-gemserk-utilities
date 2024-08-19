@@ -13,11 +13,6 @@ namespace Game.Components
     {
         public RangedFloat verticalRange;
         public float warpOffset;
-        
-        public override string GetComponentName()
-        {
-            return nameof(VerticalWarpComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

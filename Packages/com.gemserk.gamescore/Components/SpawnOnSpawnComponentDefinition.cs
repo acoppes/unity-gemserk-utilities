@@ -14,11 +14,6 @@ namespace Game.Components
     public class SpawnOnSpawnComponentDefinition : ComponentDefinitionBase
     {
         public List<Object> definitions;
-        
-        public override string GetComponentName()
-        {
-            return nameof(SpawnOnSpawnComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

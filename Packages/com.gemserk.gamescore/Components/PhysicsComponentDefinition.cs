@@ -161,11 +161,6 @@ namespace Game.Components
         // public RigidbodyConstraints rigidbodyConstraints;
 
         public bool disableContactsCalculations;
-        
-        public override string GetComponentName()
-        {
-            return nameof(PhysicsComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

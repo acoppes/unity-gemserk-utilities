@@ -10,11 +10,6 @@ namespace Game.Components
     public class CopyInputToMovementComponentDefinition : ComponentDefinitionBase
     {
         public float fixedAngles = 0;
-        
-        public override string GetComponentName()
-        {
-            return nameof(CopyInputToMovementComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

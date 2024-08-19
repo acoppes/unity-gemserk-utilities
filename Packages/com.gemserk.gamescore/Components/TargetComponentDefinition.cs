@@ -11,11 +11,6 @@ namespace Game.Components
     public class TargetComponentDefinition : ComponentDefinitionBase
     {
         public TargetType targetType = TargetType.TargetType0;
-        
-        public override string GetComponentName()
-        {
-            return nameof(TargetComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

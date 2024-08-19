@@ -16,11 +16,6 @@ namespace Game.Components
     {
         public JumpComponent jumpComponent;
 
-        public override string GetComponentName()
-        {
-            return nameof(JumpComponent);
-        }
-
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, jumpComponent);

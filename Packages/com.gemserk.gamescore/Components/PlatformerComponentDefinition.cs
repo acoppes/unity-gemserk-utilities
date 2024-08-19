@@ -45,11 +45,6 @@ namespace Game.Components
         public bool fallingConsumesGroundJump = true;
         public float fallingJumpGroundDetectionOffset = 1f;
         public float baseSpeedBoost = 1.0f;
-        
-        public override string GetComponentName()
-        {
-            return nameof(PlatformerComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

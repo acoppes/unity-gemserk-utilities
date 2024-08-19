@@ -12,11 +12,6 @@ namespace Game.Components
     
     public class BillboardComponentDefinition : ComponentDefinitionBase
     {
-        public override string GetComponentName()
-        {
-            return nameof(BillboardComponent);
-        }
-
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new BillboardComponent());

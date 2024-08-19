@@ -18,11 +18,6 @@ namespace Game.Components
     
     public class SpawnPackComponentDefinition : ComponentDefinitionBase
     {
-        public override string GetComponentName()
-        {
-            return nameof(SpawnPackComponent);
-        }
-
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new SpawnPackComponent());

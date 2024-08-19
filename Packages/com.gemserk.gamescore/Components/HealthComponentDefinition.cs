@@ -22,11 +22,6 @@ namespace Game.Components
         public bool hasDamageNumber;
         [ConditionalField(nameof(hasDamageNumber))] 
         public float damageNumberAccumulator = 0;
-        
-        public override string GetComponentName()
-        {
-            return nameof(HealthComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

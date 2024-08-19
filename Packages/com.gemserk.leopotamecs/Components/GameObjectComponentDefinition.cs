@@ -34,11 +34,6 @@ namespace Gemserk.Leopotam.Ecs.Components
         public CopyPositionType copyPositionType = CopyPositionType.CopyFromEntity;
 
         public bool isController;
-        
-        public override string GetComponentName()
-        {
-            return nameof(GameObjectComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

@@ -134,11 +134,6 @@ namespace Gemserk.Leopotam.Ecs.Components
         public TypeSetAsset typesAsset;
 
         public bool debugTransitions;
-        
-        public override string GetComponentName()
-        {
-            return nameof(StatesComponentV2);
-        }
 
         public override void Apply(World world, Entity entity)
         {

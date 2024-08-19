@@ -22,11 +22,6 @@ namespace Game.Components
         public string defaultFormat = "{0:0}";
         public float defaultValue;
         public float time = 0.35f;
-        
-        public override string GetComponentName()
-        {
-            return nameof(NumberComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

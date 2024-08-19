@@ -40,11 +40,6 @@ namespace Game.Components
 
         public List<AttachDefinition> attachPointDefinitions;
 
-        public override string GetComponentName()
-        {
-            return nameof(AttachPointsComponent);
-        }
-
         public override void Apply(World world, Entity entity)
         {
             var attachPoints = new Dictionary<string, AttachPoint>(StringComparer.OrdinalIgnoreCase);

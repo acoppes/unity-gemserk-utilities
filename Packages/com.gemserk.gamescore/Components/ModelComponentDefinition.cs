@@ -83,11 +83,6 @@ namespace Game.Components
 
         [Tooltip("Fix final model rotation angle to rotate in partitions, use 0 or less to disable")]
         public float fixedRotationAngles = 0;
-        
-        public override string GetComponentName()
-        {
-            return nameof(ModelComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

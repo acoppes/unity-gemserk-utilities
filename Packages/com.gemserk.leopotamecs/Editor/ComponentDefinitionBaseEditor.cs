@@ -1,6 +1,5 @@
 ﻿using Gemserk.Utilities.Editor;
 using UnityEditor;
-using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Editor
 {

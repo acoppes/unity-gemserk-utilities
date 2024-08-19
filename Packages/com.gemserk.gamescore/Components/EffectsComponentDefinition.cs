@@ -59,11 +59,6 @@ namespace Game.Components
         
         public int minDelay;
         public int maxDelay;
-        
-        public override string GetComponentName()
-        {
-            return nameof(EffectsComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

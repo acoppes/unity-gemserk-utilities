@@ -7,11 +7,6 @@
     
     public class DestroyableComponentDefinition : ComponentDefinitionBase
     {
-        public override string GetComponentName()
-        {
-            return nameof(DestroyableComponent);
-        }
-
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new DestroyableComponent());

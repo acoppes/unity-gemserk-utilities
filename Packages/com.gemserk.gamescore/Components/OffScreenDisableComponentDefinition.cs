@@ -31,11 +31,6 @@ namespace Game.Components
     public class OffScreenDisableComponentDefinition : ComponentDefinitionBase
     {
         public OffScreenDisableComponent.BoundsType boundsType;
-        
-        public override string GetComponentName()
-        {
-            return nameof(OffScreenDisableComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

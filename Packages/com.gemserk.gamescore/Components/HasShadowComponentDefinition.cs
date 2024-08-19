@@ -39,11 +39,6 @@ namespace Game.Components
         public HasShadowComponent.CopyFromPositionType copyFromPositionType = HasShadowComponent.CopyFromPositionType.FromFake3d;
 
         public GameObject shadowDefinitionPrefab;
-        
-        public override string GetComponentName()
-        {
-            return nameof(HasShadowComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

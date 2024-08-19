@@ -13,11 +13,6 @@ namespace Game.Components
     {
         public VfxComponentDataDefinition[] onDamageEffects;
         public VfxComponentDataDefinition[] onDeathEffects;
-        
-        public override string GetComponentName()
-        {
-            return nameof(DamageEffectsComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

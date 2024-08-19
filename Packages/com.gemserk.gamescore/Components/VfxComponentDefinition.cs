@@ -74,12 +74,6 @@ namespace Game.Components
     
     public class VfxComponentDefinition : ComponentDefinitionBase
     {
-
-        public override string GetComponentName()
-        {
-            return nameof(VfxComponent);
-        }
-
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new VfxComponent

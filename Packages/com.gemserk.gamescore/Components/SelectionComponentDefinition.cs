@@ -32,11 +32,6 @@ namespace Game.Components
     public class SelectionComponentDefinition : ComponentDefinitionBase
     {
         public bool isMain;
-        
-        public override string GetComponentName()
-        {
-            return nameof(SelectionComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

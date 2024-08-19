@@ -12,11 +12,6 @@ namespace Game.Components
     {
         [FormerlySerializedAs("player")] 
         public int controlId;
-        
-        public override string GetComponentName()
-        {
-            return nameof(PlayerControlComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

@@ -10,11 +10,6 @@ namespace Game.Components
     
     public class PackComponentDefinition : ComponentDefinitionBase
     {
-        public override string GetComponentName()
-        {
-            return nameof(PackComponent);
-        }
-
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new PackComponent()

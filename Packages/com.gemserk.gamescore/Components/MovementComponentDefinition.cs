@@ -64,11 +64,6 @@ namespace Game.Components
         
         public float acceleration = 0;
         public float deceleration = 0;
-        
-        public override string GetComponentName()
-        {
-            return nameof(MovementComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

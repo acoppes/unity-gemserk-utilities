@@ -45,12 +45,7 @@ namespace Game.Components
         [ConditionalField(nameof(autoSpawnsOnStarts))]
         public MinMaxInt randomCount;
         [ConditionalField(nameof(autoSpawnsOnStarts))]
-        public List<Object> spawnDefinitions = new List<Object>(); 
-
-        public override string GetComponentName()
-        {
-            return nameof(SpawnerComponent);
-        }
+        public List<Object> spawnDefinitions = new List<Object>();
 
         public override void Apply(World world, Entity entity)
         {

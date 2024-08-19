@@ -46,11 +46,6 @@ namespace Game.Components
         public float value;
 
         public bool autoDestroyOnPickup = false;
-        
-        public override string GetComponentName()
-        {
-            return nameof(PickupComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

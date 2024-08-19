@@ -13,11 +13,6 @@ namespace Game.Components
     {
         public List<string> types;
         public bool forceLowerCase = true;
-        
-        public override string GetComponentName()
-        {
-            return nameof(TypesComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

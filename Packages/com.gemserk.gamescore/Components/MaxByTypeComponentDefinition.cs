@@ -16,11 +16,6 @@ namespace Game.Components
     public class MaxByTypeComponentDefinition : ComponentDefinitionBase
     {
         public TypeMaxAsset typeMax;
-        
-        public override string GetComponentName()
-        {
-            return nameof(MaxByTypeComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

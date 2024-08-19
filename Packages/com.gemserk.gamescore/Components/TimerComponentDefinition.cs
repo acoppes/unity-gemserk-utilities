@@ -11,11 +11,6 @@ namespace Game.Components
     public class TimerComponentDefinition : ComponentDefinitionBase
     {
         public float startingTime;
-        
-        public override string GetComponentName()
-        {
-            return nameof(TimerComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

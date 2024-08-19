@@ -219,11 +219,6 @@ namespace Game.Components
         public List<string> customButtonMap;
         public float bufferTime = BufferedInputComponent.DefaultBufferTime;
 
-        public override string GetComponentName()
-        {
-            return nameof(InputComponent);
-        }
-
         public override void Apply(World world, Entity entity)
         {
             var controlComponent = InputComponent.Default();

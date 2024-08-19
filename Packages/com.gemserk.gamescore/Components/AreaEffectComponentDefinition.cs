@@ -19,11 +19,6 @@ namespace Game.Components
         
         [ObjectType(typeof(IEntityDefinition), disableAssetReferences = true, filterString = "Definition")]
         public List<Object> effectDefinitions;
-        
-        public override string GetComponentName()
-        {
-            return nameof(AreaEffectComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

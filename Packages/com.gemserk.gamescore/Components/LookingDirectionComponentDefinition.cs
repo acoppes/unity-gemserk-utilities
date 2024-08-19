@@ -23,11 +23,6 @@ namespace Game.Components
         public Vector3 defaultLookingDirection = Vector3.right;
 
         public bool copyFromPhysicsRotation;
-        
-        public override string GetComponentName()
-        {
-            return nameof(LookingDirection);
-        }
 
         public override void Apply(World world, Entity entity)
         {

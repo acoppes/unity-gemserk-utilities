@@ -30,11 +30,6 @@ namespace Game.Components
 
         public int framesToRemove = 1;
         public int framesToGenerateImpulse = 1;
-        
-        public override string GetComponentName()
-        {
-            return nameof(CameraImpulseComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

@@ -11,11 +11,6 @@ namespace Game.Components
     public class TimeToLiveComponentDefinition : ComponentDefinitionBase
     {
         public float timeToLive;
-        
-        public override string GetComponentName()
-        {
-            return nameof(TimeToLiveComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {

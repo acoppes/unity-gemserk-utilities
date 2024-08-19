@@ -10,11 +10,6 @@ namespace Game.Components.Abilities
 
         public Transform abilitiesParent;
 
-        public override string GetComponentName()
-        {
-            return nameof(AbilitiesComponent);
-        }
-
         public override void Apply(World world, Entity entity)
         {
             var abilitiesComponent = AbilitiesComponent.Create();

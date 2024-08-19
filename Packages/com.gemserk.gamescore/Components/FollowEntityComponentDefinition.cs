@@ -26,11 +26,6 @@ namespace Game.Components
             FollowEntityComponent.FollowType.X | FollowEntityComponent.FollowType.Y | FollowEntityComponent.FollowType.Z;
 
         // public Vector3 offset;
-        
-        public override string GetComponentName()
-        {
-            return nameof(FollowEntityComponent);
-        }
 
         public override void Apply(World world, Entity entity)
         {
