@@ -9,11 +9,6 @@ namespace Scenes.EntitiesDebugWindowExample
     
     public class ExampleTagComponentDefinition : ComponentDefinitionBase
     {
-        public override string GetComponentName()
-        {
-            return nameof(ExampleTagComponent);
-        }
-
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new ExampleTagComponent());

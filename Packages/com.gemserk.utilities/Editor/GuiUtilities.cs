@@ -45,9 +45,7 @@ namespace Gemserk.Utilities.Editor
                 if (EditorGUI.EndChangeCheck())
                 {
                     var typeToAdd = addTypes[selected - 1];
-                    gameObject.AddComponent(typeToAdd);
-                    EditorUtility.SetDirty(gameObject);
-                    AssetDatabase.SaveAssetIfDirty(gameObject);
+                    Undo.AddComponent(gameObject, typeToAdd);
                 }
             }
             else
