@@ -11,8 +11,7 @@ namespace Gemserk.Leopotam.Ecs
             String = 1,
             CopyFromGameObject = 2
         }
-
-        [Separator("Identify")] 
+        
         public NamingType namingType = NamingType.String;
         [ConditionalField(nameof(namingType), false, NamingType.String)]
         public string entityName;
