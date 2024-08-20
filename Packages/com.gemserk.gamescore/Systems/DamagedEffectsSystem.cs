@@ -9,7 +9,7 @@ namespace Game.Systems
 {
     public class DamagedEffectsSystem : BaseSystem, IEcsRunSystem
     {
-        readonly EcsFilterInject<Inc<DamageEffectsComponent, PositionComponent>, Exc<DisabledComponent>> preFilter = default;
+        readonly EcsFilterInject<Inc<DamageEffectsComponent, PositionComponent>, Exc<AttachPointsComponent, DisabledComponent>> preFilter = default;
         readonly EcsFilterInject<Inc<DamageEffectsComponent, HealthComponent, PositionComponent, AttachPointsComponent>, Exc<DisabledComponent>> attachPointsFilter = default;
         readonly EcsFilterInject<Inc<DamageEffectsComponent, HealthComponent>, Exc<DisabledComponent>> filter = default;
 
