@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Game.Components;
+using Gemserk.Leopotam.Ecs;
 using Gemserk.Triggers;
-using Gemserk.Triggers.Queries;
 using MyBox;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -24,9 +24,8 @@ namespace Game.Triggers
             public Vector2 value;
         } 
         
-        [DisplayInspector]
-        public Query query;
-
+        public TriggerTarget target;
+        
         public Vector2 direction;
         
         public bool left;
@@ -37,15 +36,18 @@ namespace Game.Triggers
         public bool button3;
 
         public List<CustomAction> customActions = new List<CustomAction>();
+        
+        private readonly List<Entity> entities = new List<Entity>();
 
         public override string GetObjectName()
         {
-            return $"OverrideControls({query})";
+            return $"OverrideControls({target})";
         }
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
-            var entities = world.GetEntities(query.GetEntityQuery());
+            entities.Clear();
+            target.Get(entities, world, activator);
             
             foreach (var entity in entities)
             {
@@ -90,6 +92,7 @@ namespace Game.Triggers
                
             }
             
+            entities.Clear();
             return ITrigger.ExecutionResult.Completed;
         }
     }

@@ -1,33 +1,28 @@
-﻿using Game.Components;
+﻿using System.Collections.Generic;
+using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Triggers;
-using Gemserk.Triggers.Queries;
-using MyBox;
 using UnityEngine;
 
 namespace Game.Triggers
 {
     public class ControllableTriggerAction : WorldTriggerAction
     {
-        [DisplayInspector]
-        public Query query;
+        public TriggerTarget target;
 
         public ControllableByComponent.ControllableType controllableType;
 
+        private readonly List<Entity> entities = new List<Entity>();
+        
         public override string GetObjectName()
         {
-            if (query != null)
-            {
-                var queryString = query.ToString();
-                return $"SetControllable({queryString})";
-            }
-            
-            return "SetControllable()";
+            return $"SetControllable({target}, {controllableType})";
         }
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
-            var entities = world.GetEntities(query.GetEntityQuery());
+            entities.Clear();
+            target.Get(entities, world, activator);
             
             foreach (var entity in entities)
             {
@@ -43,6 +38,7 @@ namespace Game.Triggers
                 entity.Get<BufferedInputComponent>().ConsumeBuffer();
             }
             
+            entities.Clear();
             return ITrigger.ExecutionResult.Completed;
         }
     }
