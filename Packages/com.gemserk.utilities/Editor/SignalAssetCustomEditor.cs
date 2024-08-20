@@ -40,8 +40,16 @@ namespace Gemserk.Utilities.Editor
                 }
                 
             }
-
             EditorGUI.indentLevel--;
+
+            if (handlers.Count > 0)
+            {
+                if (GUILayout.Button("Clear"))
+                {
+                    signalAsset.GetHandlers().Clear();
+                }
+            }
+            
             EditorGUILayout.EndVertical();
         }
     }
