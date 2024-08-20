@@ -9,11 +9,29 @@ namespace Game.Systems
 {
     public class DamagedEffectsSystem : BaseSystem, IEcsRunSystem
     {
+        readonly EcsFilterInject<Inc<DamageEffectsComponent, PositionComponent>, Exc<DisabledComponent>> preFilter = default;
         readonly EcsFilterInject<Inc<DamageEffectsComponent, HealthComponent, PositionComponent, AttachPointsComponent>, Exc<DisabledComponent>> attachPointsFilter = default;
         readonly EcsFilterInject<Inc<DamageEffectsComponent, HealthComponent>, Exc<DisabledComponent>> filter = default;
 
         public void Run(EcsSystems systems)
         {
+            // by default set damage vfx positions to be in the position of the entity
+            foreach (var e in preFilter.Value)
+            {
+                ref var damageEffects = ref preFilter.Pools.Inc1.Get(e);
+                var position = preFilter.Pools.Inc2.Get(e);
+                
+                for (var i = 0; i < damageEffects.onDamageEffects.Length; i++)
+                {
+                    damageEffects.onDamageEffects[i].position = position.value;
+                }
+                
+                for (var i = 0; i < damageEffects.onDeathEffects.Length; i++)
+                {
+                    damageEffects.onDeathEffects[i].position = position.value;
+                }
+            }
+
             foreach (var e in attachPointsFilter.Value)
             {
                 ref var damageEffects = ref attachPointsFilter.Pools.Inc1.Get(e);
