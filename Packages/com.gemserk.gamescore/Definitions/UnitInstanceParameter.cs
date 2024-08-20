@@ -51,6 +51,10 @@ namespace Game.Definitions
         public bool overrideLookingDirection = false;
 
         [ConditionalField(nameof(overrideLookingDirection))]
+        public LookingDirectionComponentDefinition.StartingLookingDirectionType startingLookingDirectionType =
+            LookingDirectionComponentDefinition.StartingLookingDirectionType.Fixed;
+        
+        [ConditionalField(nameof(overrideLookingDirection))]
         public Vector3 startLookingDirection;
         
         [Separator("Model")]
@@ -119,7 +123,15 @@ namespace Game.Definitions
             if (overrideLookingDirection && world.HasComponent<LookingDirection>(entity))
             {
                 ref var lookingDirection = ref world.GetComponent<LookingDirection>(entity);
-                lookingDirection.value = startLookingDirection.normalized;
+                
+                if (startingLookingDirectionType == LookingDirectionComponentDefinition.StartingLookingDirectionType.Fixed)
+                {
+                    lookingDirection.value = startLookingDirection.normalized;
+                } else if (startingLookingDirectionType == LookingDirectionComponentDefinition.StartingLookingDirectionType.Random2d)
+                {
+                    // we could check which type of position we are using and randomize in that world.
+                    lookingDirection.value = RandomExtensions.RandomVector2(1, 1, 0, 360);
+                }
             }
             
             if (overrideModel && world.HasComponent<ModelComponent>(entity))
