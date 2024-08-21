@@ -1,5 +1,7 @@
-﻿using Unity.Cinemachine;
+﻿using System.Collections.Generic;
+using Unity.Cinemachine;
 using Game.Components;
+using Gemserk.Leopotam.Ecs;
 using Gemserk.Leopotam.Ecs.Components;
 using Gemserk.Triggers;
 using Gemserk.Triggers.Queries;
@@ -19,6 +21,8 @@ namespace Game.Triggers
         
         public Query query;
 
+        public TriggerTarget target;
+
         public GameObject targetGameObject;
         
         public string cameraName;
@@ -34,7 +38,7 @@ namespace Game.Triggers
             {
                 return $"SetCamera{actionType}({cameraName}, {query})";
             }    
-            return $"SetCamera{actionType}()";
+            return $"SetCamera{actionType}({cameraName}, {target})";
         }
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
@@ -51,8 +55,17 @@ namespace Game.Triggers
                 }
                 else
                 {
-                    var entities = world.GetEntities(query.GetEntityQuery());
-                
+                    var entities = new List<Entity>();
+
+                    if (query != null)
+                    {
+                        entities = world.GetEntities(query.GetEntityQuery());
+                    }
+                    else
+                    {
+                        target.Get(entities, world, activator);
+                    }
+                    
                     foreach (var entity in entities)
                     {
                         if (useGameObject)
