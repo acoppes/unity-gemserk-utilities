@@ -36,6 +36,13 @@ namespace Gemserk.Triggers.Queries
             GetEntities(world, query, results);
             return results;
         }
+        
+        public static List<Entity> GetEntities(this World world, TriggerTarget target, object activator)
+        {
+            var results = new List<Entity>();
+            target.Get(results, world, activator);
+            return results;
+        }
 
         public static void GetEntities(this World world, EntityQuery query, List<Entity> results)
         {
