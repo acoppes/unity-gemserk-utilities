@@ -37,8 +37,8 @@ namespace Gemserk.Utilities.Editor
 
             var labelPosition = new Rect(position.x, position.y, position.width * 0.25f, ElementHeight * 1);
           //  var optionsPosition = new Rect(position.x, position.y + elementHeight, position.width, elementHeight);
-            var objectPosition = new Rect(position.x + position.width * 0.25f, position.y + ElementHeight * 0, position.width * 0.6f, ElementHeight);
-            var buttonPosition = new Rect(position.x + position.width * 0.85f, position.y, position.width * 0.15f, ElementHeight);
+            var objectPosition = new Rect(position.x + position.width * 0.25f, position.y + ElementHeight * 0, position.width * 0.75f - 30, ElementHeight);
+            var buttonPosition = new Rect(position.x + position.width - 30, position.y, 30, ElementHeight);
 
             if (lastSelectedObject != null)
             {
@@ -47,8 +47,11 @@ namespace Gemserk.Utilities.Editor
             }
             
             EditorGUI.LabelField(labelPosition, objectProperty.displayName);
+
+            var selectIcon = EditorGUIUtility.IconContent("d_Search Icon");
+            var selectContent = new GUIContent(selectIcon.image, "Open Selection Window");
             
-            if (GUI.Button(buttonPosition, "Select"))
+            if (GUI.Button(buttonPosition, selectContent))
             {
                 // options.Clear();
 
