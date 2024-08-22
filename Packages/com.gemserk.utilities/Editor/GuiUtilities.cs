@@ -15,8 +15,10 @@ namespace Gemserk.Utilities.Editor
         
         [Obsolete("Use the SerializedObject version.")]
         public static void DrawSelectTypesGui<T>(GameObject gameObject, 
-            IEnumerable<Type> types, IEnumerable<T> excludeComponents, string[] cleanupFilter = null) where T : class
+            IEnumerable<Type> types, string[] cleanupFilter = null) where T : class
         {
+            var excludeComponents = gameObject.GetComponents<T>().ToList();
+            
             var addedTypes = excludeComponents.Select(c => c.GetType())
                 .ToList();
             
