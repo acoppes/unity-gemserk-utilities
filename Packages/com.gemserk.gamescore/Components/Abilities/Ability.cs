@@ -171,5 +171,15 @@ namespace Game.Components.Abilities
             cooldown.Fill();
             currentCharges = totalCharges;
         }
+        
+        public void Reset()
+        {
+            cooldown.Reset();
+            
+            if (totalCharges > 0)
+            {
+                currentCharges = 0;
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Game.Components;
 using MyBox;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace Game.Utilities
@@ -24,6 +25,7 @@ namespace Game.Utilities
 
         public HealthComponent.AliveType aliveType;
 
+        [Tooltip("Use 0 to disable, max shouldn't be bigger than 180")]
         public MinMaxFloat angle;
 
         public float maxRangeSqr => range.Max * range.Max;
