@@ -28,29 +28,21 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
             DrawDefaultInspector();
             
-            if (entityPrefabInstance != null)
+            if (!Application.isPlaying)
             {
-                if (!Application.isPlaying)
+                GuiUtilities.DrawSelectTypesGui<IEntityInstanceParameter>(serializedObject, types, new []
                 {
-                    var components = entityPrefabInstance
-                        .GetComponents<IEntityInstanceParameter>().ToList();
-                    
-                    GuiUtilities.DrawSelectTypesGui(serializedObject, types, components, new []
-                    {
-                        "ComponentDefinition",
-                        "InstanceParameter"
-                    });
-                }
-                else
+                    "ComponentDefinition",
+                    "InstanceParameter"
+                });
+            }
+            else
+            {
+                if (GUILayout.Button("Instantiate"))
                 {
-                    if (GUILayout.Button("Instantiate"))
-                    {
-                        entityPrefabInstance.InstantiateEntity();
-                    }
+                    entityPrefabInstance?.InstantiateEntity();
                 }
             }
-
-
         }
     }
 }

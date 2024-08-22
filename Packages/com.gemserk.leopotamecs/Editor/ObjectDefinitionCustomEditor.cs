@@ -8,6 +8,7 @@ using UnityEngine;
 namespace Gemserk.Leopotam.Ecs.Editor
 {
     [CustomEditor(typeof(ObjectEntityDefinition), true)]
+    [CanEditMultipleObjects]
     public class ObjectDefinitionCustomEditor : UnityEditor.Editor
     {
         private List<Type> types;
@@ -23,7 +24,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
         public override void OnInspectorGUI()
         {
-            var targetObject = target as ObjectEntityDefinition;
+            // var targetObject = target as ObjectEntityDefinition;
 
             var style = new GUIStyle(GUI.skin.label);
             style.alignment = TextAnchor.MiddleCenter;
@@ -31,17 +32,11 @@ namespace Gemserk.Leopotam.Ecs.Editor
             
             DrawDefaultInspector();
             
-            if (targetObject != null)
+            GuiUtilities.DrawSelectTypesGui<IComponentDefinition>(serializedObject, types, new []
             {
-                var components = targetObject
-                    .GetComponents<IComponentDefinition>().ToList();
-
-                GuiUtilities.DrawSelectTypesGui(targetObject.gameObject, types, components, new []
-                {
-                    "ComponentDefinition",
-                    "InstanceParameter"
-                });
-            }
+                "ComponentDefinition",
+                "InstanceParameter"
+            });
         }
     }
 }

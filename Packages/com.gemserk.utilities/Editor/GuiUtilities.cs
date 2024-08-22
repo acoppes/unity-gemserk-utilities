@@ -13,10 +13,11 @@ namespace Gemserk.Utilities.Editor
             return string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase);
         }
         
+        [Obsolete("Use the SerializedObject version.")]
         public static void DrawSelectTypesGui<T>(GameObject gameObject, 
-            IEnumerable<Type> types, IEnumerable<T> components, string[] cleanupFilter = null) where T : class
+            IEnumerable<Type> types, IEnumerable<T> excludeComponents, string[] cleanupFilter = null) where T : class
         {
-            var addedTypes = components.Select(c => c.GetType())
+            var addedTypes = excludeComponents.Select(c => c.GetType())
                 .ToList();
             
             // addedTypes.Sort(NameComparison);
@@ -57,9 +58,26 @@ namespace Gemserk.Utilities.Editor
         }
         
         public static void DrawSelectTypesGui<T>(SerializedObject serializedObject, 
-            IEnumerable<Type> types, IEnumerable<T> components, string[] cleanupFilter = null) where T : class
+            IEnumerable<Type> types, string[] cleanupFilter = null) where T : class
         {
-            var addedTypes = components.Select(c => c.GetType())
+            var excludeComponents = new List<T>();
+                    
+            if (serializedObject.isEditingMultipleObjects)
+            {
+                // TODO: decide what we want here, not bad case is showing everything
+                // best case is to not show components that are in all objects.
+                // and also don't add twice same component (if already there)
+            }
+            else
+            {
+                var component = serializedObject.targetObject as Component;
+                if (component)
+                {
+                    excludeComponents = component.GetComponents<T>().ToList();
+                }
+            }
+            
+            var addedTypes = excludeComponents.Select(c => c.GetType())
                 .ToList();
             
             var addTypes = types.Except(addedTypes).ToList();
