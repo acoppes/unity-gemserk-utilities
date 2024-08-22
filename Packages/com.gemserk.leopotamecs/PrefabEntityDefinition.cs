@@ -1,8 +1,10 @@
+using System;
 using System.Linq;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
 {
+    [Obsolete("Use ObjectEntityDefinition")]
     public class PrefabEntityDefinition : MonoBehaviour, IEntityDefinition
     {
         public void Apply(World world, Entity entity)
