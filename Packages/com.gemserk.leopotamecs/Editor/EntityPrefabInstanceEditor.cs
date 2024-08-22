@@ -35,7 +35,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
                     var components = entityPrefabInstance
                         .GetComponents<IEntityInstanceParameter>().ToList();
                     
-                    GuiUtilities.DrawSelectTypesGui(entityPrefabInstance.gameObject, types, components, new []
+                    GuiUtilities.DrawSelectTypesGui(serializedObject, types, components, new []
                     {
                         "ComponentDefinition",
                         "InstanceParameter"

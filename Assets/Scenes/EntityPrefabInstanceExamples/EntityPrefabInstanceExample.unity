@@ -241,9 +241,8 @@ GameObject:
   - component: {fileID: 193361111}
   - component: {fileID: 193361113}
   - component: {fileID: 193361114}
-  - component: {fileID: 193361115}
   m_Layer: 0
-  m_Name: InstantiateAutomatic
+  m_Name: Spawn(SupeRName)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -295,20 +294,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19973607c0b84bae84ade4e549534fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  namingType: 1
   entityName: SupeRName
   singleton: 0
---- !u!114 &193361115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 193361110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e40049d4fd6346e2b82285e47ad5e3be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  disableSpawnNameOverride: 0
 --- !u!1 &371944994
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,7 +345,7 @@ GameObject:
   - component: {fileID: 396778728}
   - component: {fileID: 396778727}
   m_Layer: 0
-  m_Name: InstantiateManually
+  m_Name: Spawn(Entity_Manual)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -389,8 +378,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19973607c0b84bae84ade4e549534fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  namingType: 1
   entityName: Entity_Manual
   singleton: 0
+  disableSpawnNameOverride: 0
 --- !u!114 &396778728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -535,6 +526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f2b2bab7db46858f9b60b188dde615, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingPositionType: 0
   type: 0
 --- !u!114 &495243783
 MonoBehaviour:
@@ -975,7 +967,7 @@ GameObject:
   - component: {fileID: 885127547}
   - component: {fileID: 885127548}
   m_Layer: 0
-  m_Name: InstantiateEntity(InstantiateManually)
+  m_Name: InstantiateEntity(Spawn(Entity_Manual))
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1115,7 +1107,7 @@ GameObject:
   - component: {fileID: 1146086417}
   - component: {fileID: 1146086418}
   m_Layer: 0
-  m_Name: Instantiate1
+  m_Name: Spawn(E1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1167,8 +1159,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19973607c0b84bae84ade4e549534fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  namingType: 1
   entityName: E1
   singleton: 0
+  disableSpawnNameOverride: 0
 --- !u!1 &1156340354
 GameObject:
   m_ObjectHideFlags: 0
@@ -1256,7 +1250,7 @@ GameObject:
   - component: {fileID: 1325643824}
   - component: {fileID: 1325643823}
   m_Layer: 0
-  m_Name: Instantiate_LinkWithGameObject
+  m_Name: Spawn(Entity_Linked)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1289,8 +1283,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19973607c0b84bae84ade4e549534fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  namingType: 1
   entityName: Entity_Linked
   singleton: 0
+  disableSpawnNameOverride: 0
 --- !u!114 &1325643824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1444,7 +1440,7 @@ GameObject:
   - component: {fileID: 1400413129}
   - component: {fileID: 1400413130}
   m_Layer: 0
-  m_Name: Deactivate(Trigger)
+  m_Name: Deactivate(OnStart_ConfigureGame)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1491,7 +1487,7 @@ GameObject:
   - component: {fileID: 1404486154}
   - component: {fileID: 1404486153}
   m_Layer: 0
-  m_Name: Instantiate_DontLink
+  m_Name: Spawn(Entity_NotLinked)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1524,8 +1520,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19973607c0b84bae84ade4e549534fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  namingType: 1
   entityName: Entity_NotLinked
   singleton: 0
+  disableSpawnNameOverride: 0
 --- !u!114 &1404486154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1601,7 +1599,7 @@ GameObject:
   - component: {fileID: 1614264148}
   - component: {fileID: 1614264147}
   m_Layer: 0
-  m_Name: Instantiate2
+  m_Name: Spawn(E2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1634,8 +1632,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19973607c0b84bae84ade4e549534fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  namingType: 1
   entityName: E2
   singleton: 0
+  disableSpawnNameOverride: 0
 --- !u!114 &1614264148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2120,7 +2120,7 @@ PrefabInstance:
     - target: {fileID: 4364411098432532912, guid: 697eaced37b543d44919cd592cc3b1cd,
         type: 3}
       propertyPath: m_Name
-      value: InstantiateAutomatic (1)
+      value: Spawn(SupeRName)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

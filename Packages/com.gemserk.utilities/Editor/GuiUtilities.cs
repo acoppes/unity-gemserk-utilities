@@ -55,6 +55,66 @@ namespace Gemserk.Utilities.Editor
                 EditorGUI.EndDisabledGroup();
             }
         }
+        
+        public static void DrawSelectTypesGui<T>(SerializedObject serializedObject, 
+            IEnumerable<Type> types, IEnumerable<T> components, string[] cleanupFilter = null) where T : class
+        {
+            var addedTypes = components.Select(c => c.GetType())
+                .ToList();
+            
+            var addTypes = types.Except(addedTypes).ToList();
+
+            if (addTypes.Count > 0)
+            {
+                var typeNames = new List<string>(new[] { "<< SELECT TO ADD >>" });
+
+                var renamedTypes = addTypes.Select(t => t.Name);
+                    
+                if (cleanupFilter != null)
+                {
+                    foreach (var filter in cleanupFilter)
+                    {
+                        renamedTypes = renamedTypes.Select(t => t.Replace(filter, "")).ToList();
+                    }
+                }
+                
+                typeNames.AddRange(renamedTypes);
+
+                var selected = 0;
+                EditorGUI.BeginChangeCheck();
+                selected = EditorGUILayout.Popup(selected, typeNames.ToArray());
+                if (EditorGUI.EndChangeCheck())
+                {
+                    var typeToAdd = addTypes[selected - 1];
+                    
+                    if (serializedObject.isEditingMultipleObjects)
+                    {
+                        foreach (var targetObject in serializedObject.targetObjects)
+                        {
+                            var component = targetObject as Component;
+                            if (component)
+                            {
+                                Undo.AddComponent(component.gameObject, typeToAdd);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var component = serializedObject.targetObject as Component;
+                        if (component)
+                        {
+                            Undo.AddComponent(component.gameObject, typeToAdd);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                EditorGUI.BeginDisabledGroup(true);
+                EditorGUILayout.Popup(0, new []{ "<< NO ELEMENTS TO ADD >>"});
+                EditorGUI.EndDisabledGroup();
+            }
+        }
 
 
     }
