@@ -27,7 +27,6 @@ namespace Gemserk.Utilities.Editor
         }
         
         private const float ElementHeight = 20f;
-        private Object lastSelectedObject;
         
         public void DrawGUI(Rect position, SerializedProperty objectProperty, Type typeToSelect, Options options)
         {
@@ -39,12 +38,6 @@ namespace Gemserk.Utilities.Editor
           //  var optionsPosition = new Rect(position.x, position.y + elementHeight, position.width, elementHeight);
             var objectPosition = new Rect(position.x + position.width * 0.25f, position.y + ElementHeight * 0, position.width * 0.75f - 30, ElementHeight);
             var buttonPosition = new Rect(position.x + position.width - 30, position.y, 30, ElementHeight);
-
-            if (lastSelectedObject != null)
-            {
-                objectProperty.objectReferenceValue = lastSelectedObject;
-                lastSelectedObject = null;
-            }
             
             EditorGUI.LabelField(labelPosition, objectProperty.displayName);
 
@@ -122,7 +115,7 @@ namespace Gemserk.Utilities.Editor
                     getSceneReferences = options.disableSceneReferences ? null : getSceneReferences,
                     getPrefabReferences = options.disablePrefabReferences ? null : getPrefabReferences,
                     getAssetsReferences = options.disableAssetReferences ? null : getAssetReferences,
-                    onSelectReferenceCallback = OnReferenceObjectSelected
+                    property = objectProperty
                 });
             }
 
@@ -145,11 +138,6 @@ namespace Gemserk.Utilities.Editor
             }
             
             EditorGUI.EndProperty();
-        }
-        
-        private void OnReferenceObjectSelected(SelectReferenceWindow.ObjectReference objectReference)
-        {
-            lastSelectedObject = objectReference.reference;
         }
 
     }

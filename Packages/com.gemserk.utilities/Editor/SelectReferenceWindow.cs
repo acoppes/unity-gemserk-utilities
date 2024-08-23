@@ -19,7 +19,7 @@ namespace Gemserk.Utilities.Editor
             public Func<List<ObjectReference>> getPrefabReferences;
             public Func<List<ObjectReference>> getAssetsReferences;
 
-            public Action<ObjectReference> onSelectReferenceCallback;
+            public SerializedProperty property;
         }
 
         public struct ObjectReference
@@ -200,7 +200,9 @@ namespace Gemserk.Utilities.Editor
                 
                 if (GUILayout.Button("Select"))
                 {
-                    configuration.onSelectReferenceCallback.Invoke(objectReference);
+                    configuration.property.objectReferenceValue = objectReference.reference;
+                    configuration.property.serializedObject.ApplyModifiedProperties();
+                    // configuration.onSelectReferenceCallback.Invoke(objectReference);
                     Close();
                 }
                 
