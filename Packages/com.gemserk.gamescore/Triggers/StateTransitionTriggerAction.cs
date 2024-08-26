@@ -7,7 +7,7 @@ using Gemserk.Triggers.Queries;
 
 namespace Game.Triggers
 {
-    public class EntityStateTransitionTriggerAction : WorldTriggerAction
+    public class StateTransitionTriggerAction : WorldTriggerAction
     {
         public enum ActionType
         {
@@ -20,7 +20,9 @@ namespace Game.Triggers
         // optional duration for the states
         public float duration;
 
-        public Query entityQuery;
+        public TriggerTarget target;
+        // public Query entityQuery;
+        
         public List<string> states = new List<string>();
 
         public override string GetObjectName()
@@ -30,8 +32,9 @@ namespace Game.Triggers
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
-            var entities = world.GetEntities(entityQuery);
-
+            var entities = new List<Entity>();
+            target.Get(entities, world, activator);
+            
             if (actionType == ActionType.Enter)
             {
                 foreach (var entity in entities)
