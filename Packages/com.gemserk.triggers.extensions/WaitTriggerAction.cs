@@ -1,30 +1,83 @@
-using Gemserk.Utilities;
+﻿using MyBox;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Gemserk.Triggers
 {
     public class WaitTriggerAction : TriggerAction
     {
-        [FormerlySerializedAs("cooldown")] 
-        public Cooldown time = new Cooldown(0);
+        public enum ActionType
+        {
+            DeltaTime = 0,
+            FixedUpdateFrames = 1,
+            UnscaledDeltaTime = 2
+        }
+
+        public ActionType actionType;
+        
+        [ConditionalField(nameof(actionType), false, ActionType.DeltaTime, ActionType.UnscaledDeltaTime)]
+        public float time;
+        
+        [ConditionalField(nameof(actionType), false, ActionType.FixedUpdateFrames)]
+        public int fixedFrames;
+
+        private float currentTime;
+
+        private int currentFrame;
         
         public override string GetObjectName()
         {
-            return $"Wait({time.Total})";
+            if (actionType == ActionType.DeltaTime)
+            {
+                return $"WaitTime({time})";
+            } 
+            
+            if (actionType == ActionType.UnscaledDeltaTime)
+            {
+                return $"WaitTimeUnscaled({time})";
+            } 
+            
+            return $"WaitFramesFixedUpdate({fixedFrames})";
         }
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
-            time.Increase(Time.deltaTime);
+            var dt = Time.deltaTime;
             
-            if (!time.IsReady)
+            if (actionType == ActionType.UnscaledDeltaTime)
             {
-                return ITrigger.ExecutionResult.Running;
+                dt = Time.unscaledDeltaTime;
             }
             
-            time.Reset();
-            return ITrigger.ExecutionResult.Completed;
+            currentTime += dt;
+
+            if (actionType == ActionType.DeltaTime || actionType == ActionType.UnscaledDeltaTime)
+            {
+                if (currentTime < time)
+                {
+                    return ITrigger.ExecutionResult.Running;
+                }
+
+                currentTime = 0;
+                return ITrigger.ExecutionResult.Completed;
+            }
+            else
+            {
+                if (currentTime > Time.fixedDeltaTime)
+                {
+                    currentTime -= Time.fixedDeltaTime;
+                    currentFrame++;
+                }
+
+                if (currentFrame < fixedFrames)
+                {
+                    return ITrigger.ExecutionResult.Running;
+                }
+
+                currentFrame = 0;
+                currentTime = 0;
+                
+                return ITrigger.ExecutionResult.Completed;
+            }
         }
     }
 }
