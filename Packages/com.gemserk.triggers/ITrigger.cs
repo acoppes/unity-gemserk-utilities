@@ -31,6 +31,7 @@ namespace Gemserk.Triggers
     
         public interface ICondition
         {
+            bool Disabled { get; }
             bool Evaluate(object activator = null);
         }
         
