@@ -21,6 +21,11 @@ namespace Gemserk.Triggers.Conditions
         {
             foreach (var condition in conditions)
             {
+                if (condition.Disabled)
+                {
+                    continue;
+                }
+                
                 if (!condition.Evaluate(activator))
                 {
                     return false;
