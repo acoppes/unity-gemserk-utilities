@@ -49,6 +49,19 @@ namespace Gemserk.Triggers.Editor
             }
             EditorGUI.EndDisabledGroup();
             EditorGUILayout.EndVertical();
+            
+            if (Application.isPlaying)
+            {
+                if (GUILayout.Button("Trigger (checks conditions)"))
+                {
+                    triggerObject.QueueExecution();
+                }
+                
+                if (GUILayout.Button("Force Execution"))
+                {
+                    triggerObject.ForceQueueExecution();
+                }
+            }
         }
     }
 }
