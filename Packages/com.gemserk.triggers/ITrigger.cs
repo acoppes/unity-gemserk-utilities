@@ -20,6 +20,7 @@ namespace Gemserk.Triggers
         
         public interface IAction
         {
+            bool Disabled { get; }
             ExecutionResult Execute(object activator = null);
         }
 

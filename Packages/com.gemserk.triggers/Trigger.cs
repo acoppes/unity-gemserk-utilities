@@ -104,7 +104,14 @@ namespace Gemserk.Triggers
             while (executingAction < actions.Count)
             {
                 var action = actions[executingAction];
-                var result = action.Execute(currentActivator);
+
+                var result = ITrigger.ExecutionResult.Completed;
+                
+                // will assume disabled actions are ignored for now.
+                if (!action.Disabled)
+                {
+                    result = action.Execute(currentActivator);
+                }
                 
                 if (result == ITrigger.ExecutionResult.Running || result == ITrigger.ExecutionResult.Interrupt)
                 {

@@ -53,9 +53,9 @@ namespace Gemserk.Triggers
             conditionsParent = transform.Find("Conditions");
             actionsParent = transform.Find("Actions");
 
-            eventsParent.gameObject.GetComponentsInChildrenDepth1(false, true, trigger.events);
-            conditionsParent.gameObject.GetComponentsInChildrenDepth1(false, true, trigger.conditions);
-            actionsParent.gameObject.GetComponentsInChildrenDepth1(false, true, trigger.actions);
+            eventsParent.gameObject.GetComponentsInChildrenDepth1(true, true, trigger.events);
+            conditionsParent.gameObject.GetComponentsInChildrenDepth1(true, true, trigger.conditions);
+            actionsParent.gameObject.GetComponentsInChildrenDepth1(true, true, trigger.actions);
         }
 
         public ITrigger.ExecutionResult Execute()

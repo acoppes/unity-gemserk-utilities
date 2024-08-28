@@ -1,16 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Gemserk.Triggers.Editor
 {
     public class MockTriggerAction : ITrigger.IAction
     {
         public ITrigger.ExecutionResult result;
+
+        public bool disabled;
+
+        public bool Disabled => disabled;
+        public int executionTimes;
+
         public ITrigger.ExecutionResult Execute(object activator = null)
         {
+            executionTimes++;
             return result;
         }
     }
@@ -110,6 +113,30 @@ namespace Gemserk.Triggers.Editor
             
             Assert.IsTrue(trigger.State == ITrigger.ExecutionState.Completed);
             Assert.AreEqual(2, trigger.executionTimes);
+        }
+        
+        [Test]
+        public void DisabledAction_IsNotExecuted()
+        {
+            // Use the Assert class to test conditions
+
+            var trigger = new Trigger();
+
+            var mockAction = new MockTriggerAction()
+            {
+                disabled = true,
+                result = ITrigger.ExecutionResult.Running
+            };
+            
+            trigger.actions.Add(mockAction);
+
+            trigger.QueueExecution();
+            trigger.StartExecution();
+            trigger.Execute();
+            trigger.CompleteCurrentExecution();
+            
+            Assert.AreEqual(1, trigger.executionTimes);
+            Assert.AreEqual(0, mockAction.executionTimes);
         }
     }
 }
