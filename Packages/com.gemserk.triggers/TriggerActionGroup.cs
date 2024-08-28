@@ -31,12 +31,18 @@ namespace Gemserk.Triggers
             for (var i = runningActionIndex; i < actions.Count; i++)
             {
                 var action = actions[i];
-                var result = action.Execute(activator);
-
-                if (result == ITrigger.ExecutionResult.Running)
+                
+                var result = ITrigger.ExecutionResult.Completed;
+                // will assume disabled actions are ignored for now.
+                if (!action.Disabled)
+                {
+                    result = action.Execute(activator);
+                }
+                
+                if (result == ITrigger.ExecutionResult.Running || result == ITrigger.ExecutionResult.Interrupt)
                 {
                     runningActionIndex = i;
-                    return ITrigger.ExecutionResult.Running;
+                    return result;
                 }
             }
 
