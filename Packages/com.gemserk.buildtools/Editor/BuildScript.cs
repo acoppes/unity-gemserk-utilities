@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Gemserk.RefactorTools.Editor;
 using UnityEditor;
+using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -28,6 +29,8 @@ namespace Gemserk.BuildTools.Editor
         
         public static void BuildWindows()
         {
+            PlayerSettings.SetScriptingBackend(NamedBuildTarget.Standalone, ScriptingImplementation.IL2CPP);
+            
             Build(new BuildPlayerOptions
             {
                 target = BuildTarget.StandaloneWindows64,
@@ -38,6 +41,8 @@ namespace Gemserk.BuildTools.Editor
         
         public static void BuildLinux()
         {
+            PlayerSettings.SetScriptingBackend(NamedBuildTarget.Standalone, ScriptingImplementation.IL2CPP);
+            
             Build(new BuildPlayerOptions
             {
                 target = BuildTarget.StandaloneLinux64,
@@ -48,6 +53,8 @@ namespace Gemserk.BuildTools.Editor
         
         public static void BuildMacos()
         {
+            PlayerSettings.SetScriptingBackend(NamedBuildTarget.Standalone, ScriptingImplementation.Mono2x);
+            
             Build(new BuildPlayerOptions
             {
                 target = BuildTarget.StandaloneOSX,
