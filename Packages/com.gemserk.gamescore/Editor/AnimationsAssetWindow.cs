@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.Editor
 {
-    public class AnimationsAssetWindow : AssetListBaseWindow
+    public class AnimationsAssetWindow : AssetListBaseWindow, IHasCustomMenu
     {
         public AnimationsAssetWindow() : base(typeof(AnimationsAsset))
         {
@@ -18,6 +18,11 @@ namespace Game.Editor
             // This method is called when the user selects the menu item in the Editor
             EditorWindow wnd = GetWindow<AnimationsAssetWindow>();
             wnd.titleContent = new GUIContent("Animations List");
+        }
+        
+        public void AddItemsToMenu(GenericMenu menu)
+        {
+            EditorWindowExtensions.AddEditScript(menu, nameof(AnimationsAssetWindow));
         }
     }
 }

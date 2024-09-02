@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43476aec9d91461b89f0964aa65efc4e, type: 3}
+  m_Name: Wolverine
+  m_EditorClassIdentifier: 
+  sourceFolder: Assets\AsepriteImporter\Output\Wolverine
+  animations:
+  - name: Attack1
+    duration: 0.26666668
+    frames:
+    - sprite: {fileID: 21300000, guid: 1b082135755d9704193daf723b0309ca, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: c4236f11216f67f41aa9010846159955, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: ef27117d8274b3242bc30eabd3f1530f, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 3c5539a8925eecc4292111a57a5a0b43, type: 3}
+      time: 0.06666667
+  - name: Attack2
+    duration: 0.26666668
+    frames:
+    - sprite: {fileID: 21300000, guid: addf265aeab440548b15a0fb24dc5cb5, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 08fdb049c1b5e2e4c9b55386a0706a74, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 8e8df06d4e5079843bfe5d302fbad72f, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: bd1ea5dc4fcbc8e4bbbc2965f1d527e8, type: 3}
+      time: 0.06666667
+  - name: Idle
+    duration: 0.8000001
+    frames:
+    - sprite: {fileID: 21300000, guid: 7418fb358bd483f4aaffde3be2a1127e, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 144d3423d8432ad47bce87410b5125d4, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 01eaadf2eb2676649a4026358959aec6, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 7b89b52a20f78b549bbe1e6e755207bc, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 58a5544a26567404cbfb5a0909b0a8e7, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 6e909150e2f6f4f42873de4ed23496ad, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: b13627ccdb072b64f8c9bbefe9d6570b, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: ce1a305b265b6294db04a64750ee76a3, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 5ec0c169e25a90e498e6f2ed0c1ba358, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 847d6d5025197ec40bc59316f99196b6, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: e12aad6279bce0e4f89c234e5e8a6682, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 02b0a6e75dcb5bd4c90f9ed93907ac59, type: 3}
+      time: 0.06666667
+  - name: Walk
+    duration: 1.0666667
+    frames:
+    - sprite: {fileID: 21300000, guid: 37c0ec5cc8abdcb498be578ea35b2019, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 38058526affd32f439f7c1464b427ee2, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: f170ef0023fc30945ac2a1c4634a58be, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 8eb75c0c990629348960994bd886b4d6, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 2f0b1fecf442cce48afe2ae942a4c773, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 8a0920c9044a83f49adfecf0e95ae218, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 172137e6ca6802745ab5a09bdac14e20, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 3f6a402bea35cb341b49f1b72b4a2e9c, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: a30173de8c5103e4890d91bfb371b15b, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: a43ab952ab3cda242b605bd137a32ce7, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 783143a8c2b688941a6f79e35b7ee3a3, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 91083f7f39ff4684eb9c09ae733b37c0, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 7c1f993d2142e654b864a1f52702076b, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: 441fc1d9740adf54d9a4a77b932c1439, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: aea20c141a88f5e4281d8a5ede3ad4e3, type: 3}
+      time: 0.06666667
+    - sprite: {fileID: 21300000, guid: e87cdc5ebd7348a468c7bd22a353790e, type: 3}
+      time: 0.06666667

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Gemserk.Aseprite.Editor
 {
-    public class AsepriteImportDataWindow : AssetListBaseWindow
+    public class AsepriteImportDataWindow : AssetListBaseWindow, IHasCustomMenu
     {
         public AsepriteImportDataWindow() : base(typeof(AsepriteImportData))
         {
@@ -16,6 +16,11 @@ namespace Gemserk.Aseprite.Editor
         {
             EditorWindow wnd = GetWindow<AsepriteImportDataWindow>();
             wnd.titleContent = new GUIContent("AsepriteImportDatas");
+        }
+        
+        public void AddItemsToMenu(GenericMenu menu)
+        {
+            EditorWindowExtensions.AddEditScript(menu, nameof(AsepriteImportDataWindow));
         }
     }
 }
