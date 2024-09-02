@@ -18,7 +18,7 @@ namespace Gemserk.Aseprite.Editor
         {
             ReloadFiles();
             
-            importIcon = EditorGUIUtility.IconContent("Import");
+            importIcon = EditorGUIUtility.IconContent("Download-Available");
             openFolderIcon = EditorGUIUtility.IconContent("FolderOpened Icon");
         }
 
@@ -122,7 +122,7 @@ namespace Gemserk.Aseprite.Editor
                 
                 EditorGUI.BeginDisabledGroup(!asepriteConfigured);
                 
-                var buttonGuiContent = new GUIContent(importIcon.image, $"Import {fileName}");
+                var buttonGuiContent = new GUIContent(importIcon.image, $"Generate & Import {fileName}");
                 if (GUILayout.Button(buttonGuiContent, GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight), 
                         GUILayout.Width(25)))
                 {

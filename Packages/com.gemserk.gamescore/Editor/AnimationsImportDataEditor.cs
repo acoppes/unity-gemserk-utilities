@@ -19,7 +19,7 @@ namespace Game.Editor
         {
             ReloadFiles();
             
-            importIcon = EditorGUIUtility.IconContent("Import");
+            importIcon = EditorGUIUtility.IconContent("Download-Available");
             searchIcon = EditorGUIUtility.IconContent("Search Icon");
             openFolderIcon = EditorGUIUtility.IconContent("FolderOpened Icon");
         }
