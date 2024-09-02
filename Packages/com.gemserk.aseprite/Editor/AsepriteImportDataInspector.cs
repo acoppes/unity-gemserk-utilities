@@ -54,7 +54,9 @@ namespace Gemserk.Aseprite.Editor
             
             EditorGUILayout.LabelField("Source Folder", GUILayout.Width(90));
             importData.sourceFolder = EditorGUILayout.TextField(importData.sourceFolder, GUILayout.ExpandWidth(true));
-            if (GUILayout.Button("Browse", GUILayout.Width(60)))
+            
+            var selectSourceFolder = new GUIContent(openFolderIcon.image, "Select Source Folder");
+            if (GUILayout.Button(selectSourceFolder, GUILayout.Width(25), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
             {
                 var absolutePath = Path.GetFullPath(importData.sourceFolder, Application.dataPath);
                 var newFolder = EditorUtility.OpenFolderPanel("Source Folder", absolutePath, "");
@@ -69,7 +71,9 @@ namespace Gemserk.Aseprite.Editor
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Output Folder", GUILayout.Width(90));
             importData.outputFolder = EditorGUILayout.TextField(importData.outputFolder, GUILayout.ExpandWidth(true));
-            if (GUILayout.Button("Browse", GUILayout.Width(60)))
+            
+            var selectOutputGuiContent = new GUIContent(openFolderIcon.image, "Select Output Folder");
+            if (GUILayout.Button(selectOutputGuiContent, GUILayout.Width(25), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
             {
                 var absolutePath = Path.GetFullPath(importData.outputFolder, Application.dataPath);
                 var newFolder = EditorUtility.OpenFolderPanel("Output Folder", absolutePath, "");
@@ -106,17 +110,21 @@ namespace Gemserk.Aseprite.Editor
             {
                 EditorGUILayout.BeginHorizontal();
 
+                
                 var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file);
                 var fileName = Path.GetFileName(file);
+
+                var fileRelativePath = Path.GetRelativePath(importData.sourceAbsolutePath, file);
                 
-                var content = new GUIContent(fileNameWithoutExtension, file);
-                EditorGUILayout.LabelField(content);
+                var content = new GUIContent(Path.Combine(Path.GetDirectoryName(fileRelativePath), fileNameWithoutExtension), file);
+                
+                EditorGUILayout.LabelField(content, GUI.skin.textArea);
                 
                 EditorGUI.BeginDisabledGroup(!asepriteConfigured);
                 
-                var buttonGuiContent = new GUIContent(importIcon.image, $"Generate and import {fileName}");
-                if (GUILayout.Button(buttonGuiContent, GUILayout.MaxHeight(25), 
-                        GUILayout.MaxWidth(25)))
+                var buttonGuiContent = new GUIContent(importIcon.image, $"Import {fileName}");
+                if (GUILayout.Button(buttonGuiContent, GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight), 
+                        GUILayout.Width(25)))
                 {
                     AsepriteImporter.ImportFile(asepriteExecutablePath, file, 
                         importData.outputAbsolutePath, importData.format);
@@ -124,8 +132,8 @@ namespace Gemserk.Aseprite.Editor
                 }
                 
                 var openFolderGuiIcon = new GUIContent(openFolderIcon.image, "Open in folder");
-                if (GUILayout.Button(openFolderGuiIcon, GUILayout.MaxHeight(25), 
-                        GUILayout.MaxWidth(25)))
+                if (GUILayout.Button(openFolderGuiIcon, GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight), 
+                        GUILayout.Width(25)))
                 {
                     EditorUtility.RevealInFinder(file);
                 }
