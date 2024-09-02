@@ -13,9 +13,14 @@ namespace Game.Editor
 
         private Vector2 scroll;
         
+        private GUIContent importIcon, searchIcon;
+        
         private void OnEnable()
         {
             ReloadFiles();
+            
+            importIcon = EditorGUIUtility.IconContent("Import");
+            searchIcon = EditorGUIUtility.IconContent("Search Icon");
         }
 
         private void ReloadFiles()
@@ -68,10 +73,15 @@ namespace Game.Editor
             scroll = EditorGUILayout.BeginScrollView(scroll);
             foreach (var folderAbsolutePath in sourceFiles)
             {
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField(Path.GetFileName(folderAbsolutePath));
+                var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(folderAbsolutePath);
+                var fileName = Path.GetFileName(folderAbsolutePath);
                 
-                if (GUILayout.Button("Generate", GUILayout.ExpandWidth(true)))
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField(fileNameWithoutExtension);
+                
+                var buttonGuiContent = new GUIContent(importIcon.image, $"Generate and import {fileName}");
+                if (GUILayout.Button(buttonGuiContent, GUILayout.MaxHeight(25), 
+                        GUILayout.MaxWidth(25)))
                 {
                     var sourceAssetPath = Path.GetRelativePath(Application.dataPath, folderAbsolutePath);
                     // var sourceAssetPath = folderAbsolutePath.Replace(Application.dataPath, "");
@@ -83,6 +93,18 @@ namespace Game.Editor
                     //     importData.outputAbsolutePath, importData.format);
                     AssetDatabase.Refresh();
                 }
+
+                var previousAnimation = AssetDatabase.LoadAssetAtPath<AnimationsAsset>(Path.Combine("Assets", importData.outputFolder,
+                    fileNameWithoutExtension) +  ".asset");
+                
+                EditorGUI.BeginDisabledGroup(!previousAnimation);
+                var openFolderGuiIcon = new GUIContent(searchIcon.image, "Ping");
+                if (GUILayout.Button(openFolderGuiIcon, GUILayout.MaxHeight(25),
+                        GUILayout.MaxWidth(25)))
+                {
+                    EditorGUIUtility.PingObject(previousAnimation);
+                }
+                EditorGUI.EndDisabledGroup();
                 
                 EditorGUILayout.EndHorizontal();
             }

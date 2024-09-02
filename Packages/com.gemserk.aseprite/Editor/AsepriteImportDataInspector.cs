@@ -11,10 +11,15 @@ namespace Gemserk.Aseprite.Editor
         private List<string> sourceFiles = new ();
 
         private Vector2 scroll;
+
+        private GUIContent importIcon, openFolderIcon;
         
         private void OnEnable()
         {
             ReloadFiles();
+            
+            importIcon = EditorGUIUtility.IconContent("Import");
+            openFolderIcon = EditorGUIUtility.IconContent("FolderOpened Icon");
         }
 
         private void ReloadFiles()
@@ -100,15 +105,31 @@ namespace Gemserk.Aseprite.Editor
             foreach (var file in sourceFiles)
             {
                 EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField(Path.GetFileName(file));
+
+                var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file);
+                var fileName = Path.GetFileName(file);
+                
+                var content = new GUIContent(fileNameWithoutExtension, file);
+                EditorGUILayout.LabelField(content);
                 
                 EditorGUI.BeginDisabledGroup(!asepriteConfigured);
-                if (GUILayout.Button("Import", GUILayout.ExpandWidth(true)))
+                
+                var buttonGuiContent = new GUIContent(importIcon.image, $"Generate and import {fileName}");
+                if (GUILayout.Button(buttonGuiContent, GUILayout.MaxHeight(25), 
+                        GUILayout.MaxWidth(25)))
                 {
                     AsepriteImporter.ImportFile(asepriteExecutablePath, file, 
                         importData.outputAbsolutePath, importData.format);
                     AssetDatabase.Refresh();
                 }
+                
+                var openFolderGuiIcon = new GUIContent(openFolderIcon.image, "Open in folder");
+                if (GUILayout.Button(openFolderGuiIcon, GUILayout.MaxHeight(25), 
+                        GUILayout.MaxWidth(25)))
+                {
+                    EditorUtility.RevealInFinder(file);
+                }
+                
                 EditorGUI.EndDisabledGroup();
                 
                 EditorGUILayout.EndHorizontal();
