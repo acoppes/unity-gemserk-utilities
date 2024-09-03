@@ -22,12 +22,6 @@ namespace Game.Components.Abilities
     
     public class Ability
     {
-        public enum ExecutionType
-        {
-            None = 0, 
-            AutoCast = 1
-        }
-        
         public enum ReloadCooldownType
         {
             IfNoExecuting = 0, // reloads when no executing
@@ -48,10 +42,7 @@ namespace Game.Components.Abilities
         }
         
         public string name;
-
-        public bool isAutomatic => executionType == ExecutionType.AutoCast;
-
-        public ExecutionType executionType;
+        
         public ReloadCooldownType cooldownType = ReloadCooldownType.IfNoExecuting;
         public ResetCooldownType resetCooldownType = ResetCooldownType.None;
         

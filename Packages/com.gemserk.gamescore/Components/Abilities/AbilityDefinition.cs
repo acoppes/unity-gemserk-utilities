@@ -14,9 +14,6 @@ namespace Game.Components.Abilities
         [FormerlySerializedAs("chargeTime")] 
         public float startTime;
 
-        [FormerlySerializedAs("attackType")] 
-        public Ability.ExecutionType executionType = Ability.ExecutionType.None;
-
         public Ability.ReloadCooldownType cooldownType = Ability.ReloadCooldownType.IfNoExecuting;
         public Ability.ResetCooldownType resetCooldownType = Ability.ResetCooldownType.None;
 
@@ -38,7 +35,6 @@ namespace Game.Components.Abilities
                 name = name,
                 cooldown = new Cooldown(cooldown),
                 startTime = new Cooldown(startTime),
-                executionType = executionType,
                 cooldownType = cooldownType,
                 resetCooldownType = resetCooldownType,
                 autoTarget = autoTarget,
