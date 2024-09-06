@@ -1,4 +1,5 @@
 ﻿using Gemserk.Leopotam.Ecs.Controllers;
+using MyBox;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Components
@@ -7,6 +8,8 @@ namespace Gemserk.Leopotam.Ecs.Components
     {
         public GameObject gameObject;
         public GameObject prefab;
+        
+        public bool reusablePrefab;
     }
 
     public struct CopyPositionFromEntityComponent : IEntityComponent
@@ -31,6 +34,9 @@ namespace Gemserk.Leopotam.Ecs.Components
         public GameObject linkedObjectInstance;
         public GameObject prefab;
 
+        [ConditionalField(nameof(prefab))]
+        public bool reusable = true;
+
         public CopyPositionType copyPositionType = CopyPositionType.CopyFromEntity;
 
         public bool isController;
@@ -40,7 +46,8 @@ namespace Gemserk.Leopotam.Ecs.Components
             world.AddComponent(entity, new GameObjectComponent
             {
                 gameObject = linkedObjectInstance,
-                prefab = prefab
+                prefab = prefab,
+                reusablePrefab = reusable
             });
 
             if (copyPositionType == CopyPositionType.CopyFromEntity)

@@ -25,7 +25,9 @@ namespace Game.Systems
                 if (!gameObjectComponent.gameObject && gameObjectComponent.prefab)
                 {
                     // TODO: use POOL?
-                    gameObjectComponent.gameObject = poolMap.Get(gameObjectComponent.prefab);
+                    gameObjectComponent.gameObject = gameObjectComponent.reusablePrefab ? 
+                        poolMap.Get(gameObjectComponent.prefab) : 
+                        Instantiate(gameObjectComponent.prefab);
                     
                     var entityReference = gameObjectComponent.gameObject.GetOrAddComponent<EntityReference>();
                     entityReference.entity = entity;
@@ -51,7 +53,14 @@ namespace Game.Systems
                 {
                     if (gameObjectComponent.prefab)
                     {
-                        poolMap.Release(gameObjectComponent.prefab, gameObjectComponent.gameObject);
+                        if (gameObjectComponent.reusablePrefab)
+                        {
+                            poolMap.Release(gameObjectComponent.prefab, gameObjectComponent.gameObject);
+                        }
+                        else
+                        {
+                            Destroy(gameObjectComponent.gameObject);
+                        }
                     }
                     else
                     {
