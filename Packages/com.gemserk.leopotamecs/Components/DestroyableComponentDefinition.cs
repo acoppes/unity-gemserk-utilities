@@ -2,7 +2,22 @@
 {
     public struct DestroyableComponent : IEntityComponent
     {
+        // private bool _destroy;
+
         public bool destroy;
+
+        // public bool destroy
+        // {
+        //     get => _destroy;
+        //     set
+        //     {
+        //         if (value)
+        //         {
+        //             Debug.Log(new System.Diagnostics.StackTrace());
+        //         }
+        //         _destroy = value;
+        //     }
+        // }
     }
     
     public class DestroyableComponentDefinition : ComponentDefinitionBase
