@@ -122,9 +122,13 @@ namespace Game.Components.Abilities
             });
         }
         
-        public void CopyTarget(AbilityTarget abilityTarget)
+        public void CopyTarget(AbilityTarget abilityTarget, bool clear = true)
         {
-            abilityTargets.Clear();
+            if (clear)
+            {
+                abilityTargets.Clear();
+            }
+            
             abilityTargets.Add(abilityTarget);
         }
 
