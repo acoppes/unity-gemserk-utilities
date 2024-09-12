@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
@@ -84,13 +85,26 @@ namespace Gemserk.Utilities.Editor
 
         private SearchField searchField;
 
+        private bool hideDisabledObjects;
+        // private bool filtersFoldout = true;
+
         private void RecalculateObjects()
         {
             objects.Clear();
             
             if (showSceneReferences&& configuration.getSceneReferences != null)
             {
-                objects.AddRange(configuration.getSceneReferences());    
+                var sceneReferences = configuration.getSceneReferences();
+                
+                if (hideDisabledObjects)
+                {
+                    objects.AddRange(sceneReferences.Where(o => ((GameObject)o.reference).activeSelf).ToArray());  
+                }
+                else
+                {
+                    objects.AddRange(sceneReferences);    
+                }
+                
             }
             
             if (showPrefabReferences && configuration.getPrefabReferences != null)
@@ -150,6 +164,19 @@ namespace Gemserk.Utilities.Editor
                     searchTexts = searchText.Split(' ');
                 }
             }
+
+            // filtersFoldout = EditorGUILayout.Foldout(filtersFoldout, new GUIContent("Filters"));
+            // if (filtersFoldout)
+            // {
+
+            if (showSceneReferences)
+            {
+                EditorGUI.BeginChangeCheck();
+                hideDisabledObjects = GUILayout.Toggle(hideDisabledObjects, "Hide Inactive GameObjects", "Button");
+                optionsChanged = optionsChanged || EditorGUI.EndChangeCheck();
+            }
+            
+            // }
             
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
             foreach (var objectReference in objects)
