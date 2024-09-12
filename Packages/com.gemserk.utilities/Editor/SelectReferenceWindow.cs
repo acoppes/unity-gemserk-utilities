@@ -32,6 +32,7 @@ namespace Gemserk.Utilities.Editor
 
             public Source source;
             public Object reference;
+            public bool enabled;
         }
         
         public static void OpenWindow(Configuration configuration)
@@ -98,7 +99,7 @@ namespace Gemserk.Utilities.Editor
                 
                 if (hideDisabledObjects)
                 {
-                    objects.AddRange(sceneReferences.Where(o => ((GameObject)o.reference).activeSelf).ToArray());  
+                    objects.AddRange(sceneReferences.Where(o => o.enabled).ToArray());  
                 }
                 else
                 {
@@ -120,6 +121,11 @@ namespace Gemserk.Utilities.Editor
         
         private void OnGUI()
         {
+            // var enabledSceneObjectIcon =  EditorGUIUtility.IconContent("GameObject On Icon");
+            // var disabledSceneObjectIcon = EditorGUIUtility.IconContent("GameObject Icon");
+            // var prefabIcon = EditorGUIUtility.IconContent("Prefab Icon");
+            // var asseteIcon = EditorGUIUtility.IconContent("ScriptableObject Icon");
+            
             string[] searchTexts = null;
              
             if (searchField == null)
@@ -221,6 +227,21 @@ namespace Gemserk.Utilities.Editor
                 EditorGUI.BeginDisabledGroup(true);
                 EditorGUILayout.ObjectField(objectReference.reference, objectReference.reference.GetType(), true);
                 EditorGUI.EndDisabledGroup();
+                
+                // Show icon per type of reference
+                // if (objectReference.source == ObjectReference.Source.Scene)
+                // {
+                //     // EditorGUILayout.LabelField(objectReference.enabled ? new GUIContent(enabledSceneObjectIcon) : new GUIContent(disabledSceneObjectIcon), 
+                //     //     GUILayout.MaxWidth(20));
+                //     EditorGUILayout.LabelField(new GUIContent(), 
+                //         GUILayout.MaxWidth(20), GUILayout.MinWidth(20));
+                // } else if (objectReference.source == ObjectReference.Source.Prefab)
+                // {
+                //     EditorGUILayout.LabelField(new GUIContent(prefabIcon), GUILayout.MaxWidth(20));
+                // } else if (objectReference.source == ObjectReference.Source.Asset)
+                // {
+                //     EditorGUILayout.LabelField(new GUIContent(asseteIcon), GUILayout.MaxWidth(20));
+                // }
                 
                 // EditorGUILayout.LabelField(obj.name);
                 // EditorGUILayout.LabelField(obj.GetType().Name);

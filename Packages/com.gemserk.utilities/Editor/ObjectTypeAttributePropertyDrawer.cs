@@ -75,7 +75,8 @@ namespace Gemserk.Utilities.Editor
                     sceneReferences.AddRange(filteredSceneObjects.Select(o => new SelectReferenceWindow.ObjectReference()
                     {
                         reference = o,
-                        source = SelectReferenceWindow.ObjectReference.Source.Scene
+                        source = SelectReferenceWindow.ObjectReference.Source.Scene, 
+                        enabled = ((GameObject)o).activeInHierarchy
                     }));
                     return sceneReferences;
                 };
@@ -90,7 +91,8 @@ namespace Gemserk.Utilities.Editor
                     prefabReferences.AddRange(prefabsWithType.Select(o => new SelectReferenceWindow.ObjectReference()
                     {
                         reference = o,
-                        source = SelectReferenceWindow.ObjectReference.Source.Prefab
+                        source = SelectReferenceWindow.ObjectReference.Source.Prefab,
+                        enabled = true
                     }));
                     return prefabReferences;
                 };
@@ -102,7 +104,8 @@ namespace Gemserk.Utilities.Editor
                     assetReferences.AddRange(assets.Select(o => new SelectReferenceWindow.ObjectReference()
                     {
                         reference = o,
-                        source = SelectReferenceWindow.ObjectReference.Source.Asset
+                        source = SelectReferenceWindow.ObjectReference.Source.Asset,
+                        enabled = true
                     }));
                     return assetReferences;
                 };
