@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 10
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -44,7 +44,6 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 12
-  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -67,9 +66,6 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
-    m_FinalGather: 0
-    m_FinalGatherFiltering: 1
-    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
     m_BakeBackend: 0
@@ -169,7 +165,7 @@ GameObject:
   - component: {fileID: 219260447}
   - component: {fileID: 219260446}
   m_Layer: 0
-  m_Name: Object_Scene1_SameScene
+  m_Name: Spawn(Object_Scene2_SameScene)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -207,6 +203,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -254,8 +252,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19973607c0b84bae84ade4e549534fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  namingType: 1
   entityName: Object_Scene2_SameScene
   singleton: 0
+  disableSpawnNameOverride: 0
 --- !u!114 &219260448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,6 +322,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7f04d4cd93349cbbd1f118fb47c865d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  executionType: 0
+  maxExecutions: 0
 --- !u!1 &371944994
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,7 +656,7 @@ GameObject:
   - component: {fileID: 1218449247}
   - component: {fileID: 1218449246}
   m_Layer: 0
-  m_Name: Object_Scene1_WorldName
+  m_Name: Spawn(Object_Scene2_WorldName)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -692,6 +694,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -739,8 +743,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19973607c0b84bae84ade4e549534fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  namingType: 1
   entityName: Object_Scene2_WorldName
   singleton: 0
+  disableSpawnNameOverride: 0
 --- !u!114 &1218449248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -878,7 +884,7 @@ GameObject:
   - component: {fileID: 1761757850}
   - component: {fileID: 1761757849}
   m_Layer: 4
-  m_Name: ObjectScene2
+  m_Name: Spawn(Object_From_Scene2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -916,6 +922,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -963,8 +971,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19973607c0b84bae84ade4e549534fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  namingType: 1
   entityName: Object_From_Scene2
   singleton: 0
+  disableSpawnNameOverride: 0
 --- !u!114 &1761757851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1213,7 +1223,7 @@ GameObject:
   - component: {fileID: 2021858080}
   - component: {fileID: 2021858079}
   m_Layer: 0
-  m_Name: Object_Scene1_WorldTag
+  m_Name: Spawn(Object_Scene2_WorldTag)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1251,6 +1261,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1298,8 +1310,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19973607c0b84bae84ade4e549534fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  namingType: 1
   entityName: Object_Scene2_WorldTag
   singleton: 0
+  disableSpawnNameOverride: 0
 --- !u!114 &2021858081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1332,7 +1346,7 @@ GameObject:
   - component: {fileID: 2033796515}
   - component: {fileID: 2033796514}
   m_Layer: 0
-  m_Name: Object_Scene1_SceneName
+  m_Name: Spawn(Object_Scene2_SceneName)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1370,6 +1384,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1417,8 +1433,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19973607c0b84bae84ade4e549534fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  namingType: 1
   entityName: Object_Scene2_SceneName
   singleton: 0
+  disableSpawnNameOverride: 0
 --- !u!114 &2033796516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1451,7 +1469,7 @@ GameObject:
   - component: {fileID: 2064074672}
   - component: {fileID: 2064074671}
   m_Layer: 0
-  m_Name: Object_Scene1_Default
+  m_Name: Spawn(Object_From_Scene2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1489,6 +1507,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1536,8 +1556,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19973607c0b84bae84ade4e549534fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  namingType: 1
   entityName: Object_From_Scene2
   singleton: 0
+  disableSpawnNameOverride: 0
 --- !u!114 &2064074673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1783,18 +1805,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8384113509997870587}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1412298589665773043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8584401260711750054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90623d0ca6f944ce9354557a7335534e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1413522927131539593
 Transform:
   m_ObjectHideFlags: 0
@@ -2434,6 +2444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e40049d4fd6346e2b82285e47ad5e3be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingPlayer: 0
 --- !u!114 &7919730612617244974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2497,7 +2508,6 @@ Transform:
   - {fileID: 1881766103189435058}
   - {fileID: 1744636514523812554}
   - {fileID: 1413522927131539593}
-  - {fileID: 8755963965979681936}
   - {fileID: 2333471836917617922}
   - {fileID: 1228014418704985085}
   - {fileID: 1018647673}
@@ -2513,38 +2523,6 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 961849438692555530}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8384113509997870587}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8584401260711750054
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8755963965979681936}
-  - component: {fileID: 1412298589665773043}
-  m_Layer: 0
-  m_Name: TargetSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8755963965979681936
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8584401260711750054}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
