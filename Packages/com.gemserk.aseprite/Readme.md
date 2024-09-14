@@ -1,6 +1,6 @@
 # Unity Aseprite Importer
 
-It is basically a helper to run Aseprite export from within Unity using command line arguments.
+It is basically a helper to run Aseprite export command line tools from within Unity.
 
 ## Aseprite Import Data
 

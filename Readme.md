@@ -1,25 +1,42 @@
 The idea of this project is to become a hub of useful dependencies for making games.
 
-List of packages: 
+## General Utilities
 
-* Triggers
-    - Triggers logic like SC2.
-    - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.triggers
-* Aseprite Utilities
-    - Aseprite assets importer, [more info](Packages/com.gemserk.aseprite/Readme.md).
-    - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.aseprite
-* Gameplay Utilities
-    - General utilities
+* Gemserk Unity Utilities
+    - General utilities like extension methods for Vector2, etc.
     - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.utilities
+
+* Unity Triggers
+    - Basic core for Triggers logic inspired in Starcraft 2 Editor, to use with Unity.
+    - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.triggers
+
+## ECS 
+
 * Leopotam ECS Extensions
+    - Custom architecture over Leopotam ECS and Unity. 
     - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.leopotamecs
-* Triggers Extensions
-    - Triggers and more, built over all the other projects.
+
+* Triggers ECS Extensions
+    - Triggers and more, built over Unity Triggers and Leopotam ECS Extensions.
     - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.triggers.extensions
+
+* Games Core
+    - Triggers, Components, Systems and more stuff used in my games, [more info at my itch page](https://arielsan.itch.io/).
+    - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.gamescore
+
+## Other tools
+
+* Aseprite Utilities
+    - Aseprite assets importer, [more info](#aseprite-utilities).
+    - There is an example in AnimationsExample folder in root project.
+    - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.aseprite
+
 * Simple Build Tools
+    - Some build script code to call from command line to build different games from same project (was mainly used for my minigames project).
     - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.buildtools
-* Spine Utilities
-    - Spine importer.
+
+* Spine Unity Importer
+    - Execute Spine command tools and autoimport in Unity (needs Spine installed)
     - UPM url: https://github.com/acoppes/unity-gemserk-utilities.git?path=/Packages/com.gemserk.spine
 
 
