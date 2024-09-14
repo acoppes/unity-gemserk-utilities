@@ -12,7 +12,7 @@ namespace Gemserk.Leopotam.Ecs
 
         public static List<T> Instances => instances;
 
-        public static T Default => instances[0];
+        public static T Default => instances.Count > 0 ? instances[0] : null;
 
         public static T GetByName(string name)
         {
