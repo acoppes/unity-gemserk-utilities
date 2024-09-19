@@ -86,7 +86,8 @@ namespace Gemserk.Utilities.Editor
 
         private SearchField searchField;
 
-        private bool hideDisabledObjects;
+        // private bool hideDisabledObjects = true;
+        private bool showDisabledSceneObjects;
         // private bool filtersFoldout = true;
 
         private void RecalculateObjects()
@@ -97,7 +98,7 @@ namespace Gemserk.Utilities.Editor
             {
                 var sceneReferences = configuration.getSceneReferences();
                 
-                if (hideDisabledObjects)
+                if (!showDisabledSceneObjects)
                 {
                     objects.AddRange(sceneReferences.Where(o => o.enabled).ToArray());  
                 }
@@ -178,7 +179,7 @@ namespace Gemserk.Utilities.Editor
             if (showSceneReferences)
             {
                 EditorGUI.BeginChangeCheck();
-                hideDisabledObjects = GUILayout.Toggle(hideDisabledObjects, "Hide Inactive GameObjects", "Button");
+                showDisabledSceneObjects = GUILayout.Toggle(showDisabledSceneObjects, "Show Inactive Scene Objects", "Button");
                 optionsChanged = optionsChanged || EditorGUI.EndChangeCheck();
             }
             
