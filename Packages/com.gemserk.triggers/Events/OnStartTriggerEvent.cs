@@ -1,6 +1,4 @@
-using Gemserk.Triggers;
-
-namespace Cfinger.KAS.Triggers.Events
+namespace Gemserk.Triggers.Events
 {
     public class OnStartTriggerEvent : TriggerEvent
     {
