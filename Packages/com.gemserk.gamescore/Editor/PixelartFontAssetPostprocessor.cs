@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -5,26 +6,32 @@ namespace Game.Editor
 {
     public class PixelartFontAssetPostprocessor : AssetPostprocessor
     {
-        private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets,
-            string[] movedFromAssetPaths)
+        private const string PixelArtSuffix = "-pixelart";
+        
+        private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths, bool didDomainReload)
         {
-            foreach (var importedAsset in importedAssets)
+            if (didDomainReload)
+                return;
+            
+            foreach (var importedAssetPath in importedAssets)
             {
-                if (importedAsset.EndsWith("ttf") || importedAsset.EndsWith("otf"))
+                if (!importedAssetPath.Contains(PixelArtSuffix, StringComparison.OrdinalIgnoreCase)) 
+                    continue;
+                
+                var importer = AssetImporter.GetAtPath(importedAssetPath);
+                if (importer is TrueTypeFontImporter)
                 {
-                    Debug.Log("font!");
-                    if (importedAsset.ToLower().Contains("pixelart"))
+                    Debug.Log($"PIXELART FONT DETECTED: {importedAssetPath}");
+                    var allAssets = AssetDatabase.LoadAllAssetsAtPath(importedAssetPath);
+                    foreach (var asset in allAssets)
                     {
-                        Debug.Log("pixelart font!");
-                        var fontTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(importedAsset);
-                        if (fontTexture != null)
+                        if (asset is Texture2D texture)
                         {
-                            fontTexture.filterMode = FilterMode.Point;
+                            texture.filterMode = FilterMode.Point;
+                            EditorUtility.SetDirty(texture);
+                            AssetDatabase.SaveAssetIfDirty(asset);
                         }
                     }
-                
-
-                
                 }
             }
         }
