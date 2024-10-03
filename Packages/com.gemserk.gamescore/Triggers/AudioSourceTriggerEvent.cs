@@ -8,7 +8,8 @@ namespace Game.Triggers
         public enum EventType
         {
             Stop = 0,
-            Play = 1
+            Play = 1,
+            Completed = 2
         }
 
         public EventType eventType = EventType.Stop;
@@ -16,14 +17,31 @@ namespace Game.Triggers
         public AudioSource target;
 
         private bool wasPlaying;
+        private float lastTime;
+
+        private AudioClip previousClip;
 
         private void Awake()
         {
             wasPlaying = target.isPlaying;
+            previousClip = target.clip;
+            lastTime = -1f;
         }
 
         public void FixedUpdate()
         {
+            if (previousClip != target.clip)
+            {
+                lastTime = -1f;
+                wasPlaying = target.isPlaying;
+                previousClip = target.clip;
+            }
+
+            if (!target || !target.clip)
+            {
+                return;
+            }
+            
             if (eventType == EventType.Stop)
             {
                 if (wasPlaying && !target.isPlaying)
@@ -39,8 +57,18 @@ namespace Game.Triggers
                     trigger.QueueExecution(target.gameObject);
                 }
             }
+            
+            if (eventType == EventType.Completed)
+            {
+                // I assume audio source goes to 0 on completed.
+                if (lastTime > target.time)
+                {
+                    trigger.QueueExecution(target.gameObject);
+                }
+            }
 
             wasPlaying = target.isPlaying;
+            lastTime = target.time;
         }
     }
 }
