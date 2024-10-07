@@ -39,6 +39,16 @@ namespace Game
             pausedCount = 0;
             onGamePauseChanged = null;
         }
+
+        public static void Pause()
+        {
+            Pause(true);
+        }
+
+        public static void Resume()
+        {
+            Pause(false);
+        }
         
         public static void Pause(bool pause)
         {
