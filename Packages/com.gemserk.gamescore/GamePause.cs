@@ -14,7 +14,7 @@ namespace Game
             // reset pauseCount on play/stop in editor
             UnityEditor.EditorApplication.playModeStateChanged += delegate (PlayModeStateChange playModeStateChange)
             {
-                if (playModeStateChange == PlayModeStateChange.EnteredPlayMode)
+                if (playModeStateChange == PlayModeStateChange.ExitingEditMode || playModeStateChange == PlayModeStateChange.EnteredEditMode)
                 {
                     GamePause.Reset();
                 }
