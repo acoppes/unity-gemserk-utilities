@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TestEditorNoteField : MonoBehaviour
 {
-    public EditorNote commentsAboutComponent;
+    public Comments commentsAboutComponent;
     
     public float speed;
 

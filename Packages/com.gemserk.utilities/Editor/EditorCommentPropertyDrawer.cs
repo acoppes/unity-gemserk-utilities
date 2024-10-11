@@ -1,18 +1,17 @@
-﻿using System.Linq;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace Gemserk.Utilities.Editor
 {
-    [CustomPropertyDrawer(typeof(EditorNote), true)]
-    public class EditorNotePropertyDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(Comments), true)]
+    public class EditorCommentPropertyDrawer : PropertyDrawer
     {
         private bool canEdit = false;
         private const int ButtonSize = 25;
         
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            var note = property.FindPropertyRelative("note");
+            var note = property.FindPropertyRelative("value");
 
             
             var textPosition = new Rect(position.x, position.y, position.width - ButtonSize - 5, position.height);
@@ -35,7 +34,7 @@ namespace Gemserk.Utilities.Editor
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            var note = property.FindPropertyRelative("note");
+            var note = property.FindPropertyRelative("value");
             var height = EditorGUIUtility.singleLineHeight * note.stringValue.Split('\n').Length;
             return Mathf.Max(height, ButtonSize);
         }
