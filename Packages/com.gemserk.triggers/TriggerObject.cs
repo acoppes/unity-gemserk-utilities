@@ -62,8 +62,13 @@ namespace Gemserk.Triggers
         {
             return trigger.Execute();
         }
+        
+        public void ForceQueueExecution()
+        {
+            trigger.ForceQueueExecution();
+        }
 
-        public void ForceQueueExecution(object activator = null)
+        public void ForceQueueExecution(object activator)
         {
             trigger.ForceQueueExecution(activator);
         }
