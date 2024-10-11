@@ -129,6 +129,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 125524128}
+  - component: {fileID: 125524129}
+  - component: {fileID: 125524130}
   m_Layer: 0
   m_Name: Definitions
   m_TagString: Untagged
@@ -154,6 +156,46 @@ Transform:
   - {fileID: 523321777}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &125524129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125524127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adba7fdeebbb44d7910e327f3ea75a0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  note:
+    note: 'tas
+
+      stas
+
+      tasta
+
+      sta'
+--- !u!114 &125524130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125524127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7a4645dcf78484da905330337eb854, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commentsAboutComponent:
+    note: 'sasf
+
+      dgdg
+
+      fhf'
+  speed: 241
+  height: 1231
 --- !u!1 &371944994
 GameObject:
   m_ObjectHideFlags: 0
