@@ -17,7 +17,8 @@ namespace Game.Components
         public float volume;
         public bool loop;
 
-        public MinMaxFloat randomPitch;
+        public MinMaxFloat randomStartPitch;
+        public float pitch;
     }
     
     public class SoundEffectComponentDefinition : ComponentDefinitionBase
@@ -42,7 +43,8 @@ namespace Game.Components
                 autoDestroyOnComplete = autoDestroyOnComplete,
                 volume = volume,
                 loop = loop,
-                randomPitch = randomPitch
+                randomStartPitch = randomPitch,
+                pitch = 1
             });
         }
     }

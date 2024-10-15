@@ -85,13 +85,14 @@ namespace Game.Systems
                 if (!sfxComponent.started)
                 {
                     sfxComponent.source.loop = sfxComponent.loop;
-                    sfxComponent.source.pitch = sfxComponent.randomPitch.RandomInRange();
+                    sfxComponent.pitch = sfxComponent.randomStartPitch.RandomInRange();
                     
                     sfxComponent.source.Play();
                     sfxComponent.started = true;
                 }
                 
                 sfxComponent.source.volume = sfxComponent.volume;
+                sfxComponent.source.pitch = sfxComponent.pitch;
             }
 
             if (listener != null)
