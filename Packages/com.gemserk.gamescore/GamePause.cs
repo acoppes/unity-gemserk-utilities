@@ -54,16 +54,14 @@ namespace Game
         {
             if (pause)
             {
-                if (pausedCount == 0)
+                pausedCount++;
+                
+                if (pausedCount == 1)
                 {
                     previousTimeScale = Time.timeScale;
                     Time.timeScale = 0;
-
                     onGamePauseChanged?.Invoke();
                 }
-                
-                pausedCount++;
-                
             }
             else
             {
