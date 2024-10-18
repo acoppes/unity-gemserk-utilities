@@ -13,7 +13,7 @@ namespace Game.Systems
 {
     public class EffectSystem : BaseSystem, IEcsRunSystem
     {
-        readonly EcsFilterInject<Inc<EffectsComponent, PositionComponent>, Exc<DisabledComponent>> effectsFilter = default;
+        readonly EcsFilterInject<Inc<EffectsComponent, PositionComponent, PlayerComponent>, Exc<DisabledComponent>> effectsFilter = default;
         readonly EcsFilterInject<Inc<EffectsComponent, DestroyableComponent>, Exc<DisabledComponent>> destroyableEffectsFilter = default;
         
         readonly EcsFilterInject<Inc<AreaEffectComponent, PositionComponent, PlayerComponent>, Exc<DisabledComponent>> areaEffects = default;
@@ -28,6 +28,7 @@ namespace Game.Systems
                 // var cursor = ref cursorInputFilter.Pools.Inc1.Get(e);
                 ref var effects = ref effectsFilter.Pools.Inc1.Get(e);
                 var position = effectsFilter.Pools.Inc2.Get(e);
+                var player = effectsFilter.Pools.Inc3.Get(e);
 
                 if (!effects.hasDelaySet && effects.maxDelay > 0 && effects.minDelay >= 0)
                 {
@@ -52,7 +53,7 @@ namespace Game.Systems
                         if (effects.target != null && effects.target.entity.Exists())
                         {
                             // ApplyDamageEffect(effects.target.entity, effects.source, modifiedEffect, position.value);
-                            ApplyEffect(effects.factor, effects.target, effects.source, effect, position.value);
+                            ApplyEffect(effects.factor, effects.target, effects.source, effect, position.value, player.player);
                         }
                     }
 
@@ -61,7 +62,7 @@ namespace Game.Systems
                         if (effects.source.Exists())
                         {
                             // ApplyDamageEffect(effects.source, effects.source, modifiedEffect, position.value);
-                            ApplyEffect(effects.factor, effects.source.Get<TargetComponent>().target, effects.source, effect, position.value);
+                            ApplyEffect(effects.factor, effects.source.Get<TargetComponent>().target, effects.source, effect, position.value, player.player);
                         }
                     }
 
@@ -182,7 +183,7 @@ namespace Game.Systems
         // }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ApplyEffect(float factor, Target target, Entity source, Effect effect, Vector3 position)
+        public static void ApplyEffect(float factor, Target target, Entity source, Effect effect, Vector3 position, int player)
         {
             var value = 0f;
             
@@ -207,7 +208,8 @@ namespace Game.Systems
                     value = value,
                     position = position,
                     knockback = false,
-                    source = source
+                    source = source,
+                    player = player
                 });
             }
         }

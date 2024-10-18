@@ -142,6 +142,8 @@ namespace Game.Components
         public float value;
         
         public Vector3 position;
+        public int player;
+        
         public Entity source;
         
         public bool knockback;
