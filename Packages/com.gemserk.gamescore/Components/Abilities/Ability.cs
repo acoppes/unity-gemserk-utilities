@@ -26,6 +26,7 @@ namespace Game.Components.Abilities
         {
             IfNoExecuting = 0, // reloads when no executing
             IfNoActionsExecuting = 1, // reloads when no action executing
+            Disabled = 2, // doesn't automatically reload
         }
 
         public enum ResetCooldownType

@@ -94,6 +94,11 @@ namespace Game.Systems
                     {
                         reloadCooldown = true;
                     }
+
+                    if (ability.cooldownType == Ability.ReloadCooldownType.Disabled)
+                    {
+                        reloadCooldown = false;
+                    }
                     
                     if (reloadCooldown)
                     {
