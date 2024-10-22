@@ -1,12 +1,17 @@
 ﻿using Gemserk.Utilities;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Gemserk.Triggers
 {
     public class TimeTriggerEvent : TriggerEvent
     {
         public Cooldown time;
-        public float current;
+        
+        [FormerlySerializedAs("current")] 
+        [Tooltip("Just the starting value of the current")]
+        // starting value
+        public float startingValue;
 
         public override string GetObjectName()
         {
@@ -15,7 +20,7 @@ namespace Gemserk.Triggers
 
         private void Start()
         {
-            time.Increase(current);
+            time.Increase(startingValue);
         }
 
         private void FixedUpdate()
