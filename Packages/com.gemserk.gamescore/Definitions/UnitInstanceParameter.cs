@@ -2,6 +2,7 @@ using Game.Components;
 using Game.Models;
 using Game.Systems;
 using Gemserk.Leopotam.Ecs;
+using Gemserk.Triggers.Queries;
 using Gemserk.Utilities;
 using MyBox;
 using UnityEngine;
@@ -200,6 +201,8 @@ namespace Game.Definitions
                 ref var nameComponent = ref entity.Get<NameComponent>();
                 nameComponent.name = entityName;
                 nameComponent.singleton = singleton;
+
+                entity.AddOrSet(new QueryableComponent());
                 
             } else if (namingType == NamingType.CopyFromGameObject)
             {
@@ -211,6 +214,8 @@ namespace Game.Definitions
                 ref var nameComponent = ref entity.Get<NameComponent>();
                 nameComponent.name = gameObject.name;
                 nameComponent.singleton = singleton;
+                
+                entity.AddOrSet(new QueryableComponent());
             }
         }
 
