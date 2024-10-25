@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
@@ -46,6 +47,12 @@ namespace Gemserk.Leopotam.Ecs
         // will be a flag in the future
         public int player;
         public int playerBitmask => 1 << player;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int GetPlayerBitmask(int player)
+        {
+            return 1 << player;
+        }
     }
 
     public struct DisabledComponent : IEntityComponent
