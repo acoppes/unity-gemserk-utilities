@@ -35,7 +35,7 @@ namespace Game.Components
             world.AddComponent(entity, new LevelComponent
             {
                 max = maxLevel,
-                current = startingLevel,
+                current = 0,
                 next = startingLevel,
                 previous = 0
             });
