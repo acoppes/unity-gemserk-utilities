@@ -1,5 +1,6 @@
 ﻿using Game.Systems;
 using Gemserk.Utilities;
+using MyBox;
 using UnityEngine;
 
 namespace Game
@@ -33,5 +34,22 @@ namespace Game
             
             return result;
         }
+        
+        public static int RandomInRange(this RangedInt rangedInt)
+        {
+            return Random.Range(rangedInt.Min, rangedInt.Max);
+        }
+        
+        public static float RandomInRange(this RangedFloat rangedFloat)
+        {
+            return Random.Range(rangedFloat.Min, rangedFloat.Max);
+        }
+        
+        public static int RandomInRangeInclusive(this RangedInt rangedInt)
+        {
+            return Random.Range(rangedInt.Min, rangedInt.Max + 1);
+        }
     }
+    
+    
 }
