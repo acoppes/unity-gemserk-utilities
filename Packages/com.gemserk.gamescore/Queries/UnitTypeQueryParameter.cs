@@ -38,7 +38,7 @@ namespace Game.Queries
 
         private void OnValidate()
         {
-            if (types.Length > 0)
+            if (types != null && types.Length > 0)
             {
                 unitType = 0;
                 foreach (var type in types) {
