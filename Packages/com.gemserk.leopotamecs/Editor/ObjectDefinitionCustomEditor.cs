@@ -26,17 +26,34 @@ namespace Gemserk.Leopotam.Ecs.Editor
         {
             // var targetObject = target as ObjectEntityDefinition;
 
-            var style = new GUIStyle(GUI.skin.label);
-            style.alignment = TextAnchor.MiddleCenter;
-            style.normal.textColor = Color.grey;
+            // var style = new GUIStyle(GUI.skin.label);
+            // style.alignment = TextAnchor.MiddleCenter;
+            // style.normal.textColor = Color.grey;
             
             DrawDefaultInspector();
-            
-            GuiUtilities.DrawSelectTypesGui<IComponentDefinition>(serializedObject, types, new []
+
+            if (GUILayout.Button("<< SELECT TO ADD >>"))
             {
-                "ComponentDefinition",
-                "InstanceParameter"
-            });
+                var rect = EditorGUILayout.GetControlRect();
+                // var addTypes = 
+                //     GuiUtilities.FilterAddedComponents<IComponentDefinition>(serializedObject, types);
+                PopupWindow.Show(rect, new AddComponentPopup()
+                {
+                    types = types,
+                    serializedObject = serializedObject,
+                    cleanupFilter = new []
+                    {
+                        "ComponentDefinition",
+                        "InstanceParameter"
+                    },
+                });
+            }
+            
+            // GuiUtilities.DrawSelectTypesGui<IComponentDefinition>(serializedObject, types, new []
+            // {
+            //     "ComponentDefinition",
+            //     "InstanceParameter"
+            // });
         }
     }
 }

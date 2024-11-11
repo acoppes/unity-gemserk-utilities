@@ -12,9 +12,32 @@ namespace Gemserk.Utilities.Editor
         {
             return string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase);
         }
-        
-        public static void DrawSelectTypesGui<T>(SerializedObject serializedObject, 
-            IEnumerable<Type> types, string[] cleanupFilter = null) where T : class
+
+        public static void AddComponentWithUndo(SerializedObject serializedObject, Type typeToAdd)
+        {
+            if (serializedObject.isEditingMultipleObjects)
+            {
+                foreach (var targetObject in serializedObject.targetObjects)
+                {
+                    var component = targetObject as Component;
+                    if (component)
+                    {
+                        Undo.AddComponent(component.gameObject, typeToAdd);
+                    }
+                }
+            }
+            else
+            {
+                var component = serializedObject.targetObject as Component;
+                if (component)
+                {
+                    Undo.AddComponent(component.gameObject, typeToAdd);
+                }
+            }
+        }
+
+        public static List<Type> FilterAddedComponents<T>(SerializedObject serializedObject, 
+            IEnumerable<Type> types) where T : class
         {
             var excludeComponents = new List<T>();
                     
@@ -36,8 +59,14 @@ namespace Gemserk.Utilities.Editor
             var addedTypes = excludeComponents.Select(c => c.GetType())
                 .ToList();
             
-            var addTypes = types.Except(addedTypes).ToList();
-
+            return types.Except(addedTypes).ToList();
+        }
+        
+        public static void DrawSelectTypesGui<T>(SerializedObject serializedObject, 
+            IEnumerable<Type> types, string[] cleanupFilter = null) where T : class
+        {
+            var addTypes = FilterAddedComponents<T>(serializedObject, types);
+            
             if (addTypes.Count > 0)
             {
                 var typeNames = new List<string>(new[] { "<< SELECT TO ADD >>" });
@@ -60,26 +89,7 @@ namespace Gemserk.Utilities.Editor
                 if (EditorGUI.EndChangeCheck())
                 {
                     var typeToAdd = addTypes[selected - 1];
-                    
-                    if (serializedObject.isEditingMultipleObjects)
-                    {
-                        foreach (var targetObject in serializedObject.targetObjects)
-                        {
-                            var component = targetObject as Component;
-                            if (component)
-                            {
-                                Undo.AddComponent(component.gameObject, typeToAdd);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        var component = serializedObject.targetObject as Component;
-                        if (component)
-                        {
-                            Undo.AddComponent(component.gameObject, typeToAdd);
-                        }
-                    }
+                    AddComponentWithUndo(serializedObject, typeToAdd);
                 }
             }
             else
