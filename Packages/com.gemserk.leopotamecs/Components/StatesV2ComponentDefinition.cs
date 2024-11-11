@@ -126,7 +126,7 @@ namespace Gemserk.Leopotam.Ecs.Components
         }
     }
     
-    public class StatesComponentV2Definition : ComponentDefinitionBase
+    public class StatesV2ComponentDefinition : ComponentDefinitionBase
     {
         // [BitMask(32)]
         // public int startingStates;
