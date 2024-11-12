@@ -2,6 +2,7 @@
 using Gemserk.Triggers;
 using MyBox;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.Triggers
 {
@@ -52,15 +53,42 @@ namespace Game.Triggers
 
             if (actionType == ActionType.Opacity)
             {
-                if (fadeObject == null)
-                {
-                    throw new Exception("Invalid gameobject, missing sprite renderer");
-                }
+                // if (fadeObject == null)
+                // {
+                //     throw new Exception("Invalid gameobject, missing sprite renderer");
+                // }
 
-                var tweenInstance = LeanTween.value(fadeObject.gameObject, tween.from, tween.to, tween.time)
-                    .setEase(tween.easing)
-                    .setUseEstimatedTime(tween.useEstimatedTime)
-                    .setOnUpdate(OnSpriteUpdate);
+                // var tweenInstance = LeanTween.value(target, tween.from, tween.to, tween.time)
+                //     .setEase(tween.easing)
+                //     .setUseEstimatedTime(tween.useEstimatedTime)
+                //     .setOnUpdate(OnSpriteUpdate);
+
+                LTDescr tweenInstance;
+                
+                if (fadeObject != null)
+                {
+                    tweenInstance = LeanTween.value(fadeObject.gameObject, tween.from, tween.to, tween.time)
+                        .setEase(tween.easing)
+                        .setUseEstimatedTime(tween.useEstimatedTime)
+                        .setOnUpdate(OnSpriteUpdate);
+                } else
+                {
+                    var rectTransform = target.GetComponent<RectTransform>();
+                    if (rectTransform)
+                    {
+                        tweenInstance = LeanTween.alpha(target.GetComponent<RectTransform>(), tween.to.x, tween.time)
+                            .setFrom(tween.from.x)
+                            .setEase(tween.easing)
+                            .setUseEstimatedTime(tween.useEstimatedTime);
+                    }
+                    else
+                    {
+                        tweenInstance = LeanTween.alpha(target, tween.to.x, tween.time)
+                            .setFrom(tween.from.x)
+                            .setEase(tween.easing)
+                            .setUseEstimatedTime(tween.useEstimatedTime);
+                    }
+                }
                 
                 if (tween.loopCount != 0)
                 {
