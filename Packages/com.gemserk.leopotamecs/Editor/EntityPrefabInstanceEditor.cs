@@ -30,11 +30,28 @@ namespace Gemserk.Leopotam.Ecs.Editor
             
             if (!Application.isPlaying)
             {
-                GuiUtilities.DrawSelectTypesGui<IEntityInstanceParameter>(serializedObject, types, new []
+                // GuiUtilities.DrawSelectTypesGui<IEntityInstanceParameter>(serializedObject, types, new []
+                // {
+                //     "ComponentDefinition",
+                //     "InstanceParameter"
+                // });
+                
+                if (GUILayout.Button("<< SELECT TO ADD >>"))
                 {
-                    "ComponentDefinition",
-                    "InstanceParameter"
-                });
+                    var rect = EditorGUILayout.GetControlRect();
+                    // var addTypes = 
+                    //     GuiUtilities.FilterAddedComponents<IComponentDefinition>(serializedObject, types);
+                    PopupWindow.Show(rect, new AddComponentPopup()
+                    {
+                        types = types,
+                        serializedObject = serializedObject,
+                        cleanupFilter = new []
+                        {
+                            "ComponentDefinition",
+                            "InstanceParameter"
+                        },
+                    });
+                }
             }
             else
             {

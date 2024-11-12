@@ -97,7 +97,7 @@ namespace Gemserk.Utilities.Editor
         public override Vector2 GetWindowSize()
         {
             // var windowSize = base.GetWindowSize();
-            return new Vector2(300f, Mathf.Min(400f, EditorGUIUtility.singleLineHeight * (types.Count + 1)));
+            return new Vector2(300f, Mathf.Min(400f, EditorGUIUtility.singleLineHeight * (types.Count + 3)));
         }
     }
 }
