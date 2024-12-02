@@ -20,6 +20,12 @@ namespace Game.Systems
 
                 xp.current += xp.pending;
                 xp.pending = 0;
+
+                if (level.IsMaxLevel)
+                {
+                    xp.current = xp.total;
+                    continue;
+                }
                 
                 if (xp.current > xp.total)
                 {
