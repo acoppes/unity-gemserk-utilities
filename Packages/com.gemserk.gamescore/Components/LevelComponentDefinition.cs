@@ -19,9 +19,9 @@ namespace Game.Components
 
         public bool IsMaxLevel => current == max - 1;
 
-        public void QueueLevelUp()
+        public void QueueLevelUp(int levels = 1)
         {
-            next = current + 1;
+            next = current + levels;
         }
     }
     
