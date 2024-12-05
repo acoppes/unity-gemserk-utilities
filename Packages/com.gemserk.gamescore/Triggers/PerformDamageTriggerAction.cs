@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Game.Components;
 using Gemserk.Leopotam.Ecs;
@@ -10,7 +11,7 @@ namespace Game.Triggers
 {
     public class PerformDamageTriggerAction : WorldTriggerAction
     {
-        [DisplayInspector]
+        [Obsolete("Use TriggerTarget instead")]
         public Query query;
         
         [ConditionalField(nameof(query), true)]
