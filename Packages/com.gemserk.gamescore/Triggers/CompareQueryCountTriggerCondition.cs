@@ -25,9 +25,9 @@ namespace Game.Triggers
         {
             if (query == null)
             {
-                return $"QueryCount()";
+                return "Count()";
             }
-            return $"QueryCount{compareType}({count}, {query})";
+            return $"{compareType}({count}, {query})";
         }
         
         public override bool Evaluate(object activator = null)
