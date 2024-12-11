@@ -1,16 +1,20 @@
-﻿using Game.Components;
+﻿using System;
+using System.Collections.Generic;
+using Game.Components;
+using Gemserk.Leopotam.Ecs;
 using Gemserk.Triggers;
 using Gemserk.Triggers.Queries;
 using Gemserk.Utilities;
-using MyBox;
 
 namespace Game.Triggers
 {
     public class SetTimerTriggerAction : WorldTriggerAction
     {
-        [DisplayInspector]
+        [Obsolete("Use TriggerTarget instead")]
         public Query query;
 
+        public TriggerTarget target;
+        
         public float time;
         
         public override string GetObjectName()
@@ -20,12 +24,14 @@ namespace Game.Triggers
                 return $"SetTimer({time}, {query})";
             }
 
-            return $"SetTimer({time})";
+            return $"SetTimer({time}, {target})";
         }
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
-            var entities = world.GetEntities(query.GetEntityQuery());
+            var entities = new List<Entity>();
+            
+            world.GetTriggerTargetEntities(query, target, activator, entities);
             
             foreach (var entity in entities)
             {
