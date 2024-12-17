@@ -80,6 +80,13 @@ namespace Game.Definitions
         public bool overrideHealth;
         [FormerlySerializedAs("hitPoints")] [ConditionalField(nameof(overrideHealth))]
         public float health;
+
+
+        [Separator("Level")] 
+        public bool overrideStartingLevel;
+        [ConditionalField(nameof(overrideStartingLevel))]
+        public int startingLevel;
+
         
         public void Apply(World world, Entity entity)
         {
@@ -216,6 +223,15 @@ namespace Game.Definitions
                 nameComponent.singleton = singleton;
                 
                 entity.AddOrSet(new QueryableComponent());
+            }
+            
+            if (overrideStartingLevel)
+            {
+                if (world.HasComponent<LevelComponent>(entity))
+                {
+                    ref var level = ref world.GetComponent<LevelComponent>(entity);
+                    level.next = startingLevel;
+                } 
             }
         }
 
