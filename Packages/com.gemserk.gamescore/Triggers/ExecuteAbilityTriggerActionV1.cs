@@ -1,70 +1,78 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using Game.Components;
 using Game.Components.Abilities;
 using Game.Utilities;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Triggers;
+using Gemserk.Triggers.Queries;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Game.Triggers
 {
-    public class ExecuteAbilityTriggerAction : WorldTriggerAction
+    [Obsolete("Old version of this action, use new ExecuteAbility instead.")]
+    public class ExecuteAbilityTriggerActionV1 : WorldTriggerAction
     {
         public enum TargetType
         {
             Fixed = 0,
-            Position = 1,
+            Query = 1,
             Target = 2
         }
         
-        public TriggerTarget actor;
-        
+        public Query query;
+
         public string abilityName;
 
+        [FormerlySerializedAs("positionType")] 
         public TargetType targetType = TargetType.Fixed;
 
         [ConditionalField(nameof(targetType), false, TargetType.Fixed)]
         public Vector3 position;
         
-        [ConditionalField(nameof(targetType), false, TargetType.Position)]
-        public TriggerTarget positionTarget;
+        [ConditionalField(nameof(targetType), false, TargetType.Query)]
+        public Query positionQuery;
         
         [ConditionalField(nameof(targetType), false, TargetType.Target)]
-        public TriggerTarget targetTarget;
+        public Query targetQuery;
 
         public override string GetObjectName()
         {
-            if (targetType == TargetType.Position)
+            if (!query)
             {
-                return $"ExecuteAbility({abilityName}, {actor}, {positionTarget})";
+                return $"ExecuteAbility({abilityName})";        
             }
             
-            if (targetType == TargetType.Target)
+            if (targetType == TargetType.Query && positionQuery != null)
             {
-                return $"ExecuteAbility({abilityName}, {actor}, {targetTarget})";
+                return $"ExecuteAbility({abilityName}, {query}, {positionQuery})";
             }
             
-            return $"ExecuteAbility({abilityName}, {actor}, {position})";
+            if (targetType == TargetType.Target && targetQuery != null)
+            {
+                return $"ExecuteAbility({abilityName}, {query}, {targetQuery})";
+            }
+            
+            return $"ExecuteAbility({abilityName}, {query})";
         }
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
-            var entities = new List<Entity>();
-            world.GetTriggerTargetEntities(null, actor, activator, entities);
+            var entities = world.GetEntities(query.GetEntityQuery());
 
             var abilityPosition = this.position;
             Target target = null;
             
-            if (targetType == TargetType.Position)
+            if (targetType == TargetType.Query)
             {
-                var e = world.GetTriggerFirstEntity(null, positionTarget, activator);
+                var e = world.GetFirstOrDefault(positionQuery);
                 abilityPosition = e.GetPositionComponent().value;
             }
             
             if (targetType == TargetType.Target)
             {
-                var e = world.GetTriggerFirstEntity(null, targetTarget, activator);
+                var e = world.GetFirstOrDefault(targetQuery);
                 abilityPosition = e.GetPositionComponent().value;
                 target = e.Get<TargetComponent>().target;
             }
