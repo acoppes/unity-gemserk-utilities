@@ -24,7 +24,7 @@ namespace Game.Triggers
                 entity.Get<LevelComponent>().QueueLevelUp(levels);
             }
             
-            return ITrigger.ExecutionResult.Running;
+            return ITrigger.ExecutionResult.Completed;
         }
     }
 }
