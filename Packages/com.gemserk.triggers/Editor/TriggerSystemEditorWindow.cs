@@ -19,9 +19,6 @@ namespace Gemserk.Triggers.Editor
         private Transform triggerEventsParent;
         private Transform triggerConditionsParent;
         private Transform triggerActionsParent;
-        private List<Type> triggerTypesActions;
-        private List<Type> triggerTypesEvents;
-        private List<Type> triggerTypesConditions;
         private TriggerSystemFilteredTypeCache triggerTypes;
         
         

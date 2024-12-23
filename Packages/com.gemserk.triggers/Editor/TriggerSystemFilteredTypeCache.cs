@@ -51,10 +51,8 @@ namespace Gemserk.Triggers.Editor
             {
                 return types.Where(info => StringUtilities.MatchAll(info.visualName, filterItems)).ToList();
             }
-            else
-            {
-                return types.ToList();
-            }
+
+            return types.ToList();
         }
 
         private List<TypeInfo> PreProcess(TypeCache.TypeCollection typeCollection)
@@ -64,6 +62,11 @@ namespace Gemserk.Triggers.Editor
             {
                 if (type.IsAbstract)
                     continue;
+
+                if (type.GetCustomAttribute<ObsoleteAttribute>() != null)
+                {
+                    continue;
+                }
 
                 var buttonName = type.Name;
                 
