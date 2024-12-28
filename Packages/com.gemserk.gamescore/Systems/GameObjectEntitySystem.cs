@@ -28,6 +28,8 @@ namespace Game.Systems
                     gameObjectComponent.gameObject = gameObjectComponent.reusablePrefab ? 
                         poolMap.Get(gameObjectComponent.prefab) : 
                         Instantiate(gameObjectComponent.prefab);
+
+                    gameObjectComponent.gameObject.name = gameObjectComponent.prefab.name;
                     
                     var entityReference = gameObjectComponent.gameObject.GetOrAddComponent<EntityReference>();
                     entityReference.entity = entity;
