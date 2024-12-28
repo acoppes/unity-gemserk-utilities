@@ -1,7 +1,7 @@
 ﻿using Gemserk.Triggers;
 using UnityEngine;
 
-namespace Game.Triggers
+namespace Game.Triggers.Conditions
 {
     public class IsPlatformTriggerCondition : TriggerCondition
     {

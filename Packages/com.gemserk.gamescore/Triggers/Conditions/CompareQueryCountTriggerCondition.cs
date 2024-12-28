@@ -1,9 +1,8 @@
-﻿using Gemserk.Leopotam.Ecs;
-using Gemserk.Triggers;
+﻿using Gemserk.Triggers;
 using Gemserk.Triggers.Queries;
 using MyBox;
 
-namespace Game.Triggers
+namespace Game.Triggers.Conditions
 {
     public class CompareQueryCountTriggerCondition : WorldTriggerCondition
     {

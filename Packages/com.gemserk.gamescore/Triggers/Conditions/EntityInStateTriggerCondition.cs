@@ -5,7 +5,7 @@ using Gemserk.Leopotam.Ecs.Components;
 using Gemserk.Triggers;
 using Gemserk.Triggers.Queries;
 
-namespace Game.Triggers
+namespace Game.Triggers.Conditions
 {
     public class EntityInStateTriggerCondition : WorldTriggerCondition
     {
