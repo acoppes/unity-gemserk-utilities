@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Gemserk.Triggers
 {
-    public class QueryTriggerCondition : WorldTriggerCondition
+    public class MatchQueryTriggerCondition : WorldTriggerCondition
     {
         [ObjectType(typeof(Query), disableAssetReferences = true, prefabReferencesOnWhenStart = false)]        
         public Object query;
