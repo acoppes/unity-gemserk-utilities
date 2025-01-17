@@ -66,6 +66,8 @@ namespace Game.Components
         [ConditionalField(nameof(trajectoryType), false, ProjectileComponent.TrajectoryType.Linear)]
         public float initialSpeed;
 
+        public RangedFloat initialSpeedRandom;
+
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new ProjectileComponent()
@@ -74,7 +76,7 @@ namespace Game.Components
                 maxDistance = maxDistance,
                 projectileType = projectileType,
                 trajectoryType = trajectoryType,
-                initialSpeed = initialSpeed
+                initialSpeed = initialSpeed + initialSpeedRandom.RandomInRange()
             });
         }
     }
