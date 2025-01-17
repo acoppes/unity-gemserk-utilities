@@ -1,5 +1,6 @@
 ﻿using Gemserk.Leopotam.Ecs;
 using Gemserk.Utilities;
+using MyBox;
 
 namespace Game.Components
 {
@@ -11,12 +12,13 @@ namespace Game.Components
     public class TimeToLiveComponentDefinition : ComponentDefinitionBase
     {
         public float timeToLive;
+        public RangedFloat random;
 
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new TimeToLiveComponent()
             {
-                ttl = new Cooldown(timeToLive),
+                ttl = new Cooldown(timeToLive + random.RandomInRange()),
             });
         }
     }
