@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Gemserk.Leopotam.Ecs.Systems;
+using Gemserk.Utilities.Editor;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.UnityEditor;
-using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -61,7 +62,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
         }
     }
     
-    public class EcsWorldEntitiesWindow : EditorWindow
+    public class EcsWorldEntitiesWindow : EditorWindow, IHasCustomMenu
     {
         const int MaxFieldToStringLength = 128;
         
@@ -86,6 +87,9 @@ namespace Gemserk.Leopotam.Ecs.Editor
         
         private Dictionary<Type, bool> foldouts = new Dictionary<Type, bool>();
         private static readonly Color SelectedEntityBackgroundColor = new Color(0.75f, 0.75f, 1f, 1f);
+        
+        private SearchField searchField;
+        private string searchText;
 
         private void OnEnable()
         {
@@ -272,6 +276,14 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 return;
             }
             
+            if (searchField == null)
+            {
+                searchField = new SearchField();
+            }
+            
+            var rect = EditorGUILayout.GetControlRect();
+            searchText = searchField.OnGUI(rect, searchText);
+            
             var worlds = World.Instances;
 
             if (worlds.Count == 0)
@@ -342,6 +354,8 @@ namespace Gemserk.Leopotam.Ecs.Editor
             var filter = world.Filter<EcsWorldEntitiesDebugComponent>();
             var debugComponents = world.GetComponents<EcsWorldEntitiesDebugComponent>();
 
+            var hasSearch = !string.IsNullOrEmpty(searchText);
+
             foreach (var e in filter)
             {
                 // COLLECT INFO HERE
@@ -351,6 +365,14 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 // update debug stuff
                 // debug.name = $"{}";
                 var entity = world.GetEntity(e);
+
+                if (hasSearch)
+                {
+                    if (!debug.name.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+                }
 
                 var entityName = string.IsNullOrEmpty(debug.name)
                     ? $"{entity.ToString()}"
@@ -448,6 +470,11 @@ namespace Gemserk.Leopotam.Ecs.Editor
             EditorGUILayout.EndHorizontal();
             
             // Repaint();
+        }
+
+        public void AddItemsToMenu(GenericMenu menu)
+        {
+            EditorWindowExtensions.AddEditScript(menu, nameof(EcsWorldEntitiesWindow));
         }
     }
 }
