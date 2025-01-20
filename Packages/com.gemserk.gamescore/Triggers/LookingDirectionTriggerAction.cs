@@ -11,7 +11,8 @@ namespace Game.Triggers
         public enum ActionType
         {
             Fixed = 0,
-            Random = 1
+            Random = 1,
+            Target = 2
         }
         
         public TriggerTarget triggerTarget;
@@ -20,6 +21,9 @@ namespace Game.Triggers
 
         [ConditionalField(nameof(actionType), false, ActionType.Fixed)]
         public Vector3 direction;
+        
+        [ConditionalField(nameof(actionType), false, ActionType.Target)]
+        public TriggerTarget lookAtTarget;
         
         public override string GetObjectName()
         {
@@ -43,6 +47,11 @@ namespace Game.Triggers
                     else if (actionType == ActionType.Random)
                     {
                         lookingDirection.value = RandomExtensions.RandomVector2(1, 1, 0, 360);
+                    } else if (actionType == ActionType.Target)
+                    {
+                        var lookAtTargetEntity = world.GetTriggerFirstEntity(null, lookAtTarget, null);
+                        lookingDirection.value = lookAtTargetEntity.Get<PositionComponent>().value 
+                                                 - entity.Get<PositionComponent>().value;
                     }
                 }
             }
