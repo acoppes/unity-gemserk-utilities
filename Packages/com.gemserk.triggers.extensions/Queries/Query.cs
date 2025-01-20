@@ -9,6 +9,10 @@ namespace Gemserk.Triggers.Queries
         private EntityQuery entityQuery;
         [NonSerialized]
         private bool cached;
+
+        #if UNITY_EDITOR
+        public bool disableEditorAutoName;
+        #endif
         
         public EntityQuery GetEntityQuery()
         {

@@ -24,10 +24,19 @@ namespace Gemserk.Triggers.Editor
 
         public override void OnInspectorGUI()
         {
-            var targetObject = target as Query;
+            var query = target as Query;
+
+            if (!query)
+            {   
+                DrawDefaultInspector();
+                return;
+            }
             
             // fix object name
-            targetObject.gameObject.name = $"Q({targetObject.GetEntityQuery()})";
+            if (!query.disableEditorAutoName)
+            {
+                query.gameObject.name = $"Q({query.GetEntityQuery()})";
+            }
             
             var style = new GUIStyle(GUI.skin.label);
             style.alignment = TextAnchor.MiddleCenter;
