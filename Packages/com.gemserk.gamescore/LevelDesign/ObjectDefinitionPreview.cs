@@ -24,6 +24,8 @@ namespace Game.LevelDesign
         
         private GameObject previewObject;
 
+        private Object previewDefinition;
+
         private void OnDestroy()
         {
             if (previewObject != null)
@@ -49,16 +51,16 @@ namespace Game.LevelDesign
                 return;
             }
 
-            if (previewObject == null)
+            if (!previewObject)
             {
                 var previewObjectTransform = transform.Find(PreviewObjectName);
-                if (previewObjectTransform != null)
+                if (previewObjectTransform)
                 {
                     previewObject = previewObjectTransform.gameObject;
                 }
             }
 
-            if (previewObject != null)
+            if (previewObject)
             {
                 UpdatePreview();
                 return;
@@ -74,11 +76,22 @@ namespace Game.LevelDesign
 
             var entityPrefabInstance = GetComponent<EntityPrefabInstance>();
 
-            if (entityPrefabInstance.entityDefinition == null)
+            if (!entityPrefabInstance.entityDefinition)
             {
+                if (previewObject)
+                {
+                    DestroyImmediate(previewObject);
+                    previewObject = null;
+                }
                 return;
             }
 
+            if (previewDefinition != entityPrefabInstance.entityDefinition)
+            {
+                RegeneratePreview();
+                return;
+            }
+            
             var objectDefinition = entityPrefabInstance.entityDefinition.GetInterface<ObjectEntityDefinition>();
 
             if (objectDefinition == null)
@@ -170,10 +183,10 @@ namespace Game.LevelDesign
         [ButtonMethod()]
         public void RegeneratePreview()
         {
-            var previewObjectTransform = transform.Find(PreviewObjectName);
-            if (previewObjectTransform != null)
+            // var previewObjectTransform = transform.Find(PreviewObjectName);
+            if (previewObject)
             {
-                GameObject.DestroyImmediate(previewObjectTransform.gameObject);
+                DestroyImmediate(previewObject);
                 previewObject = null;
             }
 
@@ -184,15 +197,17 @@ namespace Game.LevelDesign
             
             var entityPrefabInstance = GetComponent<EntityPrefabInstance>();
 
-            if (entityPrefabInstance == null)
+            if (!entityPrefabInstance)
             {
                 return;
             }
 
-            if (entityPrefabInstance.entityDefinition == null)
+            if (!entityPrefabInstance.entityDefinition)
             {
                 return;
             }
+
+            previewDefinition = entityPrefabInstance.entityDefinition;
 
             var objectDefinition = entityPrefabInstance.entityDefinition.GetInterface<ObjectEntityDefinition>();
 
