@@ -28,11 +28,14 @@ namespace Game.Scenes
         private static IEnumerator LoadScene(string name)
         {
             SceneManager.LoadScene(LoadingSceneName);
+            
             yield return null;
             var sceneAsync = SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
             yield return sceneAsync;
 
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(name));
+
+            yield return SceneManager.UnloadSceneAsync(LoadingSceneName);
         }
         
         public static void LoadNextScene(string name)
