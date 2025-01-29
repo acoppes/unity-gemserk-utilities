@@ -17,7 +17,7 @@ namespace Gemserk.Utilities.Editor
         
         private SearchField searchField;
         private string searchText;
-        
+
         public override void OnGUI(Rect rect)
         {
             var renamedTypes = new List<Type>(types);
@@ -35,9 +35,11 @@ namespace Gemserk.Utilities.Editor
             if (searchField == null)
             {
                 searchField = new SearchField();
+                searchField.SetFocus();
             }
             
             string[] searchTexts = null;
+            
             searchText = searchField.OnToolbarGUI(new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight), searchText);
             if (!string.IsNullOrEmpty(searchText))
             {
