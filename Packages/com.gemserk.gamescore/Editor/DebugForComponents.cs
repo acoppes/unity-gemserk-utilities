@@ -26,7 +26,9 @@ namespace Game.Editor
                     EditorGUILayout.Toggle("Is Ready", ability.isReady);
 
                     EditorGUILayout.Toggle("Running", ability.isExecuting);
-                    EditorGUILayout.Toggle("Pending", ability.pendingExecution);
+                    
+                    ability.pendingExecution = EditorGUILayout.Toggle("Pending", ability.pendingExecution);
+                    
                     EditorGUILayout.LabelField("Charges", $"{ability.currentCharges} / {ability.totalCharges}");
                     EditorGUILayout.LabelField("Cooldown",$"{ability.cooldown.current:0.0}/{ability.cooldown.Total:0.0}");
 
