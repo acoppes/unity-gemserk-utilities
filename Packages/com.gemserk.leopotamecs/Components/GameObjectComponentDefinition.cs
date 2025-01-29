@@ -10,6 +10,8 @@ namespace Gemserk.Leopotam.Ecs.Components
         public GameObject prefab;
         
         public bool reusablePrefab;
+
+        public Transform transform => gameObject.transform;
     }
 
     public struct CopyPositionFromEntityComponent : IEntityComponent
