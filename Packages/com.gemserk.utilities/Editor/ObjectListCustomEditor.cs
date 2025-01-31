@@ -14,6 +14,9 @@ namespace Gemserk.Utilities.Editor
 
             var objectListAsset = target as ObjectListAsset;
             
+            if (!objectListAsset)
+                return;
+            
             if (!Application.isPlaying)
             {
                 // if (GUILayout.Button("Browse path"))
@@ -30,10 +33,13 @@ namespace Gemserk.Utilities.Editor
                 //     }
                 // }
                 
-                if (GUILayout.Button("Reload"))
+                if (objectListAsset.objectList != null && objectListAsset.objectList.normalizedAssetPaths.Length > 0)
                 {
-                    objectListAsset.objectList?.Reload();
-                    EditorUtility.SetDirty(objectListAsset);
+                    if (GUILayout.Button("Reload from paths"))
+                    {
+                        objectListAsset.objectList?.Reload();
+                        EditorUtility.SetDirty(objectListAsset);
+                    }
                 }
             }
         }

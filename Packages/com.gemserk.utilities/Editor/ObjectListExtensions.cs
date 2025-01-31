@@ -10,6 +10,9 @@ namespace Gemserk.Utilities.Editor
     {
         public static void Reload(this ObjectList objectList)
         {
+            if (objectList.normalizedAssetPaths.Length == 0)
+                return;
+
             objectList.assets.Clear();
 
             var typeFilters = objectList.typeFilters;
