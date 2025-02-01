@@ -33,6 +33,7 @@ namespace Gemserk.Utilities.Editor
                 //     }
                 // }
                 
+                
                 if (objectListAsset.objectList != null && objectListAsset.objectList.normalizedAssetPaths.Length > 0)
                 {
                     if (GUILayout.Button("Reload from paths"))
