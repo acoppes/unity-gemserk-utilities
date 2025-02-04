@@ -1,5 +1,6 @@
 ﻿using Game.Components;
 using Gemserk.Leopotam.Ecs;
+using Gemserk.Utilities.Signals;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 
@@ -8,6 +9,8 @@ namespace Game.Systems
     public class LevelUpSystem : BaseSystem, IEcsRunSystem
     {
         readonly EcsFilterInject<Inc<LevelComponent>, Exc<DisabledComponent>> filter = default;
+        
+        public SignalAsset onLevelUpSignal;
         
         public void Run(EcsSystems systems)
         {
@@ -29,6 +32,11 @@ namespace Game.Systems
                     level.current = level.next;
                     
                     level.levelUpLastFrame = true;
+
+                    if (onLevelUpSignal)
+                    {
+                        onLevelUpSignal.Signal(world.GetEntity(entity));
+                    }
                 }
             }
         }
