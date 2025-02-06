@@ -7,6 +7,7 @@ Shader "FixedPalette"
 		_MainTex ("Texture", 2D) = "white" {}
 		_PaletteTex("Palette", 2D) = "white" {}
 		// _Color ("Tint", Color) = (1,1,1,1)
+		_Invert("Invert", Float) = 0
 	}
 	SubShader
 	{
@@ -57,14 +58,19 @@ Shader "FixedPalette"
 			
 			sampler2D _MainTex;
 			sampler2D _PaletteTex;
-			// uniform float4 _Color;
+			float _Invert;
 
 			fixed4 frag (v2f i) : SV_Target
 			{
 				float4 col = tex2D(_MainTex, i.uv);
 				// float x = (col.r * i.color.r + col.g * i.color.g + col.b * i.color.b) / 3.0f;
-				float x = (col.r * + col.g + col.b) / 3.0f;
-				float4 newCol = tex2D(_PaletteTex, float2(x, 0));
+				float x = (col.r + col.g + col.b) / 3.0f;
+
+				float4 newColNormal = tex2D(_PaletteTex, float2(x, 0));
+				float4 newColInverted = tex2D(_PaletteTex, 1.0 - float2(x, 0));
+
+				float4 newCol = newColNormal * (1.0 - _Invert) + newColInverted * _Invert;
+				
 				// newCol.a = col.a * i.color.a;
 				newCol.a = col.a;
 				return newCol;
