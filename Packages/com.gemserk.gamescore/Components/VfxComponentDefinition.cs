@@ -42,6 +42,7 @@ namespace Game.Components
         {
             Ground = 0,
             AttachPoint = 1,
+            Center = 2
         }
         
         public enum RandomOffsetType

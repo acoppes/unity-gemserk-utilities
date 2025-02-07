@@ -50,6 +50,9 @@ namespace Game.Systems
                         if (vfxData.positionType == VfxComponentData.PositionType.Ground)
                         {
                             vfxData.position = position.value.SetY(0);
+                        } else if (vfxData.positionType == VfxComponentData.PositionType.Center)
+                        {
+                            vfxData.position = position.value;
                         }
                         else if (vfxData.positionType == VfxComponentData.PositionType.AttachPoint)
                         {
@@ -72,8 +75,10 @@ namespace Game.Systems
                         if (vfxData.positionType == VfxComponentData.PositionType.Ground)
                         {
                             vfxData.position = position.value.SetY(0);
-                        }
-                        else if (vfxData.positionType == VfxComponentData.PositionType.AttachPoint)
+                        } else if (vfxData.positionType == VfxComponentData.PositionType.Center)
+                        {
+                            vfxData.position = position.value;
+                        } else if (vfxData.positionType == VfxComponentData.PositionType.AttachPoint)
                         {
                             if (attachPoints.attachPoints.TryGetValue(vfxData.attachPoint, out var attachPoint))
                             {
