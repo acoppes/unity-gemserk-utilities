@@ -48,7 +48,7 @@ namespace Game.Controllers
         {
             entity.Get<StatesComponent>().EnterState("Falling");
 
-            if (entity.Get<Physics2dComponent>().body.linearVelocity.y > 0)
+            if (entity.Get<Physics2dComponent>().velocity.y > 0)
             {
                 entity.Get<StatesComponent>().EnterState("Falling/GoingUp");
             }
@@ -100,7 +100,7 @@ namespace Game.Controllers
             var jumpAbility = entity.GetAbilitiesComponent().GetAbility("Jump");
             var physics2dComponent = entity.Get<Physics2dComponent>();
             
-            var velocity = physics2dComponent.body.linearVelocity;
+            var velocity = physics2dComponent.velocity;
 
             velocity.x = 0;
 
@@ -136,7 +136,7 @@ namespace Game.Controllers
                 entity.Get<LookingDirection>().value = new Vector3(-1, 0, 0);
             }
 
-            physics2dComponent.body.linearVelocity = velocity;
+            physics2dComponent.velocity = velocity;
             
             State state;
             ref var jumpComponent = ref entity.GetJumpComponent();
@@ -149,7 +149,7 @@ namespace Game.Controllers
                 
                 if (states.HasState("Falling/GoingUp"))
                 {
-                    if (entity.Get<Physics2dComponent>().body.linearVelocity.y <= 0)
+                    if (entity.Get<Physics2dComponent>().velocity.y <= 0)
                     {
                         states.ExitState("Falling/GoingUp");
                     }
@@ -236,7 +236,7 @@ namespace Game.Controllers
                     velocity.y = 1 * jumpComponent.speed;
                 }
 
-                physics2dComponent.body.linearVelocity = velocity;
+                physics2dComponent.velocity = velocity;
                 
                 if (state.time > jumpComponent.maxTime || !jumping)
                 {
