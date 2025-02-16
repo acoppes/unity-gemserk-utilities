@@ -25,7 +25,7 @@ namespace Game.Systems
                     continue;
                 }
 
-                var bodyVelocity = physicsComponent.body.velocity;
+                var bodyVelocity = physicsComponent.velocity;
                 
                 var velocityY = bodyVelocity.y;
                 var magnitude = Mathf.Abs(velocityY);
@@ -34,7 +34,7 @@ namespace Game.Systems
                 {
                     var velocity = bodyVelocity;
                     velocity.y = maxVerticalVelocity * (velocityY / magnitude);
-                    physicsComponent.body.velocity = velocity;
+                    physicsComponent.velocity = velocity;
                 }
             }
 
@@ -48,8 +48,7 @@ namespace Game.Systems
                     continue;
                 }
 
-                var body = physics2dComponent.body;
-                var bodyVelocity = body.velocity;
+                var bodyVelocity = physics2dComponent.velocity;
                 
                 var velocityY = bodyVelocity.y;
                 var magnitude = Mathf.Abs(velocityY);
@@ -58,7 +57,7 @@ namespace Game.Systems
                 {
                     var velocity = bodyVelocity;
                     velocity.y = maxVerticalVelocity * (velocityY / magnitude);
-                    body.velocity = velocity;
+                    physics2dComponent.velocity = velocity;
                 }
             }
         }

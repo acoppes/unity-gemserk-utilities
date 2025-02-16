@@ -165,7 +165,7 @@ namespace Game.Systems
                         physics2dComponent.body = physics2dComponent.gameObject.AddComponent<Rigidbody2D>();
 
                         // physicsComponent.body.drag = 0;
-                        physics2dComponent.body.angularDrag = 10;
+                        physics2dComponent.angularDamping = 10;
                         physics2dComponent.body.gravityScale = 0;
                         physics2dComponent.body.mass = physics2dComponent.mass;
 
@@ -249,7 +249,7 @@ namespace Game.Systems
                         {
                             physics2dComponent.body.totalForce = Vector2.zero;
                             physics2dComponent.body.totalTorque = 0;
-                            physics2dComponent.body.velocity = Vector2.zero;
+                            physics2dComponent.velocity = Vector2.zero;
                         }
                         
                         poolMap.Release(physics2dComponent.gameObject);

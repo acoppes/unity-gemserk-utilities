@@ -27,7 +27,7 @@ namespace Game.Systems
                 var body = physics2dComponent.body;
                 D.raw(new Shape.Line(
                     body.position + new Vector2(0, 0.5f), 
-                    body.position + body.velocity + new Vector2(0, 0.5f)), 
+                    body.position + physics2dComponent.velocity + new Vector2(0, 0.5f)), 
                     Color.green);
             }
             #endif

@@ -36,7 +36,7 @@ namespace Game.Systems
                 else
                 {
                     physicsComponent.body.position = positionComponent.value;
-                    physicsComponent.body.velocity = Vector3.zero;
+                    physicsComponent.velocity = Vector3.zero;
                 }
             }
             

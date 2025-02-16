@@ -21,7 +21,7 @@ namespace Game.Systems
                 
                 
                 platformer.walking = gravity.inContactWithGround 
-                                     && Mathf.Abs(physicsComponent.body.velocity.x) > 0;
+                                     && Mathf.Abs(physicsComponent.velocity.x) > 0;
 
             }
         }

@@ -60,11 +60,11 @@ namespace Game.Systems
                                                            projectileComponent.initialVelocity.normalized * projectileComponent.initialOffset;
                     
                     physicsComponent.body.position = initialPosition;
-                    physicsComponent.body.velocity = projectileComponent.initialVelocity;
+                    physicsComponent.velocity = projectileComponent.initialVelocity;
 
                     if (projectileComponent.trajectoryType == ProjectileComponent.TrajectoryType.Linear)
                     {
-                        physicsComponent.body.velocity = projectileComponent.initialVelocity * projectileComponent.initialSpeed;
+                        physicsComponent.velocity = projectileComponent.initialVelocity * projectileComponent.initialSpeed;
                     }
                     
                     lookingDirectionComponent.value = projectileComponent.initialVelocity.normalized;
@@ -86,7 +86,7 @@ namespace Game.Systems
                     
                     projectileComponent.travelTime += dt;
                     
-                    var velocity = physicsComponent.body.velocity;
+                    var velocity = physicsComponent.velocity;
 
                     var moving = velocity.sqrMagnitude > 0.1f;
                     if (moving)
@@ -117,11 +117,11 @@ namespace Game.Systems
                                                            projectileComponent.initialVelocity.normalized * projectileComponent.initialOffset;
                     
                     physicsComponent.body.position = initialPosition;
-                    physicsComponent.body.velocity = projectileComponent.initialVelocity;
+                    physicsComponent.velocity = projectileComponent.initialVelocity;
                     
                     if (projectileComponent.trajectoryType == ProjectileComponent.TrajectoryType.Linear)
                     {
-                        physicsComponent.body.velocity = projectileComponent.initialVelocity * projectileComponent.initialSpeed;
+                        physicsComponent.velocity = projectileComponent.initialVelocity * projectileComponent.initialSpeed;
                     }
 
                     physicsComponent.body.constraints = RigidbodyConstraints2D.None;
@@ -141,7 +141,7 @@ namespace Game.Systems
                     
                     projectileComponent.travelTime += dt;
                     
-                    var velocity = physicsComponent.body.velocity;
+                    var velocity = physicsComponent.velocity;
 
                     var moving = velocity.sqrMagnitude > 0.1f;
                     if (moving)

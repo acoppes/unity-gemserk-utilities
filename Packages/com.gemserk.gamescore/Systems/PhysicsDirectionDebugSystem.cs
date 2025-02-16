@@ -25,7 +25,7 @@ namespace Game.Systems
                 }
 
                 var position3d = physicsComponent.body.position;
-                var direction = physicsComponent.body.velocity.normalized;
+                var direction = physicsComponent.velocity.normalized;
                 
                 var position2d = new Vector3(position3d.x, position3d.y + position3d.z * 0.75f);
                 var direction2d = new Vector3(direction.x, direction.y + direction.z * 0.75f);

@@ -67,8 +67,6 @@ namespace Game.Components
         public bool isStatic;
         public bool isTrigger;
 
-        public Vector3 velocity;
-
         public EntityCollisionDelegate collisionsEventsDelegate;
 
         public ColliderType colliderType;
@@ -77,6 +75,28 @@ namespace Game.Components
 
         public int contactsCount;
         public ContactPoint[] contacts;
+        
+        public Vector3 velocity
+        {
+#if UNITY_6000_0_OR_NEWER
+            get => body.linearVelocity;
+            set => body.linearVelocity = value;
+#else 
+            get => body.velocity;
+            set => body.velocity = value;
+#endif
+        }
+        
+        public float angularDamping
+        {
+#if UNITY_6000_0_OR_NEWER
+            get => body.angularDamping;
+            set => body.angularDamping = value;
+#else 
+            get => body.angularDrag;
+            set => body.angularDrag = value;
+#endif
+        }
     }
     
     public struct Physics2dComponent : IEntityComponent
@@ -114,6 +134,28 @@ namespace Game.Components
         public bool disableCollisions;
 
         public bool disableContactsCalculations;
+
+        public Vector2 velocity
+        {
+#if UNITY_6000_0_OR_NEWER
+            get => body.linearVelocity;
+            set => body.linearVelocity = value;
+#else 
+            get => body.velocity;
+            set => body.velocity = value;
+#endif
+        }
+
+        public float angularDamping
+        {
+#if UNITY_6000_0_OR_NEWER
+            get => body.angularDamping;
+            set => body.angularDamping = value;
+#else 
+            get => body.angularDrag;
+            set => body.angularDrag = value;
+#endif
+        }
     }
     
     public class PhysicsComponentDefinition : ComponentDefinitionBase

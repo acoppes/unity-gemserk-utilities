@@ -28,7 +28,7 @@ namespace Game.Systems
                 ref var positionComponent = ref physicsFilter.Pools.Inc2.Get(entity);
 
                 positionComponent.value = physicsComponent.body.position;
-                physicsComponent.velocity = physicsComponent.body.velocity;
+                // physicsComponent.velocity = physicsComponent.body.linearVelocity;
             }
             
             foreach (var entity in physics2dFilter.Value)

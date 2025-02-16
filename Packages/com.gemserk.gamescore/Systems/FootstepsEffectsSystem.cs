@@ -62,7 +62,7 @@ namespace Game.Systems
             {
                 ref var footsteps = ref physicsFilter.Pools.Inc1.Get(e);
                 var physics2d = physicsFilter.Pools.Inc2.Get(e);
-                footsteps.isWalking = footsteps.isWalking || physics2d.body.velocity.sqrMagnitude >
+                footsteps.isWalking = footsteps.isWalking || physics2d.velocity.sqrMagnitude >
                                       GameConstants.MinSpeedMovement;
             }
             

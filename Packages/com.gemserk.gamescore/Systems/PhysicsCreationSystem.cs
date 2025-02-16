@@ -10,7 +10,11 @@ namespace Game.Systems
 {
     public class PhysicsCreationSystem : BaseSystem, IEntityCreatedHandler, IEntityDestroyedHandler, IEcsInitSystem
     {
+#if UNITY_6000_0_OR_NEWER
+        public PhysicsMaterial defaultMaterial;
+#else 
         public PhysicMaterial defaultMaterial;
+#endif
         
         private GameObjectPoolMap poolMap;
         
@@ -176,7 +180,7 @@ namespace Game.Systems
                         physicsComponent.body = physicsComponent.gameObject.AddComponent<Rigidbody>();
 
                         // physicsComponent.body.drag = 0;
-                        physicsComponent.body.angularDrag = 10;
+                        physicsComponent.angularDamping = 10;
                         physicsComponent.body.useGravity = false;
                         physicsComponent.body.mass = physicsComponent.mass;
 
