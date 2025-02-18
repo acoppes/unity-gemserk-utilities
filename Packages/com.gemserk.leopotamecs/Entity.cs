@@ -34,6 +34,18 @@ namespace Gemserk.Leopotam.Ecs
         {
             return ref entity.world.GetComponent<T>(entity);
         }
+        
+        // [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        // public static bool TryGet<T>(this Entity entity, out T t) where T : struct
+        // {
+        //     if (entity.Has<T>())
+        //     {
+        //         t = entity.Get<T>();
+        //         return true;
+        //     }
+        //     t = default;
+        //     return false;
+        // }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Has<T>(this Entity entity) where T : struct
@@ -74,6 +86,11 @@ namespace Gemserk.Leopotam.Ecs
         
         public int ecsEntity;
         public short ecsGeneration;
+        
+        public static implicit operator bool(Entity entity)
+        {
+            return entity.Exists();
+        }
 
         public static Entity[] CreateArray(int count)
         {
