@@ -200,7 +200,7 @@ namespace Game.Systems
                 value = effect.maxValue;
             }
             
-            if (effect.type == Effect.EffectType.Damage)
+            if (effect.type == Effect.EffectType.Damage && target.entity.Has<HealthComponent>())
             {
                 ref var health = ref target.entity.Get<HealthComponent>();
                 health.damages.Add(new DamageData
