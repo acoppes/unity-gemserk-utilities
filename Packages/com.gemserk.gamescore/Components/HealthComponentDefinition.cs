@@ -34,7 +34,8 @@ namespace Game.Components
                 temporaryInvulnerability = new Cooldown(invulnerabilityTime),
                 autoDestroyOnDeath = autoDestroyOnDeath,
                 autoDisableOnDeath = autoDisableOnDeath,
-                healEffects = new List<DamageData>()
+                healEffects = new List<DamageData>(),
+                timeSinceLastHit = Mathf.Infinity
             });
 
             if (hasHealthBar)
