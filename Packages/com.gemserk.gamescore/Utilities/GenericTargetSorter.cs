@@ -38,14 +38,16 @@ namespace Game.Utilities
                 var xWeight = angleWeight.Evaluate(xAngleFactor) + distanceWeight.Evaluate(xDistance) + healthWeight.Evaluate(x.healthFactor);
                 var yWeight = angleWeight.Evaluate(yAngleFactor) + distanceWeight.Evaluate(yDistance) + healthWeight.Evaluate(y.healthFactor);
             
+                // FIXED: inverted return values so it makes sense that a bigger weight object should be first in the list
+                
                 if (xWeight < yWeight)
                 {
-                    return -1;
+                    return 1;
                 }
 
                 if (xWeight > yWeight)
                 {
-                    return 1;
+                    return -1;
                 }
 
                 return 0;
