@@ -14,6 +14,7 @@ namespace Gemserk.Utilities.Editor
             var signalAsset = target as SignalAsset;
 
             var handlers = signalAsset.GetHandlers();
+            
             EditorGUILayout.BeginVertical();
             EditorGUILayout.LabelField("TOTAL", $"{handlers.Count}");
             EditorGUI.BeginDisabledGroup(!Application.isPlaying || handlers.Count == 0);
@@ -46,7 +47,7 @@ namespace Gemserk.Utilities.Editor
             {
                 if (GUILayout.Button("Clear"))
                 {
-                    signalAsset.GetHandlers().Clear();
+                    signalAsset.Clear();
                 }
             }
             

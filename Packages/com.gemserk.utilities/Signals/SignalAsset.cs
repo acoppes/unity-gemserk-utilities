@@ -27,5 +27,10 @@ namespace Gemserk.Utilities.Signals
                 onSignal(userData);
             }
         }
+
+        public void Clear()
+        {
+            handlers.Clear();
+        }
     }
 }
