@@ -7,5 +7,6 @@
         void Register(OnSignal signalHandler);
         void Unregister(OnSignal signalHandler);
         void Signal(object userData);
+        void Clear();
     }
 }
