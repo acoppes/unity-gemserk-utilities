@@ -1,4 +1,5 @@
-﻿using Gemserk.Utilities.Signals;
+﻿using System;
+using Gemserk.Utilities.Signals;
 using UnityEngine;
 
 public class BugSignalUnregisterReference : MonoBehaviour

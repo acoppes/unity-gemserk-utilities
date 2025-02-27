@@ -11,6 +11,11 @@ namespace Gemserk.Utilities.Signals
         {
             signalAsset.Signal(null);
         }
+        
+        public void SendSignalWithGameObject(GameObject source)
+        {
+            signalAsset.Signal(source);
+        }
 
         public void SendSignalWithObject(object source)
         {
