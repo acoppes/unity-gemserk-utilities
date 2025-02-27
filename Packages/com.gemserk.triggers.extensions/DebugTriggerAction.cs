@@ -14,7 +14,7 @@ namespace Gemserk.Triggers
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
-            Debug.Log(text);
+            Debug.Log(string.Format(text, activator));
             return ITrigger.ExecutionResult.Completed;
         }
     }
