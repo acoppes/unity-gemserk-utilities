@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-public class InvokeSignalFromUnityEvent : MonoBehaviour
+public class InvokeSignalFromUnityEventExample : MonoBehaviour
 {
     public UnityEvent<GameObject> unityEvent;
     
