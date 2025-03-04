@@ -16,7 +16,7 @@ namespace Gemserk.Triggers
             {
                 return "MatchQuery()";
             }
-            return $"MatchQuery({query.GetInterface<Query>().GetEntityQuery().ToString()})";
+            return $"MatchQuery({query.GetInterface<Query>().name})";
         }
         
         public override bool Evaluate(object activator = null)
