@@ -268,14 +268,6 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
         private void OnGUI()
         {
-            if (!Application.isPlaying)
-            {
-                EditorGUILayout.LabelField("It only works when running.");
-                selectedEntity = Entity.NullEntity;
-               // Repaint();
-                return;
-            }
-            
             if (searchField == null)
             {
                 searchField = new SearchField();
@@ -283,6 +275,14 @@ namespace Gemserk.Leopotam.Ecs.Editor
             
             var rect = EditorGUILayout.GetControlRect();
             searchText = searchField.OnGUI(rect, searchText);
+
+            if (!Application.isPlaying)
+            {
+                EditorGUILayout.LabelField("It only works when running.");
+                selectedEntity = Entity.NullEntity;
+                // Repaint();
+                return;
+            }
             
             var worlds = World.Instances;
 
