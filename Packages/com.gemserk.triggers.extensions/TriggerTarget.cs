@@ -113,7 +113,7 @@ namespace Gemserk.Triggers
             if (sourceType == QuerySourceType.Identifier)
                 return $"[{sourceType}:{identifier}]";
             
-            return $"[{sourceType}:{query}]";
+            return $"[{sourceType}:{query.name}]";
         }
     }
 }
