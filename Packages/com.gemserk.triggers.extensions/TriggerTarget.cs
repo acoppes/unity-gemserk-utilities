@@ -107,13 +107,17 @@ namespace Gemserk.Triggers
 
         public override string ToString()
         {
-            if (sourceType == QuerySourceType.TriggerActivator)
-                return $"[{sourceType}]";
-            
             if (sourceType == QuerySourceType.Identifier)
+            {
                 return $"[{sourceType}:{identifier}]";
+            }
             
-            return $"[{sourceType}:{query.name}]";
+            if (sourceType == QuerySourceType.Query)
+            {
+                return query ? $"[{sourceType}:{query.name}]" : $"[{sourceType}]";
+            }
+            
+            return $"[{sourceType}]";
         }
     }
 }
