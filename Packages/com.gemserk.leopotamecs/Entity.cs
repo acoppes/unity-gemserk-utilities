@@ -66,21 +66,20 @@ namespace Gemserk.Leopotam.Ecs
             {
                 return false;
             }
-        
-            if (entity.world == null)
-            {
-                return false;
-            }
-                        
-            return entity.world.Exists(entity);
+            return entity.world && entity.world.Exists(entity);
         }
     }
     
     // This is a higher concept of Entity, not the ecs entity itself, it has useful methods and data to simplify
     // accessing the ecs layer. 
-    public struct Entity
+    public struct Entity : IEquatable<Entity>
     {
-        public static readonly Entity NullEntity = new Entity(null, -1, -1);
+        public static readonly Entity NullEntity = new Entity()
+        {
+            world = null,
+            ecsGeneration = 0,
+            ecsEntity = 0
+        };
         
         public World world;
         
@@ -112,14 +111,12 @@ namespace Gemserk.Leopotam.Ecs
 
         public static Entity Create(World world, int entity, short generation)
         {
-            return new Entity(world, entity, generation);
-        }
-
-        public Entity(World world, int ecsEntity, short ecsGeneration)
-        {
-            this.world = world;
-            this.ecsEntity = ecsEntity;
-            this.ecsGeneration = ecsGeneration;
+            return new Entity
+            {
+                world = world,
+                ecsEntity = entity,
+                ecsGeneration = generation
+            };
         }
 
         public override int GetHashCode()
@@ -129,28 +126,34 @@ namespace Gemserk.Leopotam.Ecs
 
         public static implicit operator int(Entity entity) => entity.ecsEntity;
 
-        public static bool operator ==(Entity reference, Entity e)
+        public static bool operator ==(Entity a, Entity b)
         {
-            return reference.ecsEntity == e.ecsEntity && reference.ecsGeneration == e.ecsGeneration;
+            return a.ecsEntity == b.ecsEntity && a.ecsGeneration == b.ecsGeneration && a.world == b.world;
         }
 
-        public static bool operator !=(Entity reference, Entity e)
+        public static bool operator !=(Entity a, Entity b)
         {
-            return reference.ecsEntity != e.ecsEntity || reference.ecsGeneration != e.ecsGeneration;
+            return a.ecsEntity != b.ecsEntity || a.ecsGeneration != b.ecsGeneration || a.world != b.world;
         }
 
         public override bool Equals(object obj)
         {
-            if (obj is int entity)
+            if (obj is int e)
             {
-                return this.ecsEntity == entity;
+                return ecsEntity == e;
             }
-            return base.Equals(obj);
+
+            if (obj is Entity entity)
+            {
+                return Equals(entity);
+            }
+            
+            return false;
         }
         
         public bool Equals(Entity other)
         {
-            return ecsEntity == other.ecsEntity;
+            return this == other;
         }
 
         public override string ToString()
