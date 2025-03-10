@@ -10,6 +10,8 @@ namespace Game.Systems
 {
     public class CameraShakeFromImpulseSystem : BaseSystem, IEcsRunSystem
     {
+        public static float globalIntensity = 1f;
+        
         readonly EcsFilterInject<Inc<CameraImpulseComponent, LookingDirection>, Exc<DisabledComponent>> lookingDirectionFilter = default;
         readonly EcsFilterInject<Inc<CameraImpulseComponent, PositionComponent>, Exc<DisabledComponent>> filter = default;
         // readonly EcsFilterInject<Inc<CameraImpulseComponent, LookingDirection>, Exc<DisabledComponent>> filter = default;
@@ -35,19 +37,22 @@ namespace Game.Systems
 
                 if (cameraImpulse.framesToGenerateImpulse <= 0)
                     continue;
+
+                var force = cameraImpulse.force * globalIntensity;
                 
                 if (cameraImpulse.directionSource == CameraImpulseComponent.DirectionSource.FromImpulseSource)
                 {
                     // cameraImpulse.direction = cameraImpulse.impulseSource.DefaultVelocity;
                     cameraImpulse.impulseSource.GenerateImpulseAtPositionWithVelocity(position.value, 
-                        cameraImpulse.impulseSource.DefaultVelocity * cameraImpulse.force);
+                        cameraImpulse.impulseSource.DefaultVelocity * force);
                 } else if (cameraImpulse.directionSource == CameraImpulseComponent.DirectionSource.Random)
                 {
                     cameraImpulse.direction = Random.insideUnitCircle.normalized;
-                    cameraImpulse.impulseSource.GenerateImpulseAtPositionWithVelocity(position.value, cameraImpulse.direction * cameraImpulse.force);
+                    cameraImpulse.impulseSource.GenerateImpulseAtPositionWithVelocity(position.value, 
+                        cameraImpulse.direction * force);
                 } else if (cameraImpulse.directionSource == CameraImpulseComponent.DirectionSource.FromLookingDirection)
                 {
-                    cameraImpulse.impulseSource.GenerateImpulseAtPositionWithVelocity(position.value, cameraImpulse.direction.normalized * cameraImpulse.force);
+                    cameraImpulse.impulseSource.GenerateImpulseAtPositionWithVelocity(position.value, cameraImpulse.direction.normalized * force);
                 }
                 
                 // cameraImpulse.impulseSource.GenerateImpulse(cameraImpulse.direction.normalized * cameraImpulse.force);
