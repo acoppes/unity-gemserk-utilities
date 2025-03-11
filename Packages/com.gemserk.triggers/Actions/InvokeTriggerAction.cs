@@ -10,6 +10,8 @@ namespace Gemserk.Triggers.Actions
 
         public bool forceExecution;
 
+        public bool dontInvokeIfDisabled;
+
         public override string GetObjectName()
         {
             if (trigger != null)
@@ -22,6 +24,11 @@ namespace Gemserk.Triggers.Actions
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
             var t = trigger.GetInterface<ITrigger>();
+
+            if (dontInvokeIfDisabled && t.IsDisabled())
+            {
+                return ITrigger.ExecutionResult.Completed;
+            }
             
             if (!forceExecution)
             {
