@@ -6,6 +6,7 @@ namespace Gemserk.Triggers
 {
     public class InstantiateEntityPrefabInstance : TriggerAction
     {
+        [ObjectType(typeof(BaseEntityPrefabInstance), disableAssetReferences = true, disablePrefabReferences = true)]
         public Object entityInstance;
 
         public override string GetObjectName()
@@ -24,9 +25,9 @@ namespace Gemserk.Triggers
                 return ITrigger.ExecutionResult.Completed;
             }
 
-            var entityPrefabInstance = entityInstance.GetInterface<EntityPrefabInstance>();
+            var entityPrefabInstance = entityInstance.GetInterface<BaseEntityPrefabInstance>();
             
-            if (entityPrefabInstance == null)
+            if (!entityPrefabInstance)
             {
                 return ITrigger.ExecutionResult.Completed;
             }
