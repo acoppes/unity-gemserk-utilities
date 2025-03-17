@@ -1,9 +1,11 @@
-﻿using Gemserk.Leopotam.Ecs;
+﻿using System;
+using Gemserk.Leopotam.Ecs;
 using Gemserk.Triggers.Queries;
 
 namespace Gemserk.Triggers
 {
-    public class EnableEntityTriggerAction : WorldTriggerAction
+    [Obsolete("Old version of this action, use new EnableEntity instead.")]
+    public class EnableEntityTriggerActionV1 : WorldTriggerAction
     {
         public enum ActionType
         {
