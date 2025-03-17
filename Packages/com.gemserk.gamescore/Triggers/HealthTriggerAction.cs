@@ -2,9 +2,7 @@
 using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Triggers;
-using Gemserk.Triggers.Queries;
 using MyBox;
-using UnityEngine;
 
 namespace Game.Triggers
 {
@@ -12,16 +10,21 @@ namespace Game.Triggers
     {
         public enum ActionType
         {
-            SetInvulnerable,
-            SetVulnerable
+            SetInvulnerable = 0,
+            SetVulnerable = 1,
+            SetTotal = 2,
+            Fill = 3
         }
 
         public ActionType actionType;
         public TriggerTarget triggerTarget;
+
+        [ConditionalField(nameof(actionType), false, ActionType.SetTotal)]
+        public float total;
         
         public override string GetObjectName()
         {
-            return $"{actionType}({triggerTarget})"; 
+            return $"Health{actionType}({triggerTarget})"; 
         }
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
@@ -33,6 +36,8 @@ namespace Game.Triggers
             foreach (var entity in entities)
             {
                 ref var health = ref world.GetComponent<HealthComponent>(entity);
+                
+                // TODO: might want to delegate to a system or similar in order to react better to changes.
                 if (actionType == ActionType.SetInvulnerable)
                 {
                     health.invulnerableCount++;
@@ -40,6 +45,12 @@ namespace Game.Triggers
                 else if (actionType == ActionType.SetVulnerable)
                 {
                     health.invulnerableCount--;
+                } else if (actionType == ActionType.SetTotal)
+                {
+                    health.total = total;
+                } else if (actionType == ActionType.Fill)
+                {
+                    health.current = health.total;
                 }
             }
             
