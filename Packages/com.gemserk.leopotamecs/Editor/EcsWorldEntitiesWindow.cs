@@ -120,6 +120,11 @@ namespace Gemserk.Leopotam.Ecs.Editor
             
             for (var i = 0; i < componentsList.Count; i++) {
                 var component = componentsList[i];
+                if (component == null)
+                {
+                    continue;
+                }
+                
                 // _componentsCache[i] = null;
                 var type = component.GetType ();
 
