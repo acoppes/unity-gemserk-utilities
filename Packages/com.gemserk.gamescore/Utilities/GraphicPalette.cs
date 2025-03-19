@@ -31,9 +31,9 @@ namespace Game.Utilities
             if (!colorSet)
                 return;
 
-            if (palette != null)
+            if (palette)
             {
-                GameObject.DestroyImmediate(palette);
+                DestroyImmediate(palette);
                 palette = null;
             }
             
@@ -68,11 +68,12 @@ namespace Game.Utilities
             {
                 if (updateInRuntime)
                 {
-                    if (palette != null)
+                    if (palette)
                     {
-                        GameObject.DestroyImmediate(palette);
+                        DestroyImmediate(palette);
                         palette = null;
                     }
+                    
                     palette = colorSet.CreateLutTexture();
                     material.SetTexture(PaletteTexturePropertyID, palette);
                 }
