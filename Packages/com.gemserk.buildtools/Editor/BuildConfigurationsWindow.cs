@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using Gemserk.Utilities.Editor;
 using UnityEditor;
+using UnityEditor.Build.Content;
 using UnityEditor.Build.Reporting;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -55,7 +56,7 @@ namespace Gemserk.BuildTools.Editor
                 target = BuildTarget.StandaloneWindows64,
                 targetGroup = BuildTargetGroup.Standalone,
                 options = BuildOptions.AutoRunPlayer,
-            },Path.Combine($"builds/windows/dev/{mainScene}/", $"{mainScene}.exe"), buildScenes.ToArray());
+            },Path.Combine($"builds/windows/dev/{mainScene}/", $"{PlayerSettings.productName}_{mainScene}.exe"), buildScenes.ToArray());
         }
         
         public static void Build(BuildPlayerOptions buildOptions, string path, string[] scenes)
@@ -67,7 +68,7 @@ namespace Gemserk.BuildTools.Editor
             
             var buildReport = BuildPipeline.BuildPlayer(buildOptions);
 
-            StringBuilder buildSummary = new StringBuilder();
+            var buildSummary = new StringBuilder();
             buildSummary.AppendLine("BUILDSUMMARY");
             buildSummary.AppendFormat("Build: {0}\n", timerBuild.Elapsed.TotalSeconds);
 
@@ -85,7 +86,7 @@ namespace Gemserk.BuildTools.Editor
 
             if (buildReport.summary.result == BuildResult.Failed)
             {
-                StringBuilder errorReport = new StringBuilder();
+                var errorReport = new StringBuilder();
                 foreach (var step in buildReport.steps)
                 {
                     foreach (var message in step.messages)
