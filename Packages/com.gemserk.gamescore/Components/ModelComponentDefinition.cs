@@ -7,6 +7,16 @@ using UnityEngine.Rendering;
 
 namespace Game.Components
 {
+    public struct ModelStaticComponent : IEntityComponent
+    {
+        
+    }
+    
+    public struct ModelStaticProcessedComponent : IEntityComponent
+    {
+        
+    }
+    
     public struct ModelEnabledComponent : IEntityComponent
     {
         
@@ -84,6 +94,8 @@ namespace Game.Components
         [Tooltip("Fix final model rotation angle to rotate in partitions, use 0 or less to disable")]
         public float fixedRotationAngles = 0;
 
+        public bool isStatic;
+
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new ModelComponent
@@ -97,6 +109,11 @@ namespace Game.Components
                 flipUseRotation = flipUseRotation,
                 fixedRotationAngles = fixedRotationAngles
             });
+
+            if (isStatic)
+            {
+                world.AddComponent(entity, new ModelStaticComponent());
+            }
         }
     }
 }

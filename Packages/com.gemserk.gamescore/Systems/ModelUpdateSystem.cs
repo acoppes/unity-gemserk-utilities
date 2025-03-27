@@ -4,7 +4,6 @@ using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using MyBox;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Game.Systems
 {
@@ -15,20 +14,22 @@ namespace Game.Systems
         readonly EcsFilterInject<Inc<ModelComponent>, Exc<DisabledComponent, ModelSortingGroupComponent>> modelWithoutSortingFilter = default;
         readonly EcsFilterInject<Inc<ModelComponent, ModelSortingGroupComponent>, Exc<DisabledComponent>> modelWithSortingFilter = default;
         
-        readonly EcsFilterInject<Inc<ModelComponent, PositionComponent>, Exc<DisabledComponent>> positionFilter = default;
+        readonly EcsFilterInject<Inc<ModelComponent, PositionComponent>, Exc<DisabledComponent, ModelStaticProcessedComponent>> positionFilter = default;
         
         readonly EcsFilterInject<Inc<ModelComponent, PositionComponent, LookingDirection>, Exc<DisabledComponent>> 
             modelAllFilter = default;
         
-        readonly EcsFilterInject<Inc<ModelComponent, ModelInterpolationComponent>, Exc<DisabledComponent>> 
+        readonly EcsFilterInject<Inc<ModelComponent, ModelInterpolationComponent>, Exc<DisabledComponent, ModelStaticProcessedComponent>> 
             modelInterpolationFilter = default;
         
         readonly EcsFilterInject<Inc<ModelComponent, DisabledComponent>> 
             disabledFilter = default;
         
+        readonly EcsFilterInject<Inc<ModelStaticComponent>, Exc< DisabledComponent, ModelStaticProcessedComponent>> 
+            staticModels = default;
+        
         public void Run(EcsSystems systems)
         {
-            Profiler.BeginSample("Update1");
             foreach (var entity in modelFilter.Value)
             {
                 ref var modelComponent = ref modelFilter.Pools.Inc1.Get(entity);
@@ -50,29 +51,6 @@ namespace Game.Systems
                 {
                     model.spriteRenderer.color = modelComponent.color;
                 }
-                
-                // if (modelComponent.sortingLayerType == ModelComponent.SortingLayerType.CopyFromComponent)
-                // {
-                //     if (model.sortingGroup != null)
-                //     {
-                //         model.sortingGroup.sortingOrder = modelComponent.sortingOrder;
-                //         model.sortingGroup.sortingLayerID = modelComponent.sortingLayer;
-                //     } else if (model.spriteRenderer != null)
-                //     {
-                //         model.spriteRenderer.sortingOrder = modelComponent.sortingOrder;
-                //         model.spriteRenderer.sortingLayerID = modelComponent.sortingLayer;
-                //     }
-                // }
-
-                // if (!modelComponent.IsVisible)
-                // {
-                //     modelComponent.modelGameObject.SetActive(false);
-                //     modelComponent.isModelActive = false;
-                // } else if (modelComponent.IsVisible)
-                // {
-                //     modelComponent.modelGameObject.SetActive(true);
-                //     modelComponent.isModelActive = true;
-                // }
             }
             
             foreach (var entity in modelWithoutSortingFilter.Value)
@@ -116,9 +94,6 @@ namespace Game.Systems
                 }
             }
             
-            Profiler.EndSample();
-            
-            Profiler.BeginSample("Update2");
             foreach (var entity in positionFilter.Value)
             {
                 ref var modelComponent = ref positionFilter.Pools.Inc1.Get(entity);
@@ -154,9 +129,7 @@ namespace Game.Systems
                     }
                 }
             }
-            Profiler.EndSample();
-            
-            Profiler.BeginSample("Update3");
+
             foreach (var entity in modelInterpolationFilter.Value)
             {
                 ref var modelComponent = ref modelInterpolationFilter.Pools.Inc1.Get(entity);
@@ -174,9 +147,7 @@ namespace Game.Systems
                     modelComponent.instance.cachedTransform.position = new Vector3(position.x, position.y + position.z, 0);
                 }
             }
-            Profiler.EndSample();
 
-            Profiler.BeginSample("Update4");
             foreach (var entity in modelAllFilter.Value)
             {
                 var modelComponent = modelAllFilter.Pools.Inc1.Get(entity);
@@ -244,9 +215,13 @@ namespace Game.Systems
                     t.localScale = new Vector3(direction2d.magnitude, modelScale.y, modelScale.z);
                 }
             }
-            Profiler.EndSample();
             
-            Profiler.BeginSample("Update5");
+            foreach (var e in staticModels.Value)
+            {
+                world.RemoveComponent<ModelStaticComponent>(e);
+                world.AddComponent(e, new ModelStaticProcessedComponent());
+            }
+
             foreach (var entity in disabledFilter.Value)
             {
                 var modelComponent = disabledFilter.Pools.Inc1.Get(entity);
@@ -259,7 +234,6 @@ namespace Game.Systems
                     }
                 }
             }
-            Profiler.EndSample();
         }
     }
 }
