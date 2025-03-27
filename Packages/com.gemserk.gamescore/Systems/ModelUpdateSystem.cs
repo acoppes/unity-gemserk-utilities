@@ -1,5 +1,6 @@
 using Game.Components;
 using Gemserk.Leopotam.Ecs;
+using Gemserk.Leopotam.Ecs.Components;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using MyBox;
@@ -25,7 +26,7 @@ namespace Game.Systems
         readonly EcsFilterInject<Inc<ModelComponent, DisabledComponent>> 
             disabledFilter = default;
         
-        readonly EcsFilterInject<Inc<ModelStaticComponent>, Exc< DisabledComponent, ModelStaticProcessedComponent>> 
+        readonly EcsFilterInject<Inc<StaticObjectComponent>, Exc< DisabledComponent, ModelStaticProcessedComponent>> 
             staticModels = default;
         
         public void Run(EcsSystems systems)
@@ -218,7 +219,6 @@ namespace Game.Systems
             
             foreach (var e in staticModels.Value)
             {
-                world.RemoveComponent<ModelStaticComponent>(e);
                 world.AddComponent(e, new ModelStaticProcessedComponent());
             }
 

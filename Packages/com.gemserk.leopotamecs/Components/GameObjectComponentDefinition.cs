@@ -18,6 +18,11 @@ namespace Gemserk.Leopotam.Ecs.Components
     {
         
     }
+
+    public struct CopyPositionFromEntityStaticProcessedComponent : IEntityComponent
+    {
+        
+    }
     
     public struct CopyPositionFromGameObjectComponent : IEntityComponent
     {
