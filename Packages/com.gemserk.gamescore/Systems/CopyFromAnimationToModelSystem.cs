@@ -9,6 +9,8 @@ namespace Game.Systems
     {
         public int animation;
         public int frame;
+
+        public bool wasModifiedThisFrame;
     }
     
     public class CopyFromAnimationToModelSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler
@@ -39,6 +41,8 @@ namespace Game.Systems
                     continue;
                 }
                 
+                copyAnimationCached.wasModifiedThisFrame = false;
+                
                 ref var modelComponent = ref filter.Pools.Inc2.Get(e);
 
                 if (copyAnimationCached.animation != animations.currentAnimation || 
@@ -51,6 +55,8 @@ namespace Game.Systems
 
                     copyAnimationCached.animation = animations.currentAnimation;
                     copyAnimationCached.frame = animations.currentFrame;
+                    
+                    copyAnimationCached.wasModifiedThisFrame = true;
                 }
             }
         }
