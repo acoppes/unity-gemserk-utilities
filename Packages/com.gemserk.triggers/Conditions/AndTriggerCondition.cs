@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Gemserk.Utilities;
 
 namespace Gemserk.Triggers.Conditions
@@ -19,6 +20,11 @@ namespace Gemserk.Triggers.Conditions
 
         public override bool Evaluate(object activator = null)
         {
+            if (conditions.Count == 0)
+            {
+                throw new Exception("Can't execute And() without inner conditions to check.");
+            }
+            
             foreach (var condition in conditions)
             {
                 if (condition.Disabled)

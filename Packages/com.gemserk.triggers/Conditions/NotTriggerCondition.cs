@@ -1,4 +1,5 @@
-﻿using Gemserk.Utilities;
+﻿using System;
+using Gemserk.Utilities;
 
 namespace Gemserk.Triggers.Conditions
 {
@@ -18,6 +19,11 @@ namespace Gemserk.Triggers.Conditions
 
         public override bool Evaluate(object activator = null)
         {
+            if (!condition)
+            {
+                throw new Exception("Can't execute Not() without inner conditions to check.");
+            }
+            
             return !condition.Evaluate(activator);
         }
     }
