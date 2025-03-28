@@ -84,10 +84,12 @@ namespace Gemserk.Leopotam.Ecs
 
         public bool Exists(Entity entity)
         {
-            if (entity == Entity.NullEntity)
-                return false;
+            return entity.Exists();
             
-            return entity.ecsGeneration == world.GetEntityGen(entity.ecsEntity);
+            // if (entity == Entity.NullEntity)
+            //     return false;
+            //
+            // return entity.ecsGeneration == world.GetEntityGen(entity.ecsEntity);
         }
         
         public Entity GetEntity(int entity)

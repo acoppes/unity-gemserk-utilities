@@ -62,11 +62,16 @@ namespace Gemserk.Leopotam.Ecs
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Exists(this Entity entity)
         {
-            if (entity == Entity.NullEntity)
+            if (!entity.hasWorld)
             {
                 return false;
             }
-            return entity.world && entity.world.Exists(entity);
+
+            if (entity.ecsGeneration == 0)
+                return false;
+            
+            return entity.ecsGeneration == entity.world.world.GetEntityGen(entity.ecsEntity);
+            // return entity.world && entity.world.Exists(entity);
         }
     }
     
@@ -78,13 +83,16 @@ namespace Gemserk.Leopotam.Ecs
         {
             world = null,
             ecsGeneration = 0,
-            ecsEntity = 0
+            ecsEntity = 0,
+            hasWorld = false
         };
         
         public World world;
         
         public int ecsEntity;
         public short ecsGeneration;
+
+        public bool hasWorld;
         
         public static implicit operator bool(Entity entity)
         {
@@ -115,7 +123,8 @@ namespace Gemserk.Leopotam.Ecs
             {
                 world = world,
                 ecsEntity = entity,
-                ecsGeneration = generation
+                ecsGeneration = generation,
+                hasWorld = world
             };
         }
 

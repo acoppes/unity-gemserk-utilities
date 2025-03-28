@@ -67,10 +67,30 @@ namespace Game.Editor.Tests
             var world = gameObject.AddComponent<World>();
             world.Init();
 
-            var entity = world.CreateEntity();
-            world.DestroyEntity(entity);
+            var e = world.CreateEntity();
+            world.DestroyEntity(e);
             
-            Assert.IsFalse(entity.Exists());
+            Assert.IsFalse(e.Exists());
+        }
+        
+        [Test]
+        public void NewEntityFromConstructor_ShouldNotExist()
+        {
+            var e = new Entity();
+            Assert.IsFalse(e.Exists());
+            
+            Assert.IsFalse(Entity.NullEntity.Exists());
+        }
+        
+        [Test]
+        public void CreatedEntity_ShouldExist()
+        {
+            var gameObject = new GameObject();
+            var world = gameObject.AddComponent<World>();
+            world.Init();
+            
+            var e = world.CreateEntity();
+            Assert.IsTrue(e.Exists());
         }
     }
 }
