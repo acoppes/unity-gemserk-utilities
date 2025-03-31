@@ -3,6 +3,7 @@ using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Triggers;
 using MyBox;
+using UnityEngine;
 
 namespace Game.Triggers
 {
@@ -13,7 +14,8 @@ namespace Game.Triggers
             SetInvulnerable = 0,
             SetVulnerable = 1,
             SetTotal = 2,
-            Fill = 3
+            Fill = 3,
+            SetFactor = 4
         }
 
         public ActionType actionType;
@@ -21,6 +23,10 @@ namespace Game.Triggers
 
         [ConditionalField(nameof(actionType), false, ActionType.SetTotal)]
         public float total;
+        
+        [ConditionalField(nameof(actionType), false, ActionType.SetFactor)]
+        [Range(0, 1)]
+        public float factor;
         
         public override string GetObjectName()
         {
@@ -51,6 +57,9 @@ namespace Game.Triggers
                 } else if (actionType == ActionType.Fill)
                 {
                     health.current = health.total;
+                } else if (actionType == ActionType.SetFactor)
+                {
+                    health.factor = factor;
                 }
             }
             
