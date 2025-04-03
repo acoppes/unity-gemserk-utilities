@@ -28,7 +28,7 @@ namespace Game.Triggers
             lastTime = -1f;
         }
 
-        public void FixedUpdate()
+        public void Update()
         {
             if (previousClip != target.clip)
             {
