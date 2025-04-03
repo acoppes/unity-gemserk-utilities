@@ -1,5 +1,4 @@
 ﻿using Game.Components;
-using Gemserk.BitmaskTypes;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Triggers.Queries;
 

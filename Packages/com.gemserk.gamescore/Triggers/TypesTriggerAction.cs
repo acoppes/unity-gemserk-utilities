@@ -1,25 +1,27 @@
 ﻿using System.Collections.Generic;
+using Game.Components;
 using Game.Components.Abilities;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Triggers;
 
 namespace Game.Triggers
 {
-    public class AbilityTriggerAction : WorldTriggerAction
+    public class TypesTriggerAction : WorldTriggerAction
     {
         public enum ActionType
         {
-            LoadCooldown = 0
+            AddType = 0,
+            RemoveType = 1
         }
         
-        public ActionType actionType = ActionType.LoadCooldown;
+        public ActionType actionType = ActionType.AddType;
         
         public TriggerTarget target;
-        public string abilityName;
+        public string type;
 
         public override string GetObjectName()
         {
-            return $"{actionType}Ability({abilityName}, {target})";
+            return $"{actionType}({type}, {target})";
         }
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
@@ -28,11 +30,16 @@ namespace Game.Triggers
             
             target.Get(entities, world, activator);
             
-            foreach (var entity in entities)
+            foreach (var e in entities)
             {
-                ref var abilitiesComponent = ref world.GetComponent<AbilitiesComponent>(entity);
-                var ability = abilitiesComponent.GetAbility(abilityName);
-                ability.cooldown.Fill();
+                ref var types = ref e.Get<TypesComponent>();
+                if (actionType == ActionType.AddType)
+                {
+                    types.types.Add(type);
+                } else if (actionType == ActionType.RemoveType)
+                {
+                    types.types.Remove(type);
+                }
             }
             
             return ITrigger.ExecutionResult.Completed;
