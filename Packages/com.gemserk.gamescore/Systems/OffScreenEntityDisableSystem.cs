@@ -25,7 +25,7 @@ namespace Game.Systems
 
         public void Run(EcsSystems systems)
         {
-            if (worldCamera == null)
+            if (!worldCamera)
                 return;
 
             var cameraBounds = worldCamera.GetBounds();
@@ -39,10 +39,10 @@ namespace Game.Systems
             var cameraMax = cameraBounds.max;
             var cameraMin = cameraBounds.min;
 
-            foreach (var entity in offscreenFilter.Value)
+            foreach (var e in offscreenFilter.Value)
             {
-                var positionComponent = offscreenFilter.Pools.Inc1.Get(entity);
-                ref var offScreenDisableComponent = ref offscreenFilter.Pools.Inc2.Get(entity);
+                var positionComponent = offscreenFilter.Pools.Inc1.Get(e);
+                ref var offScreenDisableComponent = ref offscreenFilter.Pools.Inc2.Get(e);
 
                 var position = positionComponent.value;
                 
@@ -74,22 +74,23 @@ namespace Game.Systems
                 
                 if (!insideCamera)
                 {
-                    world.AddComponent(world.GetEntity(entity), new DisabledComponent());
+                    world.AddComponent(world.GetEntity(e), new DisabledComponent());
                     // offScreenDisableComponent.disableCount++;
                 }
                 else
                 {
                     if (offScreenDisableComponent.disableType == OffScreenDisableComponent.DisableType.FirstTimeOnly)
                     {
-                        world.RemoveComponent<OffScreenDisableComponent>(world.GetEntity(entity));
+                        offscreenFilter.Pools.Inc2.Del(e);
+                        // world.RemoveComponent<OffScreenDisableComponent>(world.GetEntity(entity));
                     }
                 }
             }
             
-            foreach (var entity in disabledFilter.Value)
+            foreach (var e in disabledFilter.Value)
             {
-                var positionComponent = disabledFilter.Pools.Inc1.Get(entity);
-                var offScreenDisableComponent = disabledFilter.Pools.Inc2.Get(entity);
+                var positionComponent = disabledFilter.Pools.Inc1.Get(e);
+                var offScreenDisableComponent = disabledFilter.Pools.Inc2.Get(e);
 
                 var position = positionComponent.value;
                 
@@ -116,11 +117,13 @@ namespace Game.Systems
                 
                 if (insideCamera)
                 {
-                    world.RemoveComponent<DisabledComponent>(world.GetEntity(entity));
+                    disabledFilter.Pools.Inc3.Del(e);
+                    // world.RemoveComponent<DisabledComponent>(world.GetEntity(e));
 
                     if (offScreenDisableComponent.disableType == OffScreenDisableComponent.DisableType.FirstTimeOnly)
                     {
-                        world.RemoveComponent<OffScreenDisableComponent>(world.GetEntity(entity));
+                        disabledFilter.Pools.Inc2.Del(e);
+                        // world.RemoveComponent<OffScreenDisableComponent>(world.GetEntity(e));
                     }
                 }
             }

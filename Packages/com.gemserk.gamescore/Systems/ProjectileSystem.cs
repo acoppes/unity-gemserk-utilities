@@ -37,7 +37,8 @@ namespace Game.Systems
                 projectile.initialVelocity = projectileFire.direction;
                 projectile.state = ProjectileComponent.State.Pending;
                 
-                world.RemoveComponent<ProjectileFireComponent>(e);
+                pendingProjectiles.Pools.Inc2.Del(e);
+                // world.RemoveComponent<ProjectileFireComponent>(e);
             }
 
             // play vfx animation if didn't start yet

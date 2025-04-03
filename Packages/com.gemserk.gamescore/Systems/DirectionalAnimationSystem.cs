@@ -84,16 +84,17 @@ namespace Game.Systems
         
         public void Run(EcsSystems systems)
         {
-            foreach (var entity in startingAnimationFilter.Value)
+            foreach (var e in startingAnimationFilter.Value)
             {
-                var worldEntity = world.GetEntity(entity);
+                // var entity = world.GetEntity(e);
                 
-                ref var animations = ref startingAnimationFilter.Pools.Inc1.Get(entity);
-                ref var startingAnimation = ref startingAnimationFilter.Pools.Inc2.Get(entity);
+                ref var animations = ref startingAnimationFilter.Pools.Inc1.Get(e);
+                ref var startingAnimation = ref startingAnimationFilter.Pools.Inc2.Get(e);
                 
                 ProcessStartAnimation(ref animations, startingAnimation);
                 
-                world.RemoveComponent<StartingAnimationComponent>(worldEntity);
+                startingAnimationFilter.Pools.Inc2.Del(e);
+                // world.RemoveComponent<StartingAnimationComponent>(entity);
             }
             
             // copy direction from looking direction

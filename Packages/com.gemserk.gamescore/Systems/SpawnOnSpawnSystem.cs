@@ -31,7 +31,8 @@ namespace Game.Systems
                     }
                 }
                
-                world.RemoveComponent<SpawnOnSpawnComponent>(e);
+                filter.Pools.Inc1.Del(e);
+                // world.RemoveComponent<SpawnOnSpawnComponent>(e);
             }
         }
     }

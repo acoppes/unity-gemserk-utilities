@@ -24,7 +24,7 @@ namespace Game.Systems
 
         public void Run(EcsSystems systems)
         {
-            Profiler.BeginSample("ModelSystem");
+            // Profiler.BeginSample("ModelSystem");
             
             foreach (var entity in filter.Value)
             {
@@ -32,9 +32,9 @@ namespace Game.Systems
                 CreateModel(entity, ref model);
             }
             
-            foreach (var entity in disabledFilter.Value)
+            foreach (var e in disabledFilter.Value)
             {
-                ref var model = ref disabledFilter.Pools.Inc1.Get(entity);
+                ref var model = ref disabledFilter.Pools.Inc1.Get(e);
                 
                 if (model.modelGameObject != null && model.isModelActive)
                 {
@@ -42,10 +42,11 @@ namespace Game.Systems
                     model.isModelActive = false;
                 }
                 
-                world.RemoveComponent<ModelEnabledComponent>(entity);
+                disabledFilter.Pools.Inc2.Del(e);
+                // world.RemoveComponent<ModelEnabledComponent>(e);
             }
             
-            Profiler.EndSample();
+            // Profiler.EndSample();
         }
 
         private void CreateModel(int entity, ref ModelComponent model)
