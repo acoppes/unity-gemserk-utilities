@@ -36,5 +36,14 @@ namespace Gemserk.Utilities
             var newAngle = Mathf.RoundToInt(angleInDegrees / angle) * angle;
             return Vector2.right.Rotate(newAngle * Mathf.Deg2Rad);
         }
+
+        public static Vector2 ClampInsideCenteredRect(this Vector2 v, Vector2 size)
+        {
+            return new Vector2()
+            {
+                x = Mathf.Clamp(v.x, -size.x * 0.5f, size.x * 0.5f),
+                y = Mathf.Clamp(v.y, -size.y * 0.5f, size.y * 0.5f)
+            };
+        }
     }
 }

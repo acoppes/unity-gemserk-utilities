@@ -6,6 +6,16 @@ namespace Game.Editor.Tests
 {
     public class EntityTests
     {
+        private struct ComponentA : IEntityComponent
+        {
+            
+        }
+        
+        private struct ComponentB : IEntityComponent
+        {
+            
+        }
+        
         [Test]
         public void Test_EntityConstructor()
         {
@@ -91,6 +101,30 @@ namespace Game.Editor.Tests
             
             var e = world.CreateEntity();
             Assert.IsTrue(e.Exists());
+        }
+        
+        [Test]
+        public void EntityRemovedFromFilter_ShouldExist()
+        {
+            var gameObject = new GameObject();
+            var world = gameObject.AddComponent<World>();
+            world.Init();
+            
+            var e = world.CreateEntity();
+            world.AddComponent(e, new ComponentA());
+            world.AddComponent(e, new ComponentB());
+            Assert.IsTrue(e.Exists());
+
+            var componentsA = world.EcsWorld.GetPool<ComponentA>();
+            componentsA.Del(e);
+            
+            Assert.IsTrue(e.Exists());
+            Assert.IsFalse(world.HasComponent<ComponentA>(e));
+
+            world.EcsWorld.DelEntity(e);
+            
+            Assert.IsFalse(e.Exists());
+            Assert.IsFalse(world.HasComponent<ComponentB>(e));
         }
     }
 }
