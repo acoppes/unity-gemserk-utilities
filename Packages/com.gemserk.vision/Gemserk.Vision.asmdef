@@ -1,0 +1,16 @@
+{
+    "name": "Gemserk.Vision",
+    "rootNamespace": "Gemserk.Vision",
+    "references": [
+        "GUID:0a983d99d6915e046b107953a4dbfaf7"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}

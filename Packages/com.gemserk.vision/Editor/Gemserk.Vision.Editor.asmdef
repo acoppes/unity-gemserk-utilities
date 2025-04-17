@@ -1,0 +1,17 @@
+{
+    "name": "Gemserk.Vision.Editor",
+    "references": [
+        "GUID:e8b43a65640394b688b5c23efea328ec"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}
