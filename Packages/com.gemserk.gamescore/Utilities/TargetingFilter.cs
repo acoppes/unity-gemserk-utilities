@@ -32,29 +32,6 @@ namespace Game.Utilities
         public float minRangeSqr => range.Min * range.Min;
 
         public Object sorter;
+        // public Object customFilter;
     }
-    
-    // [Serializable]
-    // public class TargetingFilterObject
-    // {
-    //     public TargetingFilter.CheckDistanceType distanceType;
-    //     public MinMaxFloat range;
-    //     public PlayerAllianceType playerAllianceType;
-    //     public HealthComponent.AliveType aliveType;
-    //     public MinMaxFloat angle;
-    //     public Object sorter;
-    //
-    //     public TargetingFilter GetTargetFilter()
-    //     {
-    //         return new TargetingFilter()
-    //         {
-    //             distanceType = distanceType,
-    //             range = range,
-    //             playerAllianceType = playerAllianceType,
-    //             aliveType = aliveType,
-    //             angle = angle,
-    //             sorter = sorter
-    //         };
-    //     } 
-    // }
 }
