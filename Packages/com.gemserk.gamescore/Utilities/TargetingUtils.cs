@@ -387,6 +387,14 @@ namespace Game.Utilities
                 }
             }
 
+            if (targetingFilter.customFilter is ITargetCustomFilter customFilter)
+            {
+                if (!customFilter.Filter(target, runtimeTargetingParameters))
+                {
+                    return false;
+                }
+            }
+
             return true;
         }
 

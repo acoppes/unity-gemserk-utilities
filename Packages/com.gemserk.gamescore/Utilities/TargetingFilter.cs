@@ -32,6 +32,6 @@ namespace Game.Utilities
         public float minRangeSqr => range.Min * range.Min;
 
         public Object sorter;
-        // public Object customFilter;
+        public Object customFilter;
     }
 }

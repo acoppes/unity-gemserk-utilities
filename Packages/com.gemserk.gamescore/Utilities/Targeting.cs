@@ -1,8 +1,8 @@
-﻿using Game.Utilities;
+﻿using Game.Components;
 using MyBox;
 using UnityEngine;
 
-namespace Game.Components
+namespace Game.Utilities
 {
     public interface ITargeting
     {
