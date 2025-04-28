@@ -51,7 +51,7 @@ namespace Game.Systems
 
         private void CreateModel(int entity, ref ModelComponent model)
         {
-            if (model.prefab != null && model.modelGameObject == null)
+            if (model.prefab && !model.modelGameObject)
             {
                 model.modelGameObject = poolMap.Get(model.prefab);
 
@@ -64,14 +64,14 @@ namespace Game.Systems
                 entityReference.entity = world.GetEntity(entity);
 
                 model.instance = model.modelGameObject.GetComponent<Model>();
-                model.hasSubModelObject = model.instance.model != null;
+                model.hasSubModelObject = model.instance.model;
                 
                 model.modelGameObject.SetActive(true);
                 model.isModelActive = true;
                 
                 world.AddComponent(entity, new ModelEnabledComponent());
 
-                if (model.instance.sortingGroup != null)
+                if (model.instance.sortingGroup)
                 {
                     world.AddComponent(entity, new ModelSortingGroupComponent()
                     {

@@ -3,6 +3,7 @@ using Game.Models;
 using Gemserk.Leopotam.Ecs;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Rendering;
 
 namespace Game.Components
@@ -91,6 +92,8 @@ namespace Game.Components
 
         public override void Apply(World world, Entity entity)
         {
+            Assert.IsNotNull(prefab, $"{gameObject.name}: ModelComponent needs prefab to work");
+            
             world.AddComponent(entity, new ModelComponent
             {
                 prefab = prefab,
