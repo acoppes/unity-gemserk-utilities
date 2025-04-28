@@ -370,22 +370,22 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 // update debug stuff
                 // debug.name = $"{}";
                 var entity = world.GetEntity(e);
-
-                if (hasSearch)
-                {
-                    if (!debug.name.Contains(searchText, StringComparison.OrdinalIgnoreCase))
-                    {
-                        continue;
-                    }
-                }
-
+                
                 var entityName = string.IsNullOrEmpty(debug.name)
                     ? $"{entity.ToString()}"
                     : $"{entity.ToString()} - {debug.name}";
-
+                
                 if (debug.isSingletonByName)
                 {
                     entityName = $"{entityName} - <UNIQUE>";
+                }
+                
+                if (hasSearch)
+                {
+                    if (!entityName.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
                 }
 
                 var isSelected = entity == selectedEntity;
