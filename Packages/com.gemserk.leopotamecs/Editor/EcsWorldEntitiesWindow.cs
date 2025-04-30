@@ -90,6 +90,9 @@ namespace Gemserk.Leopotam.Ecs.Editor
         
         private SearchField searchField;
         private string searchText;
+        
+        private SearchField componentSearchField;
+        private string componentSearchText;
 
         private void OnEnable()
         {
@@ -101,14 +104,22 @@ namespace Gemserk.Leopotam.Ecs.Editor
             EcsWorldEntitiesWindowDebugSystem.windowOpenCount--;
         }
 
-        void DrawComponents (EcsWorld world, Entity entity)
+        private void DrawComponents (EcsWorld world, Entity entity)
         {
             var count = world.GetComponents (entity.ecsEntity, ref _componentsCache);
-
+            
             var componentsList = new List<object>();
-
+            var hasFilter = !string.IsNullOrEmpty(componentSearchText);
+                
             for (var i = 0; i < count; i++)
             {
+                if (hasFilter)
+                {
+                    if (!_componentsCache[i].GetType().Name.Contains(componentSearchText, StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+                }
                 componentsList.Add(_componentsCache[i]);
             }
          
@@ -434,6 +445,14 @@ namespace Gemserk.Leopotam.Ecs.Editor
             {
                 EditorGUILayout.LabelField("-- SELECT ENTITY --", titleStyle);
                 EditorGUILayout.Separator();
+                
+                if (componentSearchField == null)
+                {
+                    componentSearchField = new SearchField();
+                }
+            
+                var componentSearchFieldRect = EditorGUILayout.GetControlRect();
+                componentSearchText = componentSearchField.OnGUI(componentSearchFieldRect, componentSearchText);
             }
             else
             {
@@ -448,6 +467,16 @@ namespace Gemserk.Leopotam.Ecs.Editor
                         $"-- id: {selectedEntity.ecsEntity}, gen: {selectedEntity.ecsGeneration}, name: {debug.name} --",
                         titleStyle);
                 }
+                
+                EditorGUILayout.Separator();
+                
+                if (componentSearchField == null)
+                {
+                    componentSearchField = new SearchField();
+                }
+            
+                var componentSearchFieldRect = EditorGUILayout.GetControlRect();
+                componentSearchText = componentSearchField.OnGUI(componentSearchFieldRect, componentSearchText);
                 
                 EditorGUILayout.Separator();
 
