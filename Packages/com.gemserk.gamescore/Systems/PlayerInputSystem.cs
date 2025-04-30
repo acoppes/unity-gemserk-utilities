@@ -105,6 +105,11 @@ namespace Game.Systems
                 ref var controlComponent = ref controlLookingDirectionFilter.Pools.Inc1.Get(entity);
                 var lookingDirection = controlLookingDirectionFilter.Pools.Inc2.Get(entity);
 
+                if (!controlComponent.IsActionDefined("forward"))
+                {
+                    continue;
+                }
+
                 if (controlComponent.direction().vector2.x > 0 && lookingDirection.value.x >= 0)
                 {
                     controlComponent.forward().name = controlComponent.right().name;
