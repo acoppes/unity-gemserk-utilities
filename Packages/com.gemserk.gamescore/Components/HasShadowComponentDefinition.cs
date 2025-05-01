@@ -23,8 +23,8 @@ namespace Game.Components
         public float distanceToGround;
         
         public CopyFromPositionType copyFromPositionType;
-
-        public GameObject shadowDefintion;
+        
+        public Object shadowDefintion;
         public Entity shadowEntity;
     }
     
@@ -38,7 +38,8 @@ namespace Game.Components
         
         public HasShadowComponent.CopyFromPositionType copyFromPositionType = HasShadowComponent.CopyFromPositionType.FromFake3d;
 
-        public GameObject shadowDefinitionPrefab;
+        [EntityDefinition]
+        public Object shadowDefinitionPrefab;
 
         public override void Apply(World world, Entity entity)
         {
