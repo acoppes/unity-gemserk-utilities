@@ -11,7 +11,7 @@ namespace Gemserk.Triggers
     {
         public static void GetTriggerTargetEntities(this World world, Query query, TriggerTarget triggerTarget, object activator, List<Entity> entities)
         {
-            if (query != null)
+            if (query)
             {
                 world.GetEntities(query.GetEntityQuery(), entities);
             }
@@ -23,7 +23,7 @@ namespace Gemserk.Triggers
         
         public static Entity GetTriggerFirstEntity(this World world, Query query, TriggerTarget triggerTarget, object activator)
         {
-            if (query != null)
+            if (query)
             {
                 return world.GetFirstOrDefault(query.GetEntityQuery());
             }

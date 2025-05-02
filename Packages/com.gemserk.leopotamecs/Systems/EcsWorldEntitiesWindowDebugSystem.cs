@@ -12,7 +12,7 @@ namespace Gemserk.Leopotam.Ecs.Systems
         public void OnEntityCreated(World world, Entity entity)
         {
 #if UNITY_EDITOR
-            world.AddComponent(entity, new EcsWorldEntitiesDebugComponent()
+            world.AddOrSetComponent(entity, new EcsWorldEntitiesDebugComponent()
             {
                 name = string.Empty
             });

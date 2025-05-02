@@ -54,10 +54,17 @@ namespace Gemserk.Leopotam.Ecs
 
             if (definition != null)
             {
+                var parameters = new List<IEntityInstanceParameter>();
+
+                if (parametersList != null)
+                {
+                    parameters.AddRange(parametersList);
+                }
+                
                 AddComponent(entity, new EntityDefinitionComponent
                 {
                     definition = definition,
-                    parameters = parametersList
+                    parameters = parameters
                 });
                 
                 definition.Apply(this, entity);
