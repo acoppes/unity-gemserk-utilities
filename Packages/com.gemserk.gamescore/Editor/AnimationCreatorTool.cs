@@ -174,6 +174,10 @@ namespace Game.Editor
             if (previousAnimationAsset && previousAnimationAsset.overrideImporterDefaultFps && previousAnimationAsset.fps > 0)
             {
                 fps = previousAnimationAsset.fps;
+                
+                // just to keep previous info
+                animationsAsset.fps = previousAnimationAsset.fps;
+                animationsAsset.overrideImporterDefaultFps = previousAnimationAsset.overrideImporterDefaultFps;
             }
 
             ConfigureAnimationsAsset(animationsAsset, fps, sprites);
