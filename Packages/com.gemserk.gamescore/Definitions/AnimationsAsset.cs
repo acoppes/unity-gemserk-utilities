@@ -11,6 +11,9 @@ namespace Game.Definitions
     {
         public string sourceFolder;
         
+        public bool overrideImporterDefaultFps;
+        public float fps;
+        
         public List<AnimationDefinition> animations = new();
         
         public IDictionary<string, int> GetAnimationsByNameDictionary()

@@ -163,18 +163,22 @@ namespace Game.Editor
             EditorGUIUtility.PingObject(animationsAsset);
         }
 
-        public static AnimationsAsset CreateAnimationsAsset(string assetName, float defaultFps, List<Sprite> sprites, string outputFolder)
+        public static AnimationsAsset CreateAnimationsAsset(string assetName, float fps, List<Sprite> sprites, string outputFolder)
         {
+            var fileName = Path.Combine(outputFolder, $"{assetName}.asset");
+            var previousAnimationAsset = AssetDatabase.LoadMainAssetAtPath(fileName) as AnimationsAsset;
+
             var animationsAsset = ScriptableObject.CreateInstance<AnimationsAsset>();
             animationsAsset.name = assetName;
 
-            ConfigureAnimationsAsset(animationsAsset, defaultFps, sprites);
+            if (previousAnimationAsset && previousAnimationAsset.overrideImporterDefaultFps && previousAnimationAsset.fps > 0)
+            {
+                fps = previousAnimationAsset.fps;
+            }
 
-            var fileName = Path.Combine(outputFolder, $"{assetName}.asset");
-            
-            var previousAnimationAsset = AssetDatabase.LoadMainAssetAtPath(fileName) as AnimationsAsset;
+            ConfigureAnimationsAsset(animationsAsset, fps, sprites);
 
-            if (previousAnimationAsset != null)
+            if (previousAnimationAsset)
             {
                 EditorUtility.SetDirty(animationsAsset);
                 EditorUtility.CopySerialized(animationsAsset, previousAnimationAsset);
