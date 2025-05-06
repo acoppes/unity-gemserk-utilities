@@ -51,7 +51,13 @@ namespace Gemserk.Leopotam.Ecs
         public Entity CreateEntity(IEntityDefinition definition = null, IEnumerable<IEntityInstanceParameter> parametersList = null)
         {
             var entity = CreateEmptyEntity();
+            Apply(entity, definition, parametersList);
+            OnEntityCreated(entity);
+            return entity;
+        }
 
+        private void Apply(Entity entity, IEntityDefinition definition = null, IEnumerable<IEntityInstanceParameter> parametersList = null)
+        {
             if (definition != null)
             {
                 var parameters = new List<IEntityInstanceParameter>();
@@ -77,6 +83,19 @@ namespace Gemserk.Leopotam.Ecs
                     parameters.Apply(this, entity);
                 }
             }
+        }
+        
+        public Entity CreateEntity(Entity sourceEntity)
+        {
+            var entity = CreateEmptyEntity();
+
+            if (sourceEntity.Has<EntityDefinitionComponent>())
+            {
+                var entityDefinition = sourceEntity.Get<EntityDefinitionComponent>();
+                Apply(entity, entityDefinition.definition, entityDefinition.parameters);
+            }
+            
+            // TODO: Do the deep cloning here or delegate to some other?
             
             OnEntityCreated(entity);
             

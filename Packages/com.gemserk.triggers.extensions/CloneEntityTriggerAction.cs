@@ -29,20 +29,11 @@ namespace Gemserk.Triggers
 
             foreach (var entity in entities)
             {
-                Entity clonedEntity;
-                if (entity.Has<EntityDefinitionComponent>())
-                {
-                    var definition = entity.Get<EntityDefinitionComponent>();
-                    clonedEntity = world.CreateEntity(definition.definition, definition.parameters);
-                }
-                else
-                {
-                    clonedEntity = world.CreateEntity();
-                }
-
+                var clonedEntity = world.CreateEntity(entity);
+                
                 var components = world.EcsWorld.GetComponentTypes(entity.ecsEntity, ref componentTypesCache);
 
-                for (int i = 0; i < components; i++)
+                for (var i = 0; i < components; i++)
                 {
                     var componentType = componentTypesCache[i];
                     var component = world.GetComponent(entity, componentType);
