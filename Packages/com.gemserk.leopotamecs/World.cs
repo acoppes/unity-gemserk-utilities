@@ -85,6 +85,8 @@ namespace Gemserk.Leopotam.Ecs
             }
         }
         
+        // private Type[] componentTypesCache = new Type[100];
+        
         public Entity CreateEntity(Entity sourceEntity)
         {
             var entity = CreateEmptyEntity();
@@ -96,6 +98,25 @@ namespace Gemserk.Leopotam.Ecs
             }
             
             // TODO: Do the deep cloning here or delegate to some other?
+            
+            // var components = world.EcsWorld.GetComponentTypes(entity.ecsEntity, ref componentTypesCache);
+            //
+            // for (var i = 0; i < components; i++)
+            // {
+            //     var componentType = componentTypesCache[i];
+            //     var component = world.GetComponent(entity, componentType);
+            //         
+            //     // if (!world.EcsWorld.GetPoolByType(componentType).Has(clonedEntity.ecsEntity))
+            //     // {
+            //     //     world.EcsWorld.GetPoolByType(componentType).AddRaw(clonedEntity.ecsEntity, component);
+            //     // }
+            //     // else
+            //     // {
+            //     //     world.EcsWorld.GetPoolByType(componentType).SetRaw(clonedEntity.ecsEntity, component);
+            //     // }
+            //         
+            //     // world.AddComponent(clonedEntity.ecsEntity, component);
+            // }
             
             OnEntityCreated(entity);
             
