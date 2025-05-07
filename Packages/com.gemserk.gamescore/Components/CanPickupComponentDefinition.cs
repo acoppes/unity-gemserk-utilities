@@ -1,4 +1,5 @@
 ﻿using Gemserk.Leopotam.Ecs;
+using UnityEngine;
 
 namespace Game.Components
 {
@@ -20,6 +21,11 @@ namespace Game.Components
                 range = range,
                 // pickups = new List<PickupData>()
             });
+        }
+        
+        private void OnDrawGizmos()
+        {
+            Gizmos.DrawWireSphere(transform.position, range);
         }
     }
 }
