@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs;
 using UnityEngine;
 using Vertx.Debugging;
@@ -33,6 +34,33 @@ namespace Game.Utilities
                 //     continue;
                 // }
 
+                entities.Add(entityReference.entity);
+            }
+
+            return entities;
+        }
+        
+        public static List<Entity> GetEntitiesFromPhysics2dRaycast(Vector3 position, Vector3 direction, 
+            ContactFilter2D contactFilter2D, float distance, List<Entity> entities, Func<Entity, bool> filter)
+        {
+            var hitCount = DrawPhysics2D.Raycast(position, direction,
+                contactFilter2D, _tempHits, distance);
+            
+            for (var i = 0; i < hitCount; i++)
+            {
+                var hit = _tempHits[i];
+                var entityReference = hit.collider.GetComponentInParent<EntityReference>();
+
+                if (!entityReference || !entityReference.entity)
+                {
+                    continue;
+                }
+
+                if (!filter(entityReference.entity))
+                {
+                    continue;
+                }
+                
                 entities.Add(entityReference.entity);
             }
 
