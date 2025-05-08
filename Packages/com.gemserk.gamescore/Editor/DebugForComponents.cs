@@ -32,6 +32,11 @@ namespace Game.Editor
                     EditorGUILayout.LabelField("Charges", $"{ability.currentCharges} / {ability.totalCharges}");
                     EditorGUILayout.LabelField("Cooldown",$"{ability.cooldown.current:0.0}/{ability.cooldown.Total:0.0}");
 
+                    if (ability.hasDuration)
+                    {
+                        EditorGUILayout.LabelField("Duration",$"{ability.duration.current:0.0}/{ability.duration.Total:0.0}");
+                    }
+
                     if (ability.hasTargets)
                     {
                         EditorGUILayout.LabelField("-- Targets --");

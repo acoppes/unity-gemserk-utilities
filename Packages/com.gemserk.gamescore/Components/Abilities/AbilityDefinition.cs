@@ -29,6 +29,8 @@ namespace Game.Components.Abilities
 
         public int maxTargets = 0;
 
+        public float duration = 0;
+
         public Ability Create()
         {
             var ability = new Ability
@@ -42,7 +44,8 @@ namespace Game.Components.Abilities
                 targeting = targeting,
                 currentCharges = charges,
                 totalCharges = charges,
-                maxTargets = maxTargets
+                maxTargets = maxTargets,
+                duration = new Cooldown(duration)
             };
             
             if (startsLoaded)

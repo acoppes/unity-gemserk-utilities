@@ -60,8 +60,18 @@ namespace Game.Components.Abilities
         // public int completedTimes;
 
         public Cooldown cooldown;
+        
+        // optional, to be used as charge attack or similar, like ability is running but doing something before real 
+        // execution.
         public Cooldown startTime;
 
+        public Cooldown duration;
+
+        public bool hasDuration => duration.Total > 0f;
+
+        // we could also have a duration or something like that, to be able to check for autostop, useful for some
+        // abilities that execute for some time.
+        
         public Vector3 center;
         public Vector3 direction;
         
@@ -94,8 +104,9 @@ namespace Game.Components.Abilities
             }
 
             executedTimes++;
-
             executionTime = 0;
+            
+            duration.Reset();
         }
 
         public void Stop(StopType stopType)

@@ -77,6 +77,7 @@ namespace Game.Systems
                     if (ability.isExecuting)
                     {
                         ability.executionTime += dt;
+                        ability.duration.Increase(dt);
                     }
                     
                     if (ability.resetCooldownType == Ability.ResetCooldownType.ResetsIfAnyActionExecuting && abilitiesComponent.hasExecutingAbility)
