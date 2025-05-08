@@ -2,9 +2,6 @@
 using Gemserk.Leopotam.Ecs.Components;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
-using Unity.Collections;
-using UnityEngine;
-using UnityEngine.Jobs;
 
 namespace Game.Systems
 {
