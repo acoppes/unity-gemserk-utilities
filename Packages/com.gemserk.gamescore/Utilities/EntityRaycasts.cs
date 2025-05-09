@@ -66,5 +66,33 @@ namespace Game.Utilities
 
             return entities;
         }
+        
+        public static bool GetFirstEntityFromPhysics2dRaycast(Vector3 position, Vector3 direction, 
+            ContactFilter2D contactFilter2D, float distance, out Entity entity, Func<Entity, bool> filter)
+        {
+            entity = Entity.NullEntity;
+            
+            var raycastHit = DrawPhysics2D.Raycast(position, direction, distance, contactFilter2D.layerMask);
+
+            if (raycastHit.collider)
+            {
+                var entityReference = raycastHit.collider.GetComponentInParent<EntityReference>();
+
+                if (!entityReference || !entityReference.entity)
+                {
+                    return false;
+                }
+
+                if (!filter(entityReference.entity))
+                {
+                    return false;
+                }
+
+                entity = entityReference.entity;
+                return true;
+            }
+            
+            return false;
+        }
     }
 }
