@@ -301,7 +301,9 @@ namespace Game.Utilities
             
             var targetingFilter = runtimeTargetingParameters.filter;
 
-            if (targetingFilter.targetTypes != 0 && !targetingFilter.targetTypes.HasTargetFlag(target.targetType))
+            var targetTypes = targetingFilter.targetTypes;
+            
+            if (targetTypes != 0 && !targetTypes.HasTargetFlag(target.targetType))
             {
                 return false;
             }

@@ -17,7 +17,10 @@ namespace Game.Utilities
         }
 
         public TargetType targetTypes;
+        public Object targetTypeMask;
 
+        // public int TargetTypes => targetTypeMask ? targetTypeMask.GetTargetTypeMask() : (int) targetTypes;
+        
         public CheckDistanceType distanceType;
         public MinMaxFloat range;
 

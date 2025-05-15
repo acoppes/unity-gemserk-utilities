@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using UnityEngine;
@@ -24,7 +25,7 @@ namespace Game.Utilities
     {
         public Entity entity;
 
-        public TargetType targetType;
+        public int targetType;
         public int player;
         
         public int playerBitmask => 1 << player;
@@ -43,12 +44,26 @@ namespace Game.Utilities
 
     public static class TargetExtensions
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 GetEstimatedPosition(this Target target, float duration, float factor = 1.0f)
         {
             return target.position + target.velocity * (duration * factor);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool HasTargetFlag(this TargetType self, TargetType flag)
+        {
+            return (self & flag) == flag;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasTargetFlag(this TargetType self, int flag)
+        {
+            return ((int)self & flag) == flag;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasTargetFlag(int self, int flag)
         {
             return (self & flag) == flag;
         }

@@ -1,4 +1,5 @@
 ﻿using Game.Components;
+using Gemserk.Utilities;
 using MyBox;
 using UnityEngine;
 
@@ -11,9 +12,10 @@ namespace Game.Utilities
     
     public class Targeting : MonoBehaviour, ITargeting
     {
-        public TargetingFilter targeting = new TargetingFilter()
+        [SerializeField]
+        protected TargetingFilter targeting = new TargetingFilter()
         {
-            targetTypes = TargetType.Everything,
+            // targetTypes = TargetType.Everything,
             playerAllianceType = PlayerAllianceType.Enemies,
             aliveType = HealthComponent.AliveType.Alive,
             distanceType = TargetingFilter.CheckDistanceType.Nothing,
@@ -22,7 +24,18 @@ namespace Game.Utilities
             sorter = null
         };
 
-        public TargetingFilter targetingFilter => targeting;
+        public TargetingFilter targetingFilter
+        {
+            get
+            {
+                var filter = targeting;
+                if (filter.targetTypeMask)
+                {
+                    filter.targetTypes = (TargetType) filter.targetTypeMask.GetInterface<ITargetTypeMask>().GetTargetTypeMask();
+                }
+                return filter;
+            }
+        }
 
         private void OnDrawGizmosSelected()
         {
