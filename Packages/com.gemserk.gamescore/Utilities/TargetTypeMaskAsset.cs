@@ -3,11 +3,9 @@ using UnityEngine;
 
 namespace Game.Utilities
 {
-    public class TargetTypeMask : MonoBehaviour, ITargetTypeMask
+    [CreateAssetMenu(menuName = "Gemserk/TargetTypeMaskAsset", fileName = "TargetTypeMaskAsset", order = 0)]
+    public class TargetTypeMaskAsset : ScriptableObject, ITargetTypeMask
     {
-        public bool everything;
-        
-        [Tooltip("This is ignored if everything bool is turned on")]
         public IntTypeAsset[] targetTypes;
 
         private int mask;
@@ -15,11 +13,6 @@ namespace Game.Utilities
 
         public int GetTargetTypeMask()
         {
-            if (everything)
-            {
-                return -1;
-            }
-            
             if (!cached)
             {
                 mask = 0;
