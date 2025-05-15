@@ -24,6 +24,7 @@ namespace Game.Editor
                     EditorGUI.indentLevel++;
                     
                     EditorGUILayout.Toggle("Is Ready", ability.isReady);
+                    // EditorGUILayout.Toggle("Has Targets", ability.hasTargets);
 
                     EditorGUILayout.Toggle("Running", ability.isExecuting);
                     
@@ -195,6 +196,29 @@ namespace Game.Editor
             EditorGUILayout.FloatField("Duration", value.duration);
             EditorGUI.EndDisabledGroup();
             return false;
+        }
+    }
+    
+    sealed class TargetComponentInspector : EcsComponentInspectorTyped<TargetComponent> {
+        public override bool OnGuiTyped (string label, ref TargetComponent targetComponent, EcsEntityDebugView entityView) {
+            
+            if (entityView)
+            {
+                EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
+            }
+            
+            EditorGUI.indentLevel++;
+
+            var target = targetComponent.target;
+            
+            EditorGUILayout.IntField("Player", target.player);
+            EditorGUILayout.IntField("TargetType", target.targetType);
+            EditorGUILayout.EnumPopup("AliveType", target.aliveType);
+            EditorGUILayout.Toggle("Targeted", target.targeted);
+            
+            EditorGUI.indentLevel--;
+            
+            return true;
         }
     }
 }
