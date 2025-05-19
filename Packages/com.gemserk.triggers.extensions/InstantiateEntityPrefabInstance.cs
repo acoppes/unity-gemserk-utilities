@@ -11,7 +11,7 @@ namespace Gemserk.Triggers
 
         public override string GetObjectName()
         {
-            if (entityInstance != null)
+            if (entityInstance)
             {
                 return $"InstantiateEntity({entityInstance.name})";
             }
@@ -20,7 +20,7 @@ namespace Gemserk.Triggers
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
-            if (entityInstance == null)
+            if (!entityInstance)
             {
                 return ITrigger.ExecutionResult.Completed;
             }
