@@ -203,30 +203,30 @@ namespace Game.Components
         
         public List<DamageData> healEffects;
         
-        public event OnEntityEventHandler onDamageEvent;
-        public event OnEntityEventHandler onDeathEvent;
-
-        public void OnDamageEvent(World world, Entity entity)
-        {
-            if (onDamageEvent != null)
-            {
-                onDamageEvent(world, entity);
-            }
-        }
-
-        public void OnDeathEvent(World world, Entity entity)
-        {
-            if (onDeathEvent != null)
-            {
-                onDeathEvent(world, entity);
-            }
-        }
-
-        public void ClearEvents()
-        {
-            onDamageEvent = null;
-            onDeathEvent = null;
-        }
+        // public event OnEntityEventHandler onDamageEvent;
+        // public event OnEntityEventHandler onDeathEvent;
+        //
+        // public void OnDamageEvent(World world, Entity entity)
+        // {
+        //     if (onDamageEvent != null)
+        //     {
+        //         onDamageEvent(world, entity);
+        //     }
+        // }
+        //
+        // public void OnDeathEvent(World world, Entity entity)
+        // {
+        //     if (onDeathEvent != null)
+        //     {
+        //         onDeathEvent(world, entity);
+        //     }
+        // }
+        //
+        // public void ClearEvents()
+        // {
+        //     onDamageEvent = null;
+        //     onDeathEvent = null;
+        // }
     }
 
     public struct HealthDamageNumberComponent : IEntityComponent

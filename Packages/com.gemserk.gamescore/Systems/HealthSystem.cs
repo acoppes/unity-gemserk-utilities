@@ -78,10 +78,10 @@ namespace Game.Systems
                     }
                 }
 
-                if (health.processedDamages.Count > 0)
-                {
-                    health.OnDamageEvent(world, world.GetEntity(entity));
-                }
+                // if (health.processedDamages.Count > 0)
+                // {
+                //     health.OnDamageEvent(world, world.GetEntity(entity));
+                // }
                 
                 health.damages.Clear();
                 health.healEffects.Clear();

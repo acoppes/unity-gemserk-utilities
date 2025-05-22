@@ -23,6 +23,8 @@ namespace Game.Components
         [ConditionalField(nameof(hasDamageNumber))] 
         public float damageNumberAccumulator = 0;
 
+        public bool startsInvulnerable;
+
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new HealthComponent
@@ -35,7 +37,8 @@ namespace Game.Components
                 autoDestroyOnDeath = autoDestroyOnDeath,
                 autoDisableOnDeath = autoDisableOnDeath,
                 healEffects = new List<DamageData>(),
-                timeSinceLastHit = Mathf.Infinity
+                timeSinceLastHit = Mathf.Infinity,
+                invulnerableCount = startsInvulnerable ? 1 : 0
             });
 
             if (hasHealthBar)
