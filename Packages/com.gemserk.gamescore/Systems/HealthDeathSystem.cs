@@ -7,21 +7,21 @@ using Leopotam.EcsLite.Di;
 
 namespace Game.Systems
 {
-    public class HealthDeathSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler
+    public class HealthDeathSystem : BaseSystem, IEcsRunSystem
     {
         readonly EcsFilterInject<Inc<HealthComponent>, Exc<DisabledComponent>> filter = default;
         readonly EcsFilterInject<Inc<HealthComponent, DestroyableComponent>> destroyableFilter = default;
         
         public SignalAsset onEntityDeathSignal;
         
-        public void OnEntityDestroyed(World world, Entity entity)
-        {
-            if (world.HasComponent<HealthComponent>(entity))
-            {
-                ref var healthComponent = ref world.GetComponent<HealthComponent>(entity);
-                healthComponent.ClearEvents();
-            }
-        }
+        // public void OnEntityDestroyed(World world, Entity entity)
+        // {
+        //     if (world.HasComponent<HealthComponent>(entity))
+        //     {
+        //         ref var healthComponent = ref world.GetComponent<HealthComponent>(entity);
+        //         healthComponent.ClearEvents();
+        //     }
+        // }
         
         public void Run(EcsSystems systems)
         {
@@ -33,7 +33,7 @@ namespace Game.Systems
                 if (healthComponent.previousAliveState == HealthComponent.AliveType.Alive &&
                     healthComponent.aliveType == HealthComponent.AliveType.Death)
                 {
-                    healthComponent.OnDeathEvent(world, worldEntity);
+                    // healthComponent.OnDeathEvent(world, worldEntity);
                     
                     if (onEntityDeathSignal != null)
                     {
