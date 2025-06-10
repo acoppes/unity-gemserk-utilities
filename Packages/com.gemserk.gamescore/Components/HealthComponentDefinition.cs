@@ -3,13 +3,15 @@ using Gemserk.Leopotam.Ecs;
 using Gemserk.Utilities;
 using MyBox;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Game.Components
 {
     public class HealthComponentDefinition : ComponentDefinitionBase
     {
         public float health;
-        public float invulnerabilityTime;
+        [FormerlySerializedAs("invulnerabilityTime")] 
+        public float temporaryInvulnerabilityTimeAfterHit;
         public bool autoDestroyOnDeath;
         public bool autoDisableOnDeath;
 
@@ -33,7 +35,7 @@ namespace Game.Components
                 current = health,
                 damages = new List<DamageData>(),
                 processedDamages = new List<DamageData>(),
-                temporaryInvulnerability = new Cooldown(invulnerabilityTime),
+                temporaryInvulnerability = new Cooldown(temporaryInvulnerabilityTimeAfterHit),
                 autoDestroyOnDeath = autoDestroyOnDeath,
                 autoDisableOnDeath = autoDisableOnDeath,
                 healEffects = new List<DamageData>(),
