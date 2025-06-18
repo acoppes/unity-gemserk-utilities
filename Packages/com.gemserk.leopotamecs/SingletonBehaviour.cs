@@ -6,7 +6,7 @@ namespace Gemserk.Leopotam.Ecs
     {
         private static T _instance;
 
-        private static string InstanceName => $"~{typeof(T).Name}";
+        public static string InstanceName => $"~{typeof(T).Name}";
 
         public static T Instance
         {
