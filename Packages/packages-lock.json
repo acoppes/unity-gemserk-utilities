@@ -49,6 +49,12 @@
         "com.gemserk.utilities": "0.0.3"
       }
     },
+    "com.gemserk.datagrids": {
+      "version": "file:com.gemserk.datagrids",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.gemserk.gamescore": {
       "version": "file:com.gemserk.gamescore",
       "depth": 0,
@@ -110,6 +116,12 @@
     },
     "com.gemserk.utilities": {
       "version": "file:com.gemserk.utilities",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.gemserk.vision": {
+      "version": "file:com.gemserk.vision",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}

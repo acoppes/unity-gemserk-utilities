@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Gemserk.Triggers
@@ -59,11 +60,42 @@ namespace Gemserk.Triggers
 
                 if (trigger.State == ITrigger.ExecutionState.Executing)
                 {
-                    var result = trigger.Execute();
-                    if (result == ITrigger.ExecutionResult.Completed || result == ITrigger.ExecutionResult.Interrupt)
+                    try
                     {
-                        trigger.CompleteCurrentExecution();
+                        var result = trigger.Execute();
+                        if (result == ITrigger.ExecutionResult.Completed ||
+                            result == ITrigger.ExecutionResult.Interrupt)
+                        {
+                            trigger.CompleteCurrentExecution();
+                        }
                     }
+                    catch (Exception e)
+                    {
+                        if (trigger is TriggerObject triggerObject)
+                        {
+                            if (triggerObject.trigger.executingAction < triggerObject.trigger.actions.Count)
+                            {
+                                var action = triggerObject.trigger.actions[triggerObject.trigger.executingAction];
+                                if (action is TriggerAction triggerAction)
+                                {
+                                    Debug.LogError(e.Message, triggerAction);
+                                }
+                                else
+                                {
+                                    Debug.LogError(e.Message, triggerObject);
+                                }
+                            }
+                            else
+                            {
+                                Debug.LogError(e.Message, triggerObject);
+                            }
+                        }
+                        else
+                        {
+                            Debug.LogError(e.Message);
+                        }
+                    }
+
                 }
             }
         }
