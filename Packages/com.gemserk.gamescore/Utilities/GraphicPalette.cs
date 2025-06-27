@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Game.Utilities
 {
-    [ExecuteInEditMode]
+    // [ExecuteInEditMode]
     public class GraphicPalette : MonoBehaviour
     {
         private static readonly int PaletteTexturePropertyID = Shader.PropertyToID("_PaletteTex");
@@ -17,8 +17,23 @@ namespace Game.Utilities
         
         private Texture2D palette;
         private Material material;
-
-        public bool updateInRuntime;
+        
+        #if UNITY_EDITOR
+        public bool forceRefresh;
+        #else 
+        private bool forceRefresh = false;
+        #endif
+        
+        private bool refreshLut = false;
+        
+        public void SetColorSet(ColorSet newColorSet)
+        {
+            if (!colorSet || newColorSet != colorSet)
+            {
+                colorSet = newColorSet;
+                refreshLut = true;
+            }
+        }
 
         private void CreateMaterial()
         {
@@ -31,6 +46,11 @@ namespace Game.Utilities
             if (!colorSet)
                 return;
 
+            RegeneratePalette();
+        }
+
+        private void RegeneratePalette()
+        {
             if (palette)
             {
                 DestroyImmediate(palette);
@@ -64,30 +84,12 @@ namespace Game.Utilities
 
         private void Update()
         {
-            if (material)
+            if (refreshLut || forceRefresh)
             {
-                if (updateInRuntime)
-                {
-                    if (palette)
-                    {
-                        DestroyImmediate(palette);
-                        palette = null;
-                    }
-                    
-                    palette = colorSet.CreateLutTexture();
-                    material.SetTexture(PaletteTexturePropertyID, palette);
-                }
-                
+                RegeneratePalette();
                 image.material = material;
+                refreshLut = false;
             }
-            
-            // CreateMaterial();
-            //
-            // if (shader != null && material != null)
-            // {
-            //     material.SetTexture(PaletteTexturePropertyID, palette);
-            //     Graphics.Blit(src, dst, material);
-            // }
         }
     }
 }

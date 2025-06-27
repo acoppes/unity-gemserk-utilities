@@ -20,7 +20,7 @@ namespace Game.Utilities
 
         public void Update()
         {
-            graphicPalette.colorSet = palettes[currentPalette];
+            graphicPalette.SetColorSet(palettes[currentPalette]);
         }
     }
 }
