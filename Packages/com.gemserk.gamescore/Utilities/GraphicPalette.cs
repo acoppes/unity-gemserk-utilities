@@ -24,14 +24,12 @@ namespace Game.Utilities
         private bool forceRefresh = false;
         #endif
         
-        private bool refreshLut = false;
-        
         public void SetColorSet(ColorSet newColorSet)
         {
             if (!colorSet || newColorSet != colorSet)
             {
                 colorSet = newColorSet;
-                refreshLut = true;
+                RegeneratePalette();
             }
         }
 
@@ -39,13 +37,13 @@ namespace Game.Utilities
         {
             if (!shader)
                 return;
-
-            if (material)
-                return;
-
+            
             if (!colorSet)
                 return;
-
+            
+            if (material)
+                return;
+            
             RegeneratePalette();
         }
 
@@ -61,6 +59,8 @@ namespace Game.Utilities
             
             material = new Material(shader);
             material.SetTexture(PaletteTexturePropertyID, palette);
+            
+            image.material = material;
         }
 
         private void DestroyMaterial()
@@ -84,11 +84,9 @@ namespace Game.Utilities
 
         private void Update()
         {
-            if (refreshLut || forceRefresh)
+            if (forceRefresh)
             {
                 RegeneratePalette();
-                image.material = material;
-                refreshLut = false;
             }
         }
     }
