@@ -31,7 +31,7 @@ namespace Game.Screens
 
         private void CacheTextElement()
         {
-            if (legacyText != null || textMeshPro != null)
+            if (legacyText || textMeshPro)
             {
                 return;
             }
@@ -39,7 +39,7 @@ namespace Game.Screens
             legacyText = GetComponent<Text>();
             textMeshPro = GetComponent<TextMeshProUGUI>();
 
-            if (legacyText == null && textMeshPro == null)
+            if (!legacyText && !textMeshPro)
             {
                 throw new Exception("Must have at least one text element");
             }
@@ -49,12 +49,12 @@ namespace Game.Screens
         {
             CacheTextElement();
             
-            if (legacyText != null)
+            if (legacyText)
             {
                 legacyText.text = text.ToString();
             }
 
-            if (textMeshPro != null)
+            if (textMeshPro)
             {
                 textMeshPro.text = text.ToString();
             }
@@ -64,12 +64,12 @@ namespace Game.Screens
         {
             CacheTextElement();
             
-            if (legacyText != null)
+            if (legacyText)
             {
                 return legacyText.text;
             }
 
-            if (textMeshPro != null)
+            if (textMeshPro)
             {
                 return textMeshPro.text;
             }
@@ -89,12 +89,12 @@ namespace Game.Screens
             {
                 CacheTextElement();
                 
-                if (legacyText != null)
+                if (legacyText)
                 {
                     return legacyText.color;
                 }
                 
-                if (textMeshPro != null)
+                if (textMeshPro)
                 {
                     return textMeshPro.color;
                 }
@@ -105,12 +105,12 @@ namespace Game.Screens
             {
                 CacheTextElement();
                 
-                if (legacyText != null)
+                if (legacyText)
                 {
                     legacyText.color = value;
                 }
                 
-                if (textMeshPro != null)
+                if (textMeshPro)
                 {
                     textMeshPro.color = value;
                 }
