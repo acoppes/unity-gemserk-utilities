@@ -12,6 +12,12 @@ namespace Game
             return UnityEngine.Random.Range(0.0f, 1.0f) < 0.5f;
         }
         
+        public static Color RandomColor()
+        {
+            return new Color(UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f),
+                UnityEngine.Random.Range(0.0f, 1.0f), 1f);
+        }
+        
         public static Vector2 RandomVector2(float minLength, float maxLength, float minAngle, float maxAngle)
         {
             return new Vector2(1, 0).Rotate(UnityEngine.Random.Range(minAngle, maxAngle)* Mathf.Deg2Rad) 
