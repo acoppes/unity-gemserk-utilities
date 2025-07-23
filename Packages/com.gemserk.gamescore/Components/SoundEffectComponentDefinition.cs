@@ -1,4 +1,6 @@
-﻿using Gemserk.Leopotam.Ecs;
+﻿using System;
+using System.Collections.Generic;
+using Gemserk.Leopotam.Ecs;
 using MyBox;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -8,6 +10,8 @@ namespace Game.Components
     public struct SoundEffectComponent : IEntityComponent
     {
         public AudioClip clip;
+        public List<AudioClip> clips;
+        
         public GameObject prefab;
         
         public bool autoDestroyOnComplete;
@@ -23,7 +27,11 @@ namespace Game.Components
     
     public class SoundEffectComponentDefinition : ComponentDefinitionBase
     {
+        [Obsolete("Use clip list, keep this while refactoring")]
         public AudioClip clip;
+
+        public List<AudioClip> clips = new List<AudioClip>();
+        
         public GameObject prefab;
         public bool autoDestroyOnComplete;
 
@@ -34,11 +42,12 @@ namespace Game.Components
 
         public override void Apply(World world, Entity entity)
         {
-            Assert.IsFalse(clip != null && prefab != null, "Should set clip or prefab, not both");
+            Assert.IsFalse(clip && prefab, "Should set clip or prefab, not both");
             
             world.AddComponent(entity, new SoundEffectComponent
             {
                 clip = clip,
+                clips = clips,
                 prefab = prefab,
                 autoDestroyOnComplete = autoDestroyOnComplete,
                 volume = volume,
