@@ -9,7 +9,6 @@ namespace Game.Components
 {
     public struct SoundEffectComponent : IEntityComponent
     {
-        public AudioClip clip;
         public List<AudioClip> clips;
         
         public GameObject prefab;
@@ -46,7 +45,6 @@ namespace Game.Components
             
             world.AddComponent(entity, new SoundEffectComponent
             {
-                clip = clip,
                 clips = clips,
                 prefab = prefab,
                 autoDestroyOnComplete = autoDestroyOnComplete,

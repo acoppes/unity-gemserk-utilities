@@ -1,5 +1,6 @@
 ﻿using Game.Components;
 using Gemserk.Leopotam.Ecs;
+using Gemserk.Utilities;
 using Gemserk.Utilities.Pooling;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
@@ -34,13 +35,13 @@ namespace Game.Systems
             {
                 ref var sfxComponent = ref entity.Get<SoundEffectComponent>();
 
-                if (sfxComponent.clip != null)
+                if (sfxComponent.clips != null && sfxComponent.clips.Count > 0)
                 {
                     var prefab = sfxDefaultPrefab;
                     var audioInstance = poolMap.Get(prefab);
                     sfxComponent.source = audioInstance.GetComponent<AudioSource>();
-                    sfxComponent.source.clip = sfxComponent.clip;
-                } else if (sfxComponent.prefab != null)
+                    sfxComponent.source.clip = sfxComponent.clips.Random();
+                } else if (sfxComponent.prefab)
                 {
                     var prefab = sfxComponent.prefab;
                     var audioInstance = poolMap.Get(prefab);
@@ -55,18 +56,17 @@ namespace Game.Systems
             {
                 ref var sfxComponent = ref entity.Get<SoundEffectComponent>();
                 
-                if (sfxComponent.source != null)
+                if (sfxComponent.source)
                 {
-                    if (sfxComponent.clip != null)
+                    if (sfxComponent.clips != null && sfxComponent.clips.Count > 0)
                     {
                         sfxComponent.source.Stop();
                         sfxComponent.source.clip = null;
 
                         poolMap.Release(sfxComponent.source.gameObject);
                         sfxComponent.source = null;
-
                     }
-                    else if (sfxComponent.prefab != null)
+                    else if (sfxComponent.prefab)
                     {
                         sfxComponent.source.Stop();
                         poolMap.Release(sfxComponent.source.gameObject);
@@ -95,7 +95,7 @@ namespace Game.Systems
                 sfxComponent.source.pitch = sfxComponent.pitch;
             }
 
-            if (listener != null)
+            if (listener)
             {
                 var sqrMinDistance = spatialBlendMinDistance * spatialBlendMinDistance;
                 var sqrMaxDistance = spatialBlendMaxDistance * spatialBlendMaxDistance;
