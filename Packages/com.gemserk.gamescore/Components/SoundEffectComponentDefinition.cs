@@ -26,9 +26,6 @@ namespace Game.Components
     
     public class SoundEffectComponentDefinition : ComponentDefinitionBase
     {
-        [Obsolete("Use clip list, keep this while refactoring")]
-        public AudioClip clip;
-
         public List<AudioClip> clips = new List<AudioClip>();
         
         public GameObject prefab;
@@ -41,7 +38,7 @@ namespace Game.Components
 
         public override void Apply(World world, Entity entity)
         {
-            Assert.IsFalse(clip && prefab, "Should set clip or prefab, not both");
+            Assert.IsFalse(clips.Count > 0 && prefab, "Should use clips or prefab, not both");
             
             world.AddComponent(entity, new SoundEffectComponent
             {
