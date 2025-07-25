@@ -34,16 +34,16 @@ namespace Game.Systems
             if (entity.Has<SoundEffectComponent>())
             {
                 ref var sfxComponent = ref entity.Get<SoundEffectComponent>();
-
-                if (sfxComponent.clips != null && sfxComponent.clips.Count > 0)
+                
+                if (!sfxComponent.soundEffect.customSoundEffectPrefab)
                 {
                     var prefab = sfxDefaultPrefab;
                     var audioInstance = poolMap.Get(prefab);
                     sfxComponent.source = audioInstance.GetComponent<AudioSource>();
                     sfxComponent.source.clip = sfxComponent.clips.Random();
-                } else if (sfxComponent.prefab)
+                } else if (sfxComponent.soundEffect.customSoundEffectPrefab)
                 {
-                    var prefab = sfxComponent.prefab;
+                    var prefab = sfxComponent.soundEffect.customSoundEffectPrefab;
                     var audioInstance = poolMap.Get(prefab);
                     sfxComponent.source = audioInstance.GetComponent<AudioSource>();
                 }
@@ -58,7 +58,7 @@ namespace Game.Systems
                 
                 if (sfxComponent.source)
                 {
-                    if (sfxComponent.clips != null && sfxComponent.clips.Count > 0)
+                    if (!sfxComponent.soundEffect.customSoundEffectPrefab)
                     {
                         sfxComponent.source.Stop();
                         sfxComponent.source.clip = null;
@@ -66,7 +66,7 @@ namespace Game.Systems
                         poolMap.Release(sfxComponent.source.gameObject);
                         sfxComponent.source = null;
                     }
-                    else if (sfxComponent.prefab)
+                    else if (sfxComponent.soundEffect.customSoundEffectPrefab)
                     {
                         sfxComponent.source.Stop();
                         poolMap.Release(sfxComponent.source.gameObject);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs;
 using MyBox;
 using UnityEngine;
@@ -11,8 +12,6 @@ namespace Game.Components
         public SoundEffectAsset soundEffect;
         
         public List<AudioClip> clips => soundEffect.clips;
-        
-        public GameObject prefab;
         
         public bool autoDestroyOnComplete;
         public AudioSource source;
@@ -32,24 +31,16 @@ namespace Game.Components
     {
         public SoundEffectAsset soundEffect;
         
-        public List<AudioClip> clips = new List<AudioClip>();
-        
-        public GameObject prefab;
         public bool autoDestroyOnComplete;
-
-        public float volume = 1;
-        public bool loop;
-
-        public MinMaxFloat randomPitch = new MinMaxFloat(1, 1);
 
         public override void Apply(World world, Entity entity)
         {
-            Assert.IsFalse(clips.Count > 0 && prefab, "Should use clips or prefab, not both");
+            Assert.IsTrue(soundEffect, "Need a sound effect asset to work.");
 
             world.AddComponent(entity, new SoundEffectComponent
             {
                 soundEffect = soundEffect,
-                prefab = prefab,
+                // prefab = prefab,
                 autoDestroyOnComplete = autoDestroyOnComplete,
                 volumeMultiplier = 1f,
                 pitch = 1
