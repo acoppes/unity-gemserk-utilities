@@ -10,7 +10,7 @@ namespace Game.Components
     {
         public SoundEffectAsset soundEffect;
         
-        public List<AudioClip> clips;
+        public List<AudioClip> clips => soundEffect.clips;
         
         public GameObject prefab;
         
@@ -18,10 +18,13 @@ namespace Game.Components
         public AudioSource source;
         public bool started;
 
-        public float volume;
-        public bool loop;
+        public float volume => soundEffect.volume * volumeMultiplier;
+        public float volumeMultiplier;
+        
+        public bool loop => soundEffect.loop;
 
-        public MinMaxFloat randomStartPitch;
+        public MinMaxFloat randomStartPitch => soundEffect.randomPitch;
+        
         public float pitch;
     }
     
@@ -46,12 +49,9 @@ namespace Game.Components
             world.AddComponent(entity, new SoundEffectComponent
             {
                 soundEffect = soundEffect,
-                clips = clips,
                 prefab = prefab,
                 autoDestroyOnComplete = autoDestroyOnComplete,
-                volume = volume,
-                loop = loop,
-                randomStartPitch = randomPitch,
+                volumeMultiplier = 1f,
                 pitch = 1
             });
         }
