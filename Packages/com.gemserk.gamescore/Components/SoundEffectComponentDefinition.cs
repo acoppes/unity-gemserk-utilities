@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs;
 using MyBox;
 using UnityEngine;
@@ -9,6 +8,8 @@ namespace Game.Components
 {
     public struct SoundEffectComponent : IEntityComponent
     {
+        public SoundEffectAsset soundEffect;
+        
         public List<AudioClip> clips;
         
         public GameObject prefab;
@@ -26,6 +27,8 @@ namespace Game.Components
     
     public class SoundEffectComponentDefinition : ComponentDefinitionBase
     {
+        public SoundEffectAsset soundEffect;
+        
         public List<AudioClip> clips = new List<AudioClip>();
         
         public GameObject prefab;
@@ -39,9 +42,10 @@ namespace Game.Components
         public override void Apply(World world, Entity entity)
         {
             Assert.IsFalse(clips.Count > 0 && prefab, "Should use clips or prefab, not both");
-            
+
             world.AddComponent(entity, new SoundEffectComponent
             {
+                soundEffect = soundEffect,
                 clips = clips,
                 prefab = prefab,
                 autoDestroyOnComplete = autoDestroyOnComplete,
