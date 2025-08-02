@@ -54,6 +54,7 @@ namespace Game.Systems
                         {
                             // ApplyDamageEffect(effects.target.entity, effects.source, modifiedEffect, position.value);
                             ApplyEffect(effects.factor, effects.target, effects.source, effect, position.value, player.player);
+                            // ApplyEffect(effects.factor, effects.target, effects.source, effect, effects.target.position, player.player);
                         }
                     }
 
@@ -63,6 +64,8 @@ namespace Game.Systems
                         {
                             // ApplyDamageEffect(effects.source, effects.source, modifiedEffect, position.value);
                             ApplyEffect(effects.factor, effects.source.Get<TargetComponent>().target, effects.source, effect, position.value, player.player);
+                            // var target = effects.source.Get<TargetComponent>().target;
+                            // ApplyEffect(effects.factor, target, effects.source, effect, target.position, player.player);
                         }
                     }
 
@@ -152,8 +155,10 @@ namespace Game.Systems
                         effects.factor = Mathf.Clamp01(distSqr / rangeSqr);
                         
                         // damage = Mathf.Lerp(effect.maxValue, effect.minValue, factor);
-                        
-                        effectEntity.Get<PositionComponent>().value = position.value;
+
+                        // Changed to spawn effect over the target instead of using the area effect position.
+                        effectEntity.Get<PositionComponent>().value = target.position;
+                        // effectEntity.Get<PositionComponent>().value = position.value;
                         effectEntity.Get<PlayerComponent>().player = player.player;
                     }
                 }
