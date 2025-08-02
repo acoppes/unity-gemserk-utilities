@@ -35,18 +35,11 @@ namespace Game.Systems
             {
                 ref var sfxComponent = ref entity.Get<SoundEffectComponent>();
                 
-                if (!sfxComponent.soundEffect.customSoundEffectPrefab)
-                {
-                    var prefab = sfxDefaultPrefab;
-                    var audioInstance = poolMap.Get(prefab);
-                    sfxComponent.source = audioInstance.GetComponent<AudioSource>();
-                    sfxComponent.source.clip = sfxComponent.clips.Random();
-                } else if (sfxComponent.soundEffect.customSoundEffectPrefab)
-                {
-                    var prefab = sfxComponent.soundEffect.customSoundEffectPrefab;
-                    var audioInstance = poolMap.Get(prefab);
-                    sfxComponent.source = audioInstance.GetComponent<AudioSource>();
-                }
+                var prefab = sfxDefaultPrefab;
+                var audioInstance = poolMap.Get(prefab);
+                sfxComponent.source = audioInstance.GetComponent<AudioSource>();
+                sfxComponent.source.clip = sfxComponent.clips.Random();
+                sfxComponent.source.outputAudioMixerGroup = sfxComponent.soundEffect.mixerGroup;
             }
         }
 
@@ -58,20 +51,10 @@ namespace Game.Systems
                 
                 if (sfxComponent.source)
                 {
-                    if (!sfxComponent.soundEffect.customSoundEffectPrefab)
-                    {
-                        sfxComponent.source.Stop();
-                        sfxComponent.source.clip = null;
-
-                        poolMap.Release(sfxComponent.source.gameObject);
-                        sfxComponent.source = null;
-                    }
-                    else if (sfxComponent.soundEffect.customSoundEffectPrefab)
-                    {
-                        sfxComponent.source.Stop();
-                        poolMap.Release(sfxComponent.source.gameObject);
-                        sfxComponent.source = null;
-                    }
+                    sfxComponent.source.Stop();
+                    sfxComponent.source.clip = null;
+                    poolMap.Release(sfxComponent.source.gameObject);
+                    sfxComponent.source = null;
                 }
             }
         }

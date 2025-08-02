@@ -13,7 +13,5 @@ namespace Game.Components
         public float volume = 1;
         public bool loop;
         public MinMaxFloat randomPitch = new MinMaxFloat(1, 1);
-        
-        public GameObject customSoundEffectPrefab;
     }
 }
