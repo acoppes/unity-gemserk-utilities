@@ -22,12 +22,28 @@ namespace Game.Screens
             get;
             set;
         }
+
+        string originalText
+        {
+            get;
+        }
     }
     
     public class TextView : MonoBehaviour, ITextView
     {
+        public enum TextCase
+        {
+            Normal,
+            UpperCase,
+            LowerCase
+        }
+
+        public TextCase textCase = TextCase.Normal;
+        
         private Text legacyText;
         private TextMeshProUGUI textMeshPro;
+        
+        public string originalText { get; private set; }
 
         private void CacheTextElement()
         {
@@ -45,18 +61,35 @@ namespace Game.Screens
             }
         }
 
-        public void SetText(object text)
+        private string ProcessCase(string textString)
+        {
+            if (textCase == TextCase.LowerCase)
+            {
+                return textString.ToLowerInvariant();
+            }
+
+            if (textCase == TextCase.UpperCase)
+            {
+                return textString.ToUpperInvariant();
+            }
+
+            return textString;
+        }
+
+        public void SetText(object textString)
         {
             CacheTextElement();
+
+            originalText = textString.ToString();
             
             if (legacyText)
             {
-                legacyText.text = text.ToString();
+                legacyText.text = ProcessCase(originalText);
             }
 
             if (textMeshPro)
             {
-                textMeshPro.text = text.ToString();
+                textMeshPro.text = ProcessCase(originalText);
             }
         }
         
@@ -116,5 +149,7 @@ namespace Game.Screens
                 }
             }
         }
+
+      
     }
 }
