@@ -53,7 +53,7 @@ namespace Game.Systems
                         if (effects.target != null && effects.target.entity.Exists())
                         {
                             // ApplyDamageEffect(effects.target.entity, effects.source, modifiedEffect, position.value);
-                            ApplyEffect(effects.factor, effects.target, effects.source, effect, position.value, player.player);
+                            ApplyEffect(effects.factor, effects.valueMultiplier, effects.target, effects.source, effect, position.value, player.player);
                             // ApplyEffect(effects.factor, effects.target, effects.source, effect, effects.target.position, player.player);
                         }
                     }
@@ -63,7 +63,7 @@ namespace Game.Systems
                         if (effects.source.Exists())
                         {
                             // ApplyDamageEffect(effects.source, effects.source, modifiedEffect, position.value);
-                            ApplyEffect(effects.factor, effects.source.Get<TargetComponent>().target, effects.source, effect, position.value, player.player);
+                            ApplyEffect(effects.factor, effects.valueMultiplier, effects.source.Get<TargetComponent>().target, effects.source, effect, position.value, player.player);
                             // var target = effects.source.Get<TargetComponent>().target;
                             // ApplyEffect(effects.factor, target, effects.source, effect, target.position, player.player);
                         }
@@ -153,6 +153,7 @@ namespace Game.Systems
                         effects.target = target;
                         effects.source = areaEffect.source;
                         effects.factor = Mathf.Clamp01(distSqr / rangeSqr);
+                        effects.valueMultiplier = areaEffect.effectValueMultiplier;
                         
                         // damage = Mathf.Lerp(effect.maxValue, effect.minValue, factor);
 
@@ -188,7 +189,7 @@ namespace Game.Systems
         // }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ApplyEffect(float factor, Target target, Entity source, Effect effect, Vector3 position, int player)
+        public static void ApplyEffect(float factor, float valueMultiplier, Target target, Entity source, Effect effect, Vector3 position, int player)
         {
             var value = 0f;
             
@@ -210,7 +211,7 @@ namespace Game.Systems
                 ref var health = ref target.entity.Get<HealthComponent>();
                 health.damages.Add(new DamageData
                 {
-                    value = value,
+                    value = value * valueMultiplier,
                     position = position,
                     knockback = false,
                     source = source,

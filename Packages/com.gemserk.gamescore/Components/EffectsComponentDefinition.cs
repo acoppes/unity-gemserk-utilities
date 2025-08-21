@@ -43,6 +43,7 @@ namespace Game.Components
         // public float factor;
 
         public float factor;
+        public float valueMultiplier;
         
         public int minDelay;
         public int maxDelay;
@@ -65,7 +66,8 @@ namespace Game.Components
             world.AddComponent(entity, new EffectsComponent()
             {
                 effects = effects,
-                factor = 1,
+                factor = 1f,
+                valueMultiplier = 1f,
                 minDelay = minDelay,
                 maxDelay = maxDelay
             });

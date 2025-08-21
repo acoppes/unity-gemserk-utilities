@@ -12,6 +12,7 @@ namespace Game.Components
         public Entity source;
         public Targeting targeting;
         public List<IEntityDefinition> effectDefinitions;
+        public float effectValueMultiplier;
     }
     
     public class AreaEffectComponentDefinition : ComponentDefinitionBase
@@ -26,6 +27,7 @@ namespace Game.Components
             world.AddComponent(entity, new AreaEffectComponent()
             {
                 targeting = targeting,
+                effectValueMultiplier = 1f,
                 effectDefinitions = effectDefinitions.Select(e => e.GetInterface<IEntityDefinition>()).ToList()
             });
         }
