@@ -2,15 +2,24 @@
 using System.Collections.Generic;
 using Game.Utilities;
 using Gemserk.Leopotam.Ecs;
+using Gemserk.Utilities;
+using UnityEngine;
 
 namespace Game.Components
 {
+    public interface ICustomEffect
+    {
+        void ApplyEffect(float factor, float calculatedValue, float valueMultiplier, Target target, Entity source, Effect effect, Vector3 position,
+            int player);
+    }
+    
     [Serializable]
     public struct Effect
     {
         public enum EffectType
         {
-            Damage = 0
+            Damage = 0,
+            Custom = 1
         }
 
         public enum ValueCalculationType
@@ -33,6 +42,10 @@ namespace Game.Components
         public ValueCalculationType valueCalculationType;
         
         public TargetType targetType;
+        
+        [ObjectType(typeof(ICustomEffect), assetReferencesOnWhenStart = true, disableAssetReferences = false, 
+            disablePrefabReferences = true, disableSceneReferences = true)]
+        public UnityEngine.Object customEffect;
     }
     
     public struct EffectsComponent : IEntityComponent

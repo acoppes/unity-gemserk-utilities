@@ -4,6 +4,7 @@ using Game.Components;
 using Game.Utilities;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Leopotam.Ecs.Components;
+using Gemserk.Utilities;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
@@ -217,6 +218,10 @@ namespace Game.Systems
                     source = source,
                     player = player
                 });
+            } else  if (effect.type == Effect.EffectType.Custom && effect.customEffect != null)
+            {
+                var customEffect = effect.customEffect.GetInterface<ICustomEffect>();
+                customEffect.ApplyEffect(factor, value, valueMultiplier, target, source, effect, position, player);
             }
         }
     }
