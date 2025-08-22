@@ -9,8 +9,7 @@ namespace Game.Components
 {
     public interface ICustomEffect
     {
-        void ApplyEffect(float factor, float calculatedValue, float valueMultiplier, Target target, Entity source, Effect effect, Vector3 position,
-            int player);
+        void ApplyEffect(float calculatedValue, EffectsComponent effects, Target target, Entity source, Effect effect);
     }
     
     [Serializable]
@@ -65,6 +64,10 @@ namespace Game.Components
         public bool hasDelaySet;
 
         public int currentFrame;
+
+        public Vector3 position;
+        public Vector3 direction;
+        public int player;
     }
     
     public class EffectsComponentDefinition : ComponentDefinitionBase

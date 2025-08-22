@@ -14,7 +14,11 @@ namespace Game.Systems
 {
     public class EffectSystem : BaseSystem, IEcsRunSystem
     {
-        readonly EcsFilterInject<Inc<EffectsComponent, PositionComponent, PlayerComponent>, Exc<DisabledComponent>> effectsFilter = default;
+        readonly EcsFilterInject<Inc<EffectsComponent, PositionComponent>, Exc<DisabledComponent>> effectsPositionFilter = default;
+        readonly EcsFilterInject<Inc<EffectsComponent, LookingDirection>, Exc<DisabledComponent>> effectsDirectionFilter = default;
+        readonly EcsFilterInject<Inc<EffectsComponent, PlayerComponent>, Exc<DisabledComponent>> effectsPlayerFilter = default;
+        
+        readonly EcsFilterInject<Inc<EffectsComponent>, Exc<DisabledComponent>> effectsFilter = default;
         readonly EcsFilterInject<Inc<EffectsComponent, DestroyableComponent>, Exc<DisabledComponent>> destroyableEffectsFilter = default;
         
         readonly EcsFilterInject<Inc<AreaEffectComponent, PositionComponent, PlayerComponent>, Exc<DisabledComponent>> areaEffects = default;
@@ -24,12 +28,33 @@ namespace Game.Systems
         
         public void Run(EcsSystems systems)
         {
+            foreach (var e in effectsPositionFilter.Value)
+            {
+                ref var effects = ref effectsPositionFilter.Pools.Inc1.Get(e);
+                var position = effectsPositionFilter.Pools.Inc2.Get(e);
+                effects.position = position.value;
+            }
+            
+            foreach (var e in effectsDirectionFilter.Value)
+            {
+                ref var effects = ref effectsDirectionFilter.Pools.Inc1.Get(e);
+                var direction = effectsDirectionFilter.Pools.Inc2.Get(e);
+                effects.direction = direction.value;
+            }
+            
+            // TODO: maybe for effects without direction autocalculate it based on direction from source to target.
+            
+            foreach (var e in effectsPlayerFilter.Value)
+            {
+                ref var effects = ref effectsPlayerFilter.Pools.Inc1.Get(e);
+                var player = effectsPlayerFilter.Pools.Inc2.Get(e);
+                effects.player = player.player;
+            }
+
             foreach (var e in effectsFilter.Value)
             {
                 // var cursor = ref cursorInputFilter.Pools.Inc1.Get(e);
                 ref var effects = ref effectsFilter.Pools.Inc1.Get(e);
-                var position = effectsFilter.Pools.Inc2.Get(e);
-                var player = effectsFilter.Pools.Inc3.Get(e);
 
                 if (!effects.hasDelaySet && effects.maxDelay > 0 && effects.minDelay >= 0)
                 {
@@ -54,7 +79,9 @@ namespace Game.Systems
                         if (effects.target != null && effects.target.entity.Exists())
                         {
                             // ApplyDamageEffect(effects.target.entity, effects.source, modifiedEffect, position.value);
-                            ApplyEffect(effects.factor, effects.valueMultiplier, effects.target, effects.source, effect, position.value, player.player);
+                            // ApplyEffect(effects.factor, effects.valueMultiplier, effects.target, effects.source, effect, effects.position, effects.player);
+                            ApplyEffect(effects, effects.target, effects.source, effect);
+
                             // ApplyEffect(effects.factor, effects.target, effects.source, effect, effects.target.position, player.player);
                         }
                     }
@@ -64,7 +91,8 @@ namespace Game.Systems
                         if (effects.source.Exists())
                         {
                             // ApplyDamageEffect(effects.source, effects.source, modifiedEffect, position.value);
-                            ApplyEffect(effects.factor, effects.valueMultiplier, effects.source.Get<TargetComponent>().target, effects.source, effect, position.value, player.player);
+                            // ApplyEffect(effects.factor, effects.valueMultiplier, effects.source.Get<TargetComponent>().target, effects.source, effect, effects.position, effects.player);
+                            ApplyEffect(effects, effects.source.Get<TargetComponent>().target, effects.source, effect);
                             // var target = effects.source.Get<TargetComponent>().target;
                             // ApplyEffect(effects.factor, target, effects.source, effect, target.position, player.player);
                         }
@@ -190,9 +218,14 @@ namespace Game.Systems
         // }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ApplyEffect(float factor, float valueMultiplier, Target target, Entity source, Effect effect, Vector3 position, int player)
+        // public static void ApplyEffect(float factor, float valueMultiplier, Target target, Entity source, Effect effect, Vector3 position, int player)
+        public static void ApplyEffect(EffectsComponent effects, Target target, Entity source, Effect effect)
         {
             var value = 0f;
+            var factor = effects.factor;
+            var valueMultiplier = effects.valueMultiplier;
+            var position = effects.position;
+            var player = effects.player;
             
             if (effect.valueCalculationType == Effect.ValueCalculationType.BasedOnFactor && factor > 0)
             {
@@ -221,7 +254,7 @@ namespace Game.Systems
             } else  if (effect.type == Effect.EffectType.Custom && effect.customEffect != null)
             {
                 var customEffect = effect.customEffect.GetInterface<ICustomEffect>();
-                customEffect.ApplyEffect(factor, value, valueMultiplier, target, source, effect, position, player);
+                customEffect.ApplyEffect(value, effects, target, source, effect);
             }
         }
     }
