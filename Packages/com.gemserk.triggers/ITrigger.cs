@@ -34,6 +34,11 @@ namespace Gemserk.Triggers
             bool Disabled { get; }
             bool Evaluate(object activator = null);
         }
+
+        public interface IActionIteration
+        {
+            void Break();
+        }
         
         public ExecutionState State { get; }
 
