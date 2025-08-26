@@ -3,6 +3,7 @@ using Gemserk.Utilities;
 
 namespace Gemserk.Triggers
 {
+    [TriggerEditor("Actions Group")]
     public class TriggerActionGroup : TriggerAction
     {
         public string groupName;
