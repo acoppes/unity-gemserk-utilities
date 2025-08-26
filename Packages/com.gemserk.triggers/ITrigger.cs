@@ -4,10 +4,10 @@ namespace Gemserk.Triggers
     {
         public enum ExecutionState
         {
-            Waiting,
-            PendingExecution,
-            Executing,
-            Completed
+            Waiting = 0,
+            PendingExecution = 1,
+            Executing = 2,
+            Completed = 3
         }
         
         public enum ExecutionResult
