@@ -42,8 +42,9 @@ namespace Game.Components
         
         public TargetType targetType;
         
-        [ObjectType(typeof(ICustomEffect), assetReferencesOnWhenStart = true, disableAssetReferences = false, 
-            disablePrefabReferences = true, disableSceneReferences = true)]
+        [ObjectType(typeof(ICustomEffect), assetReferencesOnWhenStart = false, disableAssetReferences = false, 
+            disablePrefabReferences = false, prefabReferencesOnWhenStart = true, 
+            disableSceneReferences = true, filterString = "Effect")]
         public UnityEngine.Object customEffect;
     }
     
