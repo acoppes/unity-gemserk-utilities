@@ -78,21 +78,21 @@ namespace Gemserk.Triggers
                                 var action = triggerObject.trigger.actions[triggerObject.trigger.executingAction];
                                 if (action is TriggerAction triggerAction)
                                 {
-                                    Debug.LogError(e.Message, triggerAction);
+                                    Debug.LogException(e, triggerAction);
                                 }
                                 else
                                 {
-                                    Debug.LogError(e.Message, triggerObject);
+                                    Debug.LogException(e, triggerObject);
                                 }
                             }
                             else
                             {
-                                Debug.LogError(e.Message, triggerObject);
+                                Debug.LogException(e, triggerObject);
                             }
                         }
                         else
                         {
-                            Debug.LogError(e.Message);
+                            Debug.LogException(e);
                         }
                     }
 
