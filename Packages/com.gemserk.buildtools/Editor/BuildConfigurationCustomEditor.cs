@@ -97,6 +97,17 @@ namespace Gemserk.BuildTools.Editor
                 }
             }
             EditorGUILayout.EndHorizontal();
+            
+            if (GUILayout.Button(new GUIContent("Build & Run", null, "Loads config and build game.")))
+            {
+                if (EditorUtility.DisplayDialog("Warning", "Build and run?", "Ok", "Cancel"))
+                {
+                    buildConfiguration.Load();
+                    var buildPlayerOptions =
+                        BuildPlayerWindow.DefaultBuildMethods.GetBuildPlayerOptions(new BuildPlayerOptions());
+                    BuildPipeline.BuildPlayer(buildPlayerOptions);
+                }
+            }
         }
     }
 }
