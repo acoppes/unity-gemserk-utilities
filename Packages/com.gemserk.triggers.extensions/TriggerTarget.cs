@@ -42,7 +42,7 @@ namespace Gemserk.Triggers
             Query = 2
         }
         
-        public QuerySourceType sourceType = QuerySourceType.Identifier;
+        public QuerySourceType sourceType = QuerySourceType.Query;
 
         [ConditionalField(nameof(sourceType), false, QuerySourceType.Query)]
         [ObjectType(typeof(Query), disableAssetReferences = true, prefabReferencesOnWhenStart = false)]
