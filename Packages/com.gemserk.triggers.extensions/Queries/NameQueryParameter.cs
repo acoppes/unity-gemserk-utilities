@@ -1,12 +1,13 @@
 ﻿using System;
 using Gemserk.Leopotam.Ecs;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 
 namespace Gemserk.Triggers.Queries
 {
-    public struct NameParameter : IQueryParameter
+    public readonly struct NameParameter : IQueryParameter
     {
-        public string name;
+        private readonly string name;
 
         public NameParameter(string name)
         {
@@ -27,18 +28,19 @@ namespace Gemserk.Triggers.Queries
     
     public class NameQueryParameter : QueryParameterBase
     {
-        public string name;
+        [FormerlySerializedAs("name")]
+        public string objectName;
         
         public override bool MatchQuery(Entity entity)
         {
-            Assert.IsFalse(string.IsNullOrEmpty(name), 
+            Assert.IsFalse(string.IsNullOrEmpty(objectName), 
                 "Cant filter without name");
-            return new NameParameter(name).MatchQuery(entity);
+            return new NameParameter(objectName).MatchQuery(entity);
         }
 
         public override string ToString()
         {
-            return $"name:{name}";
+            return $"name:{objectName}";
         }
     }
 }
