@@ -75,7 +75,7 @@
       "url": "https://package.openupm.com"
     },
     "com.gemserk.selectionhistory": {
-      "version": "1.5.5",
+      "version": "1.5.8",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -278,7 +278,7 @@
       "dependencies": {}
     },
     "com.unity.ide.rider": {
-      "version": "3.0.36",
+      "version": "3.0.38",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -375,18 +375,6 @@
       "dependencies": {
         "com.unity.test-framework": "1.1.33",
         "com.unity.modules.jsonserialize": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.timeline": {
-      "version": "1.8.9",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.modules.audio": "1.0.0",
-        "com.unity.modules.director": "1.0.0",
-        "com.unity.modules.animation": "1.0.0",
-        "com.unity.modules.particlesystem": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },

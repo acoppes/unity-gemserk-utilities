@@ -6,6 +6,7 @@ namespace Gemserk.Triggers
     public class TriggerEditorAttribute : Attribute
     {
         public string editorName;
+        public string tooltip;
 
         public TriggerEditorAttribute(string editorName)
         {

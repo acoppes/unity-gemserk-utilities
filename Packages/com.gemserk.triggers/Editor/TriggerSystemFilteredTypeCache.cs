@@ -69,6 +69,7 @@ namespace Gemserk.Triggers.Editor
                 }
 
                 var buttonName = type.Name;
+                var tooltip = string.Empty;
                 
                 var attributes = type.GetCustomAttributes(typeof(TriggerEditorAttribute)).ToList();
 
@@ -76,6 +77,7 @@ namespace Gemserk.Triggers.Editor
                 {
                     var editorAttribute = attributes[0] as TriggerEditorAttribute;
                     buttonName = editorAttribute.editorName;
+                    tooltip = editorAttribute.tooltip;
                 }
                 else
                 {
@@ -87,7 +89,8 @@ namespace Gemserk.Triggers.Editor
                 var typeInfo = new TypeInfo
                 {
                     visualName = buttonName,
-                    type = type
+                    type = type,
+                    tooltip = tooltip
                 };
                 infos.Add(typeInfo);
             }
@@ -102,6 +105,7 @@ namespace Gemserk.Triggers.Editor
         {
             public string visualName;
             public Type type;
+            public string tooltip;
         }
     }
 }

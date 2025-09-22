@@ -1,7 +1,7 @@
 using Gemserk.Triggers;
 using UnityEngine;
 
-[TriggerEditor("MyAction()")]
+[TriggerEditor("MyAction()", tooltip = "This action has a tooltip example.")]
 public class MyTriggerAction : TriggerAction
 {
     public float value1;

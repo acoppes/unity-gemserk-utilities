@@ -309,7 +309,15 @@ namespace Gemserk.Triggers.Editor
                 }
 
                 // Create a button with the label
-                if (GUILayout.Button(typeInfo.visualName, GUILayout.Width(buttonWidth)))
+
+                var buttonContent = new GUIContent(typeInfo.visualName);
+
+                if (!string.IsNullOrEmpty(typeInfo.tooltip))
+                {
+                    buttonContent.tooltip = typeInfo.tooltip;
+                }
+                
+                if (GUILayout.Button(buttonContent, GUILayout.Width(buttonWidth)))
                 {
                     Undo.IncrementCurrentGroup();
                     var newActionObject = new GameObject(typeInfo.visualName);
