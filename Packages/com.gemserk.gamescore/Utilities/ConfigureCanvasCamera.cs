@@ -1,5 +1,6 @@
 ﻿using MyBox;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Game.Utilities
 {
@@ -22,9 +23,15 @@ namespace Game.Utilities
         public void Start()
         {
             var cameraObject = GameObject.FindWithTag(cameraTag);
-            if (cameraObject != null)
+            if (cameraObject)
             {
                 canvas.worldCamera = cameraObject.GetComponent<Camera>();
+                var raycaster = GetComponent<BaseRaycaster>();
+                if (raycaster)
+                {
+                    raycaster.enabled = false;
+                    raycaster.enabled = true;
+                }
             }
         }
     }
