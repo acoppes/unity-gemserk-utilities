@@ -1,25 +1,28 @@
 ﻿using System.Linq;
 using Gemserk.Leopotam.Ecs;
+using UnityEngine.Serialization;
 
 namespace Game.Components
 {
     public struct DamageEffectsComponent : IEntityComponent
     {
-        public VfxComponentData[] onDamageEffects;
-        public VfxComponentData[] onDeathEffects;
+        public SpawnData[] onDamageSpawns;
+        public SpawnData[] onDeathSpawns;
     }
     
     public class DamageEffectsComponentDefinition : ComponentDefinitionBase
     {
-        public VfxComponentDataDefinition[] onDamageEffects;
-        public VfxComponentDataDefinition[] onDeathEffects;
+        [FormerlySerializedAs("onDamageEffects")] 
+        public SpawnDataDefinition[] onDamageSpawns;
+        [FormerlySerializedAs("onDeathEffects")] 
+        public SpawnDataDefinition[] onDeathSpawns;
 
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new DamageEffectsComponent()
             {
-                onDamageEffects = onDamageEffects.Select(v => v.ToData()).ToArray(),
-                onDeathEffects = onDeathEffects.Select(v => v.ToData()).ToArray(),
+                onDamageSpawns = onDamageSpawns.Select(v => v.ToData()).ToArray(),
+                onDeathSpawns = onDeathSpawns.Select(v => v.ToData()).ToArray(),
             });
         }
     }

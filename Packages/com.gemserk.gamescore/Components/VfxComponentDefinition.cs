@@ -1,68 +1,7 @@
-﻿using System;
-using Gemserk.Leopotam.Ecs;
-using Gemserk.Utilities;
-using MyBox;
-using UnityEngine;
-using Object = UnityEngine.Object;
+﻿using Gemserk.Leopotam.Ecs;
 
 namespace Game.Components
 {
-    [Serializable]
-    public class VfxComponentDataDefinition
-    {
-        public VfxComponentData.PositionType positionType;
-        public VfxComponentData.RandomOffsetType randomOffsetType = VfxComponentData.RandomOffsetType.None;
-        
-        // TODO: attachpoints here could be an asset to identify in all the places the same one
-        [ConditionalField(nameof(positionType), false, VfxComponentData.PositionType.AttachPoint)]
-        public string attachPoint;
-
-        [ConditionalField(nameof(randomOffsetType), false, VfxComponentData.RandomOffsetType.PlaneXZ)]
-        public float range;
-        
-        [ObjectType(typeof(IEntityDefinition), filterString = "Definition", assetReferencesOnWhenStart = false, prefabReferencesOnWhenStart = true)]
-        public Object definition;
-
-        public bool disabled;
-        
-        public VfxComponentData ToData()
-        {
-            return new VfxComponentData()
-            {
-                positionType = positionType,
-                definition = definition.GetInterface<IEntityDefinition>(),
-                attachPoint = attachPoint,
-                randomOffsetType = randomOffsetType,
-                range = range,
-                disabled = disabled
-            };
-        }   
-    }
-
-    public struct VfxComponentData
-    {
-        public enum PositionType
-        {
-            Ground = 0,
-            AttachPoint = 1,
-            Center = 2
-        }
-        
-        public enum RandomOffsetType
-        {
-            None = 0,
-            PlaneXZ = 1,
-        }
-
-        public bool disabled;
-        public PositionType positionType;
-        public RandomOffsetType randomOffsetType;
-        public string attachPoint;
-        public Vector3 position;
-        public float range;
-        public IEntityDefinition definition;
-    }
-    
     public struct VfxComponent : IEntityComponent
     {
         // public enum FollowType

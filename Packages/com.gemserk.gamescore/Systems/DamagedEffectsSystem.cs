@@ -21,14 +21,14 @@ namespace Game.Systems
                 ref var damageEffects = ref preFilter.Pools.Inc1.Get(e);
                 var position = preFilter.Pools.Inc2.Get(e);
                 
-                for (var i = 0; i < damageEffects.onDamageEffects.Length; i++)
+                for (var i = 0; i < damageEffects.onDamageSpawns.Length; i++)
                 {
-                    damageEffects.onDamageEffects[i].position = position.value;
+                    damageEffects.onDamageSpawns[i].position = position.value;
                 }
                 
-                for (var i = 0; i < damageEffects.onDeathEffects.Length; i++)
+                for (var i = 0; i < damageEffects.onDeathSpawns.Length; i++)
                 {
-                    damageEffects.onDeathEffects[i].position = position.value;
+                    damageEffects.onDeathSpawns[i].position = position.value;
                 }
             }
 
@@ -43,50 +43,50 @@ namespace Game.Systems
                 {
                     // TODO: only update on spawn, or maybe delegate to vfx instance
 
-                    for (var i = 0; i < damageEffects.onDamageEffects.Length; i++)
+                    for (var i = 0; i < damageEffects.onDamageSpawns.Length; i++)
                     {
-                        var effectData = damageEffects.onDamageEffects[i];
+                        var spawnData = damageEffects.onDamageSpawns[i];
                     
-                        if (effectData.positionType == VfxComponentData.PositionType.Ground)
+                        if (spawnData.positionType == SpawnData.PositionType.Ground)
                         {
-                            effectData.position = position.value.SetY(0);
-                        } else if (effectData.positionType == VfxComponentData.PositionType.Center)
+                            spawnData.position = position.value.SetY(0);
+                        } else if (spawnData.positionType == SpawnData.PositionType.Center)
                         {
-                            effectData.position = position.value;
+                            spawnData.position = position.value;
                         }
-                        else if (effectData.positionType == VfxComponentData.PositionType.AttachPoint)
+                        else if (spawnData.positionType == SpawnData.PositionType.AttachPoint)
                         {
-                            if (attachPoints.attachPoints.TryGetValue(effectData.attachPoint, out var attachPoint))
+                            if (attachPoints.attachPoints.TryGetValue(spawnData.attachPoint, out var attachPoint))
                             {
-                                effectData.position = attachPoint.position;
+                                spawnData.position = attachPoint.position;
                             }
                         }
 
-                        damageEffects.onDamageEffects[i] = effectData;
+                        damageEffects.onDamageSpawns[i] = spawnData;
                     }
                 }
                 
                 if (health.wasKilledLastFrame)
                 {
-                    for (var i = 0; i < damageEffects.onDeathEffects.Length; i++)
+                    for (var i = 0; i < damageEffects.onDeathSpawns.Length; i++)
                     {
-                        var effectData = damageEffects.onDeathEffects[i];
+                        var spawnData = damageEffects.onDeathSpawns[i];
                     
-                        if (effectData.positionType == VfxComponentData.PositionType.Ground)
+                        if (spawnData.positionType == SpawnData.PositionType.Ground)
                         {
-                            effectData.position = position.value.SetY(0);
-                        } else if (effectData.positionType == VfxComponentData.PositionType.Center)
+                            spawnData.position = position.value.SetY(0);
+                        } else if (spawnData.positionType == SpawnData.PositionType.Center)
                         {
-                            effectData.position = position.value;
-                        } else if (effectData.positionType == VfxComponentData.PositionType.AttachPoint)
+                            spawnData.position = position.value;
+                        } else if (spawnData.positionType == SpawnData.PositionType.AttachPoint)
                         {
-                            if (attachPoints.attachPoints.TryGetValue(effectData.attachPoint, out var attachPoint))
+                            if (attachPoints.attachPoints.TryGetValue(spawnData.attachPoint, out var attachPoint))
                             {
-                                effectData.position = attachPoint.position;
+                                spawnData.position = attachPoint.position;
                             }
                         }
 
-                        damageEffects.onDeathEffects[i] = effectData;
+                        damageEffects.onDeathSpawns[i] = spawnData;
                     }
                 }
 
@@ -107,29 +107,29 @@ namespace Game.Systems
                     // it spawns a generic damage effect given a damage
                     // in the future could check for damage type
                 
-                    for (var i = 0; i < damageEffects.onDamageEffects.Length; i++)
+                    for (var i = 0; i < damageEffects.onDamageSpawns.Length; i++)
                     {
-                        var effectData = damageEffects.onDamageEffects[i];
+                        var spawnData = damageEffects.onDamageSpawns[i];
 
-                        if (effectData.disabled)
+                        if (spawnData.disabled)
                         {
                             continue;
                         }
 
                         var offset = Vector3.zero;
 
-                        if (effectData.randomOffsetType == VfxComponentData.RandomOffsetType.PlaneXZ)
+                        if (spawnData.randomOffsetType == SpawnData.RandomOffsetType.PlaneXZ)
                         {
-                            var random = UnityEngine.Random.insideUnitCircle * effectData.range;
+                            var random = UnityEngine.Random.insideUnitCircle * spawnData.range;
                             offset = new Vector3(random.x, 0, random.y);
                         }
                     
-                        var effectEntity = world.CreateEntity(effectData.definition);
-                        effectEntity.Get<PositionComponent>().value = effectData.position + offset;
+                        var spawnedEntity = world.CreateEntity(spawnData.definition);
+                        spawnedEntity.Get<PositionComponent>().value = spawnData.position + offset;
 
-                        if (entity.Has<PlayerComponent>() && effectEntity.Has<PlayerComponent>())
+                        if (entity.Has<PlayerComponent>() && spawnedEntity.Has<PlayerComponent>())
                         {
-                            effectEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
+                            spawnedEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
                         }
                     }
                 }
@@ -137,29 +137,29 @@ namespace Game.Systems
                 // in the case of changing alive state, dont require to jave processed damages to consider effect
                 if (health.wasKilledLastFrame)
                 {
-                    for (var i = 0; i < damageEffects.onDeathEffects.Length; i++)
+                    for (var i = 0; i < damageEffects.onDeathSpawns.Length; i++)
                     {
-                        var effectData = damageEffects.onDeathEffects[i];
+                        var spawnData = damageEffects.onDeathSpawns[i];
                         
-                        if (effectData.disabled)
+                        if (spawnData.disabled)
                         {
                             continue;
                         }
                         
                         var offset = Vector3.zero;
 
-                        if (effectData.randomOffsetType == VfxComponentData.RandomOffsetType.PlaneXZ)
+                        if (spawnData.randomOffsetType == SpawnData.RandomOffsetType.PlaneXZ)
                         {
-                            var random = UnityEngine.Random.insideUnitCircle * effectData.range;
+                            var random = UnityEngine.Random.insideUnitCircle * spawnData.range;
                             offset = new Vector3(random.x, 0, random.y);
                         }
                     
-                        var effectEntity = world.CreateEntity(effectData.definition);
-                        effectEntity.Get<PositionComponent>().value = effectData.position + offset;
+                        var spawnedEntity = world.CreateEntity(spawnData.definition);
+                        spawnedEntity.Get<PositionComponent>().value = spawnData.position + offset;
                         
-                        if (entity.Has<PlayerComponent>() && effectEntity.Has<PlayerComponent>())
+                        if (entity.Has<PlayerComponent>() && spawnedEntity.Has<PlayerComponent>())
                         {
-                            effectEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
+                            spawnedEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
                         }
                     }
                 }
