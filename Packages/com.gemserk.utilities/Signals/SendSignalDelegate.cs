@@ -3,7 +3,7 @@
 namespace Gemserk.Utilities.Signals
 {
     // this class is used to connect buttons, unity events or animator to send a signal
-    public class SendSignalObject : MonoBehaviour
+    public class SendSignalDelegate : MonoBehaviour
     {
         public SignalAsset signalAsset;
 

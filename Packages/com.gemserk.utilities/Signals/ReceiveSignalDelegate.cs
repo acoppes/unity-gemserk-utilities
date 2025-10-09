@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace Gemserk.Utilities.Signals
 {
-    public class ReceiveSignalDelegateObject : MonoBehaviour
+    public class ReceiveSignalDelegate : MonoBehaviour
     {
         public SignalAsset signalAsset;
 
