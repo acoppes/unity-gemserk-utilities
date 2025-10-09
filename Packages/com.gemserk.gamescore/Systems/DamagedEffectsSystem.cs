@@ -45,24 +45,24 @@ namespace Game.Systems
 
                     for (var i = 0; i < damageEffects.onDamageEffects.Length; i++)
                     {
-                        var vfxData = damageEffects.onDamageEffects[i];
+                        var effectData = damageEffects.onDamageEffects[i];
                     
-                        if (vfxData.positionType == VfxComponentData.PositionType.Ground)
+                        if (effectData.positionType == VfxComponentData.PositionType.Ground)
                         {
-                            vfxData.position = position.value.SetY(0);
-                        } else if (vfxData.positionType == VfxComponentData.PositionType.Center)
+                            effectData.position = position.value.SetY(0);
+                        } else if (effectData.positionType == VfxComponentData.PositionType.Center)
                         {
-                            vfxData.position = position.value;
+                            effectData.position = position.value;
                         }
-                        else if (vfxData.positionType == VfxComponentData.PositionType.AttachPoint)
+                        else if (effectData.positionType == VfxComponentData.PositionType.AttachPoint)
                         {
-                            if (attachPoints.attachPoints.TryGetValue(vfxData.attachPoint, out var attachPoint))
+                            if (attachPoints.attachPoints.TryGetValue(effectData.attachPoint, out var attachPoint))
                             {
-                                vfxData.position = attachPoint.position;
+                                effectData.position = attachPoint.position;
                             }
                         }
 
-                        damageEffects.onDamageEffects[i] = vfxData;
+                        damageEffects.onDamageEffects[i] = effectData;
                     }
                 }
                 
@@ -70,23 +70,23 @@ namespace Game.Systems
                 {
                     for (var i = 0; i < damageEffects.onDeathEffects.Length; i++)
                     {
-                        var vfxData = damageEffects.onDeathEffects[i];
+                        var effectData = damageEffects.onDeathEffects[i];
                     
-                        if (vfxData.positionType == VfxComponentData.PositionType.Ground)
+                        if (effectData.positionType == VfxComponentData.PositionType.Ground)
                         {
-                            vfxData.position = position.value.SetY(0);
-                        } else if (vfxData.positionType == VfxComponentData.PositionType.Center)
+                            effectData.position = position.value.SetY(0);
+                        } else if (effectData.positionType == VfxComponentData.PositionType.Center)
                         {
-                            vfxData.position = position.value;
-                        } else if (vfxData.positionType == VfxComponentData.PositionType.AttachPoint)
+                            effectData.position = position.value;
+                        } else if (effectData.positionType == VfxComponentData.PositionType.AttachPoint)
                         {
-                            if (attachPoints.attachPoints.TryGetValue(vfxData.attachPoint, out var attachPoint))
+                            if (attachPoints.attachPoints.TryGetValue(effectData.attachPoint, out var attachPoint))
                             {
-                                vfxData.position = attachPoint.position;
+                                effectData.position = attachPoint.position;
                             }
                         }
 
-                        damageEffects.onDeathEffects[i] = vfxData;
+                        damageEffects.onDeathEffects[i] = effectData;
                     }
                 }
 
@@ -109,22 +109,22 @@ namespace Game.Systems
                 
                     for (var i = 0; i < damageEffects.onDamageEffects.Length; i++)
                     {
-                        var vfxData = damageEffects.onDamageEffects[i];
+                        var effectData = damageEffects.onDamageEffects[i];
 
                         var offset = Vector3.zero;
 
-                        if (vfxData.randomOffsetType == VfxComponentData.RandomOffsetType.PlaneXZ)
+                        if (effectData.randomOffsetType == VfxComponentData.RandomOffsetType.PlaneXZ)
                         {
-                            var random = UnityEngine.Random.insideUnitCircle * vfxData.range;
+                            var random = UnityEngine.Random.insideUnitCircle * effectData.range;
                             offset = new Vector3(random.x, 0, random.y);
                         }
                     
-                        var vfxEntity = world.CreateEntity(vfxData.definition);
-                        vfxEntity.Get<PositionComponent>().value = vfxData.position + offset;
+                        var effectEntity = world.CreateEntity(effectData.definition);
+                        effectEntity.Get<PositionComponent>().value = effectData.position + offset;
 
-                        if (entity.Has<PlayerComponent>() && vfxEntity.Has<PlayerComponent>())
+                        if (entity.Has<PlayerComponent>() && effectEntity.Has<PlayerComponent>())
                         {
-                            vfxEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
+                            effectEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
                         }
                     }
                 }
@@ -134,22 +134,22 @@ namespace Game.Systems
                 {
                     for (var i = 0; i < damageEffects.onDeathEffects.Length; i++)
                     {
-                        var vfxData = damageEffects.onDeathEffects[i];
+                        var effectData = damageEffects.onDeathEffects[i];
                         
                         var offset = Vector3.zero;
 
-                        if (vfxData.randomOffsetType == VfxComponentData.RandomOffsetType.PlaneXZ)
+                        if (effectData.randomOffsetType == VfxComponentData.RandomOffsetType.PlaneXZ)
                         {
-                            var random = UnityEngine.Random.insideUnitCircle * vfxData.range;
+                            var random = UnityEngine.Random.insideUnitCircle * effectData.range;
                             offset = new Vector3(random.x, 0, random.y);
                         }
                     
-                        var vfxEntity = world.CreateEntity(vfxData.definition);
-                        vfxEntity.Get<PositionComponent>().value = vfxData.position + offset;
+                        var effectEntity = world.CreateEntity(effectData.definition);
+                        effectEntity.Get<PositionComponent>().value = effectData.position + offset;
                         
-                        if (entity.Has<PlayerComponent>() && vfxEntity.Has<PlayerComponent>())
+                        if (entity.Has<PlayerComponent>() && effectEntity.Has<PlayerComponent>())
                         {
-                            vfxEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
+                            effectEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
                         }
                     }
                 }
