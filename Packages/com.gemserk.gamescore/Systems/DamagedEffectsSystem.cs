@@ -111,6 +111,11 @@ namespace Game.Systems
                     {
                         var effectData = damageEffects.onDamageEffects[i];
 
+                        if (effectData.disabled)
+                        {
+                            continue;
+                        }
+
                         var offset = Vector3.zero;
 
                         if (effectData.randomOffsetType == VfxComponentData.RandomOffsetType.PlaneXZ)
@@ -135,6 +140,11 @@ namespace Game.Systems
                     for (var i = 0; i < damageEffects.onDeathEffects.Length; i++)
                     {
                         var effectData = damageEffects.onDeathEffects[i];
+                        
+                        if (effectData.disabled)
+                        {
+                            continue;
+                        }
                         
                         var offset = Vector3.zero;
 

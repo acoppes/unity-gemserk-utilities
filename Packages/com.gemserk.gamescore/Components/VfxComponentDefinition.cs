@@ -23,6 +23,8 @@ namespace Game.Components
         [ObjectType(typeof(IEntityDefinition), filterString = "Definition", assetReferencesOnWhenStart = false, prefabReferencesOnWhenStart = true)]
         public Object definition;
 
+        public bool disabled;
+        
         public VfxComponentData ToData()
         {
             return new VfxComponentData()
@@ -31,7 +33,8 @@ namespace Game.Components
                 definition = definition.GetInterface<IEntityDefinition>(),
                 attachPoint = attachPoint,
                 randomOffsetType = randomOffsetType,
-                range = range
+                range = range,
+                disabled = disabled
             };
         }   
     }
@@ -50,7 +53,8 @@ namespace Game.Components
             None = 0,
             PlaneXZ = 1,
         }
-        
+
+        public bool disabled;
         public PositionType positionType;
         public RandomOffsetType randomOffsetType;
         public string attachPoint;
