@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Game.Triggers
 {
-    public class ExecuteAbilityTriggerAction : WorldTriggerAction
+    public class AbilityTriggerAction : WorldTriggerAction
     {
         public enum ActionType
         {
