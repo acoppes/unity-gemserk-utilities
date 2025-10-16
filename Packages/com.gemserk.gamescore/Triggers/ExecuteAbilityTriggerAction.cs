@@ -11,18 +11,28 @@ namespace Game.Triggers
 {
     public class ExecuteAbilityTriggerAction : WorldTriggerAction
     {
+        public enum ActionType
+        {
+            Execute = 0,
+            LoadCooldown = 1
+        }
+        
         public enum TargetType
         {
             Fixed = 0,
             Position = 1,
-            Target = 2
+            Target = 2,
+            None = 3
         }
+
+        public ActionType actionType = ActionType.Execute;
         
         public TriggerTarget actor;
         
         public string abilityName;
 
-        public TargetType targetType = TargetType.Fixed;
+        [ConditionalField(nameof(actionType), false, ActionType.Execute)]
+        public TargetType targetType = TargetType.None;
 
         [ConditionalField(nameof(targetType), false, TargetType.Fixed)]
         public Vector3 position;
@@ -37,15 +47,15 @@ namespace Game.Triggers
         {
             if (targetType == TargetType.Position)
             {
-                return $"ExecuteAbility({abilityName}, {actor}, {positionTarget})";
+                return $"Ability_{actionType}({abilityName}, {actor}, {positionTarget})";
             }
             
             if (targetType == TargetType.Target)
             {
-                return $"ExecuteAbility({abilityName}, {actor}, {targetTarget})";
+                return $"Ability_{actionType}({abilityName}, {actor}, {targetTarget})";
             }
             
-            return $"ExecuteAbility({abilityName}, {actor}, {position})";
+            return $"Ability_{actionType}({abilityName}, {actor}, {position})";
         }
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
@@ -73,13 +83,20 @@ namespace Game.Triggers
             {
                 ref var abilitiesComponent = ref world.GetComponent<AbilitiesComponent>(entity);
                 var ability = abilitiesComponent.GetAbility(abilityName);
-                ability.pendingExecution = true;
-                ability.CopyTarget(new AbilityTarget()
+                
+                if (actionType == ActionType.Execute)
                 {
-                    position = abilityPosition,
-                    valid = true,
-                    target = target
-                });
+                    ability.pendingExecution = true;
+                    ability.CopyTarget(new AbilityTarget()
+                    {
+                        position = abilityPosition,
+                        valid = true,
+                        target = target
+                    });
+                } else if (actionType == ActionType.LoadCooldown)
+                {
+                    ability.cooldown.Fill();
+                }
             }
             
             return ITrigger.ExecutionResult.Completed;
