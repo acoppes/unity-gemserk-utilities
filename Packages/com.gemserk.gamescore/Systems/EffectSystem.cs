@@ -172,6 +172,7 @@ namespace Game.Systems
 
                 foreach (var target in targets)
                 {
+                    var direction = target.position - position.value;
                     var distSqr = (target.position - position.value).sqrMagnitude;
                     
                     foreach (var effectDefinition in areaEffect.effectDefinitions)
@@ -183,6 +184,7 @@ namespace Game.Systems
                         effects.source = areaEffect.source;
                         effects.factor = Mathf.Clamp01(distSqr / rangeSqr);
                         effects.valueMultiplier = areaEffect.effectValueMultiplier;
+                        effects.direction = direction.normalized;
                         
                         // damage = Mathf.Lerp(effect.maxValue, effect.minValue, factor);
 
