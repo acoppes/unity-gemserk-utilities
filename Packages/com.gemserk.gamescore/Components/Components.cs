@@ -5,6 +5,7 @@ using Game.Controllers;
 using Game.Definitions;
 using Game.Models;
 using Gemserk.Leopotam.Ecs;
+using Gemserk.Leopotam.Ecs.Events;
 using Gemserk.Utilities;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -240,7 +241,7 @@ namespace Game.Components
         
     }
     
-    public interface IHealthStateChanged
+    public interface IHealthStateChanged : IControllerEvent
     {
         void OnHealthStateChanged(World world, Entity entity);
     }

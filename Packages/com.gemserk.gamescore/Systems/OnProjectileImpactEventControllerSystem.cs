@@ -1,12 +1,13 @@
 ﻿using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Leopotam.Ecs.Controllers;
+using Gemserk.Leopotam.Ecs.Events;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 
 namespace Game.Systems
 {
-    public interface IProjectileImpactEvent
+    public interface IProjectileImpactEvent : IControllerEvent
     {
         void OnProjectileImpact(World world, Entity entity);
     }

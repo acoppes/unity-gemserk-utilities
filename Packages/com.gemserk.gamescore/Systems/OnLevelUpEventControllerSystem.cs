@@ -1,12 +1,13 @@
 ﻿using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Leopotam.Ecs.Controllers;
+using Gemserk.Leopotam.Ecs.Events;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 
 namespace Game.Systems
 {
-    public interface ILevelUpEvent
+    public interface ILevelUpEvent : IControllerEvent
     {
         void OnLevelUp(World world, Entity entity);
     }
