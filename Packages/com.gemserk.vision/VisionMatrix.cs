@@ -14,10 +14,10 @@ namespace Gemserk.Vision
 
         public bool raycastEnabled;
 
-        public Grid<int> visionData;
-        public Grid<int> temporaryVisibleData;
-        public Grid<int> previousVisionData;
-        public Grid<int> groundData;
+        public IntGrid visionData;
+        public IntGrid temporaryVisibleData;
+        public IntGrid previousVisionData;
+        public IntGrid groundData;
 
         public Vector2 worldScale;
         
