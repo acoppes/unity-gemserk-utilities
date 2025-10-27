@@ -42,6 +42,16 @@ namespace Gemserk.DataGrids.Tests
             }
 
         }
+        
+        [Test]
+        public void WorldGrid_CreateGrid_HasProperWorldSize()
+        {
+            var worldGridData = new WorldGridData(new Vector2(47, 47), new Vector2(0.75f, 0.75f));
+
+            var createdGrid = worldGridData.CreateGrid(10);
+            Assert.AreEqual(worldGridData.width, createdGrid.width);
+            Assert.AreEqual(worldGridData.height, createdGrid.height);
+        }
     }
 }
 

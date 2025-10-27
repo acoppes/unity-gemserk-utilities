@@ -1,4 +1,5 @@
-﻿using Gemserk.Leopotam.Ecs;
+﻿using System;
+using Gemserk.Leopotam.Ecs;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -116,6 +117,8 @@ namespace Game.Editor.Tests
             Assert.IsTrue(e.Exists());
 
             var componentsA = world.EcsWorld.GetPool<ComponentA>();
+            // var componentsB = world.EcsWorld.GetPool<ComponentB>();
+            
             componentsA.Del(e);
             
             Assert.IsTrue(e.Exists());
@@ -124,7 +127,24 @@ namespace Game.Editor.Tests
             world.EcsWorld.DelEntity(e);
             
             Assert.IsFalse(e.Exists());
-            Assert.IsFalse(world.HasComponent<ComponentB>(e));
+            
+            // Assert.IsFalse(componentsB.Has(e));
+            // Assert.IsFalse(world.HasComponent<ComponentB>(e));
+        }
+        
+        [Test]
+        public void World_Exception_OnDestroyedEntity()
+        {
+            var gameObject = new GameObject();
+            var world = gameObject.AddComponent<World>();
+            world.Init();
+            
+            var e = world.CreateEntity();
+            world.AddComponent(e, new ComponentA());
+            Assert.IsTrue(e.Exists());
+            var componentsA = world.EcsWorld.GetPool<ComponentA>();
+            world.EcsWorld.DelEntity(e);
+            Assert.Throws<Exception>(() => componentsA.Has(e));
         }
     }
 }
