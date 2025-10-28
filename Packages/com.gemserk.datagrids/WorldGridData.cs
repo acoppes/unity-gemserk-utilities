@@ -20,7 +20,7 @@ namespace Gemserk.DataGrids
             height = Mathf.CeilToInt(worldSize.y / gridSize.y);
         }
 
-        public Grid<T> CreateGrid<T>(T defaultValue) where T : struct
+        public Grid<T> CreateGrid<T>(T defaultValue = default) where T : struct
         {
             var grid = new Grid<T>(Mathf.CeilToInt(worldSize.x / gridSize.x), 
                 Mathf.CeilToInt(worldSize.y / gridSize.y), defaultValue);

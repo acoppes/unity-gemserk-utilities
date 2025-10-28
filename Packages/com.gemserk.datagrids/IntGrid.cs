@@ -12,7 +12,7 @@ namespace Gemserk.DataGrids
 
         public int Length => values.Length;
         
-        public IntGrid(int width, int height, int defaultValue)
+        public IntGrid(int width, int height, int defaultValue = 0)
         {
             this.width = width;
             this.height = height;
