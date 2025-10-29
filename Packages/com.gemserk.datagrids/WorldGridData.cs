@@ -10,20 +10,30 @@ namespace Gemserk.DataGrids
 
         public readonly int width;
         public readonly int height;
+        
+        // private readonly float worldWidth;
+        // private readonly float worldHeight;
+        //
+        // private Vector2 offset;
 
         public WorldGridData(Vector2 worldSize, Vector2 gridSize)
         {
             this.gridSize = gridSize;
             this.worldSize = worldSize;
 
-            width = Mathf.CeilToInt(worldSize.x / gridSize.x);
-            height = Mathf.CeilToInt(worldSize.y / gridSize.y);
+            var worldWidth = worldSize.x / gridSize.x;
+            var worldHeight = worldSize.y / gridSize.y;
+
+            width = Mathf.CeilToInt(worldWidth);
+            height = Mathf.CeilToInt(worldHeight);
+
+            // offset.x = (width - worldWidth) * gridSize.x;
+            // offset.y = (height - worldHeight) * gridSize.y;
         }
 
         public Grid<T> CreateGrid<T>(T defaultValue = default) where T : struct
         {
-            var grid = new Grid<T>(Mathf.CeilToInt(worldSize.x / gridSize.x), 
-                Mathf.CeilToInt(worldSize.y / gridSize.y), defaultValue);
+            var grid = new Grid<T>(width, height, defaultValue);
             return grid;
         }
 

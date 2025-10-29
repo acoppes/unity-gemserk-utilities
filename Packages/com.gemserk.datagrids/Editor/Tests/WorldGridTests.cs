@@ -52,6 +52,34 @@ namespace Gemserk.DataGrids.Tests
             Assert.AreEqual(worldGridData.width, createdGrid.width);
             Assert.AreEqual(worldGridData.height, createdGrid.height);
         }
+        
+        // [Test]
+        // public void WorldPosition_ShouldConsider_GridElementSize()
+        // {
+        //     var worldGridData = new WorldGridData(new Vector2(26, 26), new Vector2(0.75f, 0.75f));
+        //     var grid = worldGridData.CreateGrid(0);
+        //     
+        //     var position = worldGridData.GetWorldPosition(new Vector2Int(grid.width / 2, grid.height/2));
+        //     
+        //     Assert.AreEqual(0f, position.x, 0.01f);
+        //     Assert.AreEqual(0f, position.y, 0.01f);
+        //     
+        //     worldGridData = new WorldGridData(new Vector2(26, 26), new Vector2(1f, 1f));
+        //     grid = worldGridData.CreateGrid(0);
+        //     
+        //     position = worldGridData.GetWorldPosition(new Vector2Int(grid.width / 2, grid.height/2));
+        //     
+        //     Assert.AreEqual(0f, position.x, 0.01f);
+        //     Assert.AreEqual(0f, position.y, 0.01f);
+        //     
+        //     worldGridData = new WorldGridData(new Vector2(45, 45), new Vector2(1.35f, 1.35f));
+        //     grid = worldGridData.CreateGrid(0);
+        //     
+        //     position = worldGridData.GetWorldPosition(new Vector2Int(grid.width / 2, grid.height/2));
+        //     
+        //     Assert.AreEqual(0f, position.x, 0.01f);
+        //     Assert.AreEqual(0f, position.y, 0.01f);
+        // }
     }
 }
 
