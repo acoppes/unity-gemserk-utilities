@@ -10,4 +10,14 @@ namespace Gemserk.Leopotam.Ecs
     {
         
     }
+
+    public interface IEventComponent
+    {
+        
+    }
+
+    public interface IActionComponent
+    {
+        
+    }
 }
