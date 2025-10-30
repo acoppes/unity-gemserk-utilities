@@ -1,26 +1,27 @@
 ﻿namespace Gemserk.Triggers.Actions
 {
-    public class WaitForConditionTriggerAction : TriggerAction
+    public class WaitForTriggerExecutionTriggerAction : TriggerAction
     {
-        public TriggerCondition condition;
+        public TriggerObject trigger;
         
         public override string GetObjectName()
         {
-            if (!condition)
+            if (!trigger)
             {
-                return "WaitForCondition()";
+                return "WaitForTriggerExecution()";
             }
             
-            return $"WaitForCondition({condition.GetObjectName()})";
+            return $"WaitForTriggerExecution({trigger.name})";
         }
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
-            if (!condition.Evaluate(activator))
+            if (trigger.State == ITrigger.ExecutionState.Executing ||
+                trigger.State == ITrigger.ExecutionState.PendingExecution)
             {
                 return ITrigger.ExecutionResult.Running;
             }
-
+            
             return ITrigger.ExecutionResult.Completed;
         }
     }
