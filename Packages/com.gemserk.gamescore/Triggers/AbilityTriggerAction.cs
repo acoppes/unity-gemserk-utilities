@@ -55,6 +55,11 @@ namespace Game.Triggers
                 return $"Ability_{actionType}({abilityName}, {actor}, {targetTarget})";
             }
             
+            if (targetType == TargetType.None)
+            {
+                return $"Ability_{actionType}({abilityName}, {actor})";
+            }
+            
             return $"Ability_{actionType}({abilityName}, {actor}, {position})";
         }
 
