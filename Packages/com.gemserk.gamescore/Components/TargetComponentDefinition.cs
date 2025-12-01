@@ -1,6 +1,7 @@
 ﻿using Game.Utilities;
 using Gemserk.BitmaskTypes;
 using Gemserk.Leopotam.Ecs;
+using MyBox;
 
 namespace Game.Components
 {
@@ -11,6 +12,7 @@ namespace Game.Components
 
     public class TargetComponentDefinition : ComponentDefinitionBase
     {
+        [ConditionalField(nameof(targetTypeAsset), true)]  
         public TargetType targetType = TargetType.TargetType0;
 
         public IntTypeAsset targetTypeAsset;
