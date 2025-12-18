@@ -47,15 +47,27 @@ namespace Game.Screens
 
         public void SetTextCase(TextCase @case)
         {
+            CacheTextElement();
+            
             textCase = @case;
             
             if (legacyText)
             {
+                if (string.IsNullOrEmpty(originalText))
+                {
+                    originalText = legacyText.text;
+                }
+                
                 legacyText.text = ProcessCase(originalText);
             }
 
             if (textMeshPro)
             {
+                if (string.IsNullOrEmpty(originalText))
+                {
+                    originalText = textMeshPro.text;
+                }
+                
                 textMeshPro.text = ProcessCase(originalText);
             }
         }
