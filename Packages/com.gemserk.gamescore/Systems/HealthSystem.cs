@@ -3,6 +3,7 @@ using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
 namespace Game.Systems
 {
@@ -13,8 +14,11 @@ namespace Game.Systems
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static DamageData ProcessDamage(ref HealthComponent health, DamageData damage)
         {
+            var mult = Mathf.Clamp01(1f - health.damageResistance);
+            damage.value *= mult;
+            
             health.current -= damage.value;
-
+            
             if (health.current < 0)
             {
                 damage.value += health.current;

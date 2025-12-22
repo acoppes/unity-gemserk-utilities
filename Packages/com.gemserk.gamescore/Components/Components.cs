@@ -166,6 +166,8 @@ namespace Game.Components
         public float total;
         public float current;
 
+        public float damageResistance;
+
         public float timeSinceLastHit;
         public float timeInFullHealth;
 

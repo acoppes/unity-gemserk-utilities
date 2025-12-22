@@ -50,5 +50,65 @@ namespace Game.Editor.Tests
             Assert.AreEqual(0, health.current, 0.1f);
         }
         
+        [Test]
+        public void NormalDamage_WhenNoDamageResistance()
+        {
+            var health = new HealthComponent
+            {
+                total = 50,
+                current = 50
+            };
+
+            HealthSystem.ProcessDamage(ref health, new DamageData()
+            {
+                value = 15
+            });
+            
+            Assert.AreEqual(35, health.current, 0.1f);
+        }
+        
+        [Test]
+        public void ReducedDamageHalf_WhenDamageResistance()
+        {
+            var health = new HealthComponent
+            {
+                total = 50,
+                current = 50,
+                damageResistance = 0.5f
+            };
+
+            HealthSystem.ProcessDamage(ref health, new DamageData()
+            {
+                value = 20
+            });
+            
+            Assert.AreEqual(40, health.current, 0.1f);
+
+            health.damageResistance = 1f;
+            HealthSystem.ProcessDamage(ref health, new DamageData()
+            {
+                value = 20
+            });
+            
+            Assert.AreEqual(40, health.current, 0.1f);
+        }
+        
+        [Test]
+        public void DamageResult_AffectedByDamageResistance()
+        {
+            var health = new HealthComponent
+            {
+                total = 50,
+                current = 50,
+                damageResistance = 0.5f
+            };
+
+            var damageResult = HealthSystem.ProcessDamage(ref health, new DamageData()
+            {
+                value = 20
+            });
+            
+            Assert.AreEqual(10, damageResult.value, 0.1f);
+        }
     }
 }
