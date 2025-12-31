@@ -161,6 +161,11 @@ namespace Game.Systems
                         {
                             spawnedEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
                         }
+                        
+                        // if (entity.Has<StatsModifi>() && spawnedEntity.Has<PlayerComponent>())
+                        // {
+                        //     spawnedEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
+                        // }
                     }
                 }
             }

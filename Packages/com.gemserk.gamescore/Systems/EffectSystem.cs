@@ -177,10 +177,10 @@ namespace Game.Systems
                     position = position.value,
                     direction = new Vector3(1, 0, 0),
                     filter = areaEffect.targeting.targetingFilter,
-                    rangeMultiplier = 1f
+                    rangeMultiplier = areaEffect.rangeMultiplier
                 }, targets);
 
-                var rangeSqr = areaEffect.targeting.targetingFilter.maxRangeSqr;
+                var rangeSqr = areaEffect.targeting.targetingFilter.maxRangeSqr * (areaEffect.rangeMultiplier * areaEffect.rangeMultiplier);
 
                 foreach (var target in targets)
                 {
