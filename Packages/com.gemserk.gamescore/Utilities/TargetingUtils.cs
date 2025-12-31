@@ -137,7 +137,8 @@ namespace Game.Utilities
                     playerAllianceType = PlayerAllianceType.Enemies,
                     // areaType = TargetingFilter.AreaType.HitBox,
                     aliveType = HealthComponent.AliveType.Alive
-                }
+                },
+                rangeMultiplier = 1f
             });
         }
 
@@ -221,7 +222,7 @@ namespace Game.Utilities
         {
            // var targets = new List<Target>();
 
-            var filter = runtimeTargetingParameters.filter;
+            // var filter = runtimeTargetingParameters.filter;
             var targetsCount = 0;
             
             // if (filter.areaType == TargetingFilter.AreaType.HitBox)
@@ -363,12 +364,12 @@ namespace Game.Utilities
             {
                 var differenceSqrMagnitude = difference.sqrMagnitude;
                 
-                if (differenceSqrMagnitude > targetingFilter.maxRangeSqr)
+                if (differenceSqrMagnitude > targetingFilter.maxRangeSqr * runtimeTargetingParameters.rangeMultiplierSqr)
                 {
                     return false;
                 }
                 
-                if (differenceSqrMagnitude < targetingFilter.minRangeSqr)
+                if (differenceSqrMagnitude < targetingFilter.minRangeSqr * runtimeTargetingParameters.rangeMultiplierSqr)
                 {
                     return false;
                 }
@@ -378,12 +379,12 @@ namespace Game.Utilities
             {
                 var differenceSqrMagnitude = difference.XZ().sqrMagnitude;
                 
-                if (differenceSqrMagnitude > targetingFilter.maxRangeSqr)
+                if (differenceSqrMagnitude > targetingFilter.maxRangeSqr * runtimeTargetingParameters.rangeMultiplierSqr)
                 {
                     return false;
                 }
                 
-                if (differenceSqrMagnitude < targetingFilter.minRangeSqr)
+                if (differenceSqrMagnitude < targetingFilter.minRangeSqr * runtimeTargetingParameters.rangeMultiplierSqr)
                 {
                     return false;
                 }
@@ -410,6 +411,7 @@ namespace Game.Utilities
                 position = ability.center,
                 direction = ability.direction,
                 alliedPlayersBitmask = ability.alliedPlayersBitmask,
+                rangeMultiplier = 1f
             };
         }
 
@@ -432,7 +434,8 @@ namespace Game.Utilities
                     aliveType = HealthComponent.AliveType.Alive,
                     // areaType = TargetingFilter.AreaType.Nothing,
                     playerAllianceType = PlayerAllianceType.Enemies
-                }
+                },
+                rangeMultiplier = 1f
             });
 
             targets.Sort(new DistanceLineComparer(position));

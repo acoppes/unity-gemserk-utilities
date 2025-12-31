@@ -12,5 +12,9 @@ namespace Game.Utilities
             
         // filter properties
         public TargetingFilter filter;
+
+        public float rangeMultiplier;
+        
+        public float rangeMultiplierSqr => rangeMultiplier * rangeMultiplier;
     }
 }

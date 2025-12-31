@@ -176,7 +176,8 @@ namespace Game.Systems
                     alliedPlayersBitmask = player.GetAlliedPlayers(),
                     position = position.value,
                     direction = new Vector3(1, 0, 0),
-                    filter = areaEffect.targeting.targetingFilter
+                    filter = areaEffect.targeting.targetingFilter,
+                    rangeMultiplier = 1f
                 }, targets);
 
                 var rangeSqr = areaEffect.targeting.targetingFilter.maxRangeSqr;
