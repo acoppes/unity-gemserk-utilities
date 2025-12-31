@@ -74,4 +74,29 @@ namespace Gemserk.Leopotam.Ecs
         public bool selected;
         public bool isSingletonByName;
     }
+    
+    public struct SourceEntityComponent : IEntityComponent
+    {
+        public Entity source;
+        
+        // copy stuff from source entity, by default all? 
+    }
+    
+    public struct SourceEntityParameter : IEntityInstanceParameter
+    {
+        public Entity source;
+
+        public SourceEntityParameter(Entity source)
+        {
+            this.source = source;
+        }
+        
+        public void Apply(World world, Entity entity)
+        {
+            entity.AddOrSet(new SourceEntityComponent()
+            {
+                source = source
+            });
+        }
+    }
 }

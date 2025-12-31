@@ -22,13 +22,17 @@ namespace Game.Systems
 
                 foreach (var spawnDefinition in spawnOnSpawn.definitions)
                 {
-                    var spawnedEntity = world.CreateEntity(spawnDefinition);
+                    var spawnedEntity = world.CreateEntity(spawnDefinition, new IEntityInstanceParameter[]
+                    {
+                        new SourceEntityParameter(entity)
+                    });
+                    
                     spawnedEntity.Get<PositionComponent>().value = position.value;
                     
-                    if (entity.Has<PlayerComponent>() && spawnedEntity.Has<PlayerComponent>())
-                    {
-                        spawnedEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
-                    }
+                    // if (entity.Has<PlayerComponent>() && spawnedEntity.Has<PlayerComponent>())
+                    // {
+                    //     spawnedEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
+                    // }
                 }
                
                 filter.Pools.Inc1.Del(e);

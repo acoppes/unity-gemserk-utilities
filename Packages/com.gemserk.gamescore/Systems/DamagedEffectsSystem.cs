@@ -125,13 +125,17 @@ namespace Game.Systems
                             offset = new Vector3(random.x, 0, random.y);
                         }
                     
-                        var spawnedEntity = world.CreateEntity(spawnData.definition);
+                        var spawnedEntity = world.CreateEntity(spawnData.definition, new IEntityInstanceParameter[]
+                        {
+                            new SourceEntityParameter(entity)
+                        });
+                        
                         spawnedEntity.Get<PositionComponent>().value = spawnData.position + offset;
 
-                        if (entity.Has<PlayerComponent>() && spawnedEntity.Has<PlayerComponent>())
-                        {
-                            spawnedEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
-                        }
+                        // if (entity.Has<PlayerComponent>() && spawnedEntity.Has<PlayerComponent>())
+                        // {
+                        //     spawnedEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
+                        // }
                     }
                 }
                 
@@ -155,31 +159,35 @@ namespace Game.Systems
                             offset = new Vector3(random.x, 0, random.y);
                         }
                     
-                        var spawnedEntity = world.CreateEntity(spawnData.definition);
+                        var spawnedEntity = world.CreateEntity(spawnData.definition, new IEntityInstanceParameter[]
+                        {
+                            new SourceEntityParameter(entity)
+                        });
+                        
                         spawnedEntity.Get<PositionComponent>().value = spawnData.position + offset;
                         
-                        if (entity.Has<PlayerComponent>() && spawnedEntity.Has<PlayerComponent>())
-                        {
-                            spawnedEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
-                        }
+                        // if (entity.Has<PlayerComponent>() && spawnedEntity.Has<PlayerComponent>())
+                        // {
+                        //     spawnedEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
+                        // }
                         
                         // copy modifier to spawned entity? maybe this should be in the opposite way, like, on spawn I set the
                         // spawnedFrom entity component or sourceentity component, and there is a system or something there
                         // processing this kind of that so I can grow over that without having to modify this code and/or?
                         // without having to copy paste this code everywhere....
                         
-                        if (entity.Has<StatsModifiersComponent>() && spawnedEntity.Has<StatsModifiersComponent>())
-                        {
-                            var modifiers = entity.Get<StatsModifiersComponent>();
-
-                            foreach (var modifier in modifiers.statsModifiers)
-                            {
-                                if (modifier.state != StatsModifier.State.Inactive)
-                                {
-                                    spawnedEntity.Get<StatsModifiersComponent>().Add(modifier);
-                                }
-                            }
-                        }
+                        // if (entity.Has<StatsModifiersComponent>() && spawnedEntity.Has<StatsModifiersComponent>())
+                        // {
+                        //     var modifiers = entity.Get<StatsModifiersComponent>();
+                        //
+                        //     foreach (var modifier in modifiers.statsModifiers)
+                        //     {
+                        //         if (modifier.state != StatsModifier.State.Inactive)
+                        //         {
+                        //             spawnedEntity.Get<StatsModifiersComponent>().Add(modifier);
+                        //         }
+                        //     }
+                        // }
                     }
                 }
             }
