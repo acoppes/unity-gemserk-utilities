@@ -42,6 +42,8 @@ namespace Gemserk.Leopotam.Ecs
 
     public struct PlayerComponent : IEntityComponent
     {
+        public const int MaxPlayers = 8;
+        
         public const int NoPlayer = -1;
         
         // will be a flag in the future

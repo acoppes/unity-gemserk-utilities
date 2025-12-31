@@ -8,11 +8,10 @@ using Gemserk.Utilities;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
-using Vertx.Debugging;
 
 namespace Game.Systems
 {
-    public class EffectSystem : BaseSystem, IEcsRunSystem
+    public class EffectSystem : BaseSystem, IEcsRunSystem, IEcsInitSystem
     {
         readonly EcsFilterInject<Inc<EffectsComponent, PositionComponent>, Exc<DisabledComponent>> effectsPositionFilter = default;
         readonly EcsFilterInject<Inc<EffectsComponent, LookingDirection>, Exc<DisabledComponent>> effectsDirectionFilter = default;
@@ -25,6 +24,18 @@ namespace Game.Systems
         readonly EcsFilterInject<Inc<AreaEffectComponent, DestroyableComponent>, Exc<DisabledComponent>> destroyableAreaEffects = default;
         
         private static readonly List<Target> targets = new List<Target>();
+
+        public static float[] DamagePerPlayer = new float[PlayerComponent.MaxPlayers];
+        
+        
+        public void Init(EcsSystems systems)
+        {
+            for (var i = 0; i < DamagePerPlayer.Length; i++)
+            {
+                DamagePerPlayer[i] = 1f;
+            }
+        }
+        
         
         public void Run(EcsSystems systems)
         {
@@ -244,10 +255,12 @@ namespace Game.Systems
             
             if (effect.type == Effect.EffectType.Damage && target.entity.Has<HealthComponent>())
             {
+                var playerDamageMult = DamagePerPlayer[player];
+                
                 ref var health = ref target.entity.Get<HealthComponent>();
                 health.damages.Add(new DamageData
                 {
-                    value = value * valueMultiplier,
+                    value = value * valueMultiplier * playerDamageMult,
                     position = position,
                     knockback = false,
                     source = source,
@@ -259,5 +272,6 @@ namespace Game.Systems
                 customEffect.ApplyEffect(value, effects, target, source, effect);
             }
         }
+
     }
 }
