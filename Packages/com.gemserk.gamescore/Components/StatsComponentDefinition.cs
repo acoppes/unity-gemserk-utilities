@@ -69,7 +69,15 @@ namespace ShipMiner.Components
             return stats[type];
         }
     }
-    
+
+    // public struct GenericStatComponent<T> : IEntityComponent where T : struct
+    // {
+    //     public T value;
+    //     
+    //     public float add;
+    //     public float mult;
+    // }
+
     public class StatsComponentDefinition : ComponentDefinitionBase
     {
         [Serializable]
@@ -96,6 +104,8 @@ namespace ShipMiner.Components
                 });
             }
             entity.Add(stats);
+            
+            // entity.Add(new GenericStatComponent<Stat>());
         }
     }
 }
