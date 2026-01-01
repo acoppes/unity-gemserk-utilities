@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Gemserk.BitmaskTypes;
 using Gemserk.Leopotam.Ecs;
 
-namespace ShipMiner.Components
+namespace Game.Components
 {
     public struct Stat
     {
@@ -11,11 +11,7 @@ namespace ShipMiner.Components
         
         public int type;
         public float baseValue;
-
-        public float add;
-        public float mult;
-
-        public float value => (baseValue + add) * mult;
+        public float value;
 
         public bool isSet => setCount > 0;
 
@@ -25,8 +21,6 @@ namespace ShipMiner.Components
             {
                 type = type,
                 baseValue = 0,
-                add = 0,
-                mult = 1
             };
         }
     }
@@ -99,11 +93,12 @@ namespace ShipMiner.Components
                 {
                     type = statDefinition.typeAsset.value,
                     baseValue = statDefinition.value,
-                    add = 0,
-                    mult = 1,
+                    value = statDefinition.value
                 });
             }
             entity.Add(stats);
+            
+            // Should add automatically th estats modifier component too here?
             
             // entity.Add(new GenericStatComponent<Stat>());
         }

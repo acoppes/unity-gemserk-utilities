@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Gemserk.BitmaskTypes;
 using Gemserk.Leopotam.Ecs;
 
-namespace ShipMiner.Components
+namespace Game.Components
 {
     [Serializable]
     public class StatModifierDefinition
@@ -58,13 +58,13 @@ namespace ShipMiner.Components
     
     public struct StatsModifier
     {
+        public const int Undefined = -1;
+        
         public enum State
         {
             Inactive,
-            Pending,
-            Added,
-            Active,
-            Removed
+            Refresh,
+            Active
         }
 
         public int type;
@@ -80,10 +80,13 @@ namespace ShipMiner.Components
 
         public bool active => time > 0 && currentTime < time;
 
+        public bool remove;
+
         public static StatsModifier Default()
         {
             var statsModifier = new StatsModifier
             {
+                type = Undefined,
                 state = State.Inactive,
                 modifiers = new StatModifier[StatsComponent.MaxStats],
                 currentTime = 0,
@@ -103,6 +106,11 @@ namespace ShipMiner.Components
 
             return statsModifier;
         }
+
+        public ref StatModifier Get(int statType)
+        {
+            return ref modifiers[statType];
+        }
     }
     
     public struct StatsModifiersComponent : IEntityComponent
@@ -110,6 +118,8 @@ namespace ShipMiner.Components
         public static int MaxModifiers = 16;
         
         public StatsModifier[] statsModifiers;
+
+        public bool pendingRecalculateStats;
         
         public static StatsModifiersComponent Default()
         {
@@ -122,7 +132,8 @@ namespace ShipMiner.Components
 
             return new StatsModifiersComponent()
             {
-                statsModifiers = statsModifiers
+                statsModifiers = statsModifiers,
+                pendingRecalculateStats = true
             };
         }
 
@@ -130,19 +141,17 @@ namespace ShipMiner.Components
         {
             // should I keep a separated list of pending modifiers to be added instead and process in system?
             
-            var currentModifier = statsModifiers[modifier.type];
+            // this will copy pointers to other arrays
+            var currentModifier = modifier;
             
-            if (currentModifier.state is StatsModifier.State.Inactive or StatsModifier.State.Removed)
-            {
-                currentModifier = modifier;
-                currentModifier.state = StatsModifier.State.Pending;
-            }
-            else
-            {
-                // refresh time here
-                currentModifier.currentTime = 0;
-            }
+            currentModifier.state = StatsModifier.State.Refresh;
+            
             statsModifiers[modifier.type] = currentModifier;
+        }
+
+        public void Remove(int modifierType)
+        {
+            statsModifiers[modifierType].remove = true;
         }
     }
     

@@ -1,6 +1,6 @@
-﻿using Gemserk.Leopotam.Ecs;
+﻿using Game.Components;
+using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite.Di;
-using ShipMiner.Components;
 
 namespace Game.Systems
 {
