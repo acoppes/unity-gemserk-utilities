@@ -9,6 +9,8 @@ namespace Game.Components
     public struct Stat
     {
         public const int Undefined = -1;
+
+        public string name;
         
         public int type;
         public float baseValue;
@@ -20,6 +22,7 @@ namespace Game.Components
         {
             return new Stat()
             {
+                name = string.Empty,
                 type = Undefined,
                 baseValue = 0,
             };
@@ -83,6 +86,7 @@ namespace Game.Components
             return new StatModifier()
             {
                 type = statType.value,
+                name = statType.name,
                 add = add,
                 mult = mult
             };
@@ -100,7 +104,9 @@ namespace Game.Components
         public StatsModifier CreateModifier()
         {
             var statsModifiersData = StatsModifier.Default();
+            
             statsModifiersData.type = modifierType ? modifierType.value : StatsModifier.Undefined;
+            statsModifiersData.name = modifierType ? modifierType.name : string.Empty;
             statsModifiersData.time = time;
 
             foreach (var statModifierDefinition in statsModifiers)
@@ -117,6 +123,8 @@ namespace Game.Components
         public const int Undefined = -1;
         
         public int type;
+        public string name;
+        
         public float add;
         public float mult;
     }
@@ -133,6 +141,7 @@ namespace Game.Components
         }
 
         public int type;
+        public string name;
 
         public State previousState;
         public State state;
@@ -152,6 +161,7 @@ namespace Game.Components
             var statsModifier = new StatsModifier
             {
                 type = Undefined,
+                name = string.Empty,
                 state = State.Inactive,
                 modifiers = new StatModifier[StatsComponent.MaxStats],
                 currentTime = 0,
@@ -164,8 +174,9 @@ namespace Game.Components
                 statsModifier.modifiers[i] = new StatModifier()
                 {
                     type = StatModifier.Undefined,
+                    name = string.Empty,
                     add = 0,
-                    mult = 1
+                    mult = 1,
                 };
             }
 
@@ -247,6 +258,8 @@ namespace Game.Components
             if (shouldRecalculate)
             {
                 currentModifier.type = modifier.type;
+                currentModifier.name = modifier.name;
+                
                 Array.Copy(modifier.modifiers, currentModifier.modifiers, MaxModifiers);
                 currentModifier.state = StatsModifier.State.Refresh;
             }
@@ -280,6 +293,7 @@ namespace Game.Components
             {
                 stats.SetStat(new Stat()
                 {
+                    name = statDefinition.typeAsset.name,
                     type = statDefinition.typeAsset.value,
                     baseValue = statDefinition.value,
                     value = statDefinition.value

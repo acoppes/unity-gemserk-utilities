@@ -223,4 +223,142 @@ namespace Game.Editor
             return true;
         }
     }
+    
+     sealed class StatsComponentInspector : EcsComponentInspectorTyped<StatsComponent>
+        {
+            public override bool OnGuiTyped(string label, ref StatsComponent stats,
+                EcsEntityDebugView entityView)
+            {
+                if (entityView)
+                {
+                    EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
+                }
+
+                var total = 0;
+                
+                for (var i = 0; i < stats.stats.Length; i++)
+                {
+                    var stat = stats.stats[i];
+                    
+                    if (!stat.hasStat)
+                        continue;
+
+                    total++;
+                }
+                
+                EditorGUILayout.IntField("Total", total);
+                
+                for (var i = 0; i < stats.stats.Length; i++)
+                {
+                    var stat = stats.stats[i];
+                    
+                    if (!stat.hasStat)
+                        continue;
+
+                    EditorGUILayout.LabelField(stat.name);
+                    EditorGUI.indentLevel++;
+                    // EditorGUILayout.BeginHorizontal();
+                    EditorGUI.BeginChangeCheck();
+                    stat.baseValue = EditorGUILayout.FloatField("BASE", stat.baseValue);
+                    // stat.add = EditorGUILayout.FloatField("ADD", stat.add);
+                    // stat.mult = EditorGUILayout.FloatField("MULT", stat.mult);
+                    EditorGUI.BeginDisabledGroup(true);
+                    EditorGUILayout.FloatField("VALUE", stat.value);
+                    EditorGUI.EndDisabledGroup();
+                    
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        stats.stats[i] = stat;
+                    }
+                    // EditorGUILayout.EndHorizontal();
+                    EditorGUI.indentLevel--;
+                }
+
+                return true;
+            }
+        }
+        
+        sealed class StatsModifiersComponentInspector : EcsComponentInspectorTyped<StatsModifiersComponent>
+        {
+            public override bool OnGuiTyped(string label, ref StatsModifiersComponent statsModifiers,
+                EcsEntityDebugView entityView)
+            {
+                if (entityView)
+                {
+                    EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
+                }
+
+                var total = 0;
+
+                for (var i = 0; i < statsModifiers.statsModifiers.Length; i++)
+                {
+                    var statsModifier = statsModifiers.statsModifiers[i];
+
+                    if (statsModifier.type == StatsModifier.Undefined)
+                    {
+                        continue;
+                    } 
+
+                    total++;
+                }
+                
+                EditorGUILayout.IntField("Total", total);
+
+                for (var i = 0; i < statsModifiers.statsModifiers.Length; i++)
+                {
+                    var statsModifier = statsModifiers.statsModifiers[i];
+
+                    if (statsModifier.type == StatsModifier.Undefined)
+                    {
+                        continue;
+                    }
+
+                    EditorGUILayout.LabelField(statsModifier.name);
+                    EditorGUI.indentLevel++;
+                    // EditorGUILayout.BeginHorizontal();
+                    EditorGUI.BeginDisabledGroup(true);
+                    EditorGUILayout.EnumPopup("STATE", statsModifier.state);
+                    EditorGUILayout.FloatField("DURATION", statsModifier.time);
+                    EditorGUILayout.FloatField("CURRENT", statsModifier.currentTime);
+                    EditorGUILayout.FloatField("ACTIVE", statsModifier.activeTime);
+                    EditorGUI.EndDisabledGroup();
+                    EditorGUI.indentLevel++;
+
+                    EditorGUI.BeginChangeCheck();
+                    
+                    for (var j = 0; j < statsModifier.modifiers.Length; j++)
+                    {
+                        var modifier = statsModifier.modifiers[j];
+
+                        if (modifier.type == StatModifier.Undefined)
+                        {
+                            continue;
+                        }
+                        
+                        EditorGUILayout.LabelField("STAT", modifier.name);
+                        modifier.add = EditorGUILayout.FloatField("ADD", modifier.add);
+                        modifier.mult = EditorGUILayout.FloatField("MULT", modifier.mult);
+                        statsModifier.modifiers[j] = modifier;
+                    }
+
+                    EditorGUI.indentLevel--;
+                    
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        statsModifiers.statsModifiers[i] = statsModifier;
+                        statsModifiers.pendingRecalculateStats = true;
+                    }
+                    // EditorGUILayout.EndHorizontal();
+
+                    if (GUILayout.Button("Remove"))
+                    {
+                        statsModifiers.statsModifiers[i].remove = true;
+                    }
+                    
+                    EditorGUI.indentLevel--;
+                }
+
+                return true;
+            }
+        }
 }
