@@ -23,9 +23,9 @@ namespace Game.Systems
         readonly EcsFilterInject<Inc<AreaEffectComponent, PositionComponent, PlayerComponent>, Exc<DisabledComponent>> areaEffects = default;
         readonly EcsFilterInject<Inc<AreaEffectComponent, DestroyableComponent>, Exc<DisabledComponent>> destroyableAreaEffects = default;
         
-        private static readonly List<Target> targets = new List<Target>();
+        private static readonly List<Target> Targets = new List<Target>();
 
-        public static float[] DamagePerPlayer = new float[PlayerComponent.MaxPlayers];
+        public static readonly float[] DamagePerPlayer = new float[PlayerComponent.MaxPlayers];
         
         
         public void Init(EcsSystems systems)
@@ -178,11 +178,11 @@ namespace Game.Systems
                     direction = new Vector3(1, 0, 0),
                     filter = areaEffect.targeting.targetingFilter,
                     rangeMultiplier = areaEffect.rangeMultiplier
-                }, targets);
+                }, Targets);
 
                 var rangeSqr = areaEffect.targeting.targetingFilter.maxRangeSqr * (areaEffect.rangeMultiplier * areaEffect.rangeMultiplier);
 
-                foreach (var target in targets)
+                foreach (var target in Targets)
                 {
                     var direction = target.position - position.value;
                     var distSqr = (target.position - position.value).sqrMagnitude;
@@ -207,7 +207,7 @@ namespace Game.Systems
                     }
                 }
                         
-                targets.Clear();
+                Targets.Clear();
             }
             
             // TODO: AREA EFFECTS CAN DO EFFECTS OVER TIME, ONCE PER TARGET OR MULTIPLE TIMES, ETC (AND/OR RETARGET)
