@@ -26,7 +26,7 @@ namespace Game.Systems
                 {
                     var statsModifier = statsModifiers.statsModifiers[i];
 
-                    if (statsModifier.type == StatModifier.Undefined)
+                    if (statsModifier.type == StatsModifier.Undefined)
                     {
                         continue;
                     }
@@ -80,7 +80,7 @@ namespace Game.Systems
 
                     foreach (var statsModifier in statsModifiers.statsModifiers)
                     {
-                        if (statsModifier.type == StatModifier.Undefined)
+                        if (statsModifier.type == StatsModifier.Undefined)
                         {
                             continue;
                         }
@@ -93,9 +93,6 @@ namespace Game.Systems
                         // first all additions
                         foreach (var modifier in statsModifier.modifiers)
                         {
-                            if (modifier.type == StatModifier.Undefined)
-                                continue;
-                                
                             var stat = stats.GetStat(modifier.type);
                             stat.value += modifier.add;
                             stats.SetStat(stat);
@@ -104,9 +101,6 @@ namespace Game.Systems
                         // then all multiplications
                         foreach (var modifier in statsModifier.modifiers)
                         {
-                            if (modifier.type == StatModifier.Undefined)
-                                continue;
-                                
                             var stat = stats.GetStat(modifier.type);
                             stat.value *= modifier.mult;
                             stats.SetStat(stat);

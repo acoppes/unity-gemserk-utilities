@@ -326,14 +326,9 @@ namespace Game.Editor
 
                     EditorGUI.BeginChangeCheck();
                     
-                    for (var j = 0; j < statsModifier.modifiers.Length; j++)
+                    for (var j = 0; j < statsModifier.modifiers.Count; j++)
                     {
                         var modifier = statsModifier.modifiers[j];
-
-                        if (modifier.type == StatModifier.Undefined)
-                        {
-                            continue;
-                        }
                         
                         EditorGUILayout.LabelField("STAT", modifier.name);
                         modifier.add = EditorGUILayout.FloatField("ADD", modifier.add);

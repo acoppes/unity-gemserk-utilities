@@ -111,22 +111,36 @@ namespace Game.Components
 
             foreach (var statModifierDefinition in statsModifiers)
             {
-                statsModifiersData.modifiers[statModifierDefinition.statType.value] = statModifierDefinition.CreateModifier();
+                statsModifiersData.modifiers.Add(statModifierDefinition.CreateModifier());
+                // statsModifiersData.modifiers[statModifierDefinition.statType.value] = statModifierDefinition.CreateModifier();
             }
 
             return statsModifiersData;
         }
     }
     
-    public struct StatModifier
+    public struct StatModifier : IEquatable<StatModifier>
     {
-        public const int Undefined = -1;
-        
         public int type;
         public string name;
         
         public float add;
         public float mult;
+
+        public bool Equals(StatModifier other)
+        {
+            return type == other.type && name == other.name && add.Equals(other.add) && mult.Equals(other.mult);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is StatModifier other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(type, name, add, mult);
+        }
     }
     
     public struct StatsModifier
@@ -146,7 +160,7 @@ namespace Game.Components
         public State previousState;
         public State state;
         
-        public StatModifier[] modifiers;
+        public List<StatModifier> modifiers;
         
         public float time;
         public float currentTime;
@@ -163,30 +177,30 @@ namespace Game.Components
                 type = Undefined,
                 name = string.Empty,
                 state = State.Inactive,
-                modifiers = new StatModifier[StatsComponent.MaxStats],
+                modifiers = new List<StatModifier>(),
                 currentTime = 0,
                 time = 0,
                 previousState = State.Inactive
             };
 
-            for (var i = 0; i < statsModifier.modifiers.Length; i++)
-            {
-                statsModifier.modifiers[i] = new StatModifier()
-                {
-                    type = StatModifier.Undefined,
-                    name = string.Empty,
-                    add = 0,
-                    mult = 1,
-                };
-            }
+            // for (var i = 0; i < statsModifier.modifiers.Count; i++)
+            // {
+            //     statsModifier.modifiers[i] = new StatModifier()
+            //     {
+            //         type = StatModifier.Undefined,
+            //         name = string.Empty,
+            //         add = 0,
+            //         mult = 1,
+            //     };
+            // }
 
             return statsModifier;
         }
 
-        public ref StatModifier Get(int statType)
-        {
-            return ref modifiers[statType];
-        }
+        // public ref StatModifier Get(int statType)
+        // {
+        //     return ref modifiers[statType];
+        // }
     }
     
     public struct StatsModifiersComponent : IEntityComponent
@@ -230,9 +244,15 @@ namespace Game.Components
             }
             else
             {
-                for (var i = 0; i < currentModifier.modifiers.Length; i++)
+                for (var i = 0; i < currentModifier.modifiers.Count; i++)
                 {
                     var m0 = currentModifier.modifiers[i];
+
+                    if (i >= modifier.modifiers.Count)
+                    {
+                        break;
+                    }
+                    
                     var m1 = modifier.modifiers[i];
 
                     if (m0.type != m1.type)
@@ -260,7 +280,11 @@ namespace Game.Components
                 currentModifier.type = modifier.type;
                 currentModifier.name = modifier.name;
                 
-                Array.Copy(modifier.modifiers, currentModifier.modifiers, MaxModifiers);
+                currentModifier.modifiers.Clear();
+                currentModifier.modifiers.AddRange(modifier.modifiers);
+                
+                // Array.Copy(modifier.modifiers, currentModifier.modifiers, MaxModifiers);
+                
                 currentModifier.state = StatsModifier.State.Refresh;
             }
             
