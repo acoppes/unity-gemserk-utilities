@@ -260,9 +260,9 @@ namespace Game.Editor
                     // EditorGUILayout.BeginHorizontal();
                     EditorGUI.BeginChangeCheck();
                     stat.baseValue = EditorGUILayout.FloatField("BASE", stat.baseValue);
-                    // stat.add = EditorGUILayout.FloatField("ADD", stat.add);
-                    // stat.mult = EditorGUILayout.FloatField("MULT", stat.mult);
                     EditorGUI.BeginDisabledGroup(true);
+                    EditorGUILayout.FloatField("ADD", stat.add);
+                    EditorGUILayout.FloatField("MULT", stat.mult);
                     EditorGUILayout.FloatField("VALUE", stat.value);
                     EditorGUI.EndDisabledGroup();
                     

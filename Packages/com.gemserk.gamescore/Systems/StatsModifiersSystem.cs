@@ -74,7 +74,11 @@ namespace Game.Systems
                     for (var i = 0; i < stats.stats.Length; i++)
                     {
                         var stat = stats.stats[i];
-                        stat.value = stat.baseValue;
+                        // stat.value = stat.baseValue;
+                        
+                        stat.add = 0f;
+                        stat.mult = 1f;
+                        
                         stats.stats[i] = stat;
                     }
 
@@ -94,17 +98,19 @@ namespace Game.Systems
                         foreach (var modifier in statsModifier.modifiers)
                         {
                             var stat = stats.GetStat(modifier.type);
-                            stat.value += modifier.add;
+                            // stat.value += modifier.add;
+                            stat.add += modifier.add;
+                            stat.mult *= modifier.mult;
                             stats.SetStat(stat);
                         }
 
                         // then all multiplications
-                        foreach (var modifier in statsModifier.modifiers)
-                        {
-                            var stat = stats.GetStat(modifier.type);
-                            stat.value *= modifier.mult;
-                            stats.SetStat(stat);
-                        }
+                        // foreach (var modifier in statsModifier.modifiers)
+                        // {
+                        //     var stat = stats.GetStat(modifier.type);
+                        //     stat.value *= modifier.mult;
+                        //     stats.SetStat(stat);
+                        // }
                         
                         // so the value is (baseValue + add + add + add) * mult * mult * mult
                     }

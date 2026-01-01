@@ -14,7 +14,11 @@ namespace Game.Components
         
         public int type;
         public float baseValue;
-        public float value;
+
+        public float add;
+        public float mult;
+        
+        public float value => (baseValue + add) * mult;
 
         public bool hasStat => type != Undefined;
 
@@ -25,6 +29,8 @@ namespace Game.Components
                 name = string.Empty,
                 type = Undefined,
                 baseValue = 0,
+                add = 0f,
+                mult = 1f
             };
         }
     }
@@ -201,6 +207,35 @@ namespace Game.Components
         // {
         //     return ref modifiers[statType];
         // }
+
+        public bool TryGet(int statType, out StatModifier statModifier)
+        {
+            statModifier = default;
+            
+            foreach (var modifier in modifiers)
+            {
+                if (modifier.type == statType)
+                {
+                    statModifier = modifier;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void Set(int statType, StatModifier statModifier)
+        {
+            for (var i = 0; i < modifiers.Count; i++)
+            {
+                var modifier = modifiers[i];
+                if (modifier.type == statType)
+                {
+                    modifiers[i] = statModifier;
+                    return;
+                }
+            }
+        }
     }
     
     public struct StatsModifiersComponent : IEntityComponent
@@ -279,6 +314,7 @@ namespace Game.Components
             {
                 currentModifier.type = modifier.type;
                 currentModifier.name = modifier.name;
+                currentModifier.time = modifier.time;
                 
                 currentModifier.modifiers.Clear();
                 currentModifier.modifiers.AddRange(modifier.modifiers);
@@ -320,7 +356,9 @@ namespace Game.Components
                     name = statDefinition.typeAsset.name,
                     type = statDefinition.typeAsset.value,
                     baseValue = statDefinition.value,
-                    value = statDefinition.value
+                    add = 0f,
+                    mult = 1f
+                    // value = statDefinition.value
                 });
             }
             
