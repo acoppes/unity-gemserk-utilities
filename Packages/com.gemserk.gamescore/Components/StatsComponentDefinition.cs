@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Gemserk.BitmaskTypes;
 using Gemserk.Leopotam.Ecs;
+using UnityEngine;
 
 namespace Game.Components
 {
@@ -203,12 +204,52 @@ namespace Game.Components
 
         public void Add(StatsModifier modifier)
         {
-            // should I keep a separated list of pending modifiers to be added instead and process in system?
+            var currentModifier = statsModifiers[modifier.type];
             
-            // this will copy pointers to other arrays
-            var currentModifier = modifier;
+            // if modifier values (add and mult) changed (can be calculated in each modifier set),
+            // then mark stats modifier to refresh too. 
             
-            currentModifier.state = StatsModifier.State.Refresh;
+            // maybe that should be processed in the system, keep a reference to new values or something
+            
+            var shouldRecalculate = false;
+
+            if (currentModifier.type != modifier.type)
+            {
+                shouldRecalculate = true;
+            }
+            else
+            {
+                for (var i = 0; i < currentModifier.modifiers.Length; i++)
+                {
+                    var m0 = currentModifier.modifiers[i];
+                    var m1 = modifier.modifiers[i];
+
+                    if (m0.type != m1.type)
+                    {
+                        shouldRecalculate = true;
+                        break;
+                    }
+                    
+                    if (!Mathf.Approximately(m0.add, m1.add))
+                    {
+                        shouldRecalculate = true;
+                        break;
+                    }
+                    
+                    if (!Mathf.Approximately(m0.mult, m1.mult))
+                    {
+                        shouldRecalculate = true;
+                        break;
+                    }
+                }
+            }
+
+            if (shouldRecalculate)
+            {
+                currentModifier.type = modifier.type;
+                Array.Copy(modifier.modifiers, currentModifier.modifiers, MaxModifiers);
+                currentModifier.state = StatsModifier.State.Refresh;
+            }
             
             statsModifiers[modifier.type] = currentModifier;
         }

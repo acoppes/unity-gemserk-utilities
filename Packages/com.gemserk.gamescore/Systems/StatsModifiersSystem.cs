@@ -45,19 +45,20 @@ namespace Game.Systems
                     
                     if (statsModifier.state == StatsModifier.State.Active)
                     {
+                        statsModifier.activeTime += deltaTime;
+                        statsModifier.currentTime += deltaTime;
+                        
                         // if modifier just set not sure how
                         if (statsModifier.remove || (statsModifier.time > 0 && statsModifier.currentTime > statsModifier.time))
                         {
+                            statsModifier.type = StatsModifier.Undefined;
+                            
                             statsModifier.state = StatsModifier.State.Inactive;
                             statsModifiers.pendingRecalculateStats = true;
+
+                            statsModifier.remove = false;
                         }
                     }
-                    
-                    // TODO: if modifier values (add and mult) changed (can be calculated in each modifier set),
-                    // then mark stats modifier to refresh too. 
-                    
-                    statsModifier.activeTime += deltaTime;
-                    statsModifier.currentTime += deltaTime;
 
                     statsModifiers.statsModifiers[i] = statsModifier;
                 }
@@ -67,10 +68,6 @@ namespace Game.Systems
             {
                 ref var stats = ref statsFilter.Pools.Inc1.Get(e);
                 ref var statsModifiers = ref statsFilter.Pools.Inc2.Get(e);
-                
-                // if statsMOdifiers has a change then
-                // reset stats to original values
-                // recalculate stat from all modifiers, not only added/removed
 
                 if (statsModifiers.pendingRecalculateStats)
                 {
@@ -117,6 +114,8 @@ namespace Game.Systems
                         
                         // so the value is (baseValue + add + add + add) * mult * mult * mult
                     }
+
+                    statsModifiers.pendingRecalculateStats = false;
                 }
             }
             
