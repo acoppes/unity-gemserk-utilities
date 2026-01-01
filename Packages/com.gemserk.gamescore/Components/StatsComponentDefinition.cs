@@ -7,19 +7,19 @@ namespace Game.Components
 {
     public struct Stat
     {
-        public int setCount;
+        public const int Undefined = -1;
         
         public int type;
         public float baseValue;
         public float value;
 
-        public bool isSet => setCount > 0;
+        public bool hasStat => type != Undefined;
 
-        public static Stat Default(int type)
+        public static Stat Default()
         {
             return new Stat()
             {
-                type = type,
+                type = Undefined,
                 baseValue = 0,
             };
         }
@@ -44,7 +44,7 @@ namespace Game.Components
             };
             for (var i = 0; i < statsComponent.stats.Length; i++)
             {
-                statsComponent.stats[i] = Stat.Default(i);
+                statsComponent.stats[i] = Stat.Default();
             }
 
             return statsComponent;
@@ -52,9 +52,6 @@ namespace Game.Components
 
         public void SetStat(Stat stat)
         {
-            // mark modified?
-            var currentStat = stats[stat.type];
-            stat.setCount = currentStat.setCount + 1;
             stats[stat.type] = stat;
         }
 
@@ -102,7 +99,7 @@ namespace Game.Components
         public StatsModifier CreateModifier()
         {
             var statsModifiersData = StatsModifier.Default();
-            statsModifiersData.type = modifierType.value;
+            statsModifiersData.type = modifierType ? modifierType.value : StatsModifier.Undefined;
             statsModifiersData.time = time;
 
             foreach (var statModifierDefinition in statsModifiers)
