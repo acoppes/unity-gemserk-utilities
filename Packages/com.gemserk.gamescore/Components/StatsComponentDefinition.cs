@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game.Components
 {
-    public struct Stat
+    public struct Stat : IEquatable<Stat>
     {
         public const int Undefined = -1;
 
@@ -32,6 +32,21 @@ namespace Game.Components
                 add = 0f,
                 mult = 1f
             };
+        }
+
+        public bool Equals(Stat other)
+        {
+            return type == other.type;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Stat other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return type;
         }
     }
 
@@ -79,7 +94,7 @@ namespace Game.Components
     //     public float mult;
     // 
     
-     [Serializable]
+    [Serializable]
     public class StatModifierDefinition
     {
         public IntTypeAsset statType;
@@ -135,7 +150,7 @@ namespace Game.Components
 
         public bool Equals(StatModifier other)
         {
-            return type == other.type && name == other.name && add.Equals(other.add) && mult.Equals(other.mult);
+            return type == other.type && add.Equals(other.add) && mult.Equals(other.mult);
         }
 
         public override bool Equals(object obj)
@@ -145,7 +160,7 @@ namespace Game.Components
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(type, name, add, mult);
+            return type.GetHashCode();
         }
     }
     
