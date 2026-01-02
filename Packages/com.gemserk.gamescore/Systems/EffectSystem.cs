@@ -25,17 +25,15 @@ namespace Game.Systems
         
         private static readonly List<Target> Targets = new List<Target>();
 
-        public static readonly float[] DamagePerPlayer = new float[PlayerComponent.MaxPlayers];
-        
+        public static readonly float[] DamagePerTeam = new float[PlayerComponent.MaxPlayers];
         
         public void Init(EcsSystems systems)
         {
-            for (var i = 0; i < DamagePerPlayer.Length; i++)
+            for (var i = 0; i < DamagePerTeam.Length; i++)
             {
-                DamagePerPlayer[i] = 1f;
+                DamagePerTeam[i] = 1f;
             }
         }
-        
         
         public void Run(EcsSystems systems)
         {
@@ -256,7 +254,7 @@ namespace Game.Systems
             
             if (effect.type == Effect.EffectType.Damage && target.entity.Has<HealthComponent>())
             {
-                var playerDamageMult = DamagePerPlayer[player];
+                var playerDamageMult = DamagePerTeam[player];
                 
                 ref var health = ref target.entity.Get<HealthComponent>();
                 health.damages.Add(new DamageData
