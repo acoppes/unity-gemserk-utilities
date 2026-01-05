@@ -310,6 +310,8 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 return;
             }
             
+            EcsWorldEntitiesWindowDebugSystem.pendingRecalculateForEditorWindow = true;
+            
             var selectedEntityStyle = new GUIStyle(GUI.skin.button)
             {
                 //fontStyle = FontStyle.Bold,

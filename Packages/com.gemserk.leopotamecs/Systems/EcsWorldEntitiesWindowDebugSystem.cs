@@ -6,6 +6,7 @@ namespace Gemserk.Leopotam.Ecs.Systems
     public class EcsWorldEntitiesWindowDebugSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler, IEntityDestroyedHandler
     {
         public static int windowOpenCount = 0;
+        public static bool pendingRecalculateForEditorWindow = false;
         
         readonly EcsFilterInject<Inc<EcsWorldEntitiesDebugComponent>> filter = default;
 
@@ -29,7 +30,7 @@ namespace Gemserk.Leopotam.Ecs.Systems
         public void Run(EcsSystems systems)
         {
 #if UNITY_EDITOR
-            if (windowOpenCount <= 0)
+            if (windowOpenCount <= 0 || !pendingRecalculateForEditorWindow)
             {
                 return;
             }
@@ -48,6 +49,8 @@ namespace Gemserk.Leopotam.Ecs.Systems
                     debug.isSingletonByName = nameComponent.singleton;
                 }
             }
+
+            pendingRecalculateForEditorWindow = false;
 #endif
         }
     }
