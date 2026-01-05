@@ -65,7 +65,7 @@ namespace Gemserk.Triggers.Queries
         
         public static Entity GetFirstOrDefault(this World world, Query query)
         {
-            return GetFirstOrDefault(world, query.GetEntityQuery());
+            return world.GetFirstOrDefault(query.GetEntityQuery());
         }
         
         public static Entity GetFirstOrDefault(this World world, EntityQuery query)
