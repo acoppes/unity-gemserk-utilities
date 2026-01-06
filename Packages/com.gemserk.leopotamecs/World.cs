@@ -25,7 +25,7 @@ namespace Gemserk.Leopotam.Ecs
         private bool disableLeoEcsDebug;
         
         [SerializeField]
-        private Transform fixedUpdateParent, updateParent, lateUpdateParent;
+        public Transform fixedUpdateParent, updateParent, lateUpdateParent;
         
         internal EcsWorld world;
 
@@ -289,7 +289,7 @@ namespace Gemserk.Leopotam.Ecs
             }
         }
 
-        protected override void Awake()
+        public override void Awake()
         {
             base.Awake();
             Init();
@@ -308,17 +308,17 @@ namespace Gemserk.Leopotam.Ecs
             updateSystems = new EcsSystems(world, sharedData);
             lateUpdateSystems = new EcsSystems(world, sharedData);
             
-            if (fixedUpdateParent != null)
+            if (fixedUpdateParent)
             {
                 Register(fixedUpdateParent, fixedUpdateSystems);
             }
 
-            if (updateParent != null)
+            if (updateParent)
             {
                 Register(updateParent, updateSystems);
             }
 
-            if (lateUpdateParent != null)
+            if (lateUpdateParent)
             {
                 Register(lateUpdateParent, lateUpdateSystems);
             }
@@ -343,24 +343,24 @@ namespace Gemserk.Leopotam.Ecs
             initialized = true;
         }
 
-        private void FixedUpdate()
+        public void FixedUpdate()
         {
             // time.deltaTime = UnityEngine.Time.deltaTime;
             fixedUpdateSystems.Run ();
         }
 
-        private void Update () {
+        public void Update () {
             // time.deltaTime = UnityEngine.Time.deltaTime;
             updateSystems.Run ();
         }
 
-        private void LateUpdate()
+        public void LateUpdate()
         {
             // time.deltaTime = UnityEngine.Time.deltaTime;
             lateUpdateSystems.Run ();
         }
 
-        protected override void OnDestroy () {
+        public override void OnDestroy () {
             base.OnDestroy();
             
             if (fixedUpdateSystems != null) {

@@ -34,12 +34,12 @@ namespace Gemserk.Leopotam.Ecs
             return instances.First(i => i.gameObject.scene.name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
         
-        protected virtual void Awake()
+        public virtual void Awake()
         {
             instances.Add(gameObject.GetComponent<T>());
         }
 
-        protected virtual void OnDestroy()
+        public virtual void OnDestroy()
         {
             instances.Remove(gameObject.GetComponent<T>());
         }
