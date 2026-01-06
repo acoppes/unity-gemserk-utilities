@@ -61,7 +61,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
             return (true, newValue);
         }
     }
-    
+
     public class EcsWorldEntitiesWindow : EditorWindow, IHasCustomMenu
     {
         const int MaxFieldToStringLength = 128;
@@ -94,6 +94,9 @@ namespace Gemserk.Leopotam.Ecs.Editor
         private SearchField componentSearchField;
         private string componentSearchText;
 
+        private List<Type> validComponentTypes = new List<Type>();
+        private List<Type> filterTypes = new List<Type>();
+
         private void OnEnable()
         {
             EcsWorldEntitiesWindowDebugSystem.windowOpenCount++;
@@ -102,6 +105,12 @@ namespace Gemserk.Leopotam.Ecs.Editor
         private void OnDisable()
         {
             EcsWorldEntitiesWindowDebugSystem.windowOpenCount--;
+        }
+
+        private void OnFocus()
+        {
+            validComponentTypes = TypeCache.GetTypesDerivedFrom<IEntityComponent>()
+                .Where(t => !t.IsInterface).ToList();
         }
 
         private void DrawComponents (EcsWorld world, Entity entity)
@@ -289,8 +298,67 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 searchField = new SearchField();
             }
             
+            var titleStyle = new GUIStyle(GUI.skin.label)
+            {
+                alignment = TextAnchor.MiddleCenter
+            };
+            
             var rect = EditorGUILayout.GetControlRect();
             searchText = searchField.OnGUI(rect, searchText);
+            
+            EditorGUILayout.Separator();
+
+            EditorGUILayout.LabelField("-- COMPONENT FILTER --", titleStyle);
+            
+            EditorGUILayout.BeginVertical();
+            EditorGUILayout.BeginHorizontal();
+            var toIterate = new List<Type>(filterTypes);
+            for (var i = 0; i < toIterate.Count; i++)
+            {
+                var filterType = toIterate[i];
+                if (GUILayout.Button(filterType.Name))
+                {
+                    filterTypes.Remove(filterType);
+                }
+
+                if ((i+1) % 3 == 0)
+                {
+                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.BeginHorizontal();
+                }
+            }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndVertical();
+
+            if (GUILayout.Button("<< Add >>"))
+            {
+                // var addTypes = 
+                //     GuiUtilities.FilterAddedComponents<IComponentDefinition>(serializedObject, types);
+                PopupWindow.Show(rect, new AddComponentToFilterPopup()
+                {
+                    types = validComponentTypes,
+                    selectedTypes = filterTypes,
+                    onTypeSelected = delegate(Type t)
+                    {
+                        if (!filterTypes.Contains(t))
+                        {
+                            filterTypes.Add(t);
+                            Repaint();
+                        }
+                    },
+                    cleanupFilter = Array.Empty<string>(),
+                });
+            }
+            
+            EditorGUILayout.Separator();
+            
+            // EditorGUI.BeginChangeCheck();
+            // var newSelection = EditorGUILayout.Popup("Filter", 0, componentTypes.Select(t => t.Name).ToArray());
+            // if (EditorGUI.EndChangeCheck())
+            // {
+            //     filterTypes.Add(componentTypes[newSelection]);
+            // }
 
             if (!Application.isPlaying)
             {
@@ -323,12 +391,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 fontStyle = FontStyle.Normal,
                 alignment = TextAnchor.MiddleLeft
             };
-
-            var titleStyle = new GUIStyle(GUI.skin.label)
-            {
-                alignment = TextAnchor.MiddleCenter
-            };
-
+            
             EditorGUILayout.BeginVertical();
             EditorGUILayout.LabelField("-- TOOLBAR --", titleStyle);
             sortedByName = EditorGUILayout.Toggle("Sort Components By Name", sortedByName);
@@ -369,7 +432,8 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
             scrollPositions[selectedWorld] = EditorGUILayout.BeginScrollView(scrollPositions[selectedWorld], false, false);
             
-            var filter = world.Filter<EcsWorldEntitiesDebugComponent>();
+            var filter = world.GetFilter<EcsWorldEntitiesDebugComponent>().End();
+            
             var debugComponents = world.GetComponents<EcsWorldEntitiesDebugComponent>();
 
             var hasSearch = !string.IsNullOrEmpty(searchText);
@@ -383,6 +447,22 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 // update debug stuff
                 // debug.name = $"{}";
                 var entity = world.GetEntity(e);
+
+                var filteredByType = false;
+                
+                foreach (var filterType in filterTypes)
+                {
+                    if (!world.EcsWorld.GetPoolByType(filterType).Has(e))
+                    {
+                        filteredByType = true;
+                        break;
+                    }
+                }
+
+                if (filteredByType)
+                {
+                    continue;
+                }
                 
                 var entityName = string.IsNullOrEmpty(debug.name)
                     ? $"{entity.ToString()}"
