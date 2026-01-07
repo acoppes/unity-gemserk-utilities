@@ -12,8 +12,11 @@ namespace Gemserk.Leopotam.Ecs.Editor
     {
         public List<Type> types;
         
-        public List<Type> selectedTypes;
-        public Action<Type> onTypeSelected;
+        public List<Type> includedTypes;
+        public List<Type> excludedTypes;
+        
+        public Action<Type> onTypeIncluded;
+        public Action<Type> onTypeExcluded;
         
         public string[] cleanupFilter = null;
 
@@ -90,11 +93,30 @@ namespace Gemserk.Leopotam.Ecs.Editor
                     }
                 }
 
-                var hasComponent = selectedTypes.Contains(type);
+                var included = includedTypes.Contains(type);
+                var excluded = excludedTypes.Contains(type);
+                var hasComponent = included || excluded;
+
+                if (included)
+                {
+                    name = $"+{name}";
+                }
+                
+                if (excluded)
+                {
+                    name = $"-{name}";
+                }
                 
                 if (GUILayout.Button(name, hasComponent ? withComponentSkin :buttonSkin))
                 {
-                    onTypeSelected.Invoke(type);
+                    if (Event.current.shift)
+                    {
+                        onTypeExcluded.Invoke(type);
+                    }
+                    else
+                    {
+                        onTypeIncluded.Invoke(type);
+                    }
                     
                     // Debug.Log($"Component Added: {name}");
                     // GuiUtilities.AddComponentWithUndo(serializedObject, type);

@@ -95,7 +95,11 @@ namespace Gemserk.Leopotam.Ecs.Editor
         private string componentSearchText;
 
         private List<Type> validComponentTypes = new List<Type>();
-        private List<Type> filterTypes = new List<Type>();
+        private readonly List<Type> includedTypes = new List<Type>();
+        private readonly List<Type> excludedTypes = new List<Type>();
+
+        private bool filterChanged;
+        private EcsFilter ecsFilter;
 
         private void OnEnable()
         {
@@ -198,8 +202,6 @@ namespace Gemserk.Leopotam.Ecs.Editor
                         tempColor.a = 0.25f;
                         GUI.backgroundColor = tempColor;
                     }
-
-
                     
                     if (GUILayout.Button(typeName, buttonStyle))
                     {
@@ -312,13 +314,20 @@ namespace Gemserk.Leopotam.Ecs.Editor
             
             EditorGUILayout.BeginVertical();
             EditorGUILayout.BeginHorizontal();
-            var toIterate = new List<Type>(filterTypes);
+            
+            // var includedButtonStyle = new GUIStyle(GUI.skin.button)
+            // {
+            //     
+            // };
+            
+            var toIterate = new List<Type>(includedTypes);
             for (var i = 0; i < toIterate.Count; i++)
             {
                 var filterType = toIterate[i];
-                if (GUILayout.Button(filterType.Name))
+                if (GUILayout.Button($"+{filterType.Name}"))
                 {
-                    filterTypes.Remove(filterType);
+                    includedTypes.Remove(filterType);
+                    filterChanged = true;
                 }
 
                 if ((i+1) % 3 == 0)
@@ -327,23 +336,61 @@ namespace Gemserk.Leopotam.Ecs.Editor
                     EditorGUILayout.BeginHorizontal();
                 }
             }
+            
+            toIterate = new List<Type>(excludedTypes);
+
+            var previousBgColor2 = GUI.backgroundColor;
+            var tempColor = previousBgColor2;
+            tempColor.a = 0.25f;
+            GUI.backgroundColor = tempColor;
+            
+            for (var i = 0; i < toIterate.Count; i++)
+            {
+                var filterType = toIterate[i];
+                if (GUILayout.Button($"-{filterType.Name}"))
+                {
+                    excludedTypes.Remove(filterType);
+                    filterChanged = true;
+                }
+
+                if ((i+1) % 3 == 0)
+                {
+                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.BeginHorizontal();
+                }
+            }
+            
+            GUI.backgroundColor = previousBgColor2;
 
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.EndVertical();
 
-            if (GUILayout.Button("<< Add >>"))
+            if (GUILayout.Button("<< MODIFY >>"))
             {
                 // var addTypes = 
                 //     GuiUtilities.FilterAddedComponents<IComponentDefinition>(serializedObject, types);
                 PopupWindow.Show(rect, new AddComponentToFilterPopup()
                 {
                     types = validComponentTypes,
-                    selectedTypes = filterTypes,
-                    onTypeSelected = delegate(Type t)
+                    includedTypes = includedTypes,
+                    excludedTypes = excludedTypes,
+                    onTypeIncluded = delegate(Type t)
                     {
-                        if (!filterTypes.Contains(t))
+                        if (!includedTypes.Contains(t))
                         {
-                            filterTypes.Add(t);
+                            excludedTypes.Remove(t);
+                            includedTypes.Add(t);
+                            filterChanged = true;
+                            Repaint();
+                        }
+                    },
+                    onTypeExcluded = delegate(Type t)
+                    {
+                        if (!excludedTypes.Contains(t))
+                        {
+                            includedTypes.Remove(t);
+                            excludedTypes.Add(t);
+                            filterChanged = true;
                             Repaint();
                         }
                     },
@@ -408,12 +455,6 @@ namespace Gemserk.Leopotam.Ecs.Editor
             EditorGUILayout.EndVertical();
             
             EditorGUILayout.Separator();
-
-            // reset selected world if now there are less worlds
-            if (selectedWorld >= worlds.Count)
-            {
-                selectedWorld = 0;
-            }
             
             if (worlds.Count > 1)
             {
@@ -428,41 +469,45 @@ namespace Gemserk.Leopotam.Ecs.Editor
             EditorGUILayout.LabelField("-- ENTITIES --", titleStyle);
             EditorGUILayout.Separator();
 
+            // reset selected world if now there are less worlds
+            if (selectedWorld >= worlds.Count)
+            {
+                selectedWorld = 0;
+            }
             var world = worlds[selectedWorld];
+            
+            // TODO: regenerate filter only if filterTypes changed
+            if (ecsFilter == null || filterChanged)
+            {
+                var mask = world.GetFilter<EcsWorldEntitiesDebugComponent>();
+
+                foreach (var filterType in includedTypes)
+                {
+                    mask.IncByType(filterType);
+                }
+                
+                foreach (var filterType in excludedTypes)
+                {
+                    mask.ExcByType(filterType);
+                }
+                
+                ecsFilter = mask.End();
+                filterChanged = false;
+            }
 
             scrollPositions[selectedWorld] = EditorGUILayout.BeginScrollView(scrollPositions[selectedWorld], false, false);
-            
-            var filter = world.GetFilter<EcsWorldEntitiesDebugComponent>().End();
             
             var debugComponents = world.GetComponents<EcsWorldEntitiesDebugComponent>();
 
             var hasSearch = !string.IsNullOrEmpty(searchText);
 
-            foreach (var e in filter)
+            foreach (var e in ecsFilter)
             {
-                // COLLECT INFO HERE
-                
                 ref var debug = ref debugComponents.Get(e);
                 // var debug = filter.Pools.Inc1.Get(e);
                 // update debug stuff
                 // debug.name = $"{}";
                 var entity = world.GetEntity(e);
-
-                var filteredByType = false;
-                
-                foreach (var filterType in filterTypes)
-                {
-                    if (!world.EcsWorld.GetPoolByType(filterType).Has(e))
-                    {
-                        filteredByType = true;
-                        break;
-                    }
-                }
-
-                if (filteredByType)
-                {
-                    continue;
-                }
                 
                 var entityName = string.IsNullOrEmpty(debug.name)
                     ? $"{entity.ToString()}"
