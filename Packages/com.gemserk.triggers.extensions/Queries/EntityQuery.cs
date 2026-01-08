@@ -1,19 +1,20 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Gemserk.Triggers.Queries
 {
     public struct EntityQuery
     {
-        public IEnumerable<IQueryParameter> parameters;
+        public List<IQueryParameter> parameters;
 
-        public EntityQuery(IEnumerable<IQueryParameter> parameters)
+        public EntityQuery(List<IQueryParameter> parameters)
         {
             this.parameters = parameters;
         }
         
         public EntityQuery(params IQueryParameter[] parameters)
         {
-            this.parameters = parameters;
+            this.parameters = parameters.ToList();
         }
         
         public override string ToString()
@@ -35,8 +36,8 @@ namespace Gemserk.Triggers.Queries
 
             return string.Join(",", list);
         }
-
-        public static EntityQuery Create(ICollection<IQueryParameter> parameters)
+        
+        public static EntityQuery Create(IQueryParameter[] parameters)
         {
             return new EntityQuery(parameters);
         }

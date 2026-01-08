@@ -15,9 +15,9 @@ namespace Gemserk.Triggers.Queries
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool MatchQuery(this EntityQuery query, Entity entity)
         {
-            foreach (var parameter in query.parameters)
+            for (var i = 0; i < query.parameters.Count; i++)
             {
-                if (!parameter.MatchQuery(entity))
+                if (!query.parameters[i].MatchQuery(entity))
                 {
                     return false;
                 }
@@ -28,18 +28,18 @@ namespace Gemserk.Triggers.Queries
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool MatchQuery(this EntityQuery query, World world, int entity)
         {
-            return MatchQuery(query, world.GetEntity(entity));
+            return query.MatchQuery(world.GetEntity(entity));
         }
 
         public static List<Entity> GetEntities(this World world, Query query)
         {
-            return GetEntities(world, query.GetEntityQuery());
+            return world.GetEntities(query.GetEntityQuery());
         }
         
         public static List<Entity> GetEntities(this World world, EntityQuery query)
         {
             var results = new List<Entity>();
-            GetEntities(world, query, results);
+            world.GetEntities(query, results);
             return results;
         }
         
