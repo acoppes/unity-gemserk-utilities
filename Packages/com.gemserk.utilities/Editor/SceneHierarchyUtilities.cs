@@ -26,13 +26,13 @@ namespace SandolkakosDigital.EditorUtils
         /// </summary>
         public static List<GameObject> GetExpandedGameObjects()
         {
-            object sceneHierarchy = GetSceneHierarchy();
+            var sceneHierarchy = GetSceneHierarchy();
 
-            MethodInfo methodInfo = sceneHierarchy
+            var methodInfo = sceneHierarchy
                 .GetType()
                 .GetMethod("GetExpandedGameObjects");
 
-            object result = methodInfo.Invoke(sceneHierarchy, new object[0]);
+            var result = methodInfo.Invoke(sceneHierarchy, new object[0]);
 
             return (List<GameObject>)result;
         }
@@ -42,13 +42,13 @@ namespace SandolkakosDigital.EditorUtils
         /// </summary>
         public static void SetExpanded(GameObject go, bool expand)
         {
-            object sceneHierarchy = GetSceneHierarchy();
+            var hierarchyWindow = GetHierarchyWindow();
 
-            MethodInfo methodInfo = sceneHierarchy
+            var methodInfo = hierarchyWindow
                 .GetType()
-                .GetMethod("ExpandTreeViewItem", BindingFlags.NonPublic | BindingFlags.Instance);
-
-            methodInfo.Invoke(sceneHierarchy, new object[] { go.GetInstanceID(), expand });
+                .GetMethod("SetExpanded", BindingFlags.NonPublic | BindingFlags.Instance);
+            
+            methodInfo.Invoke(hierarchyWindow, new object[] { go.GetInstanceID(), expand });
         }
 
         /// <summary>
@@ -56,9 +56,9 @@ namespace SandolkakosDigital.EditorUtils
         /// </summary>
         public static void SetExpandedRecursive(GameObject go, bool expand)
         {
-            object sceneHierarchy = GetSceneHierarchy();
+            var sceneHierarchy = GetSceneHierarchy();
 
-            MethodInfo methodInfo = sceneHierarchy
+            var methodInfo = sceneHierarchy
                 .GetType()
                 .GetMethod("SetExpandedRecursive", BindingFlags.Public | BindingFlags.Instance);
 
