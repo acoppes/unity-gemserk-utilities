@@ -99,14 +99,14 @@ namespace Game.Systems
                 
                 var damageEffects = filter.Pools.Inc1.Get(e);
                 var health = filter.Pools.Inc2.Get(e);
-
-                var entity = world.GetEntity(e);
                 
                 if (health.processedDamages.Count > 0)
                 {
                     // it spawns a generic damage effect given a damage
                     // in the future could check for damage type
                 
+                    var entity = world.GetEntity(e);
+                    
                     for (var i = 0; i < damageEffects.onDamageSpawns.Length; i++)
                     {
                         var spawnData = damageEffects.onDamageSpawns[i];
@@ -141,6 +141,8 @@ namespace Game.Systems
                 // in the case of changing alive state, dont require to jave processed damages to consider effect
                 if (health.wasKilledLastFrame)
                 {
+                    var entity = world.GetEntity(e);
+                    
                     for (var i = 0; i < damageEffects.onDeathSpawns.Length; i++)
                     {
                         var spawnData = damageEffects.onDeathSpawns[i];
