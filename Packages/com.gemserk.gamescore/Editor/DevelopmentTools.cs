@@ -32,10 +32,16 @@ namespace Game.Editor
             
         }
         
-        [MenuItem("Tools/Open Project Temporary Folder")]
+        [MenuItem("Tools/Folders/Open Project temporaryCachePath")]
         public static void OpenTemporaryFolder()
         {
             EditorUtility.RevealInFinder(Application.temporaryCachePath);
+        }
+        
+        [MenuItem("Tools/Folders/Open Project persistentDataPath")]
+        public static void OpenProjectSavegameFolder()
+        {
+            EditorUtility.RevealInFinder(Application.persistentDataPath);
         }
     }
 }
