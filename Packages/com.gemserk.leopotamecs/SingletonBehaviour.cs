@@ -12,10 +12,10 @@ namespace Gemserk.Leopotam.Ecs
         {
             get
             {
-                if (_instance == null)
+                if (!_instance)
                 {
                     var instanceGameObject = GameObject.Find(InstanceName);
-                    if (instanceGameObject != null)
+                    if (instanceGameObject)
                     {
                         _instance = instanceGameObject.GetComponentInChildren<T>();
                     }
@@ -35,13 +35,11 @@ namespace Gemserk.Leopotam.Ecs
 #if UNITY_EDITOR 
         private void OnValidate()
         {
-
-            
     #if UNITY_2021_1_OR_NEWER
-            if ( UnityEditor.SceneManagement.PrefabStageUtility.GetPrefabStage(gameObject) != null)
+            if (UnityEditor.SceneManagement.PrefabStageUtility.GetPrefabStage(gameObject))
                 return;
     #elif UNITY_2019_1_OR_NEWER
-            if (UnityEditor.Experimental.SceneManagement.PrefabStageUtility.GetPrefabStage(gameObject) != null)
+            if (UnityEditor.Experimental.SceneManagement.PrefabStageUtility.GetPrefabStage(gameObject))
                 return;
     #endif
 
@@ -49,8 +47,6 @@ namespace Gemserk.Leopotam.Ecs
             {
                 return;
             }
-            
-
             
             // if there is only one Component in the system?
             if (gameObject.GetComponents<MonoBehaviour>().Length == 1)
