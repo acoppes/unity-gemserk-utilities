@@ -22,16 +22,16 @@ namespace Game.Triggers.Conditions
         
         public override string GetObjectName()
         {
-            if (query == null)
+            if (!query)
             {
                 return "Count()";
             }
-            return $"{compareType}({count}, {query})";
+            return $"{compareType}({count}, {query.name})";
         }
         
         public override bool Evaluate(object activator = null)
         {
-            if (query == null || world == null)
+            if (!query || !world)
             {
                 return false;
             }
