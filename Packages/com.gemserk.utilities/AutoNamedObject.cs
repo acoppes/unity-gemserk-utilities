@@ -2,6 +2,11 @@
 
 namespace Gemserk.Utilities
 {
+    public interface IDebugNamedObject
+    {
+        string GetObjectName();
+    }
+    
     public abstract class AutoNamedObject : MonoBehaviour
     {
         public virtual string GetObjectName()
