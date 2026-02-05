@@ -1,7 +1,6 @@
 ﻿using Gemserk.Triggers;
 using Gemserk.Triggers.Queries;
 using MyBox;
-using UnityEngine;
 
 namespace Game.Triggers.Conditions
 {

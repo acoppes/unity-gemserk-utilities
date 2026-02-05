@@ -1,9 +1,8 @@
-﻿using Gemserk.Utilities;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Gemserk.Triggers
 {
-    public abstract class TriggerAction : MonoBehaviour, ITrigger.IAction, IDebugNamedObject
+    public abstract class TriggerAction : MonoBehaviour, ITrigger.IAction, ITriggerDebugNamedObject
     {
         public bool Disabled => !gameObject.activeSelf || !enabled;
         
