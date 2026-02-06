@@ -11,7 +11,7 @@ namespace Gemserk.Triggers.Editor
 {
     public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
     {
-        public static bool DisableAutoRenderOnUpdate = false;
+        public static bool DisableAutoRenderOnUpdate = true;
         public static bool DisableMultiTriggersRoot = true;
         
         // private const string TriggersRuntimeDebugHideInactiveTriggers = "TriggersRuntimeDebug.HideInactiveTriggers";
@@ -113,7 +113,7 @@ namespace Gemserk.Triggers.Editor
                 tooltip = "Active"
             };
             
-            triggerOffGuiContent = new GUIContent(EditorGUIUtility.IconContent("d_redLight").image)
+            triggerOffGuiContent = new GUIContent(EditorGUIUtility.IconContent("d_lightOff").image)
             {
                 tooltip = "Inactive"
             };
@@ -279,26 +279,42 @@ namespace Gemserk.Triggers.Editor
             // var foldoutStyle = new GUIStyle(EditorStyles.objectField);
 
             var triggerDisabled = triggerObject.IsDisabled();
-                        
+            
+            foldoutStyle.normal.textColor = Color.limeGreen;
+            var foldoutName = triggerObject.name;
+            
             if (triggerDisabled)
             {
-                foldoutStyle.normal.textColor = Color.gray;
+                foldoutStyle.normal.textColor = Color.slateGray;
+
+                if (triggerObject.trigger.executionTimes > 0)
+                {
+                    foldoutName = $"{triggerObject.name} [INACTIVE:{triggerObject.trigger.executionTimes}]";
+                }
+                else
+                {
+                    foldoutName = $"{triggerObject.name} [INACTIVE]";
+                }
             }
             else
             {
                 if (triggerObject.trigger.executionTimes > 0)
                 {
-                    foldoutStyle.fontStyle = FontStyle.Bold;
-                    foldoutStyle.normal.textColor = Color.forestGreen;
+                    // foldoutStyle.fontStyle = FontStyle.Bold;
+                    foldoutStyle.normal.textColor = Color.white;
+                    
+                    foldoutName = $"{triggerObject.name} [COMPLETED:{triggerObject.trigger.executionTimes}]";
                 } else if (triggerObject.State == ITrigger.ExecutionState.Executing)
                 {
                     foldoutStyle.fontStyle = FontStyle.Bold;
                     foldoutStyle.normal.textColor = Color.yellowNice;
+                    
+                    foldoutName = $"{triggerObject.name} [RUNNING]";
                 }
             }
             
             foldoutsPerTrigger[instanceID].foldout =
-                EditorGUILayout.Foldout(foldoutsPerTrigger[instanceID].foldout, triggerObject.name, foldoutStyle);
+                EditorGUILayout.Foldout(foldoutsPerTrigger[instanceID].foldout, foldoutName, foldoutStyle);
                         
             EditorGUI.BeginDisabledGroup(actionsDisabled || triggerDisabled);
             if (GUILayout.Button(executeGuiContent, GUILayout.MaxWidth(30),
@@ -346,11 +362,8 @@ namespace Gemserk.Triggers.Editor
             
             if (foldoutsPerTrigger[instanceID].foldout)
             {
-               
-                
                 EditorGUI.indentLevel++;
-                            
-               
+                
                 // EditorGUILayout.LabelField("State", trigger.State.ToString());
                         
                 // EditorGUILayout.IntField("Pending", trigger.pendingExecutions.Count);
