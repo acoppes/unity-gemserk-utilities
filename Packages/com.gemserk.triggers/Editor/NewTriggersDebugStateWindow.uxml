@@ -1,21 +1,18 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Packages/com.gemserk.triggers/Editor/NewTriggersDebugStateWindow.uss?fileID=7433441132597879392&amp;guid=da475a9da8ca68b41a860bba7c6ac9b0&amp;type=3#NewTriggersDebugStateWindow"/>
-    <ui:ScrollView name="MainScroll">
-        <ui:GroupBox name="GroupBox" class="trigger">
-            <ui:Label text="OnStart_ExecuteTrigger_Name" name="Label" style="font-size: 12px; margin-top: 2px; margin-right: 2px; margin-bottom: 2px; margin-left: 2px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
-            <ui:Button text="" icon-image="" style="position: absolute; align-items: auto; align-self: flex-end; justify-content: center; align-content: center; width: 18px; height: 18px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; right: 0; border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px;"/>
-        </ui:GroupBox>
-        <ui:GroupBox name="GroupBox" class="trigger">
-            <ui:Label text="OnStart_ExecuteTrigger_Name" name="Label" style="font-size: 12px; margin-top: 2px; margin-right: 2px; margin-bottom: 2px; margin-left: 2px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
-            <ui:Button text="" icon-image="" style="position: absolute; align-items: auto; align-self: flex-end; justify-content: center; align-content: center; width: 18px; height: 18px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; right: 0; border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px;"/>
-        </ui:GroupBox>
-        <ui:GroupBox name="GroupBox" class="trigger">
-            <ui:Label text="OnStart_ExecuteTrigger_Name" name="Label" style="font-size: 12px; margin-top: 2px; margin-right: 2px; margin-bottom: 2px; margin-left: 2px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
-            <ui:Button text="" icon-image="" style="position: absolute; align-items: auto; align-self: flex-end; justify-content: center; align-content: center; width: 18px; height: 18px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; right: 0; border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px;"/>
-        </ui:GroupBox>
-        <ui:GroupBox name="GroupBox" class="trigger">
-            <ui:Label text="OnStart_ExecuteTrigger_Name" name="Label" style="font-size: 12px; margin-top: 2px; margin-right: 2px; margin-bottom: 2px; margin-left: 2px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;"/>
-            <ui:Button text="" icon-image="" style="position: absolute; align-items: auto; align-self: flex-end; justify-content: center; align-content: center; width: 18px; height: 18px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; right: 0; border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px;"/>
-        </ui:GroupBox>
-    </ui:ScrollView>
+    <ui:ScrollView name="MainScroll"/>
+    <ui:GroupBox style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+        <ui:Foldout text="Foldout" class="trigger" style="opacity: 1;">
+            <ui:Label text="Label"/>
+        </ui:Foldout>
+        <ui:Button text="" name="Button" class="trigger-button" style="top: 6px; right: 10px;"/>
+        <ui:Button text="" class="trigger-button" style="top: 6px; right: 33px;"/>
+    </ui:GroupBox>
+    <ui:GroupBox style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+        <ui:Foldout text="Foldout" class="trigger" style="opacity: 1;">
+            <ui:Label text="Label"/>
+        </ui:Foldout>
+        <ui:Button text="" name="Button" class="trigger-button" style="top: 6px; right: 10px;"/>
+        <ui:Button text="" class="trigger-button" style="top: 6px; right: 33px;"/>
+    </ui:GroupBox>
 </ui:UXML>
