@@ -261,17 +261,22 @@ namespace Gemserk.Triggers.Editor
         {
             var instanceID = triggerObject.gameObject.GetInstanceID();
             var trigger = triggerObject.trigger;
-                        
+
+            // var bgStyle = new GUIStyle();
+            // bgStyle.normal.background = EditorStyles.label.hover.background;
+            
             EditorGUILayout.BeginVertical();
 
             EditorGUILayout.BeginHorizontal();
-
+            
             if (!foldoutsPerTrigger.ContainsKey(instanceID))
             {
                 foldoutsPerTrigger[instanceID] = new TriggerFoldout();
             }
                         
             var foldoutStyle = new GUIStyle(EditorStyles.foldout);
+            // var foldoutStyle = new GUIStyle(EditorStyles.toolbarButton);
+            // var foldoutStyle = new GUIStyle(EditorStyles.objectField);
 
             var triggerDisabled = triggerObject.IsDisabled();
                         
@@ -291,7 +296,7 @@ namespace Gemserk.Triggers.Editor
                     foldoutStyle.normal.textColor = Color.yellowNice;
                 }
             }
-                        
+            
             foldoutsPerTrigger[instanceID].foldout =
                 EditorGUILayout.Foldout(foldoutsPerTrigger[instanceID].foldout, triggerObject.name, foldoutStyle);
                         
@@ -338,12 +343,14 @@ namespace Gemserk.Triggers.Editor
             }
                         
             EditorGUILayout.EndHorizontal();
-
+            
             if (foldoutsPerTrigger[instanceID].foldout)
             {
+               
+                
                 EditorGUI.indentLevel++;
                             
-                EditorGUILayout.BeginHorizontal();
+               
                 // EditorGUILayout.LabelField("State", trigger.State.ToString());
                         
                 // EditorGUILayout.IntField("Pending", trigger.pendingExecutions.Count);
@@ -356,7 +363,9 @@ namespace Gemserk.Triggers.Editor
                 // {
                 //     EditorGUILayout.LabelField("STATUS: INACTIVE"); 
                 // }
-                            
+
+                EditorGUILayout.BeginHorizontal();
+                    
                 EditorGUILayout.LabelField($"Pending: {trigger.pendingExecutions.Count}");
                             
                 if (triggerObject.maxExecutions > 0)
@@ -380,55 +389,14 @@ namespace Gemserk.Triggers.Editor
                 }
                 else
                 {
-                    EditorGUILayout.ObjectField("Current Action",
-                        null, typeof(GameObject), true);
+                    EditorGUILayout.ObjectField("Current Action", null, typeof(GameObject), true);
                 }
 
                 EditorGUI.EndDisabledGroup();
                             
                 EditorGUI.indentLevel--;
+                
             }
-
-            // if (Application.isPlaying)
-            // {
-            //    
-            // }
-                        
-            // if (!actionsDisabled)
-            // {
-            //     EditorGUILayout.BeginHorizontal();
-            //     
-            //     // if (GUILayout.Button(new GUIContent("Queue", "Queue execution, checks conditions.")))
-            //     // {
-            //     //     trigger.QueueExecution();
-            //     // }
-            //     //
-            //     // if (GUILayout.Button(new GUIContent("Force Execution", "Ignores conditions and force object activation.")))
-            //     // {
-            //     //     if (!triggerObject.isActiveAndEnabled)
-            //     //     {
-            //     //         triggerObject.gameObject.SetActive(true);
-            //     //     }
-            //     //     
-            //     //     trigger.ForceQueueExecution();
-            //     // }
-            //     
-            //     if (triggerObject.isActiveAndEnabled)
-            //     {
-            //         if (GUILayout.Button("Deactivate"))
-            //         {
-            //             triggerObject.gameObject.SetActive(false);
-            //         }
-            //     }
-            //     else
-            //     {
-            //         if (GUILayout.Button("Activate"))
-            //         {
-            //             triggerObject.gameObject.SetActive(true);
-            //         }
-            //     }
-            //     EditorGUILayout.EndHorizontal();
-            // }
 
             EditorGUILayout.EndVertical();
         }
