@@ -51,6 +51,9 @@ namespace Gemserk.Triggers.Editor
         private GUIContent forceExecuteGuiContent;
         private GUIContent expandGuiContent;
         
+        private GUIContent triggerOnGuiContent;
+        private GUIContent triggerOffGuiContent;
+        
         // To turn on/off
         // private GUIContent toggleGuiContent;
         
@@ -110,6 +113,16 @@ namespace Gemserk.Triggers.Editor
             expandGuiContent = new GUIContent(EditorGUIUtility.IconContent("FolderOpened On Icon").image)
             {
                 tooltip = "Toggle Expand"
+            };
+            
+            triggerOnGuiContent = new GUIContent(EditorGUIUtility.IconContent("d_greenLight").image)
+            {
+                tooltip = "Active"
+            };
+            
+            triggerOffGuiContent = new GUIContent(EditorGUIUtility.IconContent("d_redLight").image)
+            {
+                tooltip = "Inactive"
             };
             
             // loadLevelGuiContent = new GUIContent(EditorGUIUtility.IconContent("SceneLoadIn").image)
@@ -269,15 +282,26 @@ namespace Gemserk.Triggers.Editor
 
                         EditorGUILayout.BeginHorizontal();
 
+                        if (!foldoutsPerTrigger.ContainsKey(instanceID))
+                        {
+                            foldoutsPerTrigger[instanceID] = new TriggerFoldout()
+                            {
+                                trigger = triggerObject,
+                                foldout = false,
+                                expanded = false
+                            };
+                        }
+                        
                         foldoutsPerTrigger[instanceID].foldout =
                             EditorGUILayout.Foldout(foldoutsPerTrigger[instanceID].foldout, triggerObject.name);
                         
                         // EditorGUI.BeginDisabledGroup(true);
                         // EditorGUILayout.ObjectField(triggerObject.gameObject,  typeof(GameObject), true);
                         // EditorGUI.EndDisabledGroup();
+
+                        var triggerDisabled = triggerObject.IsDisabled();
                         
-                        EditorGUI.BeginDisabledGroup(actionsDisabled);
-                        
+                        EditorGUI.BeginDisabledGroup(actionsDisabled || triggerDisabled);
                         if (GUILayout.Button(executeGuiContent, GUILayout.MaxWidth(30),
                                 GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
                         {
@@ -289,7 +313,23 @@ namespace Gemserk.Triggers.Editor
                         {
                             trigger.ForceQueueExecution();
                         }
+                        EditorGUI.EndDisabledGroup();
                         
+                        EditorGUI.BeginDisabledGroup(actionsDisabled);
+                        if (!triggerObject.IsDisabled())
+                        {
+                            if (GUILayout.Button(triggerOnGuiContent, GUILayout.MaxWidth(30), GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
+                            {
+                                triggerObject.gameObject.SetActive(false);
+                            }
+                        }
+                        else
+                        {
+                            if (GUILayout.Button(triggerOffGuiContent, GUILayout.MaxWidth(30), GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
+                            {
+                                triggerObject.gameObject.SetActive(true);
+                            }
+                        }
                         EditorGUI.EndDisabledGroup();
                         
                         if (GUILayout.Button(editGuiContent, GUILayout.MaxWidth(30), GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
@@ -360,41 +400,41 @@ namespace Gemserk.Triggers.Editor
                         //    
                         // }
                         
-                        if (!actionsDisabled)
-                        {
-                            EditorGUILayout.BeginHorizontal();
-                            
-                            if (GUILayout.Button(new GUIContent("Queue", "Queue execution, checks conditions.")))
-                            {
-                                trigger.QueueExecution();
-                            }
-
-                            if (GUILayout.Button(new GUIContent("Force Execution", "Ignores conditions and force object activation.")))
-                            {
-                                if (!triggerObject.isActiveAndEnabled)
-                                {
-                                    triggerObject.gameObject.SetActive(true);
-                                }
-                                
-                                trigger.ForceQueueExecution();
-                            }
-                            
-                            if (triggerObject.isActiveAndEnabled)
-                            {
-                                if (GUILayout.Button("Deactivate"))
-                                {
-                                    triggerObject.gameObject.SetActive(false);
-                                }
-                            }
-                            else
-                            {
-                                if (GUILayout.Button("Activate"))
-                                {
-                                    triggerObject.gameObject.SetActive(true);
-                                }
-                            }
-                            EditorGUILayout.EndHorizontal();
-                        }
+                        // if (!actionsDisabled)
+                        // {
+                        //     EditorGUILayout.BeginHorizontal();
+                        //     
+                        //     // if (GUILayout.Button(new GUIContent("Queue", "Queue execution, checks conditions.")))
+                        //     // {
+                        //     //     trigger.QueueExecution();
+                        //     // }
+                        //     //
+                        //     // if (GUILayout.Button(new GUIContent("Force Execution", "Ignores conditions and force object activation.")))
+                        //     // {
+                        //     //     if (!triggerObject.isActiveAndEnabled)
+                        //     //     {
+                        //     //         triggerObject.gameObject.SetActive(true);
+                        //     //     }
+                        //     //     
+                        //     //     trigger.ForceQueueExecution();
+                        //     // }
+                        //     
+                        //     if (triggerObject.isActiveAndEnabled)
+                        //     {
+                        //         if (GUILayout.Button("Deactivate"))
+                        //         {
+                        //             triggerObject.gameObject.SetActive(false);
+                        //         }
+                        //     }
+                        //     else
+                        //     {
+                        //         if (GUILayout.Button("Activate"))
+                        //         {
+                        //             triggerObject.gameObject.SetActive(true);
+                        //         }
+                        //     }
+                        //     EditorGUILayout.EndHorizontal();
+                        // }
                         
                         EditorGUILayout.EndVertical();
 
