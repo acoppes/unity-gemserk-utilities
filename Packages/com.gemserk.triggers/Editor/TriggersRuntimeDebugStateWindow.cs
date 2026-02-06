@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Gemserk.Utilities;
 using Gemserk.Utilities.Editor;
+using MyBox.EditorTools;
 using UnityEditor;
 using UnityEngine;
 using SearchField = UnityEditor.IMGUI.Controls.SearchField;
@@ -21,17 +24,40 @@ namespace Gemserk.Triggers.Editor
 
         public class TriggerSystemFoldout
         {
-            public string name => triggerSystem == null ? null : triggerSystem.name;
-            public bool visible => triggerSystem != null && triggerSystem.isActiveAndEnabled;
+            public string name => !triggerSystem ? null : triggerSystem.name;
+            public bool visible => triggerSystem && triggerSystem.isActiveAndEnabled;
             public bool foldout;
             public TriggerSystem triggerSystem;
         }
 
+        public class TriggerFoldout
+        {
+            public bool foldout;
+            public bool expanded;
+            public TriggerObject trigger;
+        }
+
         private TriggerSystemFoldout[] triggersSystemList;
+
+        private IDictionary<int, TriggerFoldout> foldoutsPerTrigger = new Dictionary<int, TriggerFoldout>();
+        
         private int triggerSystemsCount;
         
         private SearchField searchField;
         private Vector2 scroll;
+        
+        private GUIContent editGuiContent;
+        private GUIContent executeGuiContent;
+        private GUIContent forceExecuteGuiContent;
+        private GUIContent expandGuiContent;
+        
+        // To turn on/off
+        // private GUIContent toggleGuiContent;
+        
+        // private GUIContent loadLevelGuiContent, openGuiContent, buildGuiContent;
+        // private GUIContent duplicateButtonGuiContent;
+        // private GUIContent favoriteGUIContent;
+        // private GUIContent unfavoriteGUIContent;
 
         private void OnEnable()
         {
@@ -66,6 +92,54 @@ namespace Gemserk.Triggers.Editor
         private void OnFocus()
         {
             ReloadTriggers();
+            
+            executeGuiContent = new GUIContent(EditorGUIUtility.IconContent("d_PlayButton").image)
+            {
+                tooltip = "Queue Execution"
+            };
+            
+            forceExecuteGuiContent = new GUIContent(EditorGUIUtility.IconContent("d_StepButton").image)
+            {
+                tooltip = "Force Execution"
+            };
+            
+            editGuiContent = new GUIContent(EditorGUIUtility.IconContent("d_editicon.sml").image)
+            {
+                tooltip = "Select"
+            };
+            expandGuiContent = new GUIContent(EditorGUIUtility.IconContent("FolderOpened On Icon").image)
+            {
+                tooltip = "Toggle Expand"
+            };
+            
+            // loadLevelGuiContent = new GUIContent(EditorGUIUtility.IconContent("SceneLoadIn").image)
+            // {
+            //     tooltip = "Load Level"
+            // };
+            // expandGuiContent = new GUIContent(EditorGUIUtility.IconContent("FolderOpened On Icon").image)
+            // {
+            //     tooltip = "Open"
+            // };
+            //
+            // buildGuiContent = new GUIContent(EditorGUIUtility.IconContent("d_BuildSettings.Standalone").image)
+            // {
+            //     tooltip = "Build & Run"
+            // };
+            //
+            // duplicateButtonGuiContent = new GUIContent(EditorGUIUtility.IconContent("d_TreeEditor.Duplicate").image)
+            // {
+            //     tooltip = "Duplicate"
+            // };
+            //
+            // favoriteGUIContent = new GUIContent(EditorGUIUtility.IconContent("Favorite_colored").image)
+            // {
+            //     tooltip = "Unfavourite"
+            // };
+            //
+            // unfavoriteGUIContent = new GUIContent(EditorGUIUtility.IconContent("Favorite icon").image)
+            // {
+            //     tooltip = "Favourite"
+            // };
         }
 
         private void ReloadTriggers()
@@ -74,6 +148,8 @@ namespace Gemserk.Triggers.Editor
             
             var newList = FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).ToList();
             triggerSystemsCount = 0;
+
+            var triggers = new List<TriggerObject>();
             
             for (var i = 0; i < triggersSystemList.Length; i++)
             {
@@ -92,10 +168,24 @@ namespace Gemserk.Triggers.Editor
                 {
                     var triggersSystem = newList[i];
                     triggerSystemFoldout.triggerSystem = triggersSystem;
+                    
+                    triggers.AddRange(triggersSystem.GetComponentsInChildren<TriggerObject>());
                 }
             }
 
             triggerSystemsCount = triggersSystemList.Count(t => t.visible);
+            
+            foreach (var trigger in triggers)
+            {
+                if (!foldoutsPerTrigger.ContainsKey(trigger.gameObject.GetInstanceID()))
+                {
+                    foldoutsPerTrigger[trigger.gameObject.GetInstanceID()] = new TriggerFoldout()
+                    {
+                        trigger = trigger,
+                        foldout = false,
+                    };
+                }
+            }
         }
         
         private string searchText;
@@ -168,51 +258,85 @@ namespace Gemserk.Triggers.Editor
                                 continue;
                             }
                         }
-                        
+
+                        var instanceID = triggerObject.gameObject.GetInstanceID();
                         var trigger = triggerObject.trigger;
 
                         if (multipleTriggersRoot)
                             EditorGUI.indentLevel++;
                         
                         EditorGUILayout.BeginVertical();
+
+                        EditorGUILayout.BeginHorizontal();
+
+                        foldoutsPerTrigger[instanceID].foldout =
+                            EditorGUILayout.Foldout(foldoutsPerTrigger[instanceID].foldout, triggerObject.name);
                         
-                        EditorGUI.BeginDisabledGroup(true);
-                        EditorGUILayout.ObjectField(triggerObject.gameObject,  typeof(GameObject), true);
+                        // EditorGUI.BeginDisabledGroup(true);
+                        // EditorGUILayout.ObjectField(triggerObject.gameObject,  typeof(GameObject), true);
+                        // EditorGUI.EndDisabledGroup();
+                        
+                        EditorGUI.BeginDisabledGroup(actionsDisabled);
+                        
+                        if (GUILayout.Button(executeGuiContent, GUILayout.MaxWidth(30),
+                                GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
+                        {
+                            trigger.QueueExecution();
+                        }
+                        
+                        if (GUILayout.Button(forceExecuteGuiContent, GUILayout.MaxWidth(30),
+                                GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
+                        {
+                            trigger.ForceQueueExecution();
+                        }
+                        
                         EditorGUI.EndDisabledGroup();
                         
-                        EditorGUILayout.BeginHorizontal();
-                        // EditorGUILayout.LabelField("State", trigger.State.ToString());
-                        
-                        // EditorGUILayout.IntField("Pending", trigger.pendingExecutions.Count);
-                        
-                        if (triggerObject.isActiveAndEnabled)
+                        if (GUILayout.Button(editGuiContent, GUILayout.MaxWidth(30), GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
                         {
-                            EditorGUILayout.LabelField($"STATUS: {trigger.State.ToString().ToUpper()}");
-                        }
-                        else
-                        {
-                            EditorGUILayout.LabelField("STATUS: INACTIVE");
-                        }
-                        EditorGUILayout.EndHorizontal();
-                        EditorGUILayout.BeginHorizontal();
-                        
-                        EditorGUILayout.LabelField($"Pending: {trigger.pendingExecutions.Count}");
-                        
-                        if (triggerObject.maxExecutions > 0)
-                        {
-                            EditorGUILayout.LabelField($"Completed: {trigger.executionTimes}/{triggerObject.maxExecutions}");
-                        }
-                        else
-                        {
-                            EditorGUILayout.LabelField($"Completed: {trigger.executionTimes}");
-                            // EditorGUILayout.IntField("Completed", trigger.executionTimes);
+                            Selection.activeGameObject = triggerObject.gameObject;
                         }
                         
+                        if (GUILayout.Button(expandGuiContent, GUILayout.MaxWidth(30), GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
+                        {
+                            foldoutsPerTrigger[instanceID].expanded = !foldoutsPerTrigger[instanceID].expanded;
+                            MyEditor.FoldInHierarchy(triggerObject.gameObject, foldoutsPerTrigger[instanceID].expanded);
+                        }
                         
                         EditorGUILayout.EndHorizontal();
 
-                        if (Application.isPlaying)
+                        if (foldoutsPerTrigger[instanceID].foldout)
                         {
+                            EditorGUI.indentLevel++;
+                            
+                            EditorGUILayout.BeginHorizontal();
+                            // EditorGUILayout.LabelField("State", trigger.State.ToString());
+                        
+                            // EditorGUILayout.IntField("Pending", trigger.pendingExecutions.Count);
+                        
+                            if (triggerObject.isActiveAndEnabled)
+                            {
+                                EditorGUILayout.LabelField($"STATUS: {trigger.State.ToString().ToUpper()}");
+                            }
+                            else
+                            {
+                                EditorGUILayout.LabelField("STATUS: INACTIVE"); 
+                            }
+                            
+                            EditorGUILayout.LabelField($"Pending: {trigger.pendingExecutions.Count}");
+                            
+                            if (triggerObject.maxExecutions > 0)
+                            {
+                                EditorGUILayout.LabelField($"Completed: {trigger.executionTimes}/{triggerObject.maxExecutions}");
+                            }
+                            else
+                            {
+                                EditorGUILayout.LabelField($"Completed: {trigger.executionTimes}");
+                                // EditorGUILayout.IntField("Completed", trigger.executionTimes);
+                            }
+                            
+                            EditorGUILayout.EndHorizontal();
+                            
                             EditorGUI.BeginDisabledGroup(true);
                             if (trigger.actions.Count > 0 && trigger.State == ITrigger.ExecutionState.Executing)
                             {
@@ -227,7 +351,14 @@ namespace Gemserk.Triggers.Editor
                             }
 
                             EditorGUI.EndDisabledGroup();
+                            
+                            EditorGUI.indentLevel--;
                         }
+
+                        // if (Application.isPlaying)
+                        // {
+                        //    
+                        // }
                         
                         if (!actionsDisabled)
                         {
