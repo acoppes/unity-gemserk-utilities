@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Gemserk.Utilities;
 using Gemserk.Utilities.Editor;
@@ -12,7 +11,7 @@ namespace Gemserk.Triggers.Editor
 {
     public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
     {
-        private const string TriggersRuntimeDebugHideInactiveTriggers = "TriggersRuntimeDebug.HideInactiveTriggers";
+        // private const string TriggersRuntimeDebugHideInactiveTriggers = "TriggersRuntimeDebug.HideInactiveTriggers";
 
         [MenuItem("Window/Gemserk/Triggers/Debug State")]
         public static void ShowWindow()
@@ -34,7 +33,6 @@ namespace Gemserk.Triggers.Editor
         {
             public bool foldout;
             public bool expanded;
-            public TriggerObject trigger;
         }
 
         private TriggerSystemFoldout[] triggersSystemList;
@@ -53,14 +51,6 @@ namespace Gemserk.Triggers.Editor
         
         private GUIContent triggerOnGuiContent;
         private GUIContent triggerOffGuiContent;
-        
-        // To turn on/off
-        // private GUIContent toggleGuiContent;
-        
-        // private GUIContent loadLevelGuiContent, openGuiContent, buildGuiContent;
-        // private GUIContent duplicateButtonGuiContent;
-        // private GUIContent favoriteGUIContent;
-        // private GUIContent unfavoriteGUIContent;
 
         private void OnEnable()
         {
@@ -124,35 +114,6 @@ namespace Gemserk.Triggers.Editor
             {
                 tooltip = "Inactive"
             };
-            
-            // loadLevelGuiContent = new GUIContent(EditorGUIUtility.IconContent("SceneLoadIn").image)
-            // {
-            //     tooltip = "Load Level"
-            // };
-            // expandGuiContent = new GUIContent(EditorGUIUtility.IconContent("FolderOpened On Icon").image)
-            // {
-            //     tooltip = "Open"
-            // };
-            //
-            // buildGuiContent = new GUIContent(EditorGUIUtility.IconContent("d_BuildSettings.Standalone").image)
-            // {
-            //     tooltip = "Build & Run"
-            // };
-            //
-            // duplicateButtonGuiContent = new GUIContent(EditorGUIUtility.IconContent("d_TreeEditor.Duplicate").image)
-            // {
-            //     tooltip = "Duplicate"
-            // };
-            //
-            // favoriteGUIContent = new GUIContent(EditorGUIUtility.IconContent("Favorite_colored").image)
-            // {
-            //     tooltip = "Unfavourite"
-            // };
-            //
-            // unfavoriteGUIContent = new GUIContent(EditorGUIUtility.IconContent("Favorite icon").image)
-            // {
-            //     tooltip = "Favourite"
-            // };
         }
 
         private void ReloadTriggers()
@@ -192,11 +153,7 @@ namespace Gemserk.Triggers.Editor
             {
                 if (!foldoutsPerTrigger.ContainsKey(trigger.gameObject.GetInstanceID()))
                 {
-                    foldoutsPerTrigger[trigger.gameObject.GetInstanceID()] = new TriggerFoldout()
-                    {
-                        trigger = trigger,
-                        foldout = false,
-                    };
+                    foldoutsPerTrigger[trigger.gameObject.GetInstanceID()] = new TriggerFoldout();
                 }
             }
         }
@@ -229,13 +186,13 @@ namespace Gemserk.Triggers.Editor
                 searchTexts = StringUtilities.SplitSearchText(searchText);
             }
 
-            var hideInactiveTriggers = SessionState.GetBool(TriggersRuntimeDebugHideInactiveTriggers, true);
-            EditorGUI.BeginChangeCheck();
-            hideInactiveTriggers = EditorGUILayout.Toggle("Hide Inactive Triggers", hideInactiveTriggers);
-            if (EditorGUI.EndChangeCheck())
-            {
-                SessionState.SetBool(TriggersRuntimeDebugHideInactiveTriggers, hideInactiveTriggers);
-            }
+            // var hideInactiveTriggers = SessionState.GetBool(TriggersRuntimeDebugHideInactiveTriggers, true);
+            // EditorGUI.BeginChangeCheck();
+            // hideInactiveTriggers = EditorGUILayout.Toggle("Hide Inactive Triggers", hideInactiveTriggers);
+            // if (EditorGUI.EndChangeCheck())
+            // {
+            //     SessionState.SetBool(TriggersRuntimeDebugHideInactiveTriggers, hideInactiveTriggers);
+            // }
             
             scroll = EditorGUILayout.BeginScrollView(scroll);
             foreach (var triggersSystemFoldout in triggersSystemList)
@@ -255,14 +212,13 @@ namespace Gemserk.Triggers.Editor
                 {
                     var triggerSystem = triggersSystemFoldout.triggerSystem;
                     var triggerObjects = triggerSystem.GetComponentsInChildren<TriggerObject>(true);
-
-
+                    
                     foreach (var triggerObject in triggerObjects)
                     {
-                        if (hideInactiveTriggers && !triggerObject.isActiveAndEnabled)
-                        {
-                            continue;
-                        }
+                        // if (hideInactiveTriggers && !triggerObject.isActiveAndEnabled)
+                        // {
+                        //     continue;
+                        // }
                         
                         if (searchTexts != null)
                         {
@@ -284,22 +240,20 @@ namespace Gemserk.Triggers.Editor
 
                         if (!foldoutsPerTrigger.ContainsKey(instanceID))
                         {
-                            foldoutsPerTrigger[instanceID] = new TriggerFoldout()
-                            {
-                                trigger = triggerObject,
-                                foldout = false,
-                                expanded = false
-                            };
+                            foldoutsPerTrigger[instanceID] = new TriggerFoldout();
+                        }
+                        
+                        var foldoutStyle = new GUIStyle(EditorStyles.foldout);
+
+                        var triggerDisabled = triggerObject.IsDisabled();
+                        
+                        if (triggerDisabled)
+                        {
+                            foldoutStyle.normal.textColor = Color.gray;
                         }
                         
                         foldoutsPerTrigger[instanceID].foldout =
-                            EditorGUILayout.Foldout(foldoutsPerTrigger[instanceID].foldout, triggerObject.name);
-                        
-                        // EditorGUI.BeginDisabledGroup(true);
-                        // EditorGUILayout.ObjectField(triggerObject.gameObject,  typeof(GameObject), true);
-                        // EditorGUI.EndDisabledGroup();
-
-                        var triggerDisabled = triggerObject.IsDisabled();
+                            EditorGUILayout.Foldout(foldoutsPerTrigger[instanceID].foldout, triggerObject.name, foldoutStyle);
                         
                         EditorGUI.BeginDisabledGroup(actionsDisabled || triggerDisabled);
                         if (GUILayout.Button(executeGuiContent, GUILayout.MaxWidth(30),
