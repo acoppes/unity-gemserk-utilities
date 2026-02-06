@@ -120,7 +120,7 @@ namespace Gemserk.Triggers.Editor
         {
             CreateInternalList();
             
-            var newList = FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).ToList();
+            var newList = FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID).ToList();
             triggerSystemsCount = 0;
 
             var triggers = new List<TriggerObject>();
@@ -251,6 +251,21 @@ namespace Gemserk.Triggers.Editor
                         {
                             foldoutStyle.normal.textColor = Color.gray;
                         }
+                        else
+                        {
+                            if (triggerObject.trigger.executionTimes > 0)
+                            {
+                                foldoutStyle.fontStyle = FontStyle.Bold;
+                                foldoutStyle.normal.textColor = Color.forestGreen;
+                            } else if (triggerObject.State == ITrigger.ExecutionState.Executing)
+                            {
+                                foldoutStyle.fontStyle = FontStyle.Bold;
+                                foldoutStyle.normal.textColor = Color.yellowNice;
+                            }
+                        }
+
+                        foldoutStyle.stretchWidth = true;
+                        foldoutStyle.clipping = TextClipping.Clip;
                         
                         foldoutsPerTrigger[instanceID].foldout =
                             EditorGUILayout.Foldout(foldoutsPerTrigger[instanceID].foldout, triggerObject.name, foldoutStyle);
@@ -308,14 +323,14 @@ namespace Gemserk.Triggers.Editor
                         
                             // EditorGUILayout.IntField("Pending", trigger.pendingExecutions.Count);
                         
-                            if (triggerObject.isActiveAndEnabled)
-                            {
-                                EditorGUILayout.LabelField($"STATUS: {trigger.State.ToString().ToUpper()}");
-                            }
-                            else
-                            {
-                                EditorGUILayout.LabelField("STATUS: INACTIVE"); 
-                            }
+                            // if (!triggerDisabled)
+                            // {
+                            //     EditorGUILayout.LabelField($"STATUS: {trigger.State.ToString().ToUpper()}");
+                            // }
+                            // else
+                            // {
+                            //     EditorGUILayout.LabelField("STATUS: INACTIVE"); 
+                            // }
                             
                             EditorGUILayout.LabelField($"Pending: {trigger.pendingExecutions.Count}");
                             
