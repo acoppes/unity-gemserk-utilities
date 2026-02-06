@@ -263,9 +263,6 @@ namespace Gemserk.Triggers.Editor
                                 foldoutStyle.normal.textColor = Color.yellowNice;
                             }
                         }
-
-                        foldoutStyle.stretchWidth = true;
-                        foldoutStyle.clipping = TextClipping.Clip;
                         
                         foldoutsPerTrigger[instanceID].foldout =
                             EditorGUILayout.Foldout(foldoutsPerTrigger[instanceID].foldout, triggerObject.name, foldoutStyle);
