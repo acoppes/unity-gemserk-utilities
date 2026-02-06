@@ -1,6 +1,9 @@
-﻿using Gemserk.Utilities.Signals;
+﻿using System;
+using System.Collections.Generic;
+using Gemserk.Utilities.Signals;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Gemserk.Utilities.Editor
 {
@@ -13,7 +16,11 @@ namespace Gemserk.Utilities.Editor
 
             var signalAsset = target as SignalAsset;
 
-            var handlers = signalAsset.GetHandlers();
+            var handlers = new List<Delegate>();
+            handlers.AddRange(signalAsset.GetHandlers());
+            handlers.AddRange(signalAsset.GetHandlersMultiples());
+
+            // var handlers = signalAsset.GetHandlers();
             
             EditorGUILayout.BeginVertical();
             EditorGUILayout.LabelField("TOTAL", $"{handlers.Count}");
