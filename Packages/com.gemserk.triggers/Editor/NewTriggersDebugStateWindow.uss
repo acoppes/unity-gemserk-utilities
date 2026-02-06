@@ -1,0 +1,39 @@
+.custom-label {
+    font-size: 20px;
+    -unity-font-style: bold;
+    color: rgb(68, 138, 255);
+}
+
+.trigger {
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    margin-top: 1px;
+    margin-right: 1px;
+    margin-bottom: 1px;
+    margin-left: 1px;
+    background-color: rgba(0, 0, 0, 0.44);
+    color: rgb(255, 255, 255);
+    -unity-font-style: normal;
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    font-size: 12px;
+}
+
+.trigger-even {
+    background-color: rgba(38, 38, 38, 0.55);
+}
+
+.trigger:hover {
+    background-color: rgba(32, 64, 83, 0.55);
+    -unity-font-style: normal;
+    padding-top: 0;
+    padding-left: 1px;
+}
