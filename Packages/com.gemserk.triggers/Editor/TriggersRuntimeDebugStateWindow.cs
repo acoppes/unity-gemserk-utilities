@@ -11,6 +11,8 @@ namespace Gemserk.Triggers.Editor
 {
     public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
     {
+        public static bool DisableAutoRenderOnUpdate = false;
+        
         // private const string TriggersRuntimeDebugHideInactiveTriggers = "TriggersRuntimeDebug.HideInactiveTriggers";
 
         [MenuItem("Window/Gemserk/Triggers/Debug State")]
@@ -159,6 +161,17 @@ namespace Gemserk.Triggers.Editor
         }
         
         private string searchText;
+
+        private void Update()
+        {
+            if (DisableAutoRenderOnUpdate)
+                return;
+            
+            if (Application.isPlaying)
+            {
+                Repaint();
+            }
+        }
 
         private void OnGUI()
         {
