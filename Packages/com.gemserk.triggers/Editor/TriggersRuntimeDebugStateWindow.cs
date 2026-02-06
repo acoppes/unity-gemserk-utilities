@@ -274,26 +274,27 @@ namespace Gemserk.Triggers.Editor
                 foldoutsPerTrigger[instanceID] = new TriggerFoldout();
             }
                         
-            var foldoutStyle = new GUIStyle(EditorStyles.foldout);
+            // var triggerNameStyle = new GUIStyle(EditorStyles.foldout);
+            var elementStyle = new GUIStyle(EditorStyles.label);
             // var foldoutStyle = new GUIStyle(EditorStyles.toolbarButton);
             // var foldoutStyle = new GUIStyle(EditorStyles.objectField);
 
             var triggerDisabled = triggerObject.IsDisabled();
             
-            foldoutStyle.normal.textColor = Color.limeGreen;
-            var foldoutName = triggerObject.name;
+            elementStyle.normal.textColor = Color.limeGreen;
+            var elementName = triggerObject.name;
             
             if (triggerDisabled)
             {
-                foldoutStyle.normal.textColor = Color.slateGray;
+                elementStyle.normal.textColor = Color.slateGray;
 
                 if (triggerObject.trigger.executionTimes > 0)
                 {
-                    foldoutName = $"{triggerObject.name} [INACTIVE:{triggerObject.trigger.executionTimes}]";
+                    elementName = $"{triggerObject.name} [INACTIVE:{triggerObject.trigger.executionTimes}]";
                 }
                 else
                 {
-                    foldoutName = $"{triggerObject.name} [INACTIVE]";
+                    elementName = $"{triggerObject.name} [INACTIVE]";
                 }
             }
             else
@@ -301,20 +302,25 @@ namespace Gemserk.Triggers.Editor
                 if (triggerObject.trigger.executionTimes > 0)
                 {
                     // foldoutStyle.fontStyle = FontStyle.Bold;
-                    foldoutStyle.normal.textColor = Color.white;
+                    elementStyle.normal.textColor = Color.white;
                     
-                    foldoutName = $"{triggerObject.name} [COMPLETED:{triggerObject.trigger.executionTimes}]";
+                    elementName = $"{triggerObject.name} [COMPLETED:{triggerObject.trigger.executionTimes}]";
                 } else if (triggerObject.State == ITrigger.ExecutionState.Executing)
                 {
-                    foldoutStyle.fontStyle = FontStyle.Bold;
-                    foldoutStyle.normal.textColor = Color.yellowNice;
+                    elementStyle.fontStyle = FontStyle.Bold;
+                    elementStyle.normal.textColor = Color.yellowNice;
                     
-                    foldoutName = $"{triggerObject.name} [RUNNING]";
+                    elementName = $"{triggerObject.name} [RUNNING]";
                 }
             }
             
-            foldoutsPerTrigger[instanceID].foldout =
-                EditorGUILayout.Foldout(foldoutsPerTrigger[instanceID].foldout, foldoutName, foldoutStyle);
+            EditorGUILayout.LabelField(elementName, elementStyle);
+            
+            // foldoutsPerTrigger[instanceID].foldout =
+            //     EditorGUILayout.Foldout(foldoutsPerTrigger[instanceID].foldout, foldoutName, triggerNameStyle);
+            
+            // foldoutsPerTrigger[instanceID].foldout =
+            //     EditorGUILayout.Foldout(foldoutsPerTrigger[instanceID].foldout, foldoutName, triggerNameStyle);
                         
             EditorGUI.BeginDisabledGroup(actionsDisabled || triggerDisabled);
             if (GUILayout.Button(executeGuiContent, GUILayout.MaxWidth(30),
@@ -330,86 +336,104 @@ namespace Gemserk.Triggers.Editor
             }
             EditorGUI.EndDisabledGroup();
                         
-            EditorGUI.BeginDisabledGroup(actionsDisabled);
+            // EditorGUI.BeginDisabledGroup(actionsDisabled);
             if (!triggerObject.IsDisabled())
             {
                 if (GUILayout.Button(triggerOnGuiContent, GUILayout.MaxWidth(30), GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
                 {
-                    triggerObject.gameObject.SetActive(false);
+                    if (!Application.isPlaying)
+                    {
+                        Undo.RecordObject(triggerObject.gameObject, "Toggle Active");
+                        triggerObject.gameObject.SetActive(false);
+                        EditorUtility.SetDirty(triggerObject.gameObject);
+                    }
+                    else
+                    {
+                        triggerObject.gameObject.SetActive(false);
+                    }
                 }
             }
             else
             {
                 if (GUILayout.Button(triggerOffGuiContent, GUILayout.MaxWidth(30), GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
                 {
-                    triggerObject.gameObject.SetActive(true);
+                    if (!Application.isPlaying)
+                    {
+                        Undo.RecordObject(triggerObject.gameObject, "Toggle Active");
+                        triggerObject.gameObject.SetActive(true);
+                        EditorUtility.SetDirty(triggerObject.gameObject);
+                    }
+                    else
+                    {
+                        triggerObject.gameObject.SetActive(true);
+                    }
                 }
             }
-            EditorGUI.EndDisabledGroup();
+            // EditorGUI.EndDisabledGroup();
                         
-            if (GUILayout.Button(editGuiContent, GUILayout.MaxWidth(30), GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
-            {
-                Selection.activeGameObject = triggerObject.gameObject;
-            }
+            // if (GUILayout.Button(editGuiContent, GUILayout.MaxWidth(30), GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
+            // {
+            //     Selection.activeGameObject = triggerObject.gameObject;
+            // }
                         
             if (GUILayout.Button(expandGuiContent, GUILayout.MaxWidth(30), GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
             {
+                Selection.activeGameObject = triggerObject.gameObject;
                 foldoutsPerTrigger[instanceID].expanded = !foldoutsPerTrigger[instanceID].expanded;
                 MyEditor.FoldInHierarchy(triggerObject.gameObject, foldoutsPerTrigger[instanceID].expanded);
             }
                         
             EditorGUILayout.EndHorizontal();
             
-            if (foldoutsPerTrigger[instanceID].foldout)
-            {
-                EditorGUI.indentLevel++;
-                
-                // EditorGUILayout.LabelField("State", trigger.State.ToString());
-                        
-                // EditorGUILayout.IntField("Pending", trigger.pendingExecutions.Count);
-                        
-                // if (!triggerDisabled)
-                // {
-                //     EditorGUILayout.LabelField($"STATUS: {trigger.State.ToString().ToUpper()}");
-                // }
-                // else
-                // {
-                //     EditorGUILayout.LabelField("STATUS: INACTIVE"); 
-                // }
-
-                EditorGUILayout.BeginHorizontal();
-                    
-                EditorGUILayout.LabelField($"Pending: {trigger.pendingExecutions.Count}");
-                            
-                if (triggerObject.maxExecutions > 0)
-                {
-                    EditorGUILayout.LabelField($"Completed: {trigger.executionTimes}/{triggerObject.maxExecutions}");
-                }
-                else
-                {
-                    EditorGUILayout.LabelField($"Completed: {trigger.executionTimes}");
-                    // EditorGUILayout.IntField("Completed", trigger.executionTimes);
-                }
-                            
-                EditorGUILayout.EndHorizontal();
-                            
-                EditorGUI.BeginDisabledGroup(true);
-                if (trigger.actions.Count > 0 && trigger.State == ITrigger.ExecutionState.Executing)
-                {
-                    var actionObject = trigger.actions[trigger.executingAction] as MonoBehaviour;
-                    EditorGUILayout.ObjectField("Current Action",
-                        actionObject.gameObject, typeof(GameObject), true);
-                }
-                else
-                {
-                    EditorGUILayout.ObjectField("Current Action", null, typeof(GameObject), true);
-                }
-
-                EditorGUI.EndDisabledGroup();
-                            
-                EditorGUI.indentLevel--;
-                
-            }
+            // if (foldoutsPerTrigger[instanceID].foldout)
+            // {
+            //     EditorGUI.indentLevel++;
+            //     
+            //     // EditorGUILayout.LabelField("State", trigger.State.ToString());
+            //             
+            //     // EditorGUILayout.IntField("Pending", trigger.pendingExecutions.Count);
+            //             
+            //     // if (!triggerDisabled)
+            //     // {
+            //     //     EditorGUILayout.LabelField($"STATUS: {trigger.State.ToString().ToUpper()}");
+            //     // }
+            //     // else
+            //     // {
+            //     //     EditorGUILayout.LabelField("STATUS: INACTIVE"); 
+            //     // }
+            //
+            //     EditorGUILayout.BeginHorizontal();
+            //         
+            //     EditorGUILayout.LabelField($"Pending: {trigger.pendingExecutions.Count}");
+            //                 
+            //     if (triggerObject.maxExecutions > 0)
+            //     {
+            //         EditorGUILayout.LabelField($"Completed: {trigger.executionTimes}/{triggerObject.maxExecutions}");
+            //     }
+            //     else
+            //     {
+            //         EditorGUILayout.LabelField($"Completed: {trigger.executionTimes}");
+            //         // EditorGUILayout.IntField("Completed", trigger.executionTimes);
+            //     }
+            //                 
+            //     EditorGUILayout.EndHorizontal();
+            //                 
+            //     EditorGUI.BeginDisabledGroup(true);
+            //     if (trigger.actions.Count > 0 && trigger.State == ITrigger.ExecutionState.Executing)
+            //     {
+            //         var actionObject = trigger.actions[trigger.executingAction] as MonoBehaviour;
+            //         EditorGUILayout.ObjectField("Current Action",
+            //             actionObject.gameObject, typeof(GameObject), true);
+            //     }
+            //     else
+            //     {
+            //         EditorGUILayout.ObjectField("Current Action", null, typeof(GameObject), true);
+            //     }
+            //
+            //     EditorGUI.EndDisabledGroup();
+            //                 
+            //     EditorGUI.indentLevel--;
+            // }
 
             EditorGUILayout.EndVertical();
         }
