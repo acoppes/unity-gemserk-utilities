@@ -24,11 +24,12 @@
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .trigger-even {
-    background-color: rgba(38, 38, 38, 0.55);
+    background-color: rgba(24, 24, 24, 0.55);
+    color: rgb(59, 59, 59);
 }
 
 .trigger:hover {
@@ -44,8 +45,8 @@
     align-self: flex-end;
     justify-content: center;
     align-content: center;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     margin-top: 0;
     margin-right: 0;
     margin-bottom: 0;
@@ -55,14 +56,21 @@
     padding-bottom: 0;
     padding-left: 0;
     right: 0;
-    border-top-width: 4px;
-    border-right-width: 4px;
-    border-bottom-width: 4px;
-    border-left-width: 4px;
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
-    border-bottom-right-radius: 2px;
-    border-bottom-left-radius: 2px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    top: 4px;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    color: rgba(27, 27, 27, 0.8);
+    background-color: rgba(124, 124, 124, 0.25);
 }
 
 .trigger-label {
@@ -75,4 +83,8 @@
     padding-right: 0;
     padding-bottom: 0;
     padding-left: 0;
+}
+
+.trigger-button:hover {
+    background-color: rgba(75, 157, 188, 0.84);
 }
