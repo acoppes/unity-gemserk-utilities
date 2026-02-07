@@ -80,6 +80,7 @@ public class NewTriggersDebugStateWindow : EditorWindow
             buttonForceExecute.Q<Image>().image = forceExecuteGuiContent.image; 
             
             var buttonExpand = element.Q<Button>("ButtonExpand");
+            buttonExpand.SetEnabled(false);
             buttonExpand.clicked += () =>
             {
                 Debug.Log("EXPAND ON/OFF");

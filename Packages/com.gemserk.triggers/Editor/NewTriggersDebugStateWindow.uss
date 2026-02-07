@@ -25,6 +25,7 @@
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
     font-size: 14px;
+    height: 28px;
 }
 
 .trigger-even {
@@ -40,7 +41,7 @@
 }
 
 .trigger-button {
-    position: absolute;
+    position: relative;
     align-items: auto;
     align-self: flex-end;
     justify-content: center;
@@ -48,9 +49,9 @@
     width: 20px;
     height: 20px;
     margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
+    margin-right: 2px;
+    margin-bottom: 8px;
+    margin-left: 2px;
     padding-top: 0;
     padding-right: 0;
     padding-bottom: 0;
@@ -70,7 +71,8 @@
     border-top-color: rgba(0, 0, 0, 0);
     border-bottom-color: rgba(0, 0, 0, 0);
     color: rgba(27, 27, 27, 0.8);
-    background-color: rgba(124, 124, 124, 0.25);
+    background-color: rgba(88, 88, 88, 0.42);
+    flex-grow: 0;
 }
 
 .trigger-label {
@@ -85,6 +87,10 @@
     padding-left: 0;
 }
 
-.trigger-button:hover {
+.trigger-button:hover:enabled {
     background-color: rgba(75, 157, 188, 0.84);
+}
+
+.trigger-button:disabled Image {
+    --unity-image-tint-color: rgba(132, 132, 132, 255);
 }
