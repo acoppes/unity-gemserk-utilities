@@ -18,6 +18,9 @@
             <ui:Button name="ButtonExpand" class="trigger-button" style="right: auto;">
                 <ui:Image class="trigger-button-image" style="padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
             </ui:Button>
+            <ui:Button name="ButtonState" class="trigger-button" style="right: auto;">
+                <ui:Image class="trigger-button-image" style="padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px;"/>
+            </ui:Button>
             <ui:Button name="ButtonForceExecute" class="trigger-button" style="right: auto; display: flex;">
                 <ui:Image class="trigger-button-image" style="padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px;"/>
             </ui:Button>
