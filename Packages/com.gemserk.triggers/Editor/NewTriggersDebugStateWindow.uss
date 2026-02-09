@@ -1,8 +1,3 @@
-.custom-label {
-    font-size: 20px;
-    -unity-font-style: bold;
-    color: rgb(68, 138, 255);
-}
 
 .trigger {
     padding-top: 0;
@@ -24,7 +19,7 @@
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
-    font-size: 14px;
+    font-size: 13px;
     height: 28px;
 }
 
@@ -57,14 +52,6 @@
     padding-bottom: 0;
     padding-left: 0;
     right: 0;
-    border-top-width: 0;
-    border-right-width: 0;
-    border-bottom-width: 0;
-    border-left-width: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
     top: 4px;
     border-left-color: rgba(0, 0, 0, 0);
     border-right-color: rgba(0, 0, 0, 0);
@@ -105,9 +92,11 @@
 }
 
 .trigger-state-completed {
-    color: forestgreen;
+    color: lightgreen;
+    -unity-font-style: bold;
 }
 
 .trigger-state-done {
-    color: seagreen;
+    color: lightgreen;
+    -unity-font-style: bold;
 }

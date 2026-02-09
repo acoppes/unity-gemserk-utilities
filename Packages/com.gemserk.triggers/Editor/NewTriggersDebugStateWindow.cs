@@ -55,18 +55,6 @@ public class NewTriggersDebugStateWindow : EditorWindow
                     MyEditor.FoldInHierarchy(triggerObject.gameObject, expanded);
                 }
             });
-            // rootElement.RegisterCallback<ClickEvent>(evt =>
-            // {
-            //     if (evt.button == 1)
-            //     {
-            //         EditorGUIUtility.PingObject(triggerObject.gameObject);
-            //     } else if (evt.button == 0)
-            //     {
-            //         Selection.activeGameObject = triggerObject.gameObject;
-            //         expanded = !expanded;
-            //         MyEditor.FoldInHierarchy(triggerObject.gameObject, expanded);
-            //     }
-            // });
             
             buttonExecute = rootElement.Q<Button>("ButtonExecute");
             buttonExecute.clicked += () =>
@@ -126,8 +114,8 @@ public class NewTriggersDebugStateWindow : EditorWindow
 
             var isDisabled = triggerObject.IsDisabled();
             
-            buttonExecute.SetEnabled(Application.isPlaying);
-            buttonForceExecute.SetEnabled(Application.isPlaying);
+            buttonExecute.SetEnabled(Application.isPlaying && !isDisabled);
+            buttonForceExecute.SetEnabled(Application.isPlaying && !isDisabled);
             
             label.RemoveFromClassList("trigger-disabled");
             label.RemoveFromClassList("trigger-state-running");
@@ -146,15 +134,14 @@ public class NewTriggersDebugStateWindow : EditorWindow
                     label.text = $"{triggerObject.name} [RUNNING]";
                     label.AddToClassList("trigger-state-running");
                 }
-                
-                if (triggerObject.State == ITrigger.ExecutionState.Completed)
+                else
                 {
                     if (triggerObject.trigger.maxExecutionTimes > 0 && triggerObject.trigger.executionTimes >= triggerObject.trigger.maxExecutionTimes)
                     {
                         label.text = $"{triggerObject.name} [DONE:{triggerObject.trigger.executionTimes}]";
                         label.AddToClassList("trigger-state-done");
                     }
-                    else
+                    else if (triggerObject.trigger.executionTimes > 0)
                     {
                         label.text = $"{triggerObject.name} [COMPLETED:{triggerObject.trigger.executionTimes}]";
                         label.AddToClassList("trigger-state-completed");
