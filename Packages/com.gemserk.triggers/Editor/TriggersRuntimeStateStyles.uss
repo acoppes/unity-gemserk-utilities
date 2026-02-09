@@ -93,10 +93,4 @@
 
 .trigger-state-completed {
     color: lightgreen;
-    -unity-font-style: bold;
-}
-
-.trigger-state-done {
-    color: lightgreen;
-    -unity-font-style: bold;
 }

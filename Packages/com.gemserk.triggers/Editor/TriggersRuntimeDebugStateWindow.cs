@@ -1,12 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Gemserk.Triggers;
+using Gemserk.Utilities.Editor;
 using MyBox.EditorTools;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class TriggersRuntimeDebugStateWindow : EditorWindow
+public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
 {
     public class TriggerElement
     {
@@ -133,8 +135,11 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
             
             // var hidden = (triggerObject.gameObject.activeSelf && !triggerObject.gameObject.activeInHierarchy);
             // root.visible = !hidden;
+
+            var cantExecute = triggerObject.trigger.maxExecutionTimes > 0 &&
+                             triggerObject.trigger.executionTimes >= triggerObject.trigger.maxExecutionTimes;
             
-            buttonExecute.SetEnabled(Application.isPlaying && !isDisabled);
+            buttonExecute.SetEnabled(Application.isPlaying && !isDisabled && !cantExecute);
             buttonForceExecute.SetEnabled(Application.isPlaying && !isDisabled);
 
             label.RemoveFromClassList("trigger-disabled");
@@ -142,34 +147,44 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
             label.RemoveFromClassList("trigger-state-completed");
             label.RemoveFromClassList("trigger-state-done");
 
+            var executionNumber = $"{triggerObject.trigger.executionTimes}";
+
+            if (triggerObject.trigger.maxExecutionTimes > 0)
+            {
+                executionNumber = $"{triggerObject.trigger.executionTimes}/{triggerObject.trigger.maxExecutionTimes}";
+            }
+
             if (isDisabled)
             {
-                label.text = $"{triggerObject.name} [INACTIVE:{triggerObject.trigger.executionTimes}]";
+                label.text = $"{triggerObject.name} [INACTIVE:{executionNumber}]";
                 label.AddToClassList("trigger-disabled");
             }
             else
             {
                 if (currentState == ITrigger.ExecutionState.Executing)
                 {
-                    label.text = $"{triggerObject.name} [RUNNING]";
+                    executionNumber = $"{triggerObject.trigger.executionTimes + 1}/{triggerObject.trigger.maxExecutionTimes}";
+                    
+                    label.text = $"{triggerObject.name} [RUNNING:{executionNumber}]";
                     label.AddToClassList("trigger-state-running");
                 }
                 else
                 {
-                    if (triggerObject.trigger.maxExecutionTimes > 0 && triggerObject.trigger.executionTimes >=
-                        triggerObject.trigger.maxExecutionTimes)
+                    if (triggerObject.trigger.executionTimes > 0)
                     {
-                        label.text = $"{triggerObject.name} [DONE:{triggerObject.trigger.executionTimes}]";
-                        label.AddToClassList("trigger-state-done");
-                    }
-                    else if (triggerObject.trigger.executionTimes > 0)
-                    {
-                        label.text = $"{triggerObject.name} [COMPLETED:{triggerObject.trigger.executionTimes}]";
+                        label.text = $"{triggerObject.name} [COMPLETED:{executionNumber}]";
                         label.AddToClassList("trigger-state-completed");
                     }
                     else
                     {
-                        label.text = triggerObject.name;
+                        if (triggerObject.trigger.maxExecutionTimes > 0)
+                        {
+                            label.text = $"{triggerObject.name} [0/{triggerObject.trigger.maxExecutionTimes}]";
+                        }
+                        else
+                        { 
+                            label.text = triggerObject.name;
+                        }
                     }
                 }
             }
@@ -197,7 +212,7 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
     private List<TriggerObject> triggerObjects = new List<TriggerObject>();
     
     private VisualElement elementsContainer;
-    
+
     [MenuItem("Window/Gemserk/Triggers/Debug State")]
     public static void ShowWindow()
     {
@@ -223,6 +238,11 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
 
         triggerElements.RemoveAll(t => !t.triggerObject || !triggerObjects.Contains(t.triggerObject));
         
+        Redraw(false);
+    }
+
+    private void Redraw(bool forced)
+    {
         for (var i = 0; i < triggerElements.Count; i++)
         {
             var triggerElement = triggerElements[i];
@@ -239,8 +259,23 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
             //     }
             // }
             
-            triggerElement.Redraw();
+            triggerElement.Redraw(forced);
         }
+    }
+
+    private void OnEnable()
+    {
+        EditorApplication.playModeStateChanged += OnPlayModeChanged;
+    }
+
+    private void OnDisable()
+    {
+        EditorApplication.playModeStateChanged -= OnPlayModeChanged;
+    }
+
+    private void OnPlayModeChanged(PlayModeStateChange obj)
+    {
+        Redraw(true);
     }
 
     private void OnHierarchyChange()
@@ -316,6 +351,8 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
         };
 
         Reload();
+        
+        
     }
 
     private void Reload()
@@ -343,5 +380,10 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
         triggerElement.SetRootElement(elementTemplate.Q("TriggerElement"));
 
         return triggerElement;
+    }
+
+    public void AddItemsToMenu(GenericMenu menu)
+    {
+        EditorWindowExtensions.AddEditScript(menu, nameof(TriggersRuntimeDebugStateWindow));
     }
 }

@@ -391,7 +391,7 @@ namespace Gemserk.Triggers.Editor
 
         public void AddItemsToMenu(GenericMenu menu)
         {
-            EditorWindowExtensions.AddEditScript(menu, nameof(TriggersRuntimeDebugStateWindow));
+            EditorWindowExtensions.AddEditScript(menu, nameof(TriggersRuntimeDebugStateWindowOld));
         }
     }
 }
