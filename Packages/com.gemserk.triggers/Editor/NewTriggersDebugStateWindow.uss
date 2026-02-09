@@ -98,3 +98,16 @@
 .trigger-button:disabled Image {
     --unity-image-tint-color: rgba(132, 132, 132, 255);
 }
+
+.trigger-state-running {
+    color: yellow;
+    -unity-font-style: bold;
+}
+
+.trigger-state-completed {
+    color: forestgreen;
+}
+
+.trigger-state-done {
+    color: seagreen;
+}

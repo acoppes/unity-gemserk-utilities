@@ -43,11 +43,30 @@ public class NewTriggersDebugStateWindow : EditorWindow
                 label.text = $"{triggerObject.name} [INACTIVE]";
             }
             
-            rootElement.RegisterCallback<ClickEvent>(evt =>
+            rootElement.RegisterCallback<PointerDownEvent>(evt =>
             {
-                EditorGUIUtility.PingObject(triggerObject.gameObject);
-                Selection.activeGameObject = triggerObject.gameObject;
+                if (evt.button == 1)
+                {
+                    EditorGUIUtility.PingObject(triggerObject.gameObject);
+                } else if (evt.button == 0)
+                {
+                    Selection.activeGameObject = triggerObject.gameObject;
+                    expanded = !expanded;
+                    MyEditor.FoldInHierarchy(triggerObject.gameObject, expanded);
+                }
             });
+            // rootElement.RegisterCallback<ClickEvent>(evt =>
+            // {
+            //     if (evt.button == 1)
+            //     {
+            //         EditorGUIUtility.PingObject(triggerObject.gameObject);
+            //     } else if (evt.button == 0)
+            //     {
+            //         Selection.activeGameObject = triggerObject.gameObject;
+            //         expanded = !expanded;
+            //         MyEditor.FoldInHierarchy(triggerObject.gameObject, expanded);
+            //     }
+            // });
             
             buttonExecute = rootElement.Q<Button>("ButtonExecute");
             buttonExecute.clicked += () =>
@@ -110,14 +129,37 @@ public class NewTriggersDebugStateWindow : EditorWindow
             buttonExecute.SetEnabled(Application.isPlaying);
             buttonForceExecute.SetEnabled(Application.isPlaying);
             
+            label.RemoveFromClassList("trigger-disabled");
+            label.RemoveFromClassList("trigger-state-running");
+            label.RemoveFromClassList("trigger-state-completed");
+            label.RemoveFromClassList("trigger-state-done");
+            
             if (isDisabled)
             {
-                label.text = $"{triggerObject.name} [INACTIVE]";
+                label.text = $"{triggerObject.name} [INACTIVE:{triggerObject.trigger.executionTimes}]";
                 label.AddToClassList("trigger-disabled");
             }
             else
             {
-                label.RemoveFromClassList("trigger-disabled");
+                if (triggerObject.State == ITrigger.ExecutionState.Executing)
+                {
+                    label.text = $"{triggerObject.name} [RUNNING]";
+                    label.AddToClassList("trigger-state-running");
+                }
+                
+                if (triggerObject.State == ITrigger.ExecutionState.Completed)
+                {
+                    if (triggerObject.trigger.maxExecutionTimes > 0 && triggerObject.trigger.executionTimes >= triggerObject.trigger.maxExecutionTimes)
+                    {
+                        label.text = $"{triggerObject.name} [DONE:{triggerObject.trigger.executionTimes}]";
+                        label.AddToClassList("trigger-state-done");
+                    }
+                    else
+                    {
+                        label.text = $"{triggerObject.name} [COMPLETED:{triggerObject.trigger.executionTimes}]";
+                        label.AddToClassList("trigger-state-completed");
+                    }
+                }
             }
             
             buttonState.Q<Image>().image = isDisabled  ? triggerOffGuiContent.image : triggerOnGuiContent.image;

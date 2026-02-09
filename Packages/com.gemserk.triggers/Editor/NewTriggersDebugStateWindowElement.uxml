@@ -15,7 +15,7 @@
     <ui:GroupBox name="TriggerElement" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
         <ui:Label text="Label" class="trigger"/>
         <ui:VisualElement style="flex-grow: 1; flex-direction: row-reverse; position: absolute; align-self: center; align-content: center; width: 0; height: 28px; justify-content: space-between; align-items: flex-end; right: 0; margin-right: 0; top: 0; bottom: auto;">
-            <ui:Button name="ButtonExpand" class="trigger-button" style="right: auto;">
+            <ui:Button name="ButtonExpand" class="trigger-button" style="right: auto; display: none;">
                 <ui:Image class="trigger-button-image" style="padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;"/>
             </ui:Button>
             <ui:Button name="ButtonState" class="trigger-button" style="right: auto;">
