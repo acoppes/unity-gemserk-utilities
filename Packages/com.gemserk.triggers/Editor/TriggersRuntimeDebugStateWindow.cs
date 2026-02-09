@@ -23,6 +23,10 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
 
         private bool expanded;
 
+        private bool wasDisabled;
+        private ITrigger.ExecutionState previousState = ITrigger.ExecutionState.Waiting;
+        private int previousExecutionTimes;
+
         public TriggerElement(TriggerObject triggerObject)
         {
             this.triggerObject = triggerObject;
@@ -37,11 +41,6 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
             var isTriggerDisabled = triggerObject.IsDisabled();
             
             label.text = triggerObject.name;
-
-            if (isTriggerDisabled)
-            {
-                label.text = $"{triggerObject.name} [INACTIVE]";
-            }
             
             rootElement.RegisterCallback<PointerDownEvent>(evt =>
             {
@@ -106,30 +105,43 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
             {
                 label.AddToClassList("trigger-disabled");
             }
+            
+            Redraw(true);
         }
 
-        public void Redraw()
+        public void Redraw(bool force = false)
         {
             if (!triggerObject)
             {
                 return;
             }
-            
-            label.text = triggerObject.name;
-
-            // var hidden = (triggerObject.gameObject.activeSelf && !triggerObject.gameObject.activeInHierarchy);
-            // root.visible = !hidden;
 
             var isDisabled = triggerObject.IsDisabled();
+            var currentState = triggerObject.State;
+            
+            if (!force)
+            {
+                if (wasDisabled == isDisabled && currentState == previousState && previousExecutionTimes == triggerObject.trigger.executionTimes)
+                {
+                    return;
+                }
+            }
+
+            previousState = currentState;
+            wasDisabled = isDisabled;
+            previousExecutionTimes = triggerObject.trigger.executionTimes;
+            
+            // var hidden = (triggerObject.gameObject.activeSelf && !triggerObject.gameObject.activeInHierarchy);
+            // root.visible = !hidden;
             
             buttonExecute.SetEnabled(Application.isPlaying && !isDisabled);
             buttonForceExecute.SetEnabled(Application.isPlaying && !isDisabled);
-            
+
             label.RemoveFromClassList("trigger-disabled");
             label.RemoveFromClassList("trigger-state-running");
             label.RemoveFromClassList("trigger-state-completed");
             label.RemoveFromClassList("trigger-state-done");
-            
+
             if (isDisabled)
             {
                 label.text = $"{triggerObject.name} [INACTIVE:{triggerObject.trigger.executionTimes}]";
@@ -137,14 +149,15 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
             }
             else
             {
-                if (triggerObject.State == ITrigger.ExecutionState.Executing)
+                if (currentState == ITrigger.ExecutionState.Executing)
                 {
                     label.text = $"{triggerObject.name} [RUNNING]";
                     label.AddToClassList("trigger-state-running");
                 }
                 else
                 {
-                    if (triggerObject.trigger.maxExecutionTimes > 0 && triggerObject.trigger.executionTimes >= triggerObject.trigger.maxExecutionTimes)
+                    if (triggerObject.trigger.maxExecutionTimes > 0 && triggerObject.trigger.executionTimes >=
+                        triggerObject.trigger.maxExecutionTimes)
                     {
                         label.text = $"{triggerObject.name} [DONE:{triggerObject.trigger.executionTimes}]";
                         label.AddToClassList("trigger-state-done");
@@ -154,10 +167,14 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
                         label.text = $"{triggerObject.name} [COMPLETED:{triggerObject.trigger.executionTimes}]";
                         label.AddToClassList("trigger-state-completed");
                     }
+                    else
+                    {
+                        label.text = triggerObject.name;
+                    }
                 }
             }
-            
-            buttonState.Q<Image>().image = isDisabled  ? triggerOffGuiContent.image : triggerOnGuiContent.image;
+
+            buttonState.Q<Image>().image = isDisabled ? triggerOffGuiContent.image : triggerOnGuiContent.image;
         }
     }
     
@@ -194,18 +211,33 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
         for (var i = 0; i < triggerElements.Count; i++)
         {
             var triggerElement = triggerElements[i];
-
-            if (triggerElement.root != null)
+            
+            if (!triggerElement.triggerObject || !triggerObjects.Contains(triggerElement.triggerObject))
             {
-                if (i % 2 == 0)
+                if (triggerElement.root.parent == elementsContainer)
                 {
-                    triggerElement.root.AddToClassList("trigger-even");
-                }
-                else
-                {
-                    triggerElement.root.RemoveFromClassList("trigger-even");
+                    elementsContainer.Remove(triggerElement.root);
                 }
             }
+        }
+
+        triggerElements.RemoveAll(t => !t.triggerObject || !triggerObjects.Contains(t.triggerObject));
+        
+        for (var i = 0; i < triggerElements.Count; i++)
+        {
+            var triggerElement = triggerElements[i];
+        
+            // if (triggerElement.root != null)
+            // {
+            //     if (i % 2 == 0)
+            //     {
+            //         triggerElement.root.AddToClassList("trigger-even");
+            //     }
+            //     else
+            //     {
+            //         triggerElement.root.RemoveFromClassList("trigger-even");
+            //     }
+            // }
             
             triggerElement.Redraw();
         }
@@ -214,6 +246,11 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
     private void OnHierarchyChange()
     {
         // check for triggers
+
+        if (Application.isPlaying)
+        {
+            return;
+        }
         
         triggerObjects = new List<TriggerObject>();
         
@@ -234,21 +271,6 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
                 }
             }
         }
-        
-        for (var i = 0; i < triggerElements.Count; i++)
-        {
-            var triggerElement = triggerElements[i];
-            
-            if (!triggerElement.triggerObject || !triggerObjects.Contains(triggerElement.triggerObject))
-            {
-                if (triggerElement.root.parent == elementsContainer)
-                {
-                    elementsContainer.Remove(triggerElement.root);
-                }
-            }
-        }
-
-        triggerElements.RemoveAll(t => !t.triggerObject || !triggerObjects.Contains(t.triggerObject));
     }
 
     public void CreateGUI()
