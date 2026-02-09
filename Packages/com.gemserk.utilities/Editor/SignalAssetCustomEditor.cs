@@ -18,7 +18,7 @@ namespace Gemserk.Utilities.Editor
 
             var handlers = new List<Delegate>();
             handlers.AddRange(signalAsset.GetHandlers());
-            handlers.AddRange(signalAsset.GetHandlersMultiples());
+            // handlers.AddRange(signalAsset.GetHandlersMultiples());
 
             // var handlers = signalAsset.GetHandlers();
             

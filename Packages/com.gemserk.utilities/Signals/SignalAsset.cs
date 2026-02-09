@@ -7,10 +7,10 @@ namespace Gemserk.Utilities.Signals
     public class SignalAsset : ScriptableObject, ISignal
     {
         private readonly IList<ISignal.OnSignal> handlers = new List<ISignal.OnSignal>();
-        private readonly IList<ISignal.OnSignalMultiple> handlersMultipleParams = new List<ISignal.OnSignalMultiple>();
+        // private readonly IList<ISignal.OnSignalMultiple> handlersMultipleParams = new List<ISignal.OnSignalMultiple>();
 
         public IList<ISignal.OnSignal> GetHandlers() => handlers;
-        public IList<ISignal.OnSignalMultiple> GetHandlersMultiples() => handlersMultipleParams;
+        // public IList<ISignal.OnSignalMultiple> GetHandlersMultiples() => handlersMultipleParams;
 
         public void Register(ISignal.OnSignal signalHandler)
         {
@@ -22,15 +22,15 @@ namespace Gemserk.Utilities.Signals
             handlers.Remove(signalHandler);
         }
 
-        public void Register(ISignal.OnSignalMultiple signalHandler)
-        {
-            handlersMultipleParams.Add(signalHandler);
-        }
-
-        public void Unregister(ISignal.OnSignalMultiple signalHandler)
-        {
-            handlersMultipleParams.Remove(signalHandler);
-        }
+        // public void Register(ISignal.OnSignalMultiple signalHandler)
+        // {
+        //     handlersMultipleParams.Add(signalHandler);
+        // }
+        //
+        // public void Unregister(ISignal.OnSignalMultiple signalHandler)
+        // {
+        //     handlersMultipleParams.Remove(signalHandler);
+        // }
 
         public void Signal(object userData)
         {
@@ -40,18 +40,18 @@ namespace Gemserk.Utilities.Signals
             }
         }
 
-        public void Signal(params object[] userData)
-        {
-            foreach (var onSignalMultiple in handlersMultipleParams)
-            {
-                onSignalMultiple(userData);
-            }
-        }
+        // public void Signal(params object[] userData)
+        // {
+        //     foreach (var onSignalMultiple in handlersMultipleParams)
+        //     {
+        //         onSignalMultiple(userData);
+        //     }
+        // }
 
         public void Clear()
         {
             handlers.Clear();
-            handlersMultipleParams.Clear();
+            // handlersMultipleParams.Clear();
         }
     }
 }
