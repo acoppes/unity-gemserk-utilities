@@ -112,6 +112,9 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
         {
             label.text = triggerObject.name;
 
+            // var hidden = (triggerObject.gameObject.activeSelf && !triggerObject.gameObject.activeInHierarchy);
+            // root.visible = !hidden;
+
             var isDisabled = triggerObject.IsDisabled();
             
             buttonExecute.SetEnabled(Application.isPlaying && !isDisabled);
@@ -199,7 +202,7 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
                 }
             }
             
-            if (!triggerElement.triggerObject)
+            if (!triggerElement.triggerObject || !triggerObjects.Contains(triggerElement.triggerObject))
             {
                 if (triggerElement.root.parent == elementsContainer)
                 {
@@ -212,7 +215,7 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
             }
         }
 
-        triggerElements.RemoveAll(t => !t.triggerObject);
+        triggerElements.RemoveAll(t => !t.triggerObject || !triggerObjects.Contains(t.triggerObject));
     }
 
     private void OnHierarchyChange()
@@ -250,29 +253,18 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
 
     public void CreateGUI()
     {
-        // Each editor window contains a root VisualElement object
         var root = rootVisualElement;
+        
+        var template = m_VisualTreeAsset.Instantiate();
+        
+        elementsContainer = template.Query<VisualElement>("MainScroll").First();
+        root.Add(template);
 
-        // VisualElements objects can contain other VisualElement following a tree hierarchy.
-        // VisualElement label = new Label("Hello World! From C#");
-        // root.Add(label);
-        
-        // Instantiate UXML
-        var fromXml = m_VisualTreeAsset.Instantiate();
-        // root.Add(fromXml);
-        // return;
-        
-        // var triggerElementTemplate = fromXml.Query<VisualElement>("TriggerElement-Template").First();
-        
-        elementsContainer = fromXml.Query<VisualElement>("MainScroll").First();
-        root.Add(fromXml);
-
-        var button = fromXml.Query<Button>("ButtonRefresh").First();
+        var button = template.Query<Button>("ButtonRefresh").First();
         button.clicked += () =>
         {
             triggerElements.Clear();
             elementsContainer.Clear();
-
             Reload();
         };
         
@@ -306,7 +298,7 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
 
     private void Reload()
     {
-        var triggerObjects = new List<TriggerObject>();
+        triggerObjects = new List<TriggerObject>();
         
         var triggerSystems = FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID);
         triggerSystems.Select(t => t.GetComponentsInChildren<TriggerObject>(true)).ToList().ForEach(l => triggerObjects.AddRange(l));
@@ -316,111 +308,17 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
         for (var i = 0; i < triggerObjects.Count; i++)
         {
             var triggerElement = CreateTriggerElement(triggerObjects[i]);
-            
-            // if (i % 2 == 0)
-            // {
-            //     triggerElement.root.AddToClassList("trigger-even");
-            // }
-
             triggerElements.Add(triggerElement);
             elementsContainer.Add(triggerElement.root);
-            
-            // triggerElements[triggerObjects[i].gameObject.GetInstanceID()] = triggerElement;
         }
-        
-        // var custom1 = m_VisualElementTemplate.Instantiate();
-        // custom1.Q<Label>().text = "MY CUSTOM TEXT 1";
-        // mainScroll.Add(custom1);
-        //
-        // var custom2 = m_VisualElementTemplate.Instantiate();
-        //
-        // custom2.Q<Label>().text = "MY CUSTOM TEXT 2";
-        // mainScroll.Add(custom2);
     }
 
     private TriggerElement CreateTriggerElement(TriggerObject triggerObject)
     {
         var elementTemplate = m_VisualElementTemplate.Instantiate();
 
-        // var isTriggerDisabled = !triggerObject.gameObject.activeSelf;
-        //
-        var element = elementTemplate.Q("TriggerElement");
-        // var label = element.Q<Label>();
-        //
-        // label.text = triggerObject.name;
-        //
-        // if (isTriggerDisabled)
-        // {
-        //     label.text = $"{triggerObject.name} [INACTIVE]";
-        // }
-        //
-        // element.RegisterCallback<ClickEvent>(evt =>
-        // {
-        //     EditorGUIUtility.PingObject(triggerObject.gameObject);
-        // });
-        //
-        // var buttonExecute = element.Q<Button>("ButtonExecute");
-        // buttonExecute.SetEnabled(Application.isPlaying);
-        // buttonExecute.clicked += () =>
-        // {
-        //     triggerObject.QueueExecution();
-        //     // Debug.Log("EXECUTE");
-        // };
-        // buttonExecute.Q<Image>().image = executeGuiContent.image;
-        //     
-        // var buttonForceExecute = element.Q<Button>("ButtonForceExecute");
-        // buttonForceExecute.SetEnabled(Application.isPlaying);
-        // buttonForceExecute.clicked += () =>
-        // {
-        //     triggerObject.ForceQueueExecution();
-        //     // Debug.Log("FORCE EXECUTE");
-        // };
-        // buttonForceExecute.Q<Image>().image = forceExecuteGuiContent.image; 
-        //     
-        // var buttonExpand = element.Q<Button>("ButtonExpand");
-        // buttonExpand.clicked += () =>
-        // {
-        //     Selection.activeGameObject = triggerObject.gameObject;
-        //     // foldoutsPerTrigger[instanceID].expanded = !foldoutsPerTrigger[instanceID].expanded;
-        //     MyEditor.FoldInHierarchy(triggerObject.gameObject, true);
-        //     // Debug.Log("EXPAND ON/OFF");
-        // };
-        // buttonExpand.Q<Image>().image = expandGuiContent.image; 
-        //     
-        // var buttonState = element.Q<Button>("ButtonState");
-        // buttonState.clicked += () =>
-        // {
-        //     if (triggerObject.gameObject.activeSelf)
-        //     {
-        //         buttonState.Q<Image>().image = triggerOffGuiContent.image;
-        //         Undo.RecordObject(triggerObject.gameObject, "Toggle Active");
-        //         triggerObject.gameObject.SetActive(false);
-        //         EditorUtility.SetDirty(triggerObject.gameObject);
-        //         
-        //         label.AddToClassList("trigger-disabled");
-        //     }
-        //     else
-        //     {
-        //         buttonState.Q<Image>().image = triggerOnGuiContent.image;
-        //         Undo.RecordObject(triggerObject.gameObject, "Toggle Active");
-        //         triggerObject.gameObject.SetActive(true);
-        //         EditorUtility.SetDirty(triggerObject.gameObject);
-        //         
-        //         label.RemoveFromClassList("trigger-disabled");
-        //     }
-        // };
-        //
-        // buttonState.Q<Image>().image = isTriggerDisabled  ? triggerOffGuiContent.image : triggerOnGuiContent.image;
-        //
-        // if (isTriggerDisabled)
-        // {
-        //     label.AddToClassList("trigger-disabled");
-        // }
-
         var triggerElement = new TriggerElement(triggerObject);
-        triggerElement.SetRootElement(element);
-
-        // triggerElements.Add(triggerElement);
+        triggerElement.SetRootElement(elementTemplate.Q("TriggerElement"));
 
         return triggerElement;
     }
