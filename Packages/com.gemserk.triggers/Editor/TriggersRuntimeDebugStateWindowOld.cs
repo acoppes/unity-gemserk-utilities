@@ -1,0 +1,397 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Gemserk.Utilities;
+using Gemserk.Utilities.Editor;
+using MyBox.EditorTools;
+using UnityEditor;
+using UnityEngine;
+using SearchField = UnityEditor.IMGUI.Controls.SearchField;
+
+namespace Gemserk.Triggers.Editor
+{
+    [Obsolete("Old imgui version, use new one.")]
+    public class TriggersRuntimeDebugStateWindowOld : EditorWindow, IHasCustomMenu
+    {
+        public static bool DisableAutoRenderOnUpdate = true;
+        public static bool DisableMultiTriggersRoot = true;
+        
+        // private const string TriggersRuntimeDebugHideInactiveTriggers = "TriggersRuntimeDebug.HideInactiveTriggers";
+
+        // [MenuItem("Window/Gemserk/Triggers/Debug State")]
+        // public static void ShowWindow()
+        // {
+        //     // This method is called when the user selects the menu item in the Editor
+        //     EditorWindow wnd = GetWindow<TriggersRuntimeDebugStateWindow>();
+        //     wnd.titleContent = new GUIContent("Triggers - Debug");
+        // }
+
+        public class TriggerSystemFoldout
+        {
+            public string name => !triggerSystem ? null : triggerSystem.name;
+            public bool visible => triggerSystem && triggerSystem.isActiveAndEnabled;
+            public bool foldout;
+            public TriggerSystem triggerSystem;
+        }
+
+        public class TriggerFoldout
+        {
+            public bool foldout;
+            public bool expanded;
+        }
+
+        private TriggerSystemFoldout[] triggersSystemList;
+
+        private IDictionary<int, TriggerFoldout> foldoutsPerTrigger = new Dictionary<int, TriggerFoldout>();
+        
+        private int triggerSystemsCount;
+        
+        private SearchField searchField;
+        private Vector2 scroll;
+        
+        private GUIContent editGuiContent;
+        private GUIContent executeGuiContent;
+        private GUIContent forceExecuteGuiContent;
+        private GUIContent expandGuiContent;
+        
+        private GUIContent triggerOnGuiContent;
+        private GUIContent triggerOffGuiContent;
+
+        private void OnEnable()
+        {
+            CreateInternalList();
+        }
+
+        private void CreateInternalList()
+        {
+            if (triggersSystemList == null)
+            {
+                triggersSystemList = new TriggerSystemFoldout[10];
+                for (var i = 0; i < triggersSystemList.Length; i++)
+                {
+                    triggersSystemList[i] = new TriggerSystemFoldout()
+                    {
+                        foldout = true,
+                        triggerSystem = null
+                    };
+                }
+            }
+        }
+        
+        private void OnHierarchyChange()
+        {
+            if (!Application.isPlaying)
+            {
+                ReloadTriggers();
+                Repaint();
+            }
+        }
+
+        private void OnFocus()
+        {
+            ReloadTriggers();
+            
+            executeGuiContent = new GUIContent(EditorGUIUtility.IconContent("d_PlayButton").image)
+            {
+                tooltip = "Queue Execution"
+            };
+            
+            forceExecuteGuiContent = new GUIContent(EditorGUIUtility.IconContent("d_StepButton").image)
+            {
+                tooltip = "Force Execution"
+            };
+            
+            editGuiContent = new GUIContent(EditorGUIUtility.IconContent("d_editicon.sml").image)
+            {
+                tooltip = "Select"
+            };
+            expandGuiContent = new GUIContent(EditorGUIUtility.IconContent("FolderOpened On Icon").image)
+            {
+                tooltip = "Toggle Expand"
+            };
+            
+            triggerOnGuiContent = new GUIContent(EditorGUIUtility.IconContent("d_greenLight").image)
+            {
+                tooltip = "Active"
+            };
+            
+            triggerOffGuiContent = new GUIContent(EditorGUIUtility.IconContent("d_lightOff").image)
+            {
+                tooltip = "Inactive"
+            };
+        }
+
+        private void ReloadTriggers()
+        {
+            CreateInternalList();
+            
+            var newList = FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID).ToList();
+            triggerSystemsCount = 0;
+
+            var triggers = new List<TriggerObject>();
+            
+            for (var i = 0; i < triggersSystemList.Length; i++)
+            {
+                var triggerSystemFoldout = triggersSystemList[i];
+                if (triggerSystemFoldout == null)
+                {
+                    triggerSystemFoldout = new TriggerSystemFoldout()
+                    {
+                        foldout = true
+                    };
+                }
+                
+                triggerSystemFoldout.triggerSystem = null;
+                
+                if (i < newList.Count)
+                {
+                    var triggersSystem = newList[i];
+                    triggerSystemFoldout.triggerSystem = triggersSystem;
+                    
+                    triggers.AddRange(triggersSystem.GetComponentsInChildren<TriggerObject>());
+                }
+            }
+
+            triggerSystemsCount = triggersSystemList.Count(t => t.visible);
+            
+            foreach (var trigger in triggers)
+            {
+                if (!foldoutsPerTrigger.ContainsKey(trigger.gameObject.GetInstanceID()))
+                {
+                    foldoutsPerTrigger[trigger.gameObject.GetInstanceID()] = new TriggerFoldout();
+                }
+            }
+        }
+        
+        private string searchText;
+
+        private void Update()
+        {
+            if (DisableAutoRenderOnUpdate)
+                return;
+            
+            if (Application.isPlaying)
+            {
+                Repaint();
+            }
+        }
+
+        private void OnGUI()
+        {
+            // if (!Application.isPlaying)
+            // {
+            //     EditorGUILayout.LabelField("Only available while running");
+            //     triggerSystems.Clear();
+            // }
+            
+            if (searchField == null)
+            {
+                searchField = new SearchField();
+            }
+
+            var rect = EditorGUILayout.GetControlRect();
+            searchText = searchField.OnGUI(rect, searchText);
+            
+            var actionsDisabled = !Application.isPlaying;
+
+            var multipleTriggersRoot = triggerSystemsCount > 1 && !DisableMultiTriggersRoot;
+
+            string[] searchTexts = null;
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                searchTexts = StringUtilities.SplitSearchText(searchText);
+            }
+
+            // var hideInactiveTriggers = SessionState.GetBool(TriggersRuntimeDebugHideInactiveTriggers, true);
+            // EditorGUI.BeginChangeCheck();
+            // hideInactiveTriggers = EditorGUILayout.Toggle("Hide Inactive Triggers", hideInactiveTriggers);
+            // if (EditorGUI.EndChangeCheck())
+            // {
+            //     SessionState.SetBool(TriggersRuntimeDebugHideInactiveTriggers, hideInactiveTriggers);
+            // }
+            
+            scroll = EditorGUILayout.BeginScrollView(scroll);
+            foreach (var triggersSystemFoldout in triggersSystemList)
+            {
+                if (!triggersSystemFoldout.visible)
+                {
+                    continue;
+                }
+                
+                if (multipleTriggersRoot)
+                {
+                    triggersSystemFoldout.foldout =
+                        EditorGUILayout.Foldout(triggersSystemFoldout.foldout, triggersSystemFoldout.name);
+                }
+                
+                if (!multipleTriggersRoot || triggersSystemFoldout.foldout)
+                {
+                    var triggerSystem = triggersSystemFoldout.triggerSystem;
+                    var triggerObjects = triggerSystem.GetComponentsInChildren<TriggerObject>(true);
+                    
+                    if (multipleTriggersRoot)
+                        EditorGUI.indentLevel++;
+                    
+                    foreach (var triggerObject in triggerObjects)
+                    {
+                        if (searchTexts != null)
+                        {
+                            if (!StringUtilities.MatchAll(triggerObject.name, searchTexts))
+                            {
+                                continue;
+                            }
+                        }
+                        
+                        // if (hideInactiveTriggers && !triggerObject.isActiveAndEnabled)
+                        // {
+                        //     continue;
+                        // }
+                        
+                        RenderTriggerObject(triggerObject, actionsDisabled);
+
+                        EditorGUILayout.Separator();
+                    }
+                    
+                    if (multipleTriggersRoot)
+                        EditorGUI.indentLevel--;
+                }
+            }
+            EditorGUILayout.EndScrollView();
+        }
+
+        private void RenderTriggerObject(TriggerObject triggerObject, bool actionsDisabled)
+        {
+            var instanceID = triggerObject.gameObject.GetInstanceID();
+            var trigger = triggerObject.trigger;
+
+            // var bgStyle = new GUIStyle();
+            // bgStyle.normal.background = EditorStyles.label.hover.background;
+            
+            EditorGUILayout.BeginVertical();
+
+            EditorGUILayout.BeginHorizontal();
+            
+            if (!foldoutsPerTrigger.ContainsKey(instanceID))
+            {
+                foldoutsPerTrigger[instanceID] = new TriggerFoldout();
+            }
+                        
+            // var triggerNameStyle = new GUIStyle(EditorStyles.foldout);
+            var elementStyle = new GUIStyle(EditorStyles.label);
+            // var foldoutStyle = new GUIStyle(EditorStyles.toolbarButton);
+            // var foldoutStyle = new GUIStyle(EditorStyles.objectField);
+
+            var triggerDisabled = triggerObject.IsDisabled();
+            
+            elementStyle.normal.textColor = Color.limeGreen;
+            var elementName = triggerObject.name;
+            
+            if (triggerDisabled)
+            {
+                elementStyle.normal.textColor = Color.slateGray;
+
+                if (triggerObject.trigger.executionTimes > 0)
+                {
+                    elementName = $"{triggerObject.name} [INACTIVE:{triggerObject.trigger.executionTimes}]";
+                }
+                else
+                {
+                    elementName = $"{triggerObject.name} [INACTIVE]";
+                }
+            }
+            else
+            {
+                if (triggerObject.trigger.executionTimes > 0)
+                {
+                    // foldoutStyle.fontStyle = FontStyle.Bold;
+                    elementStyle.normal.textColor = Color.white;
+                    
+                    elementName = $"{triggerObject.name} [COMPLETED:{triggerObject.trigger.executionTimes}]";
+                } else if (triggerObject.State == ITrigger.ExecutionState.Executing)
+                {
+                    elementStyle.fontStyle = FontStyle.Bold;
+                    elementStyle.normal.textColor = Color.yellowNice;
+                    
+                    elementName = $"{triggerObject.name} [RUNNING]";
+                }
+            }
+            
+            EditorGUILayout.LabelField(elementName, elementStyle);
+            
+            // foldoutsPerTrigger[instanceID].foldout =
+            //     EditorGUILayout.Foldout(foldoutsPerTrigger[instanceID].foldout, foldoutName, triggerNameStyle);
+            
+            // foldoutsPerTrigger[instanceID].foldout =
+            //     EditorGUILayout.Foldout(foldoutsPerTrigger[instanceID].foldout, foldoutName, triggerNameStyle);
+                        
+            EditorGUI.BeginDisabledGroup(actionsDisabled || triggerDisabled);
+            if (GUILayout.Button(executeGuiContent, GUILayout.MaxWidth(30),
+                    GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
+            {
+                trigger.QueueExecution();
+            }
+                        
+            if (GUILayout.Button(forceExecuteGuiContent, GUILayout.MaxWidth(30),
+                    GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
+            {
+                trigger.ForceQueueExecution();
+            }
+            EditorGUI.EndDisabledGroup();
+                        
+            // EditorGUI.BeginDisabledGroup(actionsDisabled);
+            if (!triggerObject.IsDisabled())
+            {
+                if (GUILayout.Button(triggerOnGuiContent, GUILayout.MaxWidth(30), GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
+                {
+                    if (!Application.isPlaying)
+                    {
+                        Undo.RecordObject(triggerObject.gameObject, "Toggle Active");
+                        triggerObject.gameObject.SetActive(false);
+                        EditorUtility.SetDirty(triggerObject.gameObject);
+                    }
+                    else
+                    {
+                        triggerObject.gameObject.SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                if (GUILayout.Button(triggerOffGuiContent, GUILayout.MaxWidth(30), GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
+                {
+                    if (!Application.isPlaying)
+                    {
+                        Undo.RecordObject(triggerObject.gameObject, "Toggle Active");
+                        triggerObject.gameObject.SetActive(true);
+                        EditorUtility.SetDirty(triggerObject.gameObject);
+                    }
+                    else
+                    {
+                        triggerObject.gameObject.SetActive(true);
+                    }
+                }
+            }
+            // EditorGUI.EndDisabledGroup();
+                        
+            // if (GUILayout.Button(editGuiContent, GUILayout.MaxWidth(30), GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
+            // {
+            //     Selection.activeGameObject = triggerObject.gameObject;
+            // }
+                        
+            if (GUILayout.Button(expandGuiContent, GUILayout.MaxWidth(30), GUILayout.MaxHeight(EditorGUIUtility.singleLineHeight)))
+            {
+                Selection.activeGameObject = triggerObject.gameObject;
+                foldoutsPerTrigger[instanceID].expanded = !foldoutsPerTrigger[instanceID].expanded;
+                MyEditor.FoldInHierarchy(triggerObject.gameObject, foldoutsPerTrigger[instanceID].expanded);
+            }
+                        
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndVertical();
+        }
+
+        public void AddItemsToMenu(GenericMenu menu)
+        {
+            EditorWindowExtensions.AddEditScript(menu, nameof(TriggersRuntimeDebugStateWindow));
+        }
+    }
+}
