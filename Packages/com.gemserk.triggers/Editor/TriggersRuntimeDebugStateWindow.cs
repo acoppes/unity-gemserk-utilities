@@ -110,6 +110,11 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
 
         public void Redraw()
         {
+            if (!triggerObject)
+            {
+                return;
+            }
+            
             label.text = triggerObject.name;
 
             // var hidden = (triggerObject.gameObject.activeSelf && !triggerObject.gameObject.activeInHierarchy);
@@ -202,20 +207,8 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
                 }
             }
             
-            if (!triggerElement.triggerObject || !triggerObjects.Contains(triggerElement.triggerObject))
-            {
-                if (triggerElement.root.parent == elementsContainer)
-                {
-                    elementsContainer.Remove(triggerElement.root);
-                }
-            }
-            else
-            {
-                triggerElement.Redraw();
-            }
+            triggerElement.Redraw();
         }
-
-        triggerElements.RemoveAll(t => !t.triggerObject || !triggerObjects.Contains(t.triggerObject));
     }
 
     private void OnHierarchyChange()
@@ -240,15 +233,22 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow
                     elementsContainer.Add(triggerElement.root);
                 }
             }
-
-            // if (!triggerElements.ContainsKey(triggerObject.gameObject.GetInstanceID()))
-            // {
-            //     var triggerElement = CreateTriggerElement(triggerObject);
-            //     elementsContainer.Add(triggerElement);
-            //
-            //     triggerElements[triggerObject.gameObject.GetInstanceID()] = triggerElement;
-            // }
         }
+        
+        for (var i = 0; i < triggerElements.Count; i++)
+        {
+            var triggerElement = triggerElements[i];
+            
+            if (!triggerElement.triggerObject || !triggerObjects.Contains(triggerElement.triggerObject))
+            {
+                if (triggerElement.root.parent == elementsContainer)
+                {
+                    elementsContainer.Remove(triggerElement.root);
+                }
+            }
+        }
+
+        triggerElements.RemoveAll(t => !t.triggerObject || !triggerObjects.Contains(t.triggerObject));
     }
 
     public void CreateGUI()
