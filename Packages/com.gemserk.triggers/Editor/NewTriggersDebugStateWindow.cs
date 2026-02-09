@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Gemserk.Triggers;
-using MyBox;
 using MyBox.EditorTools;
 using UnityEditor;
 using UnityEngine;
@@ -9,24 +8,214 @@ using UnityEngine.UIElements;
 
 public class NewTriggersDebugStateWindow : EditorWindow
 {
+    public class TriggerElement
+    {
+        public TriggerObject triggerObject;
+        
+        public VisualElement root;
+        
+        public Button buttonExecute;
+        public Button buttonForceExecute;
+        public Button buttonExpand;
+        public Button buttonState;
+
+        public Label label;
+
+        private bool expanded;
+
+        public TriggerElement(TriggerObject triggerObject)
+        {
+            this.triggerObject = triggerObject;
+        }
+
+        public void SetRootElement(VisualElement rootElement)
+        {
+            root = rootElement;
+            
+            label = rootElement.Q<Label>();
+
+            var isTriggerDisabled = triggerObject.IsDisabled();
+            
+            label.text = triggerObject.name;
+
+            if (isTriggerDisabled)
+            {
+                label.text = $"{triggerObject.name} [INACTIVE]";
+            }
+            
+            rootElement.RegisterCallback<ClickEvent>(evt =>
+            {
+                EditorGUIUtility.PingObject(triggerObject.gameObject);
+                Selection.activeGameObject = triggerObject.gameObject;
+            });
+            
+            buttonExecute = rootElement.Q<Button>("ButtonExecute");
+            buttonExecute.clicked += () =>
+            {
+                triggerObject.QueueExecution();
+            };
+            buttonExecute.Q<Image>().image = executeGuiContent.image;
+                
+            buttonForceExecute = rootElement.Q<Button>("ButtonForceExecute");
+            buttonForceExecute.clicked += () =>
+            {
+                triggerObject.ForceQueueExecution();
+            };
+            buttonForceExecute.Q<Image>().image = forceExecuteGuiContent.image; 
+                
+            buttonExpand = rootElement.Q<Button>("ButtonExpand");
+            buttonExpand.clicked += () =>
+            {
+                Selection.activeGameObject = triggerObject.gameObject;
+                expanded = !expanded;
+                MyEditor.FoldInHierarchy(triggerObject.gameObject, expanded);
+            };
+            buttonExpand.Q<Image>().image = expandGuiContent.image; 
+                
+            buttonState = rootElement.Q<Button>("ButtonState");
+            buttonState.clicked += () =>
+            {
+                if (triggerObject.gameObject.activeSelf)
+                {
+                    buttonState.Q<Image>().image = triggerOffGuiContent.image;
+                    Undo.RecordObject(triggerObject.gameObject, "Toggle Active");
+                    triggerObject.gameObject.SetActive(false);
+                    EditorUtility.SetDirty(triggerObject.gameObject);
+                    
+                    label.AddToClassList("trigger-disabled");
+                }
+                else
+                {
+                    buttonState.Q<Image>().image = triggerOnGuiContent.image;
+                    Undo.RecordObject(triggerObject.gameObject, "Toggle Active");
+                    triggerObject.gameObject.SetActive(true);
+                    EditorUtility.SetDirty(triggerObject.gameObject);
+                    
+                    label.RemoveFromClassList("trigger-disabled");
+                }
+            };
+            
+            if (isTriggerDisabled)
+            {
+                label.AddToClassList("trigger-disabled");
+            }
+        }
+
+        public void Redraw()
+        {
+            label.text = triggerObject.name;
+
+            var isDisabled = triggerObject.IsDisabled();
+            
+            buttonExecute.SetEnabled(Application.isPlaying);
+            buttonForceExecute.SetEnabled(Application.isPlaying);
+            
+            if (isDisabled)
+            {
+                label.text = $"{triggerObject.name} [INACTIVE]";
+                label.AddToClassList("trigger-disabled");
+            }
+            else
+            {
+                label.RemoveFromClassList("trigger-disabled");
+            }
+            
+            buttonState.Q<Image>().image = isDisabled  ? triggerOffGuiContent.image : triggerOnGuiContent.image;
+        }
+    }
+    
     [SerializeField]
     private VisualTreeAsset m_VisualTreeAsset = default;
     
     [SerializeField]
     private VisualTreeAsset m_VisualElementTemplate = default;
     
-    private GUIContent executeGuiContent;
-    private GUIContent forceExecuteGuiContent;
-    private GUIContent expandGuiContent;
+    private static GUIContent executeGuiContent;
+    private static GUIContent forceExecuteGuiContent;
+    private static GUIContent expandGuiContent;
         
-    private GUIContent triggerOnGuiContent;
-    private GUIContent triggerOffGuiContent;
+    private static GUIContent triggerOnGuiContent;
+    private static GUIContent triggerOffGuiContent;
 
+    // private Dictionary<int, VisualElement> triggerElements = new Dictionary<int, VisualElement>();
+
+    private List<TriggerElement> triggerElements = new List<TriggerElement>();
+    private List<TriggerObject> triggerObjects = new List<TriggerObject>();
+    
+    private VisualElement elementsContainer;
+    
     [MenuItem("Window/UI Toolkit/NewTriggersDebugStateWindow")]
     public static void ShowExample()
     {
         var wnd = GetWindow<NewTriggersDebugStateWindow>();
         wnd.titleContent = new GUIContent("NewTriggersDebugStateWindow");
+    }
+
+    private void Update()
+    {
+        for (var i = 0; i < triggerElements.Count; i++)
+        {
+            var triggerElement = triggerElements[i];
+
+            if (triggerElement.root != null)
+            {
+                if (i % 2 == 0)
+                {
+                    triggerElement.root.AddToClassList("trigger-even");
+                }
+                else
+                {
+                    triggerElement.root.RemoveFromClassList("trigger-even");
+                }
+            }
+            
+            if (!triggerElement.triggerObject)
+            {
+                if (triggerElement.root.parent == elementsContainer)
+                {
+                    elementsContainer.Remove(triggerElement.root);
+                }
+            }
+            else
+            {
+                triggerElement.Redraw();
+            }
+        }
+
+        triggerElements.RemoveAll(t => !t.triggerObject);
+    }
+
+    private void OnHierarchyChange()
+    {
+        // check for triggers
+        
+        triggerObjects = new List<TriggerObject>();
+        
+        var triggerSystems = FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID);
+        triggerSystems.Select(t => t.GetComponentsInChildren<TriggerObject>(true)).ToList().ForEach(l => triggerObjects.AddRange(l));
+        
+        for (var i = 0; i < triggerObjects.Count; i++)
+        {
+            var triggerObject = triggerObjects[i];
+
+            if (triggerObject)
+            {
+                if (triggerElements.Count(t => t.triggerObject == triggerObject) == 0)
+                {
+                    var triggerElement = CreateTriggerElement(triggerObject);
+                    triggerElements.Add(triggerElement);
+                    elementsContainer.Add(triggerElement.root);
+                }
+            }
+
+            // if (!triggerElements.ContainsKey(triggerObject.gameObject.GetInstanceID()))
+            // {
+            //     var triggerElement = CreateTriggerElement(triggerObject);
+            //     elementsContainer.Add(triggerElement);
+            //
+            //     triggerElements[triggerObject.gameObject.GetInstanceID()] = triggerElement;
+            // }
+        }
     }
 
     public void CreateGUI()
@@ -45,9 +234,18 @@ public class NewTriggersDebugStateWindow : EditorWindow
         
         // var triggerElementTemplate = fromXml.Query<VisualElement>("TriggerElement-Template").First();
         
-        var mainScroll = fromXml.Query<VisualElement>("MainScroll").First();
-        root.Add(mainScroll);
+        elementsContainer = fromXml.Query<VisualElement>("MainScroll").First();
+        root.Add(fromXml);
 
+        var button = fromXml.Query<Button>("ButtonRefresh").First();
+        button.clicked += () =>
+        {
+            triggerElements.Clear();
+            elementsContainer.Clear();
+
+            Reload();
+        };
+        
         executeGuiContent = new GUIContent(EditorGUIUtility.IconContent("d_PlayButton").image)
         {
             tooltip = "Queue Execution"
@@ -73,6 +271,11 @@ public class NewTriggersDebugStateWindow : EditorWindow
             tooltip = "Inactive"
         };
 
+        Reload();
+    }
+
+    private void Reload()
+    {
         var triggerObjects = new List<TriggerObject>();
         
         var triggerSystems = FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID);
@@ -80,57 +283,19 @@ public class NewTriggersDebugStateWindow : EditorWindow
         
         // var triggerObjects = FindObjectsByType<TriggerObject>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID);
         
-        for (int i = 0; i < triggerObjects.Count; i++)
+        for (var i = 0; i < triggerObjects.Count; i++)
         {
-            // var custom = m_VisualElementTemplate.Instantiate();
-            //
-            // var element = custom.Q("TriggerElement");
-            //
-            // if (i % 2 == 0)
-            // {
-            //     element.AddToClassList("trigger-even");
-            // }
-            //
-            // // custom.Q<Foldout>().value = false;
-            //
-            // element.Q<Label>().text = "MY CUSTOM TEXT 1";
-            // var buttonExecute = element.Q<Button>("ButtonExecute");
-            // buttonExecute.clicked += () =>
-            // {
-            //     Debug.Log("EXECUTE");
-            // };
-            // buttonExecute.Q<Image>().image = executeGuiContent.image;
-            //
-            // var buttonForceExecute = element.Q<Button>("ButtonForceExecute");
-            // buttonForceExecute.clicked += () =>
-            // {
-            //     Debug.Log("FORCE EXECUTE");
-            // };
-            // buttonForceExecute.Q<Image>().image = forceExecuteGuiContent.image; 
-            //
-            // var buttonExpand = element.Q<Button>("ButtonExpand");
-            // buttonExpand.SetEnabled(false);
-            // buttonExpand.clicked += () =>
-            // {
-            //     Debug.Log("EXPAND ON/OFF");
-            // };
-            // buttonExpand.Q<Image>().image = expandGuiContent.image; 
-            //
-            // var buttonState = element.Q<Button>("ButtonState");
-            // buttonState.clicked += () =>
-            // {
-            //     Debug.Log("STATE ON/OFF");
-            // };
-            // buttonState.Q<Image>().image = triggerOnGuiContent.image;
-
             var triggerElement = CreateTriggerElement(triggerObjects[i]);
             
-            if (i % 2 == 0)
-            {
-                triggerElement.Q("TriggerElement").AddToClassList("trigger-even");
-            }
+            // if (i % 2 == 0)
+            // {
+            //     triggerElement.root.AddToClassList("trigger-even");
+            // }
+
+            triggerElements.Add(triggerElement);
+            elementsContainer.Add(triggerElement.root);
             
-            mainScroll.Add(triggerElement);
+            // triggerElements[triggerObjects[i].gameObject.GetInstanceID()] = triggerElement;
         }
         
         // var custom1 = m_VisualElementTemplate.Instantiate();
@@ -143,65 +308,89 @@ public class NewTriggersDebugStateWindow : EditorWindow
         // mainScroll.Add(custom2);
     }
 
-    private VisualElement CreateTriggerElement(TriggerObject triggerObject)
+    private TriggerElement CreateTriggerElement(TriggerObject triggerObject)
     {
-        var triggerElement = m_VisualElementTemplate.Instantiate();
+        var elementTemplate = m_VisualElementTemplate.Instantiate();
 
-        var element = triggerElement.Q("TriggerElement");
-        element.Q<Label>().text = triggerObject.name;
-        element.RegisterCallback<ClickEvent>(evt =>
-        {
-            EditorGUIUtility.PingObject(triggerObject.gameObject);
-        });
-        
-        var buttonExecute = element.Q<Button>("ButtonExecute");
-        buttonExecute.SetEnabled(Application.isPlaying);
-        buttonExecute.clicked += () =>
-        {
-            triggerObject.QueueExecution();
-            // Debug.Log("EXECUTE");
-        };
-        buttonExecute.Q<Image>().image = executeGuiContent.image;
-            
-        var buttonForceExecute = element.Q<Button>("ButtonForceExecute");
-        buttonForceExecute.SetEnabled(Application.isPlaying);
-        buttonForceExecute.clicked += () =>
-        {
-            triggerObject.ForceQueueExecution();
-            // Debug.Log("FORCE EXECUTE");
-        };
-        buttonForceExecute.Q<Image>().image = forceExecuteGuiContent.image; 
-            
-        var buttonExpand = element.Q<Button>("ButtonExpand");
-        buttonExpand.clicked += () =>
-        {
-            Selection.activeGameObject = triggerObject.gameObject;
-            // foldoutsPerTrigger[instanceID].expanded = !foldoutsPerTrigger[instanceID].expanded;
-            MyEditor.FoldInHierarchy(triggerObject.gameObject, true);
-            // Debug.Log("EXPAND ON/OFF");
-        };
-        buttonExpand.Q<Image>().image = expandGuiContent.image; 
-            
-        var buttonState = element.Q<Button>("ButtonState");
-        buttonState.clicked += () =>
-        {
-            if (triggerObject.gameObject.activeSelf)
-            {
-                buttonState.Q<Image>().image = triggerOffGuiContent.image;
-                Undo.RecordObject(triggerObject.gameObject, "Toggle Active");
-                triggerObject.gameObject.SetActive(false);
-                EditorUtility.SetDirty(triggerObject.gameObject);
-            }
-            else
-            {
-                buttonState.Q<Image>().image = triggerOnGuiContent.image;
-                Undo.RecordObject(triggerObject.gameObject, "Toggle Active");
-                triggerObject.gameObject.SetActive(true);
-                EditorUtility.SetDirty(triggerObject.gameObject);
-            }
-        };
-        
-        buttonState.Q<Image>().image = triggerObject.gameObject.activeSelf  ? triggerOnGuiContent.image : triggerOffGuiContent.image;
+        // var isTriggerDisabled = !triggerObject.gameObject.activeSelf;
+        //
+        var element = elementTemplate.Q("TriggerElement");
+        // var label = element.Q<Label>();
+        //
+        // label.text = triggerObject.name;
+        //
+        // if (isTriggerDisabled)
+        // {
+        //     label.text = $"{triggerObject.name} [INACTIVE]";
+        // }
+        //
+        // element.RegisterCallback<ClickEvent>(evt =>
+        // {
+        //     EditorGUIUtility.PingObject(triggerObject.gameObject);
+        // });
+        //
+        // var buttonExecute = element.Q<Button>("ButtonExecute");
+        // buttonExecute.SetEnabled(Application.isPlaying);
+        // buttonExecute.clicked += () =>
+        // {
+        //     triggerObject.QueueExecution();
+        //     // Debug.Log("EXECUTE");
+        // };
+        // buttonExecute.Q<Image>().image = executeGuiContent.image;
+        //     
+        // var buttonForceExecute = element.Q<Button>("ButtonForceExecute");
+        // buttonForceExecute.SetEnabled(Application.isPlaying);
+        // buttonForceExecute.clicked += () =>
+        // {
+        //     triggerObject.ForceQueueExecution();
+        //     // Debug.Log("FORCE EXECUTE");
+        // };
+        // buttonForceExecute.Q<Image>().image = forceExecuteGuiContent.image; 
+        //     
+        // var buttonExpand = element.Q<Button>("ButtonExpand");
+        // buttonExpand.clicked += () =>
+        // {
+        //     Selection.activeGameObject = triggerObject.gameObject;
+        //     // foldoutsPerTrigger[instanceID].expanded = !foldoutsPerTrigger[instanceID].expanded;
+        //     MyEditor.FoldInHierarchy(triggerObject.gameObject, true);
+        //     // Debug.Log("EXPAND ON/OFF");
+        // };
+        // buttonExpand.Q<Image>().image = expandGuiContent.image; 
+        //     
+        // var buttonState = element.Q<Button>("ButtonState");
+        // buttonState.clicked += () =>
+        // {
+        //     if (triggerObject.gameObject.activeSelf)
+        //     {
+        //         buttonState.Q<Image>().image = triggerOffGuiContent.image;
+        //         Undo.RecordObject(triggerObject.gameObject, "Toggle Active");
+        //         triggerObject.gameObject.SetActive(false);
+        //         EditorUtility.SetDirty(triggerObject.gameObject);
+        //         
+        //         label.AddToClassList("trigger-disabled");
+        //     }
+        //     else
+        //     {
+        //         buttonState.Q<Image>().image = triggerOnGuiContent.image;
+        //         Undo.RecordObject(triggerObject.gameObject, "Toggle Active");
+        //         triggerObject.gameObject.SetActive(true);
+        //         EditorUtility.SetDirty(triggerObject.gameObject);
+        //         
+        //         label.RemoveFromClassList("trigger-disabled");
+        //     }
+        // };
+        //
+        // buttonState.Q<Image>().image = isTriggerDisabled  ? triggerOffGuiContent.image : triggerOnGuiContent.image;
+        //
+        // if (isTriggerDisabled)
+        // {
+        //     label.AddToClassList("trigger-disabled");
+        // }
+
+        var triggerElement = new TriggerElement(triggerObject);
+        triggerElement.SetRootElement(element);
+
+        // triggerElements.Add(triggerElement);
 
         return triggerElement;
     }

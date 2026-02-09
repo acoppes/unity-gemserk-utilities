@@ -87,6 +87,10 @@
     padding-left: 0;
 }
 
+.trigger-disabled {
+    color: dimgray;
+}
+
 .trigger-button:hover:enabled {
     background-color: rgba(75, 157, 188, 0.84);
 }
