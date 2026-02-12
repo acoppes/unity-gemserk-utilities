@@ -306,6 +306,23 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
                 }
             }
         }
+        
+        for (var i = 0; i < triggerElements.Count; i++)
+        {
+            var triggerElement = triggerElements[i];
+        
+            if (triggerElement.root != null)
+            {
+                if (i % 2 == 0)
+                {
+                    triggerElement.root.AddToClassList("trigger-even");
+                }
+                else
+                {
+                    triggerElement.root.RemoveFromClassList("trigger-even");
+                }
+            }
+        }
     }
 
     public void CreateGUI()
@@ -351,8 +368,6 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
         };
 
         Reload();
-        
-        
     }
 
     private void Reload()
@@ -369,6 +384,18 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
             var triggerElement = CreateTriggerElement(triggerObjects[i]);
             triggerElements.Add(triggerElement);
             elementsContainer.Add(triggerElement.root);
+            
+            if (triggerElement.root != null)
+            {
+                if (i % 2 == 0)
+                {
+                    triggerElement.root.AddToClassList("trigger-even");
+                }
+                else
+                {
+                    triggerElement.root.RemoveFromClassList("trigger-even");
+                }
+            }
         }
     }
 

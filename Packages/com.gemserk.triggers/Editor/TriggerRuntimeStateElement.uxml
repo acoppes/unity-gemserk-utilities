@@ -1,17 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Packages/com.gemserk.triggers/Editor/NewTriggersDebugStateWindow.uss?fileID=7433441132597879392&amp;guid=da475a9da8ca68b41a860bba7c6ac9b0&amp;type=3#NewTriggersDebugStateWindow"/>
-    <ui:GroupBox name="TriggerElement-OLD" class="trigger" style="display: none;">
-        <ui:Label text="OnStart_ExecuteTrigger_Name" name="Label" class="trigger-label"/>
-        <ui:Button text="" icon-image="" class="trigger-button"/>
-    </ui:GroupBox>
-    <ui:GroupBox name="TriggerElement-Foldout" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; display: none;">
-        <ui:Foldout text="Foldout" class="trigger" style="opacity: 1;">
-            <ui:Label text="Pending: 0" style="visibility: visible; display: none;"/>
-            <ui:Label text="Completed: 1" style="visibility: visible; display: none;"/>
-        </ui:Foldout>
-        <ui:Button text="" name="ButtonExecute" class="trigger-button" style="top: 6px; right: 10px;"/>
-        <ui:Button text="" name="ButtonForceExecute" class="trigger-button" style="top: 6px; right: 33px;"/>
-    </ui:GroupBox>
+    <Style src="project://database/Packages/com.gemserk.triggers/Editor/TriggersRuntimeStateStyles.uss?fileID=7433441132597879392&amp;guid=da475a9da8ca68b41a860bba7c6ac9b0&amp;type=3#TriggersRuntimeStateStyles"/>
     <ui:GroupBox name="TriggerElement" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
         <ui:Label text="Label" class="trigger"/>
         <ui:VisualElement style="flex-grow: 1; flex-direction: row-reverse; position: absolute; align-self: center; align-content: center; width: 0; height: 28px; justify-content: space-between; align-items: flex-end; right: 0; margin-right: 0; top: 0; bottom: auto;">
