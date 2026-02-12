@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
@@ -29,6 +30,9 @@ namespace Gemserk.Utilities.Editor
             
             var withComponentSkin = new GUIStyle(buttonSkin);
             withComponentSkin.normal.textColor = new Color(0.8f, 0.8f, 0.8f, 1f);
+            
+            var obsoleteSkin = new GUIStyle(buttonSkin);
+            obsoleteSkin.normal.textColor = Color.softYellow;
             
             var component = serializedObject.targetObject as Component;
             
@@ -84,8 +88,23 @@ namespace Gemserk.Utilities.Editor
                 }
 
                 var number = component.GetComponents(type).Length;
+                var skin = buttonSkin;
+
+                var nameToShow = name;
+
+                if (number > 0)
+                {
+                    skin = withComponentSkin;
+                    nameToShow = $"{nameToShow} ({number})";
+                }
                 
-                if (GUILayout.Button(number > 0 ? $"{name} ({number})" : name, number > 0 ? withComponentSkin :buttonSkin))
+                if (type.GetCustomAttribute(typeof(ObsoleteAttribute)) != null)
+                {
+                    nameToShow = $"{nameToShow} - OBSOLETE";
+                    skin = obsoleteSkin;
+                }
+                
+                if (GUILayout.Button(nameToShow, skin))
                 {
                     Debug.Log($"Component Added: {name}");
                     GuiUtilities.AddComponentWithUndo(serializedObject, type);
