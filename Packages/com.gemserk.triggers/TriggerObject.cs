@@ -23,6 +23,21 @@ namespace Gemserk.Triggers
         // Max times the trigger executes. Use 0 or negative to ignore.
         public ExecutionType executionType;
         public int maxExecutions;
+
+        public int GetCalculatedMaxExecutions()
+        {
+            if (executionType == TriggerObject.ExecutionType.Once)
+            {
+                return 1;
+            }
+
+            if (executionType == TriggerObject.ExecutionType.More)
+            {
+                return maxExecutions;
+            }
+
+            return 0;
+        }
         
         public ITrigger.ExecutionState State
         {

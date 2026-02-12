@@ -122,11 +122,13 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
 
             var isDisabled = triggerObject.IsDisabled();
             var currentState = triggerObject.State;
+
+            var maxExecutions = triggerObject.GetCalculatedMaxExecutions();
             
             if (!force)
             {
                 if (wasDisabled == isDisabled && currentState == previousState && previousExecutionTimes == triggerObject.trigger.executionTimes && 
-                    maxExecutionTimes == triggerObject.maxExecutions)
+                    maxExecutionTimes == maxExecutions)
                 {
                     return;
                 }
@@ -135,7 +137,7 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
             previousState = currentState;
             wasDisabled = isDisabled;
             previousExecutionTimes = triggerObject.trigger.executionTimes;
-            maxExecutionTimes = triggerObject.maxExecutions;
+            maxExecutionTimes = maxExecutions;
             
             // var hidden = (triggerObject.gameObject.activeSelf && !triggerObject.gameObject.activeInHierarchy);
             // root.visible = !hidden;
@@ -181,7 +183,7 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
                     }
                     else
                     {
-                        if (triggerObject.trigger.maxExecutionTimes > 0)
+                        if (maxExecutionTimes > 0)
                         {
                             label.text = $"{triggerObject.name} [0/{maxExecutionTimes}]";
                         }
