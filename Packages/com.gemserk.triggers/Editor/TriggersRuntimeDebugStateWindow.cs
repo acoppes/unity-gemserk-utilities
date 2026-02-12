@@ -134,6 +134,17 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
                 }
             }
 
+            var parentName = string.Empty;
+
+            if (triggerObject.transform.parent)
+            {
+                var triggerSystem = triggerObject.transform.parent.GetComponent<TriggerSystem>();
+                if (!triggerSystem)
+                {
+                    parentName = triggerObject.transform.parent.name;
+                }
+            }
+
             previousState = currentState;
             wasDisabled = isDisabled;
             previousExecutionTimes = triggerObject.trigger.executionTimes;
@@ -160,9 +171,11 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
                 executionNumber = $"{triggerObject.trigger.executionTimes}/{maxExecutionTimes}";
             }
 
+            var suffix = string.Empty;
+
             if (isDisabled)
             {
-                label.text = $"{triggerObject.name} [INACTIVE:{executionNumber}]";
+                suffix = $"[INACTIVE:{executionNumber}]";
                 label.AddToClassList("trigger-disabled");
             }
             else
@@ -171,29 +184,33 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
                 {
                     executionNumber = $"{triggerObject.trigger.executionTimes + 1}/{maxExecutionTimes}";
                     
-                    label.text = $"{triggerObject.name} [RUNNING:{executionNumber}]";
+                    suffix = $"[RUNNING:{executionNumber}]";
                     label.AddToClassList("trigger-state-running");
                 }
                 else
                 {
                     if (triggerObject.trigger.executionTimes > 0)
                     {
-                        label.text = $"{triggerObject.name} [COMPLETED:{executionNumber}]";
+                        suffix = $"[COMPLETED:{executionNumber}]";
                         label.AddToClassList("trigger-state-completed");
                     }
                     else
                     {
                         if (maxExecutionTimes > 0)
                         {
-                            label.text = $"{triggerObject.name} [0/{maxExecutionTimes}]";
-                        }
-                        else
-                        { 
-                            label.text = triggerObject.name;
+                            suffix = $"[0/{maxExecutionTimes}]";
                         }
                     }
                 }
             }
+            
+            var text = string.IsNullOrEmpty(parentName) ? $"{triggerObject.name}" : $"{parentName}/{triggerObject.name}";
+            if (!string.IsNullOrEmpty(suffix))
+            {
+                text += $" {suffix}";
+            }
+                
+            label.text = text;
 
             buttonState.Q<Image>().image = isDisabled ? triggerOffGuiContent.image : triggerOnGuiContent.image;
         }
@@ -282,26 +299,29 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
             
             triggerElement.root.style.display = DisplayStyle.Flex;
 
-            if (!searchText.IsNullOrEmpty())
+            if (triggerElement.triggerObject)
             {
-                if (searchTexts != null && searchTexts.Length > 0)
+                if (!searchText.IsNullOrEmpty())
                 {
-                    var match = true;
-                        
-                    foreach (var text in searchTexts)
+                    if (searchTexts != null && searchTexts.Length > 0)
                     {
-                        if (!triggerElement.triggerObject.name.ToLower().Contains(text.ToLower()))
+                        var match = true;
+                        
+                        foreach (var text in searchTexts)
                         {
-                            match = false;
+                            if (!triggerElement.triggerObject.name.ToLower().Contains(text.ToLower()))
+                            {
+                                match = false;
+                            }
+                        }
+
+                        if (!match)
+                        {
+                            triggerElement.root.style.display = DisplayStyle.None;
+                            continue;
                         }
                     }
-
-                    if (!match)
-                    {
-                        triggerElement.root.style.display = DisplayStyle.None;
-                        continue;
-                    }
-                }
+                }  
             }
             
             triggerElement.Redraw(forced);
