@@ -1,10 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Gemserk.Triggers;
 using Gemserk.Utilities.Editor;
+using MyBox;
 using MyBox.EditorTools;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -28,6 +29,7 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
         private bool wasDisabled;
         private ITrigger.ExecutionState previousState = ITrigger.ExecutionState.Waiting;
         private int previousExecutionTimes;
+        private int maxExecutionTimes;
 
         public TriggerElement(TriggerObject triggerObject)
         {
@@ -123,7 +125,8 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
             
             if (!force)
             {
-                if (wasDisabled == isDisabled && currentState == previousState && previousExecutionTimes == triggerObject.trigger.executionTimes)
+                if (wasDisabled == isDisabled && currentState == previousState && previousExecutionTimes == triggerObject.trigger.executionTimes && 
+                    maxExecutionTimes == triggerObject.maxExecutions)
                 {
                     return;
                 }
@@ -132,6 +135,7 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
             previousState = currentState;
             wasDisabled = isDisabled;
             previousExecutionTimes = triggerObject.trigger.executionTimes;
+            maxExecutionTimes = triggerObject.maxExecutions;
             
             // var hidden = (triggerObject.gameObject.activeSelf && !triggerObject.gameObject.activeInHierarchy);
             // root.visible = !hidden;
@@ -151,7 +155,7 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
 
             if (triggerObject.trigger.maxExecutionTimes > 0)
             {
-                executionNumber = $"{triggerObject.trigger.executionTimes}/{triggerObject.trigger.maxExecutionTimes}";
+                executionNumber = $"{triggerObject.trigger.executionTimes}/{maxExecutionTimes}";
             }
 
             if (isDisabled)
@@ -163,7 +167,7 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
             {
                 if (currentState == ITrigger.ExecutionState.Executing)
                 {
-                    executionNumber = $"{triggerObject.trigger.executionTimes + 1}/{triggerObject.trigger.maxExecutionTimes}";
+                    executionNumber = $"{triggerObject.trigger.executionTimes + 1}/{maxExecutionTimes}";
                     
                     label.text = $"{triggerObject.name} [RUNNING:{executionNumber}]";
                     label.AddToClassList("trigger-state-running");
@@ -179,7 +183,7 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
                     {
                         if (triggerObject.trigger.maxExecutionTimes > 0)
                         {
-                            label.text = $"{triggerObject.name} [0/{triggerObject.trigger.maxExecutionTimes}]";
+                            label.text = $"{triggerObject.name} [0/{maxExecutionTimes}]";
                         }
                         else
                         { 
@@ -195,6 +199,8 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
     
     [SerializeField]
     private VisualTreeAsset m_VisualTreeAsset = default;
+
+    public StyleSheet styleSheet;
     
     [SerializeField]
     private VisualTreeAsset m_VisualElementTemplate = default;
@@ -212,6 +218,8 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
     private List<TriggerObject> triggerObjects = new List<TriggerObject>();
     
     private VisualElement elementsContainer;
+    private ToolbarSearchField searchToolbar;
+    private string searchText;
 
     [MenuItem("Window/Gemserk/Triggers/Debug State")]
     public static void ShowWindow()
@@ -219,6 +227,19 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
         // This method is called when the user selects the menu item in the Editor
         EditorWindow wnd = GetWindow<TriggersRuntimeDebugStateWindow>();
         wnd.titleContent = new GUIContent("Triggers - Debug");
+    }
+    
+    private VisualElement CreateSearchToolbar()
+    {
+        searchToolbar = new ToolbarSearchField();
+        searchToolbar.AddToClassList("searchToolbar");
+        searchToolbar.RegisterValueChangedCallback(evt =>
+        {
+            searchText = evt.newValue;
+            Redraw(true);
+        });
+
+        return searchToolbar;
     }
 
     private void Update()
@@ -243,21 +264,43 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
 
     private void Redraw(bool forced)
     {
+        string[] searchTexts = null;
+        if (!string.IsNullOrEmpty(searchText))
+        {
+            searchText = searchText.TrimStart().TrimEnd();
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                searchTexts = searchText.Split(' ');
+            }
+        }
+        
         for (var i = 0; i < triggerElements.Count; i++)
         {
             var triggerElement = triggerElements[i];
-        
-            // if (triggerElement.root != null)
-            // {
-            //     if (i % 2 == 0)
-            //     {
-            //         triggerElement.root.AddToClassList("trigger-even");
-            //     }
-            //     else
-            //     {
-            //         triggerElement.root.RemoveFromClassList("trigger-even");
-            //     }
-            // }
+            
+            triggerElement.root.style.display = DisplayStyle.Flex;
+
+            if (!searchText.IsNullOrEmpty())
+            {
+                if (searchTexts != null && searchTexts.Length > 0)
+                {
+                    var match = true;
+                        
+                    foreach (var text in searchTexts)
+                    {
+                        if (!triggerElement.triggerObject.name.ToLower().Contains(text.ToLower()))
+                        {
+                            match = false;
+                        }
+                    }
+
+                    if (!match)
+                    {
+                        triggerElement.root.style.display = DisplayStyle.None;
+                        continue;
+                    }
+                }
+            }
             
             triggerElement.Redraw(forced);
         }
@@ -307,6 +350,8 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
             }
         }
         
+
+        
         for (var i = 0; i < triggerElements.Count; i++)
         {
             var triggerElement = triggerElements[i];
@@ -328,11 +373,19 @@ public class TriggersRuntimeDebugStateWindow : EditorWindow, IHasCustomMenu
     public void CreateGUI()
     {
         var root = rootVisualElement;
+      
+        root.Add(CreateSearchToolbar());
+        searchText = string.Empty;
         
         var template = m_VisualTreeAsset.Instantiate();
         
         elementsContainer = template.Query<VisualElement>("MainScroll").First();
         root.Add(template);
+        
+        if (styleSheet)
+        {
+            root.styleSheets.Add(styleSheet);
+        }
 
         var button = template.Query<Button>("ButtonRefresh").First();
         button.clicked += () =>
