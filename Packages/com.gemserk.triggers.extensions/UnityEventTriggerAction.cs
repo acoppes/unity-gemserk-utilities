@@ -1,4 +1,5 @@
-﻿using UnityEngine.Events;
+﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace Gemserk.Triggers
 {
@@ -18,11 +19,24 @@ namespace Gemserk.Triggers
                 return "UnityEvent()";
             }
 
+            // return "UnityEvent";
+
             // var persistentEvents = unityEvent.GetPersistentEventCount();
             
             // if (persistentEvents == 1)
             // {
-            return $"UnityEvent({unityEvent.GetPersistentTarget(0).name}.{unityEvent.GetPersistentMethodName(0)})";
+            var persistentTarget = unityEvent.GetPersistentTarget(0);
+            var method = unityEvent.GetPersistentMethodName(0);
+
+            if (persistentTarget is Component m)
+            {
+                if (m.gameObject == gameObject)
+                {
+                    return $"UnityEvent({m.GetType().Name}.{method})";
+                }
+            }
+            
+            return $"UnityEvent({persistentTarget.name}.{method})";
             // }
             // else
             // {
