@@ -66,7 +66,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
     {
         const int MaxFieldToStringLength = 128;
         
-        static object[] _componentsCache = new object[32];
+        static object[] _componentsCache = new object[64];
 
         [MenuItem("Window/Gemserk/ECS World Entities")]
         public static void ShowWindow()
@@ -104,11 +104,19 @@ namespace Gemserk.Leopotam.Ecs.Editor
         private void OnEnable()
         {
             EcsWorldEntitiesWindowDebugSystem.windowOpenCount++;
+            EditorApplication.playModeStateChanged += EditorApplicationOnplayModeStateChanged;
         }
 
         private void OnDisable()
         {
             EcsWorldEntitiesWindowDebugSystem.windowOpenCount--;
+            EditorApplication.playModeStateChanged -= EditorApplicationOnplayModeStateChanged;
+        }
+        
+        private void EditorApplicationOnplayModeStateChanged(PlayModeStateChange playModeStateChange)
+        {
+            ecsFilter = null;
+            filterChanged = true;
         }
 
         private void OnFocus()
