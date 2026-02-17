@@ -8,7 +8,7 @@ namespace Gemserk.Triggers
         
         public override string GetObjectName()
         {
-            if (signal != null)
+            if (signal)
             {
                 return $"OnSignal({signal.name})";
             }
@@ -17,7 +17,7 @@ namespace Gemserk.Triggers
 
         private void OnEnable()
         {
-            if (signal != null)
+            if (signal)
             {
                 signal.Register(OnSignal);
             }
@@ -25,7 +25,7 @@ namespace Gemserk.Triggers
 
         private void OnDisable()
         {
-            if (signal != null)
+            if (signal)
             {
                 signal.Unregister(OnSignal);
             }
