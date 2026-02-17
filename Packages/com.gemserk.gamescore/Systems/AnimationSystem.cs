@@ -6,7 +6,6 @@ using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace Game.Systems
 {
@@ -29,7 +28,7 @@ namespace Game.Systems
             {
                 ref var animations = ref world.GetComponent<AnimationsComponent>(entity);
                 var asset = animations.animationsAsset;
-                if (asset != null)
+                if (asset)
                 {
                     if (!cachedAnimationsPerAsset.ContainsKey(asset))
                     {

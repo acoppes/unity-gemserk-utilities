@@ -11,9 +11,9 @@ namespace Game.Systems
     {
         readonly EcsFilterInject<Inc<MaxByTypeComponent, DestroyableComponent>, Exc<DisabledComponent>> filter = default;
 
-        private IDictionary<ITypeMax, int> countPerType = new Dictionary<ITypeMax, int>();
+        private readonly IDictionary<ITypeMax, int> countPerType = new Dictionary<ITypeMax, int>();
 
-        private List<int> entitiesToCheck = new List<int>();
+        private readonly List<int> entitiesToCheck = new List<int>();
         
         public void Run(EcsSystems systems)
         {

@@ -11,7 +11,7 @@ namespace Game.Systems
         
         public void Init(EcsSystems systems)
         {
-            if (Camera.main != null)
+            if (Camera.main)
             {
                 brain = Camera.main.GetComponent<CinemachineBrain>();
             }
@@ -19,7 +19,7 @@ namespace Game.Systems
         
         public void Run(EcsSystems systems)
         {
-            if (brain != null && brain.UpdateMethod == CinemachineBrain.UpdateMethods.ManualUpdate)
+            if (brain && brain.UpdateMethod == CinemachineBrain.UpdateMethods.ManualUpdate)
             {
                 brain.ManualUpdate();
             }

@@ -1,5 +1,4 @@
 ﻿using Game.Components;
-using Game.Definitions;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Leopotam.Ecs.Components;
 using Leopotam.EcsLite;

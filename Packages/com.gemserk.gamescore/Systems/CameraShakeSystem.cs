@@ -1,7 +1,6 @@
 ﻿using Game.Components;
 using Game.Definitions;
 using Gemserk.Leopotam.Ecs;
-using Gemserk.Leopotam.Ecs.Controllers;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
