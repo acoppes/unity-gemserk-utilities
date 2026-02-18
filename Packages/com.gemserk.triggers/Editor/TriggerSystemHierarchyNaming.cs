@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace Gemserk.Triggers.Editor
@@ -33,9 +34,21 @@ namespace Gemserk.Triggers.Editor
             }
 
             _lastUpdateTime = timeSinceStartup;
+
+
+            var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+
+            TriggerSystem[] triggerSystems;
             
-            var triggerSystems= GameObject.FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude,
-                FindObjectsSortMode.None);
+            if (prefabStage)
+            {
+                triggerSystems = prefabStage.prefabContentsRoot.GetComponentsInChildren<TriggerSystem>();
+            }
+            else
+            {
+                triggerSystems= GameObject.FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude,
+                    FindObjectsSortMode.None);
+            }
 
             foreach (var triggerSystem in triggerSystems)
             {
