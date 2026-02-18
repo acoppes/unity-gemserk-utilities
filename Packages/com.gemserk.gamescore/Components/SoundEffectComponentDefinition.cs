@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs;
 using MyBox;
 using UnityEngine;
