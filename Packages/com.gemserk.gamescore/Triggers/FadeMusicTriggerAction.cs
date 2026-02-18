@@ -13,7 +13,7 @@ namespace Game.Triggers
 
         public override string GetObjectName()
         {
-            if (musicSource != null)
+            if (musicSource)
             {
                 return $"MusicFade({musicSource.name}, {from}, {to}, {time:0.0})";
             }
