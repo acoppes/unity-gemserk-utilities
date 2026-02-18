@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs.Components;
 using Gemserk.Utilities;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
@@ -46,13 +47,13 @@ namespace Gemserk.Leopotam.Ecs
         //     }
         // }
         
+        readonly EcsFilterInject<Inc<EntityPrefabComponent>> spawns = default;
+        
         public void Run(EcsSystems systems)
         {
-            var entityPrefabComponents = world.GetComponents<EntityPrefabComponent>();
-            
-            foreach (var entity in world.GetFilter<EntityPrefabComponent>().End())
+            foreach (var entity in spawns.Value)
             {
-                var entityPrefabComponent = entityPrefabComponents.Get(entity);
+                var entityPrefabComponent = spawns.Pools.Inc1.Get(entity);
                 var prefabInstance = entityPrefabComponent.prefabInstance;
 
                 if (prefabInstance.onInstantiateActionType == BaseEntityPrefabInstance.OnInstantiateActionType.LinkObject)
