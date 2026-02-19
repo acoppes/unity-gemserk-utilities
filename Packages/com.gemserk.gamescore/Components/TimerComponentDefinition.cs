@@ -10,18 +10,21 @@ namespace Game.Components
         public bool paused;
     }
     
-    public class TimerComponentDefinition : ComponentDefinitionBase
+    public class TimerComponentDefinition : ComponentDefinitionBase, IEntityInstanceParameter
     {
         public float startingTime;
         public bool startsPaused;
         
         public override void Apply(World world, Entity entity)
         {
-            world.AddComponent(entity, new TimerComponent()
+            if (!entity.Has<TimerComponent>())
             {
-                timer = new Cooldown(startingTime),
-                paused = startsPaused
-            });
+                world.AddComponent(entity, new TimerComponent());
+            }
+
+            ref var timer = ref entity.Get<TimerComponent>();
+            timer.timer = new Cooldown(startingTime);
+            timer.paused = startsPaused;
         }
     }
 }
