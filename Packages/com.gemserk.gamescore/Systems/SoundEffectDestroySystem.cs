@@ -17,7 +17,7 @@ namespace Game.Systems
                 var sfxComponent = filter.Pools.Inc1.Get(entity);
                 ref var destroyableComponent = ref filter.Pools.Inc2.Get(entity);
 
-                if (!sfxComponent.autoDestroyOnComplete || sfxComponent.source == null)
+                if (!sfxComponent.autoDestroyOnComplete || !sfxComponent.source)
                     continue;
                 
                 if (sfxComponent.started && !sfxComponent.source.isPlaying)
