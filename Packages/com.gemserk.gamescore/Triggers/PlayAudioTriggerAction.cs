@@ -14,8 +14,7 @@ namespace Game.Triggers
             SeekAlpha = 3
         }
         
-        [SerializeField]
-        private AudioSource musicSource;
+        public AudioSource musicSource;
 
         public ActionType actionType;
         [ConditionalField(nameof(actionType), false, ActionType.Play)]
