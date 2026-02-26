@@ -17,6 +17,11 @@ namespace Gemserk.BuildTools.Editor
         private const string GemserkProjectName = "GEMSERK_PROJECT_NAME";
         private const string GemserkGameBuildPath = "GEMSERK_GAME_BUILD_PATH";
 
+        public static void Prewarm()
+        {
+            
+        }
+        
         public static void BuildWebGL()
         {
             Build(new BuildPlayerOptions
