@@ -19,9 +19,9 @@ namespace Game.Triggers
 
         public override string GetObjectName()
         {
-            if (query != null)
+            if (query)
             {
-                if (targetQuery != null)
+                if (targetQuery)
                 {
                     return $"SetFollowEntity({query}, {targetQuery})";
                 }
@@ -37,7 +37,7 @@ namespace Game.Triggers
 
             var target = Entity.NullEntity;
             
-            if (targetQuery != null)
+            if (targetQuery)
             {
                 target = world.GetFirstOrDefault(targetQuery);
             }

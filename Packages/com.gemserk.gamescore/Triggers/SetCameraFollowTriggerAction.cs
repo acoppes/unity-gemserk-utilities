@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Unity.Cinemachine;
 using Game.Components;
+using Game.Utilities;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Leopotam.Ecs.Components;
 using Gemserk.Triggers;
@@ -31,10 +32,12 @@ namespace Game.Triggers
         public bool forceCameraPosition;
 
         public bool useGameObject;
+
+        public bool resetPreviousFollow = true;
         
         public override string GetObjectName()
         {
-            if (query != null)
+            if (query)
             {
                 return $"SetCamera{actionType}({cameraName}, {query})";
             }    
@@ -45,19 +48,24 @@ namespace Game.Triggers
         {
             var cameraObject = GameObject.Find(cameraName);
             var virtualCamera = cameraObject.GetComponent<CinemachineCamera>();
+
+            if (virtualCamera && resetPreviousFollow)
+            {
+                CinemachineCameraUtils.ClearTargets(virtualCamera);   
+            }
             
             if (actionType == ActionType.Follow)
             {
-                if (targetGameObject != null)
+                if (targetGameObject)
                 {
-                    virtualCamera.Follow = targetGameObject.transform;
-                    virtualCamera.LookAt = targetGameObject.transform;
+                    CinemachineCameraUtils.FollowTarget(virtualCamera, targetGameObject.transform);
+                    CinemachineCameraUtils.LookAtTarget(virtualCamera, targetGameObject.transform);
                 }
                 else
                 {
                     var entities = new List<Entity>();
 
-                    if (query != null)
+                    if (query)
                     {
                         entities = world.GetEntities(query.GetEntityQuery());
                     }
@@ -71,8 +79,10 @@ namespace Game.Triggers
                         if (useGameObject)
                         {
                             var gameObjectComponent = world.GetComponent<GameObjectComponent>(entity);
-                            virtualCamera.Follow = gameObjectComponent.gameObject.transform;
-                            virtualCamera.LookAt = gameObjectComponent.gameObject.transform;
+
+                            CinemachineCameraUtils.FollowTarget(virtualCamera, gameObjectComponent.gameObject.transform);
+                            CinemachineCameraUtils.LookAtTarget(virtualCamera, gameObjectComponent.gameObject.transform);
+                            
                         }
                         else
                         {
@@ -80,13 +90,13 @@ namespace Game.Triggers
                     
                             if (!useModel)
                             {
-                                virtualCamera.Follow = modelComponent.instance.transform;
-                                virtualCamera.LookAt = modelComponent.instance.transform;
+                                CinemachineCameraUtils.FollowTarget(virtualCamera, modelComponent.instance.transform);
+                                CinemachineCameraUtils.LookAtTarget(virtualCamera, modelComponent.instance.transform);
                             }
                             else
                             {
-                                virtualCamera.Follow = modelComponent.instance.model;
-                                virtualCamera.LookAt = modelComponent.instance.model;
+                                CinemachineCameraUtils.FollowTarget(virtualCamera, modelComponent.instance.model);
+                                CinemachineCameraUtils.LookAtTarget(virtualCamera, modelComponent.instance.model);
                             }
                         }
                         
