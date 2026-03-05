@@ -29,11 +29,11 @@ namespace Game.Triggers
         {
             if (eventType == EventType.InputAction)
             {
-                return $"Control{eventType}({inputAction})";
+                return $"Control{eventType}()";
             }
-            if (eventType == EventType.InputActionReference)
+            if (eventType == EventType.InputActionReference && reference)
             {
-                return $"Control{eventType}({reference})";
+                return $"Control{eventType}({reference.action.name})";
             }
             return $"Control{eventType}()";
         }
