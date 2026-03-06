@@ -84,14 +84,14 @@ namespace Gemserk.BuildTools.Editor
             // EditorGUI.EndDisabledGroup();
             
             EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button(new GUIContent("Load", null, "Overwrite current ProjectSettings with saved configuration asset.")))
+            if (GUILayout.Button(new GUIContent("Copy to Build Profile", null, "Overwrite current Build Profile Settings with data from configuration asset.")))
             {
                 buildConfiguration.Load();
             }
 
-            if (GUILayout.Button(new GUIContent("Store", null, "Stores current ProjectSettings in configuration asset.")))
+            if (GUILayout.Button(new GUIContent("Read from Build Profile", null, "Stores current Build Profile Settings in configuration asset.")))
             {
-                if (EditorUtility.DisplayDialog("Warning", "Overwrite asset with current Editor Settings?", "Ok", "Cancel"))
+                if (EditorUtility.DisplayDialog("Warning", "Overwrite data with current Build Profile Settings?", "Ok", "Cancel"))
                 {
                     buildConfiguration.Store();
                 }
