@@ -1,7 +1,9 @@
 ﻿using Gemserk.Leopotam.Ecs.Components;
 using Gemserk.Leopotam.Ecs.Controllers;
+using Gemserk.Utilities.Signals;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Systems
 {
@@ -10,6 +12,9 @@ namespace Gemserk.Leopotam.Ecs.Systems
         readonly EcsFilterInject<Inc<DestroyableComponent, DelayedDestroyComponent>, Exc<DisabledComponent>> delayedDestroyableFilter = default;
         readonly EcsFilterInject<Inc<DestroyableComponent, DelayedDestroyComponent, DisabledComponent>> disabledDelayedFilter = default;
         readonly EcsFilterInject<Inc<DestroyableComponent>, Exc<DelayedDestroyComponent>> destroyableFilter = default;
+        
+        [SerializeField]
+        private SignalAsset onDestroyedSignal;
         
         public void Run(EcsSystems systems)
         {
@@ -30,6 +35,10 @@ namespace Gemserk.Leopotam.Ecs.Systems
                 {
                     if (delayedDestroy.frames < 0)
                     {
+                        if (onDestroyedSignal && destroyable.signalOnDestroy)
+                        {
+                            onDestroyedSignal.Signal(world.GetEntity(e));
+                        }
                         world.DestroyEntity(world.GetEntity(e));
                     }
                     delayedDestroy.frames--;
@@ -41,6 +50,10 @@ namespace Gemserk.Leopotam.Ecs.Systems
                 var destroyable = destroyableFilter.Pools.Inc1.Get(e);
                 if (destroyable.destroy)
                 {
+                    if (onDestroyedSignal && destroyable.signalOnDestroy)
+                    {
+                        onDestroyedSignal.Signal(world.GetEntity(e));
+                    }
                     world.DestroyEntity(world.GetEntity(e));
                 }
             }
