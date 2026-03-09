@@ -89,33 +89,14 @@ namespace Gemserk.Triggers.Systems
             }
         }
 
-        // public void OnEntityCreated(World world, Entity entity)
-        // {
-        //     if (entity.Has<ControllerComponent>() && !entity.Has<ControllerSignalHandlerComponent>())
-        //     {
-        //         var controllers = entity.Get<ControllerComponent>();
-        //         foreach (var controller in controllers.controllers)
-        //         {
-        //             if (controller is ISignalControllerEvent signalEventHandler)
-        //             {
-        //                 signalHandlers.Add(signalEventHandler);
-        //             }
-        //         }
-        //
-        //         if (signalHandlers.Count > 0)
-        //         {
-        //             entity.Add(new ControllerSignalHandlerComponent()
-        //             {
-        //                 signalEventHandlers = new List<ISignalControllerEvent>(signalHandlers)
-        //             });
-        //             
-        //             signalHandlers.Clear();
-        //         }
-        //     }
-        // }
-        
         public void Run(EcsSystems systems)
         {
+            // ignore logic if no signals in the list
+            if (signalAssets.Count == 0)
+            {
+                return;
+            }
+            
             foreach (var entity in controllers.Value)
             {
                 ref var controllerComponent = ref controllers.Pools.Inc1.Get(entity);
