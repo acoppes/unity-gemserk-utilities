@@ -121,11 +121,11 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                     }
                 }
                 
-                if (controllerComponent.instance != null && !controllerComponent.sharedInstance)
+                if (controllerComponent.instance && !controllerComponent.sharedInstance)
                 {
                     if (!entity.Has<ControllerFromGameObject>())
                     {
-                        GameObject.Destroy(controllerComponent.instance);
+                        Destroy(controllerComponent.instance);
                     }
                 }
 
