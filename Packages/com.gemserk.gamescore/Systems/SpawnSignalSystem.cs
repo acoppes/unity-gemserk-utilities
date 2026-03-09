@@ -17,7 +17,6 @@ namespace Game.Systems
         
         public void Run(EcsSystems systems)
         {
-            // auto disable?
             if (!onSpawnedSignal)
             {
                 return;
@@ -29,17 +28,8 @@ namespace Game.Systems
                 onSpawnedSignal.Signal(worldEntity);
                 spawnSignals.Pools.Inc1.Del(e);
             }
-            
-            // foreach (var entity in world
-            //              .GetFilter<SpawnSignalComponent>()
-            //              .Exc<DisabledComponent>()
-            //              .End())
-            // {
-            //     var worldEntity = world.GetEntity(entity);
-            //     
-            //     onSpawnedSignal.Signal(worldEntity);
-            //     world.RemoveComponent<SpawnSignalComponent>(worldEntity);
-            // }
         }
+
+
     }
 }
