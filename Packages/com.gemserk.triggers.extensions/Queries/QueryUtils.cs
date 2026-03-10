@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Gemserk.Leopotam.Ecs;
+using Leopotam.EcsLite;
 
 namespace Gemserk.Triggers.Queries
 {
@@ -52,7 +53,12 @@ namespace Gemserk.Triggers.Queries
 
         public static void GetEntities(this World world, EntityQuery query, List<Entity> results)
         {
-            foreach (var entity in world.GetFilter<QueryableComponent>().End())
+            GetEntities(world, query, results, world.GetFilter<QueryableComponent>().End());
+        }
+        
+        public static void GetEntities(this World world, EntityQuery query, List<Entity> results, EcsFilter filter)
+        {
+            foreach (var entity in filter)
             {
                 if (!query.MatchQuery(world, world.GetEntity(entity)))
                 {
@@ -67,10 +73,20 @@ namespace Gemserk.Triggers.Queries
         {
             return world.GetFirstOrDefault(query.GetEntityQuery());
         }
+
+        public static EcsWorld.Mask GetDefaultFilterMask(this World world)
+        {
+            return world.GetFilter<QueryableComponent>();
+        }
         
         public static Entity GetFirstOrDefault(this World world, EntityQuery query)
         {
-            foreach (var entity in world.GetFilter<QueryableComponent>().End())
+            return GetFirstOrDefault(world, query, world.GetFilter<QueryableComponent>().End());
+        }
+        
+        public static Entity GetFirstOrDefault(this World world, EntityQuery query, EcsFilter filter)
+        {
+            foreach (var entity in filter)
             {
                 if (!query.MatchQuery(world, world.GetEntity(entity)))
                 {
@@ -81,8 +97,6 @@ namespace Gemserk.Triggers.Queries
             }
 
             return Entity.NullEntity;
-            
-            // throw new Exception($"Failed to get singleton entity from query {query}");
         }
     }
 }

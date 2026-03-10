@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace Gemserk.Triggers.Queries
 {
-    public struct EntityQuery
+    public readonly struct EntityQuery
     {
-        public List<IQueryParameter> parameters;
+        public readonly List<IQueryParameter> parameters;
 
         public EntityQuery(List<IQueryParameter> parameters)
         {
