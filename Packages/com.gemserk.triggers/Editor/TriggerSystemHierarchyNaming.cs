@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Gemserk.Triggers.Editor
 {
@@ -46,11 +47,12 @@ namespace Gemserk.Triggers.Editor
             }
             else
             {
-                var triggerSystems= GameObject.FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude,
+                var triggerSystems= Object.FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude,
                     FindObjectsSortMode.None);
+                
                 foreach (var triggerSystem in triggerSystems)
                 {
-                    debugNamedObjects.AddRange(triggerSystem.GetComponentsInChildren<ITriggerDebugNamedObject>());
+                    debugNamedObjects.AddRange(triggerSystem.GetComponentsInChildren<ITriggerDebugNamedObject>(true));
                 }
             }
 
