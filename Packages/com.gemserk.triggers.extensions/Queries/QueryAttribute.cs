@@ -6,7 +6,7 @@ namespace Gemserk.Triggers.Queries
     {
         public QueryAttribute() : base(typeof(Query))
         {
-            filterString = "Query_";
+            filterString = "Q";
             disableAssetReferences = true;
             sceneReferencesOnWhenStart = true;
             prefabReferencesOnWhenStart = true;

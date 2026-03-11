@@ -7,12 +7,12 @@ namespace Gemserk.Triggers
 {
     public class MatchQueryTriggerCondition : WorldTriggerCondition
     {
-        [ObjectType(typeof(Query), disableAssetReferences = true, prefabReferencesOnWhenStart = false)]        
+        [Query]
         public Object query;
         
         public override string GetObjectName()
         {
-            if (query == null)
+            if (!query)
             {
                 return "MatchQuery()";
             }

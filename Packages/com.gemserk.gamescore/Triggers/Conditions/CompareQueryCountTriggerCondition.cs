@@ -1,6 +1,5 @@
 ﻿using Gemserk.Triggers;
 using Gemserk.Triggers.Queries;
-using MyBox;
 
 namespace Game.Triggers.Conditions
 {
@@ -17,7 +16,7 @@ namespace Game.Triggers.Conditions
         
         public int count;
         
-        [DisplayInspector]
+        [Query]
         public Query query;
         
         public override string GetObjectName()
