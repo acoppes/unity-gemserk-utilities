@@ -43,7 +43,7 @@ namespace Gemserk.Leopotam.Ecs
                 return CachedObjectBehaviour<T>.GetByTag(tag);
             }
 
-            if (type == ReferenceType.SameScene && go != null)
+            if (type == ReferenceType.SameScene && go)
             {
                 return CachedObjectBehaviour<T>.GetByScene(go.scene);
             }
