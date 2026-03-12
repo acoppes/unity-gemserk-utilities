@@ -26,6 +26,27 @@ namespace Game.Utilities
             }
         }
         
+        public static void ClearTarget(CinemachineCamera camera, Transform targetTransform)
+        {
+            if (camera.Follow)
+            {
+                var targetGroup = camera.Follow.GetComponent<CinemachineTargetGroup>();
+                if (targetGroup)
+                {
+                    targetGroup.Targets.RemoveAll(t => t.Object == targetTransform);
+                }
+            }
+            
+            if (camera.LookAt)
+            {
+                var targetGroup = camera.LookAt.GetComponent<CinemachineTargetGroup>();
+                if (targetGroup)
+                {
+                    targetGroup.Targets.RemoveAll(t => t.Object == targetTransform);
+                }
+            }
+        }
+        
         public static void FollowTarget(CinemachineCamera camera, Transform followTransform)
         {
             if (camera.Follow)

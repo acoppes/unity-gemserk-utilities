@@ -15,7 +15,8 @@ namespace Game.Triggers
         public enum ActionType
         {
             Follow = 0,
-            StopFollowing = 1
+            StopFollowingAll = 1,
+            StopFollowingTarget = 2
         }
         
         public ActionType actionType;
@@ -108,10 +109,54 @@ namespace Game.Triggers
                     virtualCamera.ForceCameraPosition(virtualCamera.Follow.transform.position, Quaternion.identity);
                 }
                 
-            } else if (actionType == ActionType.StopFollowing)
+            } else if (actionType == ActionType.StopFollowingAll)
             {
                 virtualCamera.Follow = null;
                 virtualCamera.LookAt = null;
+            } else if (actionType == ActionType.StopFollowingTarget)
+            {
+                if (targetGameObject)
+                {
+                    CinemachineCameraUtils.ClearTarget(virtualCamera, targetGameObject.transform);
+                }
+                else
+                {
+                    var entities = new List<Entity>();
+
+                    if (query)
+                    {
+                        entities = world.GetEntities(query.GetEntityQuery());
+                    }
+                    else
+                    {
+                        target.Get(entities, world, activator);
+                    }
+                    
+                    foreach (var entity in entities)
+                    {
+                        if (useGameObject)
+                        {
+                            var gameObjectComponent = world.GetComponent<GameObjectComponent>(entity);
+
+                            CinemachineCameraUtils.ClearTarget(virtualCamera, gameObjectComponent.gameObject.transform);
+                            
+                        }
+                        else
+                        {
+                            var modelComponent = world.GetComponent<ModelComponent>(entity);
+                    
+                            if (!useModel)
+                            {
+                                CinemachineCameraUtils.ClearTarget(virtualCamera, modelComponent.instance.transform);
+                            }
+                            else
+                            {
+                                CinemachineCameraUtils.ClearTarget(virtualCamera, modelComponent.instance.model);
+                            }
+                        }
+                        
+                    }
+                }
             }
 
             return ITrigger.ExecutionResult.Completed;
