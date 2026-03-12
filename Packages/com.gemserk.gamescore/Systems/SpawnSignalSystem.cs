@@ -17,19 +17,15 @@ namespace Game.Systems
         
         public void Run(EcsSystems systems)
         {
-            if (!onSpawnedSignal)
+            if (onSpawnedSignal)
             {
-                return;
-            }
-
-            foreach (var e in spawnSignals.Value)
-            {
-                var worldEntity = world.GetEntity(e);
-                onSpawnedSignal.Signal(worldEntity);
-                spawnSignals.Pools.Inc1.Del(e);
+                foreach (var e in spawnSignals.Value)
+                {
+                    var worldEntity = world.GetEntity(e);
+                    onSpawnedSignal.Signal(worldEntity);
+                    spawnSignals.Pools.Inc1.Del(e);
+                }
             }
         }
-
-
     }
 }
