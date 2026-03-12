@@ -54,7 +54,7 @@ namespace Gemserk.Triggers.Tests
             var controllerPrefab = new GameObject();
             controllerPrefab.AddComponent<TestControllerForSignal>();
             
-            var e = world.CreateEntityCustom(e =>
+            var e = world.CreateEntity(configuration:e =>
             {
                 e.Add(new ControllerComponent()
                 {

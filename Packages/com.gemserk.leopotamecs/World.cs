@@ -56,14 +56,6 @@ namespace Gemserk.Leopotam.Ecs
             OnEntityCreated(entity);
             return entity;
         }
-        
-        public Entity CreateEntityCustom(Action<Entity> configuration)
-        {
-            var entity = CreateEmptyEntity();
-            configuration.Invoke(entity);
-            OnEntityCreated(entity);
-            return entity;
-        }
 
         private void Apply(Entity entity, IEntityDefinition definition = null, IEnumerable<IEntityInstanceParameter> parametersList = null)
         {
