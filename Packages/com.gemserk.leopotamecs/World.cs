@@ -48,10 +48,11 @@ namespace Gemserk.Leopotam.Ecs
             return GetEntity(entity);
         }
 
-        public Entity CreateEntity(IEntityDefinition definition = null, IEnumerable<IEntityInstanceParameter> parametersList = null)
+        public Entity CreateEntity(IEntityDefinition definition = null, IEnumerable<IEntityInstanceParameter> parametersList = null, Action<Entity> configuration = null)
         {
             var entity = CreateEmptyEntity();
             Apply(entity, definition, parametersList);
+            configuration?.Invoke(entity);
             OnEntityCreated(entity);
             return entity;
         }
