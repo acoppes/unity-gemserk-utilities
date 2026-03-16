@@ -51,8 +51,8 @@ namespace Gemserk.Triggers
                 return trigger.State;
             }
         }
-        
-        private void Awake()
+
+        public void Awake()
         {
             if (executionType == ExecutionType.Disabled)
                 trigger.maxExecutionTimes = 0;
@@ -68,9 +68,20 @@ namespace Gemserk.Triggers
             conditionsParent = transform.Find("Conditions");
             actionsParent = transform.Find("Actions");
 
-            eventsParent.gameObject.GetComponentsInChildrenDepth1(true, true, trigger.events);
-            conditionsParent.gameObject.GetComponentsInChildrenDepth1(true, true, trigger.conditions);
-            actionsParent.gameObject.GetComponentsInChildrenDepth1(true, true, trigger.actions);
+            if (eventsParent)
+            {
+                eventsParent.gameObject.GetComponentsInChildrenDepth1(true, true, trigger.events);
+            }
+            
+            if (conditionsParent)
+            {
+                conditionsParent.gameObject.GetComponentsInChildrenDepth1(true, true, trigger.conditions);
+            }
+            
+            if (actionsParent)
+            {
+                actionsParent.gameObject.GetComponentsInChildrenDepth1(true, true, trigger.actions);
+            }
         }
 
         public ITrigger.ExecutionResult Execute()

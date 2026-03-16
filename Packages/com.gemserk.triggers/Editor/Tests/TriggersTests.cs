@@ -1,4 +1,6 @@
+using Gemserk.Triggers.Actions;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace Gemserk.Triggers.Editor
 {
@@ -137,6 +139,56 @@ namespace Gemserk.Triggers.Editor
             
             Assert.AreEqual(1, trigger.executionTimes);
             Assert.AreEqual(0, mockAction.executionTimes);
+        }
+        
+        [Test]
+        public void ClearPendingExecutions()
+        {
+            var trigger = new Trigger();
+            
+            trigger.actions.Add(new MockTriggerAction()
+            {
+                result = ITrigger.ExecutionResult.Completed
+            });
+
+            trigger.QueueExecution();
+            trigger.QueueExecution();
+
+            Assert.AreEqual(2, trigger.pendingExecutions.Count);
+            
+            trigger.ClearPendingExecutions();
+            
+            Assert.AreEqual(0, trigger.pendingExecutions.Count);
+        }
+        
+        [Test]
+        public void ClearPendingExecutions_WithTrigger()
+        {
+            var gameObject = new GameObject();
+            
+            var actions = new GameObject("Actions");
+            actions.transform.SetParent(gameObject.transform);
+            
+            var action1 = new GameObject("Actions");
+            action1.transform.SetParent(actions.transform);
+            
+            var clearPending = action1.gameObject.AddComponent<ClearTriggerExecutionsTriggerAction>();
+            
+            var triggerObject = gameObject.AddComponent<TriggerObject>();
+            triggerObject.Awake();
+            
+            clearPending.trigger = triggerObject;
+
+            triggerObject.QueueExecution();
+            triggerObject.QueueExecution();
+            
+            Assert.AreEqual(2, triggerObject.trigger.pendingExecutions.Count);
+            
+            triggerObject.StartExecution();
+            triggerObject.Execute();
+            triggerObject.CompleteCurrentExecution();
+            
+            Assert.AreEqual(0, triggerObject.trigger.pendingExecutions.Count);
         }
     }
 }

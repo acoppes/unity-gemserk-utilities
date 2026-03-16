@@ -78,8 +78,12 @@ namespace Gemserk.Triggers
         public void CompleteCurrentExecution()
         {
             executingAction = 0;
-            pendingExecutions.RemoveAt(0);
-
+            
+            if (pendingExecutions.Count > 0)
+            {
+                pendingExecutions.RemoveAt(0);
+            }
+            
             executionTimes++;
 
             if (pendingExecutions.Count == 0)
