@@ -53,5 +53,7 @@ namespace Gemserk.Triggers
         void CompleteCurrentExecution();
 
         bool IsDisabled();
+
+        void ClearPendingExecutions();
     }
 }

@@ -107,5 +107,10 @@ namespace Gemserk.Triggers
         {
             return !isActiveAndEnabled && !trigger.IsDisabled();
         }
+
+        public void ClearPendingExecutions()
+        {
+            trigger.ClearPendingExecutions();
+        }
     }
 }

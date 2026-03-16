@@ -102,6 +102,11 @@ namespace Gemserk.Triggers
             return false;
         }
 
+        public void ClearPendingExecutions()
+        {
+            pendingExecutions.Clear();
+        }
+
         public ITrigger.ExecutionResult Execute()
         {
             while (executingAction < actions.Count)
