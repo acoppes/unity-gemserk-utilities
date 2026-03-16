@@ -5,7 +5,6 @@ namespace Game.Components
     public struct RespawnableComponent : IEntityComponent
     {
         public bool enableOnRespawn;
-        public bool refillHealthOnRespawn;
         public bool signal;
         
         public int respawnCount;
@@ -24,7 +23,6 @@ namespace Game.Components
     public class RespawnableComponentDefinition : ComponentDefinitionBase
     {
         public bool enableOnRespawn;
-        public bool refillHealthOnRespawn;
         public bool signal;
         
         public override void Apply(World world, Entity entity)
@@ -32,7 +30,6 @@ namespace Game.Components
             world.AddComponent(entity, new RespawnableComponent()
             {
                 enableOnRespawn = enableOnRespawn,
-                refillHealthOnRespawn = refillHealthOnRespawn,
                 signal = signal
             });
         }

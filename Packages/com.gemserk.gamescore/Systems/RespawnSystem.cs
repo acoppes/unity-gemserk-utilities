@@ -10,7 +10,7 @@ namespace Game.Systems
     {
         private readonly EcsFilterInject<Inc<RespawnableComponent, RespawnActionComponent>> respawnablesFilter = default;
         private readonly EcsFilterInject<Inc<RespawnableComponent, DisabledComponent, RespawnActionComponent>> respawnablesDisabled = default;
-        private readonly EcsFilterInject<Inc<RespawnableComponent, HealthComponent, RespawnActionComponent>> respawnablesWithHealth = default;
+        // private readonly EcsFilterInject<Inc<RespawnableComponent, HealthComponent, RespawnActionComponent>> respawnablesWithHealth = default;
         private readonly EcsFilterInject<Inc<RespawnActionComponent>> respawnActions = default;
         private readonly EcsFilterInject<Inc<RespawnEventComponent>> respawnEvents = default;
 
@@ -32,16 +32,16 @@ namespace Game.Systems
                 world.AddComponent(e, new RespawnEventComponent());
             }
             
-            foreach (var e in respawnablesWithHealth.Value)
-            {
-                var respawnable = respawnablesWithHealth.Pools.Inc1.Get(e);
-                ref var health = ref respawnablesWithHealth.Pools.Inc2.Get(e);
-                
-                if (respawnable.refillHealthOnRespawn)
-                {
-                    health.current = health.total;
-                }
-            }
+            // foreach (var e in respawnablesWithHealth.Value)
+            // {
+            //     var respawnable = respawnablesWithHealth.Pools.Inc1.Get(e);
+            //     ref var health = ref respawnablesWithHealth.Pools.Inc2.Get(e);
+            //     
+            //     if (respawnable.refillHealthOnRespawn)
+            //     {
+            //         health.current = health.total;
+            //     }
+            // }
             
             foreach (var e in respawnablesDisabled.Value)
             {
