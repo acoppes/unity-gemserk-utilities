@@ -11,6 +11,7 @@ namespace Gemserk.Triggers.Editor
     public static class TriggerSystemHierarchyNaming
     {
         public static bool AutoNamingDisabled = false;
+        public static string DisabledElementFormat = "// {0}";
         
         private const double UpdateFrequency = 1;
         private static double _lastUpdateTime;
@@ -60,7 +61,10 @@ namespace Gemserk.Triggers.Editor
             {
                 if (debugNamedObject is MonoBehaviour m)
                 {
-                    var objectName = debugNamedObject.GetObjectName();
+                    var enabled = m.enabled;
+                    
+                    var objectName = enabled ? debugNamedObject.GetObjectName() : string.Format(DisabledElementFormat, debugNamedObject.GetObjectName());
+                    
                     if (!string.IsNullOrEmpty(objectName))
                     {
                         if (!string.Equals(m.gameObject.name, objectName, StringComparison.InvariantCulture))
