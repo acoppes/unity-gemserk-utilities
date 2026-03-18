@@ -16,7 +16,7 @@ namespace Gemserk.Triggers
 
         public UpdateType updateType = UpdateType.Update;
         
-        private List<ITrigger> triggers = new ();
+        public readonly List<ITrigger> triggers = new ();
 
         private void Awake()
         {
