@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Gemserk.Triggers
 {
-    public class TriggerSystem : MonoBehaviour
+    public class TriggerSystem : MonoBehaviour, ITriggerSystem
     {
         public enum UpdateType
         {
@@ -15,89 +14,40 @@ namespace Gemserk.Triggers
         }
 
         public UpdateType updateType = UpdateType.Update;
-        
-        public readonly List<ITrigger> triggers = new ();
+
+        private readonly TriggerSystemExecutor triggerSystem = new();
+
+        public List<ITrigger> triggers => triggerSystem.triggers;
 
         private void Awake()
         {
-            GetComponentsInChildren(true, triggers);
+            GetComponentsInChildren(true, triggerSystem.triggers);
         }
 
         private void FixedUpdate()
         {
             if (updateType != UpdateType.FixedUpdate)
                 return;
-            UpdateTriggers();
+            Execute();
         }
         
         private void Update()
         {
             if (updateType != UpdateType.Update)
                 return;
-            UpdateTriggers();
+            Execute();
         }
 
         private void LateUpdate()
         {
             if (updateType != UpdateType.LateUpdate) 
                 return;
-            UpdateTriggers();
+            Execute();
         }
         
-        public void UpdateTriggers()
+        public void Execute()
         {
-            foreach (var trigger in triggers)
-            {
-                if (trigger.IsDisabled())
-                {
-                    continue;
-                }
-                
-                if (trigger.State == ITrigger.ExecutionState.PendingExecution)
-                {
-                    trigger.StartExecution();
-                }
-
-                if (trigger.State == ITrigger.ExecutionState.Executing)
-                {
-                    try
-                    {
-                        var result = trigger.Execute();
-                        if (result == ITrigger.ExecutionResult.Completed ||
-                            result == ITrigger.ExecutionResult.Interrupt)
-                        {
-                            trigger.CompleteCurrentExecution();
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        if (trigger is TriggerObject triggerObject)
-                        {
-                            if (triggerObject.trigger.executingAction < triggerObject.trigger.actions.Count)
-                            {
-                                var action = triggerObject.trigger.actions[triggerObject.trigger.executingAction];
-                                if (action is TriggerAction triggerAction)
-                                {
-                                    Debug.LogException(e, triggerAction);
-                                }
-                                else
-                                {
-                                    Debug.LogException(e, triggerObject);
-                                }
-                            }
-                            else
-                            {
-                                Debug.LogException(e, triggerObject);
-                            }
-                        }
-                        else
-                        {
-                            Debug.LogException(e);
-                        }
-                    }
-
-                }
-            }
+            triggerSystem.Execute();
         }
     }
 }

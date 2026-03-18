@@ -40,6 +40,8 @@ namespace Gemserk.Triggers
             void Break();
         }
         
+        public string Name { get; }
+        
         public ExecutionState State { get; }
 
         ExecutionResult Execute();

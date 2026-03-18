@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Gemserk.Triggers
 {
-    public class TriggerObject : MonoBehaviour, ITrigger
+    public class TriggerObject : MonoBehaviour, ITrigger, ITriggerErrorData
     {
         public enum ExecutionType
         {
@@ -38,7 +38,9 @@ namespace Gemserk.Triggers
 
             return 0;
         }
-        
+
+        public string Name => gameObject.name;
+
         public ITrigger.ExecutionState State
         {
             get
@@ -122,6 +124,26 @@ namespace Gemserk.Triggers
         public void ClearPendingExecutions()
         {
             trigger.ClearPendingExecutions();
+        }
+
+        public void LogError(Exception e)
+        {
+            if (trigger.executingAction < trigger.actions.Count)
+            {
+                var action = trigger.actions[trigger.executingAction];
+                if (action is TriggerAction triggerAction)
+                {
+                    Debug.LogException(e, triggerAction);
+                }
+                else
+                {
+                    Debug.LogException(e, this);
+                }
+            }
+            else
+            {
+                Debug.LogException(e, this);
+            }
         }
     }
 }

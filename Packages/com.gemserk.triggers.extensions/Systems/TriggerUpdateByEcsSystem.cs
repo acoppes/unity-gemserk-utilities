@@ -24,7 +24,7 @@ namespace Gemserk.Triggers.Systems
                 var triggerContainer = triggerContainers[i];
                 if (triggerContainer.updateType != TriggerSystem.UpdateType.Script)
                     continue;
-                triggerContainer.UpdateTriggers();
+                triggerContainer.Execute();
             }
         }
 

@@ -4,6 +4,8 @@ namespace Gemserk.Triggers
 {
     public class Trigger : ITrigger
     {
+        public string name;
+        
         public readonly List<ITrigger.IEvent> events = new();
         public readonly List<ITrigger.ICondition> conditions = new();
         public readonly List<ITrigger.IAction> actions = new();
@@ -15,6 +17,8 @@ namespace Gemserk.Triggers
         public readonly List<object> pendingExecutions = new List<object>();
 
         private ITrigger.ExecutionState state;
+
+        public string Name => name;
         
         public ITrigger.ExecutionState State => state;
 
