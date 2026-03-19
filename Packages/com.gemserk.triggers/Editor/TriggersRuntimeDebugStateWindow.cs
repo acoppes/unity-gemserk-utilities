@@ -264,7 +264,7 @@ namespace Gemserk.Triggers.Editor
         // private Dictionary<int, VisualElement> triggerElements = new Dictionary<int, VisualElement>();
 
         private List<TriggerElement> triggerElements = new List<TriggerElement>();
-        private List<TriggerObject> triggerObjects = new List<TriggerObject>();
+        private List<ITrigger> triggers = new List<ITrigger>();
     
         private VisualElement elementsContainer;
         private ToolbarSearchField searchToolbar;
@@ -297,7 +297,7 @@ namespace Gemserk.Triggers.Editor
             {
                 var triggerElement = triggerElements[i];
             
-                if (triggerElement.trigger == null || !triggerObjects.Contains(triggerElement.trigger))
+                if (triggerElement.trigger == null || !triggers.Contains(triggerElement.trigger))
                 {
                     if (triggerElement.root.parent == elementsContainer)
                     {
@@ -306,7 +306,7 @@ namespace Gemserk.Triggers.Editor
                 }
             }
 
-            triggerElements.RemoveAll(t => t.trigger == null || !triggerObjects.Contains(t.trigger));
+            triggerElements.RemoveAll(t => t.trigger == null || !triggers.Contains(t.trigger));
         
             Redraw(false);
         }
@@ -372,13 +372,25 @@ namespace Gemserk.Triggers.Editor
         {
             if (obj == PlayModeStateChange.EnteredEditMode)
             {
-                triggerElements.Clear();
-                elementsContainer.Clear();
+                if (triggerElements != null)
+                {
+                    triggerElements.Clear();
+                }
+                if (elementsContainer != null)
+                {
+                    elementsContainer.Clear();
+                }
                 Reload();
             } else if (obj == PlayModeStateChange.EnteredPlayMode)
             {
-                triggerElements.Clear();
-                elementsContainer.Clear();
+                if (triggerElements != null)
+                {
+                    triggerElements.Clear();
+                }
+                if (elementsContainer != null)
+                {
+                    elementsContainer.Clear();
+                }
                 Reload();
             }
             
@@ -394,28 +406,36 @@ namespace Gemserk.Triggers.Editor
                 return;
             }
         
-            triggerObjects = new List<TriggerObject>();
+            triggers = new List<ITrigger>();
         
             var triggerSystems = FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID);
-            triggerSystems.Select(t => t.GetComponentsInChildren<TriggerObject>(true)).ToList().ForEach(l => triggerObjects.AddRange(l));
-        
-            for (var i = 0; i < triggerObjects.Count; i++)
+            
+            // triggerSystems.Select(t => t.GetComponentsInChildren<TriggerObject>(true)).ToList().ForEach(l => triggers.AddRange(l));
+            
+            triggerSystems.ForEach(ts =>
             {
-                var triggerObject = triggerObjects[i];
-
-                if (triggerObject)
+                if (ts.triggers != null && ts.triggers.Count > 0)
                 {
-                    if (triggerElements.Count(t => t.trigger == triggerObject) == 0)
-                    {
-                        var triggerElement = CreateTriggerElement(triggerObject);
-                        triggerElements.Add(triggerElement);
-                        elementsContainer.Add(triggerElement.root);
-                    }
+                    triggers.AddRange(ts.triggers);
+                }
+                else
+                {
+                    ts.GetComponentsInChildren(true, triggers);
+                }
+            });
+        
+            for (var i = 0; i < triggers.Count; i++)
+            {
+                var trigger = triggers[i];
+
+                if (triggerElements.Count(t => t.trigger == trigger) == 0)
+                {
+                    var triggerElement = CreateTriggerElement(trigger);
+                    triggerElements.Add(triggerElement);
+                    elementsContainer.Add(triggerElement.root);
                 }
             }
-        
-
-        
+            
             for (var i = 0; i < triggerElements.Count; i++)
             {
                 var triggerElement = triggerElements[i];
@@ -489,16 +509,44 @@ namespace Gemserk.Triggers.Editor
 
         private void Reload()
         {
-            triggerObjects = new List<TriggerObject>();
+            triggers = new List<ITrigger>();
         
             var triggerSystems = FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID);
-            triggerSystems.Select(t => t.GetComponentsInChildren<TriggerObject>(true)).ToList().ForEach(l => triggerObjects.AddRange(l));
-        
+
+            // triggerSystems.Select(t =>
+            // {
+            //     t.triggers.ForEach(t =>
+            //     {
+            //         if (t is Trigger)
+            //         {
+            //             triggers.Add(t);
+            //         }
+            //         else if (t is TriggerObject to)
+            //         {
+            //             triggers.AddRange(to.GetComponentsInChildren<TriggerObject>());
+            //         }
+            //     });
+            //     
+            //     return t.GetComponentsInChildren<TriggerObject>(true);
+            // }).ToList().ForEach(l => triggers.AddRange(l));
+
+            triggerSystems.ForEach(ts =>
+            {
+                if (ts.triggers != null && ts.triggers.Count > 0)
+                {
+                    triggers.AddRange(ts.triggers);
+                }
+                else
+                {
+                    ts.GetComponentsInChildren(true, triggers);
+                }
+            });
+            
             // var triggerObjects = FindObjectsByType<TriggerObject>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID);
         
-            for (var i = 0; i < triggerObjects.Count; i++)
+            for (var i = 0; i < triggers.Count; i++)
             {
-                var triggerElement = CreateTriggerElement(triggerObjects[i]);
+                var triggerElement = CreateTriggerElement(triggers[i]);
                 triggerElements.Add(triggerElement);
                 elementsContainer.Add(triggerElement.root);
             
@@ -516,11 +564,11 @@ namespace Gemserk.Triggers.Editor
             }
         }
 
-        private TriggerElement CreateTriggerElement(TriggerObject triggerObject)
+        private TriggerElement CreateTriggerElement(ITrigger trigger)
         {
             var elementTemplate = m_VisualElementTemplate.Instantiate();
 
-            var triggerElement = new TriggerElement(triggerObject);
+            var triggerElement = new TriggerElement(trigger);
             triggerElement.SetRootElement(elementTemplate.Q("TriggerElement"));
 
             return triggerElement;
