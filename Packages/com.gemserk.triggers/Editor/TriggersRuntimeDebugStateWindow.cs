@@ -142,6 +142,11 @@ namespace Gemserk.Triggers.Editor
                 
                 if (trigger is TriggerObject triggerObject)
                 {
+                    if (!triggerObject || !triggerObject.gameObject)
+                    {
+                        return;
+                    }
+                    
                     triggerInstance = triggerObject.trigger;
                     triggerName = triggerObject.gameObject ? triggerObject.gameObject.name : string.Empty;
                     
