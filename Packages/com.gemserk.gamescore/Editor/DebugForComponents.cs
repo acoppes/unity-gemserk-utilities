@@ -33,6 +33,8 @@ namespace Game.Editor
                     EditorGUILayout.LabelField("Charges", $"{ability.currentCharges} / {ability.totalCharges}");
                     EditorGUILayout.LabelField("Cooldown",$"{ability.cooldown.current:0.0}/{ability.cooldown.Total:0.0}");
                     
+                    EditorGUILayout.LabelField("ExecutedTimes", $"{ability.executedTimes}");
+                    
                     ability.maxTargets = EditorGUILayout.IntField("Max Targets", ability.maxTargets);
 
                     if (ability.hasDuration)

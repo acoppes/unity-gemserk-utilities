@@ -25,7 +25,9 @@ namespace Gemserk.Triggers
             {
                 return false;
             }
-            return query.GetInterface<Query>().MatchQuery(world, (Entity) activator);
+
+            var isMatch = query.GetInterface<Query>().MatchQuery(world, (Entity) activator);
+            return isMatch;
         }
     }
 }

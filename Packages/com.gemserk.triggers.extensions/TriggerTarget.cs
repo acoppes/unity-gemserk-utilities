@@ -51,6 +51,24 @@ namespace Gemserk.Triggers
         [ConditionalField(nameof(sourceType), false, QuerySourceType.Identifier)]
         public string identifier;
 
+        public bool IsMatch(World world, Entity entity, object activator)
+        {
+            switch (sourceType)
+            {
+                case QuerySourceType.Identifier:
+                    // weird to have to check this here..
+                    if (!entity.Has<NameComponent>())
+                        return false;
+                    return new NameParameter(identifier).MatchQuery(entity);
+                case QuerySourceType.TriggerActivator:
+                    return entity == (Entity)activator;
+                case QuerySourceType.Query:
+                    return query.MatchQuery(world, entity);
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
         public bool Get(List<Entity> result, World world, object activator = null)
         {
             if (sourceType == QuerySourceType.TriggerActivator)
