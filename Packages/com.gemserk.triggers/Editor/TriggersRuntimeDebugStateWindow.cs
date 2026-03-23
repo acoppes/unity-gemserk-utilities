@@ -375,6 +375,16 @@ namespace Gemserk.Triggers.Editor
 
         private void OnPlayModeChanged(PlayModeStateChange obj)
         {
+            if (!HasOpenInstances<TriggersRuntimeDebugStateWindow>())
+            {
+                return;
+            }
+
+            if (!hasFocus)
+            {
+                return;
+            }
+            
             if (obj == PlayModeStateChange.EnteredEditMode)
             {
                 if (triggerElements != null)
