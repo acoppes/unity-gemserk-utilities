@@ -14,7 +14,7 @@ namespace Gemserk.Triggers.Actions
 
         public override string GetObjectName()
         {
-            if (trigger != null)
+            if (trigger)
             {
                 return $"Invoke({trigger.name}, force:{forceExecution})";
             }
