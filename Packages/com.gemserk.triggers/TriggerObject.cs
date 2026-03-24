@@ -128,7 +128,7 @@ namespace Gemserk.Triggers
 
         public bool IsDisabled()
         {
-            return trigger.IsDisabled();
+            return !isActiveAndEnabled || trigger.IsDisabled();
         }
 
         public void ClearPendingExecutions()
