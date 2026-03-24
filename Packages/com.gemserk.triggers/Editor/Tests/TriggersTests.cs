@@ -1,6 +1,8 @@
+using System.Collections;
 using Gemserk.Triggers.Actions;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 namespace Gemserk.Triggers.Editor
 {
@@ -237,8 +239,10 @@ namespace Gemserk.Triggers.Editor
 
             Assert.IsFalse(triggerObject.IsDisabled());
             gameObject.SetActive(false);
+            triggerObject.OnDisable();
             Assert.IsTrue(triggerObject.IsDisabled());
             gameObject.SetActive(true);
+            triggerObject.OnEnable();
             Assert.IsFalse(triggerObject.IsDisabled());
         }
     }

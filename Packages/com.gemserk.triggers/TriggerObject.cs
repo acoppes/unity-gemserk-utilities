@@ -116,9 +116,19 @@ namespace Gemserk.Triggers
             trigger.CompleteCurrentExecution();
         }
 
+        public void OnEnable()
+        {
+            trigger.SetEnabled(true);
+        }
+
+        public void OnDisable()
+        {
+            trigger.SetEnabled(false);
+        }
+
         public bool IsDisabled()
         {
-            return !isActiveAndEnabled && !trigger.IsDisabled();
+            return trigger.IsDisabled();
         }
 
         public void ClearPendingExecutions()
