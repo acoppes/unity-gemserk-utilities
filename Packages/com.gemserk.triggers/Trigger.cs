@@ -24,7 +24,17 @@ namespace Gemserk.Triggers
 
         private object currentActivator => pendingExecutions.Count > 0 ? pendingExecutions[0] : null;
 
-        public bool isDisabled;
+        private bool isDisabled;
+
+        public void SetEnabled(bool enabled)
+        { 
+            isDisabled = !enabled;
+
+            if (isDisabled)
+            {
+                ClearPendingExecutions();
+            }
+        }
         
         private bool Evaluate(object activator = null)
         {
@@ -57,6 +67,11 @@ namespace Gemserk.Triggers
 
         public void QueueExecution(object activator = null)
         {
+            if (isDisabled)
+            {
+                return;
+            }
+            
             if (state == ITrigger.ExecutionState.Completed)
             {
                 return;

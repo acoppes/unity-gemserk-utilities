@@ -169,7 +169,7 @@ namespace Gemserk.Triggers.Editor
             var actions = new GameObject("Actions");
             actions.transform.SetParent(gameObject.transform);
             
-            var action1 = new GameObject("Actions");
+            var action1 = new GameObject("Action1");
             action1.transform.SetParent(actions.transform);
             
             var clearPending = action1.gameObject.AddComponent<ClearTriggerExecutionsTriggerAction>();
@@ -189,6 +189,57 @@ namespace Gemserk.Triggers.Editor
             triggerObject.CompleteCurrentExecution();
             
             Assert.AreEqual(0, triggerObject.trigger.pendingExecutions.Count);
+        }
+        
+        [Test]
+        public void DontExecute_IfNotEnabled()
+        {
+            var gameObject = new GameObject();
+            
+            var actions = new GameObject("Actions");
+            actions.transform.SetParent(gameObject.transform);
+            
+            var action1 = new GameObject("Action1");
+            action1.transform.SetParent(actions.transform);
+            
+            var triggerObject = gameObject.AddComponent<TriggerObject>();
+            triggerObject.Awake();
+
+            // var triggerSystem = new TriggerSystemExecutor();
+            // triggerSystem.triggers.Add(triggerObject);
+            
+            triggerObject.trigger.SetEnabled(false);
+
+            triggerObject.QueueExecution();
+            triggerObject.QueueExecution();
+            
+            Assert.AreEqual(0, triggerObject.trigger.pendingExecutions.Count);
+            triggerObject.trigger.SetEnabled(true);
+            
+            triggerObject.QueueExecution();
+            triggerObject.QueueExecution();
+            
+            Assert.AreEqual(2, triggerObject.trigger.pendingExecutions.Count);
+            
+            triggerObject.trigger.SetEnabled(false);
+            Assert.AreEqual(0, triggerObject.trigger.pendingExecutions.Count);
+            
+            // triggerSystem.Execute();
+        }
+        
+        [Test]
+        public void TriggerObject_DelegateEnableToTrigger()
+        {
+            var gameObject = new GameObject();
+            
+            var triggerObject = gameObject.AddComponent<TriggerObject>();
+            triggerObject.Awake();
+
+            Assert.IsFalse(triggerObject.IsDisabled());
+            gameObject.SetActive(false);
+            Assert.IsTrue(triggerObject.IsDisabled());
+            gameObject.SetActive(true);
+            Assert.IsFalse(triggerObject.IsDisabled());
         }
     }
 }
