@@ -32,7 +32,12 @@ namespace Gemserk.Utilities.Editor
             withComponentSkin.normal.textColor = new Color(0.8f, 0.8f, 0.8f, 1f);
             
             var obsoleteSkin = new GUIStyle(buttonSkin);
+            
+            #if UNITY_6000_3_OR_NEWER
             obsoleteSkin.normal.textColor = Color.softYellow;
+            #else 
+            obsoleteSkin.normal.textColor = Color.yellow;
+            #endif
             
             var component = serializedObject.targetObject as Component;
             
