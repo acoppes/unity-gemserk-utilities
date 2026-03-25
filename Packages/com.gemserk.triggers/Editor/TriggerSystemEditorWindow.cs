@@ -30,6 +30,8 @@ namespace Gemserk.Triggers.Editor
 
         private List<TriggerObject> cachedTriggers = new();
 
+        public static readonly List<(string name, Action<GameObject> callback)> extraActions = new List<(string, Action<GameObject>)>();
+
         private enum TriggerScope
         {
             Events, Conditions, Actions, Trigger, TriggerSystem, None
@@ -70,9 +72,13 @@ namespace Gemserk.Triggers.Editor
                     EditorGUIUtility.PingObject(triggerSystem.gameObject);
                     Repaint();
                 }
+                
+                DrawExtraActions();
 
             } else if (triggerScope == TriggerScope.TriggerSystem)
             {
+                DrawExtraActions();
+                
                 if (GUILayout.Button("New Trigger"))
                 {
                     var triggerObject = new GameObject("Trigger");
@@ -89,8 +95,7 @@ namespace Gemserk.Triggers.Editor
                 }
                 
                 EditorGUILayout.Separator();
-
-
+                
                 cachedTriggers.Clear();
                 selectedTriggerSystem.gameObject.GetComponentsInChildrenDepth1(true, true, cachedTriggers);
                 scrollPositionTriggersList = EditorGUILayout.BeginScrollView(scrollPositionTriggersList);
@@ -117,6 +122,8 @@ namespace Gemserk.Triggers.Editor
                     Selection.SetActiveObjectWithContext(selectedTriggerSystem.gameObject, null);
                     Repaint();
                 }
+                
+                DrawExtraActions();
                 
                 EditorGUILayout.Separator();
                 if (GUILayout.Button($"TRIGGER: {selectedTrigger.name}"))
@@ -185,6 +192,21 @@ namespace Gemserk.Triggers.Editor
             }
 
             EditorGUILayout.EndVertical();
+        }
+
+        private void DrawExtraActions()
+        {
+            foreach (var (actionName, callback) in extraActions)
+            {
+                if (GUILayout.Button(actionName))
+                {
+                    // extra action callback()
+                    callback(selectedTriggerSystem.gameObject);
+                    Repaint();
+                }
+                
+                EditorGUILayout.Separator();
+            }
         }
 
         private bool NeedsToRefreshState()
