@@ -10,9 +10,9 @@ namespace Gemserk.Triggers.Queries
         [NonSerialized]
         private bool cached;
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         public bool disableEditorAutoName;
-        #endif
+#endif
         
         public EntityQuery GetEntityQuery()
         {
@@ -37,10 +37,12 @@ namespace Gemserk.Triggers.Queries
 
         public string GetObjectName()
         {
+#if UNITY_EDITOR
             if (!disableEditorAutoName)
             {
                 return $"Q({GetEntityQuery()})";
             }
+#endif
             return name;
         }
     }
