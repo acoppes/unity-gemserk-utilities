@@ -6,7 +6,7 @@ using Gemserk.Utilities.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace Gemserk.Triggers.Editor
+namespace Gemserk.Triggers
 {
     [CustomEditor(typeof(Query), true)]
     public class QueryCustomEditor : UnityEditor.Editor
@@ -30,12 +30,6 @@ namespace Gemserk.Triggers.Editor
             {   
                 DrawDefaultInspector();
                 return;
-            }
-            
-            // fix object name
-            if (!query.disableEditorAutoName)
-            {
-                query.gameObject.name = $"Q({query.GetEntityQuery()})";
             }
             
             var style = new GUIStyle(GUI.skin.label);

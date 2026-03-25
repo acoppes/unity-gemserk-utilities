@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Gemserk.Triggers.Queries
 {
-    public class Query : MonoBehaviour
+    public class Query : MonoBehaviour, ITriggerDebugNamedObject
     {
         [NonSerialized]
         private EntityQuery entityQuery;
@@ -33,6 +33,15 @@ namespace Gemserk.Triggers.Queries
         public override string ToString()
         {
             return GetEntityQuery().ToString();
+        }
+
+        public string GetObjectName()
+        {
+            if (!disableEditorAutoName)
+            {
+                return $"Q({GetEntityQuery()})";
+            }
+            return name;
         }
     }
 }
