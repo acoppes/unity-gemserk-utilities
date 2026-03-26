@@ -1,11 +1,35 @@
-﻿using Game.Components;
+﻿using System.Collections.Generic;
+using Game.Components;
 using Game.Systems;
+using Gemserk.Leopotam.Ecs;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace Game.Editor.Tests
 {
     public class HealthSystemTests
     {
+        private World world;
+        private HealthSystem healthSystem;
+        
+        [SetUp]
+        public void BeforeEach()
+        {
+            var gameObject = new GameObject();
+            world = gameObject.AddComponent<World>();
+            gameObject.AddComponent<HealthSystem>();
+            world.fixedUpdateParent = world.transform;
+            world.Awake();
+        }
+        
+        [TearDown]
+        public void AfterEach()
+        {
+            Object.DestroyImmediate(world.gameObject);
+            world = null;
+            healthSystem = null;
+        }
+        
         [Test]
         public void Health_ProcessedDamage_Positive()
         {
@@ -109,6 +133,40 @@ namespace Game.Editor.Tests
             });
             
             Assert.AreEqual(10, damageResult.value, 0.1f);
+        }
+        
+        [Test]
+        public void HealthSystem_ProcessHealAndDamage()
+        {
+            var e = world.CreateEntity(null, null, entity =>
+            {
+                entity.Add(new HealthComponent()
+                {
+                    damages = new List<DamageData>(),
+                    processedDamages = new List<DamageData>(),
+                    healEffects = new List<DamageData>(),
+                    current = 100,
+                    total = 100
+                });
+            });
+            
+            e.Get<HealthComponent>().damages.Add(new DamageData()
+            {
+                value = 20
+            });
+            
+            world.FixedUpdate();
+            
+            Assert.AreEqual(80, e.Get<HealthComponent>().current, 0.01f);
+            
+            e.Get<HealthComponent>().healEffects.Add(new DamageData()
+            {
+                value = 10
+            });
+            
+            world.FixedUpdate();
+            
+            Assert.AreEqual(90, e.Get<HealthComponent>().current, 0.01f);
         }
     }
 }
