@@ -1,8 +1,7 @@
 using NUnit.Framework;
-using UnityEditor.VersionControl;
 using UnityEngine;
 
-namespace Gemserk.Leopotam.Ecs.Tests
+namespace Gemserk.Leopotam.Ecs.Editor.Tests
 {
     public class WorldApiTests
     {

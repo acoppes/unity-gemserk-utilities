@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 
-namespace Gemserk.Leopotam.Ecs.Tests
+namespace Gemserk.Leopotam.Ecs.Editor.Tests
 {
     public class EntityGenerationTests
     {

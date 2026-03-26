@@ -46,7 +46,10 @@ namespace Gemserk.Triggers.Tests
         [TearDown]
         public void AfterEach()
         {
+            world.OnDestroy();
             Object.DestroyImmediate(testSignalAsset);
+            Object.DestroyImmediate(world.gameObject);
+            world = null;
         }
         
         private Entity CreateEntityWithController()

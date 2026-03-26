@@ -19,7 +19,7 @@ namespace Gemserk.Leopotam.Ecs
         void OnEntityDestroyed(World world, Entity entity);
     }
 
-    public class World : CachedObjectBehaviour<World>
+    public class World : MonoBehaviour
     {
         [SerializeField]
         private bool disableLeoEcsDebug;
@@ -290,9 +290,9 @@ namespace Gemserk.Leopotam.Ecs
             }
         }
 
-        public override void Awake()
+        public void Awake()
         {
-            base.Awake();
+            WorldInstances.Register(this);
             Init();
         }
 
@@ -361,8 +361,9 @@ namespace Gemserk.Leopotam.Ecs
             lateUpdateSystems.Run ();
         }
 
-        public override void OnDestroy () {
-            base.OnDestroy();
+        public void OnDestroy () {
+            
+            WorldInstances.Unregister(this);
             
             if (fixedUpdateSystems != null) {
                 fixedUpdateSystems.Destroy ();

@@ -22,7 +22,7 @@ namespace Game.Development
 
         public void Start()
         {
-            _world = World.Default;
+            _world = WorldInstances.Default;
         }
         private void Update()
         {

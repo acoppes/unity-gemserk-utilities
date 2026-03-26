@@ -423,7 +423,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 return;
             }
             
-            var worlds = World.Instances;
+            var worlds = WorldInstances.Instances;
 
             if (worlds.Count == 0)
             {

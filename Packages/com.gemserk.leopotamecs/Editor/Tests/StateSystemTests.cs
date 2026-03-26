@@ -3,7 +3,7 @@ using Gemserk.Leopotam.Ecs.Components;
 using Gemserk.Leopotam.Ecs.Controllers;
 using NUnit.Framework;
 
-namespace Gemserk.Leopotam.Ecs.Tests
+namespace Gemserk.Leopotam.Ecs.Editor.Tests
 {
     public class StateSystemTests
     {

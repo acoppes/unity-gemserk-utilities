@@ -15,7 +15,7 @@ namespace Game.Scenes
         // Start is called before the first frame update
         void Start()
         {
-            var world = World.Default;
+            var world = WorldInstances.Default;
 
             var spawnAngle = UnityEngine.Random.Range(0, 360);
             var divAngle = 360 / players;
