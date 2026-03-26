@@ -12,7 +12,12 @@ namespace Game.Systems
         void OnDamaged(World world, Entity entity);
     }
     
-    public class OnDamageEventControllerSystem : BaseSystem, IEcsRunSystem
+    public interface IHealedEvent : IControllerEvent
+    {
+        void OnHealed(World world, Entity entity);
+    }
+    
+    public class OnHealthChangedControllerSystem : BaseSystem, IEcsRunSystem
     {
         readonly EcsFilterInject<Inc<ControllerComponent, HealthComponent>, Exc<DisabledComponent>>
             filter = default;
@@ -24,16 +29,30 @@ namespace Game.Systems
                 ref var controllers = ref filter.Pools.Inc1.Get(e);
                 ref var health = ref filter.Pools.Inc2.Get(e);
 
-                if (health.processedDamages.Count == 0)
+                var hasDamages = health.processedDamages.Count == 0;
+                var hasHealEffects = health.processedHealEffects.Count == 0;
+                
+                if (hasDamages && hasHealEffects)
                 {
                     continue;
                 }
 
                 foreach (var controller in controllers.controllers)
                 {
-                    if (controller is IDamagedEvent damaged)
+                    if (hasDamages)
                     {
-                        damaged.OnDamaged(world, world.GetEntity(e));
+                        if (controller is IDamagedEvent damaged)
+                        {
+                            damaged.OnDamaged(world, world.GetEntity(e));
+                        }
+                    }
+                    
+                    if (hasHealEffects)
+                    {
+                        if (controller is IHealedEvent healedEvent)
+                        {
+                            healedEvent.OnHealed(world, world.GetEntity(e));
+                        }
                     }
                 }
             }
