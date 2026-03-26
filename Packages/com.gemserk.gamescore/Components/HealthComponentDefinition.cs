@@ -39,6 +39,7 @@ namespace Game.Components
                 autoDestroyOnDeath = autoDestroyOnDeath,
                 autoDisableOnDeath = autoDisableOnDeath,
                 healEffects = new List<HealthChangeData>(),
+                processedHealEffects = new List<HealthChangeData>(),
                 timeSinceLastHit = Mathf.Infinity,
                 invulnerableCount = startsInvulnerable ? 1 : 0
             });

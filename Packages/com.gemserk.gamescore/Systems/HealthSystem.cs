@@ -30,7 +30,7 @@ namespace Game.Systems
         
         public void Run(EcsSystems systems)
         {
-            var deltaTime = base.dt;
+            var deltaTime = dt;
             
             foreach (var entity in filter.Value)
             {
@@ -38,6 +38,7 @@ namespace Game.Systems
                 
                 health.temporaryInvulnerability.Decrease(deltaTime);
                 health.processedDamages.Clear();
+                health.processedHealEffects.Clear();
                 
                 health.timeSinceLastHit += deltaTime;
 
@@ -54,14 +55,6 @@ namespace Game.Systems
 
                         damage = ProcessDamage(ref health, damage);
                         
-                        // health.current -= damage.value;
-                        //
-                        // if (health.current < 0)
-                        // {
-                        //     damage.value += health.current;
-                        //     health.current = 0;
-                        // }
-                        
                         health.processedDamages.Add(damage);
                         health.temporaryInvulnerability.Fill();
 
@@ -74,18 +67,15 @@ namespace Game.Systems
 
                 for (var i = 0; i < health.healEffects.Count; i++)
                 {
-                    var effect = health.healEffects[i];
-                    health.current += effect.value;
+                    var heal = health.healEffects[i];
+                    health.current += heal.value;
                     if (health.current > health.total)
                     {
                         health.current = health.total;
                     }
+                    
+                    health.processedHealEffects.Add(heal);
                 }
-
-                // if (health.processedDamages.Count > 0)
-                // {
-                //     health.OnDamageEvent(world, world.GetEntity(entity));
-                // }
                 
                 health.damages.Clear();
                 health.healEffects.Clear();

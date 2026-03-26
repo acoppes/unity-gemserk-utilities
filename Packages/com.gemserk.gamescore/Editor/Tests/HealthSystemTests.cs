@@ -145,6 +145,7 @@ namespace Game.Editor.Tests
                     damages = new List<HealthChangeData>(),
                     processedDamages = new List<HealthChangeData>(),
                     healEffects = new List<HealthChangeData>(),
+                    processedHealEffects = new List<HealthChangeData>(),
                     current = 100,
                     total = 100
                 });
@@ -158,6 +159,8 @@ namespace Game.Editor.Tests
             world.FixedUpdate();
             
             Assert.AreEqual(80, e.Get<HealthComponent>().current, 0.01f);
+            Assert.AreEqual(1, e.Get<HealthComponent>().processedDamages.Count);
+            Assert.AreEqual(0, e.Get<HealthComponent>().processedHealEffects.Count);
             
             e.Get<HealthComponent>().healEffects.Add(new HealthChangeData()
             {
@@ -167,6 +170,14 @@ namespace Game.Editor.Tests
             world.FixedUpdate();
             
             Assert.AreEqual(90, e.Get<HealthComponent>().current, 0.01f);
+            Assert.AreEqual(0, e.Get<HealthComponent>().processedDamages.Count);
+            Assert.AreEqual(1, e.Get<HealthComponent>().processedHealEffects.Count);
+            
+            world.FixedUpdate();
+            
+            Assert.AreEqual(90, e.Get<HealthComponent>().current, 0.01f);
+            Assert.AreEqual(0, e.Get<HealthComponent>().processedDamages.Count);
+            Assert.AreEqual(0, e.Get<HealthComponent>().processedHealEffects.Count);
         }
     }
 }

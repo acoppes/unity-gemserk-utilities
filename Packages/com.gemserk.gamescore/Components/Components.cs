@@ -153,8 +153,6 @@ namespace Game.Components
 
     public struct HealthComponent : IEntityComponent
     {
-        public delegate void OnEntityEventHandler(World world, Entity entity);
-        
         [Flags]
         public enum AliveType
         {
@@ -205,31 +203,7 @@ namespace Game.Components
         public List<HealthChangeData> processedDamages;
         
         public List<HealthChangeData> healEffects;
-        
-        // public event OnEntityEventHandler onDamageEvent;
-        // public event OnEntityEventHandler onDeathEvent;
-        //
-        // public void OnDamageEvent(World world, Entity entity)
-        // {
-        //     if (onDamageEvent != null)
-        //     {
-        //         onDamageEvent(world, entity);
-        //     }
-        // }
-        //
-        // public void OnDeathEvent(World world, Entity entity)
-        // {
-        //     if (onDeathEvent != null)
-        //     {
-        //         onDeathEvent(world, entity);
-        //     }
-        // }
-        //
-        // public void ClearEvents()
-        // {
-        //     onDamageEvent = null;
-        //     onDeathEvent = null;
-        // }
+        public List<HealthChangeData> processedHealEffects;
     }
 
     public struct HealthDamageNumberComponent : IEntityComponent
