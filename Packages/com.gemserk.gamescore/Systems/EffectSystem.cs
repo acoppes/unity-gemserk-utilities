@@ -257,7 +257,7 @@ namespace Game.Systems
                 var playerDamageMult = DamagePerTeam[player];
                 
                 ref var health = ref target.entity.Get<HealthComponent>();
-                health.damages.Add(new DamageData
+                health.damages.Add(new HealthChangeData
                 {
                     value = value * valueMultiplier * playerDamageMult,
                     position = position,

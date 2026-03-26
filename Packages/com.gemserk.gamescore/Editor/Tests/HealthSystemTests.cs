@@ -39,7 +39,7 @@ namespace Game.Editor.Tests
                 current = 50
             };
 
-            var result = HealthSystem.ProcessDamage(ref health, new DamageData()
+            var result = HealthSystem.ProcessDamage(ref health, new HealthChangeData()
             {
                 value = 15
             });
@@ -57,7 +57,7 @@ namespace Game.Editor.Tests
                 current = 25
             };
 
-            var result = HealthSystem.ProcessDamage(ref health, new DamageData()
+            var result = HealthSystem.ProcessDamage(ref health, new HealthChangeData()
             {
                 value = 100
             });
@@ -65,7 +65,7 @@ namespace Game.Editor.Tests
             Assert.AreEqual(25, result.value, 0.1f);
             Assert.AreEqual(0, health.current, 0.1f);
             
-            var result2 = HealthSystem.ProcessDamage(ref health, new DamageData()
+            var result2 = HealthSystem.ProcessDamage(ref health, new HealthChangeData()
             {
                 value = 25
             });
@@ -83,7 +83,7 @@ namespace Game.Editor.Tests
                 current = 50
             };
 
-            HealthSystem.ProcessDamage(ref health, new DamageData()
+            HealthSystem.ProcessDamage(ref health, new HealthChangeData()
             {
                 value = 15
             });
@@ -101,7 +101,7 @@ namespace Game.Editor.Tests
                 damageResistance = 0.5f
             };
 
-            HealthSystem.ProcessDamage(ref health, new DamageData()
+            HealthSystem.ProcessDamage(ref health, new HealthChangeData()
             {
                 value = 20
             });
@@ -109,7 +109,7 @@ namespace Game.Editor.Tests
             Assert.AreEqual(40, health.current, 0.1f);
 
             health.damageResistance = 1f;
-            HealthSystem.ProcessDamage(ref health, new DamageData()
+            HealthSystem.ProcessDamage(ref health, new HealthChangeData()
             {
                 value = 20
             });
@@ -127,7 +127,7 @@ namespace Game.Editor.Tests
                 damageResistance = 0.5f
             };
 
-            var damageResult = HealthSystem.ProcessDamage(ref health, new DamageData()
+            var damageResult = HealthSystem.ProcessDamage(ref health, new HealthChangeData()
             {
                 value = 20
             });
@@ -142,15 +142,15 @@ namespace Game.Editor.Tests
             {
                 entity.Add(new HealthComponent()
                 {
-                    damages = new List<DamageData>(),
-                    processedDamages = new List<DamageData>(),
-                    healEffects = new List<DamageData>(),
+                    damages = new List<HealthChangeData>(),
+                    processedDamages = new List<HealthChangeData>(),
+                    healEffects = new List<HealthChangeData>(),
                     current = 100,
                     total = 100
                 });
             });
             
-            e.Get<HealthComponent>().damages.Add(new DamageData()
+            e.Get<HealthComponent>().damages.Add(new HealthChangeData()
             {
                 value = 20
             });
@@ -159,7 +159,7 @@ namespace Game.Editor.Tests
             
             Assert.AreEqual(80, e.Get<HealthComponent>().current, 0.01f);
             
-            e.Get<HealthComponent>().healEffects.Add(new DamageData()
+            e.Get<HealthComponent>().healEffects.Add(new HealthChangeData()
             {
                 value = 10
             });

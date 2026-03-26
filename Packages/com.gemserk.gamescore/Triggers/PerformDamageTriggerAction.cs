@@ -46,7 +46,7 @@ namespace Game.Triggers
                     position = entity.Get<PositionComponent>().value;
                 }
                 
-                healthComponent.damages.Add(new DamageData()
+                healthComponent.damages.Add(new HealthChangeData()
                 {
                     value = damage,
                     position = position,

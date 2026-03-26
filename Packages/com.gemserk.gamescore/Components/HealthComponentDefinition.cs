@@ -33,12 +33,12 @@ namespace Game.Components
             {
                 total = health,
                 current = health,
-                damages = new List<DamageData>(),
-                processedDamages = new List<DamageData>(),
+                damages = new List<HealthChangeData>(),
+                processedDamages = new List<HealthChangeData>(),
                 temporaryInvulnerability = new Cooldown(temporaryInvulnerabilityTimeAfterHit),
                 autoDestroyOnDeath = autoDestroyOnDeath,
                 autoDisableOnDeath = autoDisableOnDeath,
-                healEffects = new List<DamageData>(),
+                healEffects = new List<HealthChangeData>(),
                 timeSinceLastHit = Mathf.Infinity,
                 invulnerableCount = startsInvulnerable ? 1 : 0
             });

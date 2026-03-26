@@ -138,7 +138,7 @@ namespace Game.Components
         // public float cancellationTime;
     }
 
-    public struct DamageData
+    public struct HealthChangeData
     {
         public float value;
         
@@ -201,10 +201,10 @@ namespace Game.Components
 
         // public bool interrumpible;
         
-        public List<DamageData> damages;
-        public List<DamageData> processedDamages;
+        public List<HealthChangeData> damages;
+        public List<HealthChangeData> processedDamages;
         
-        public List<DamageData> healEffects;
+        public List<HealthChangeData> healEffects;
         
         // public event OnEntityEventHandler onDamageEvent;
         // public event OnEntityEventHandler onDeathEvent;

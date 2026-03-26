@@ -12,20 +12,20 @@ namespace Game.Systems
         readonly EcsFilterInject<Inc<HealthComponent>, Exc<DisabledComponent>> filter = default;
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static DamageData ProcessDamage(ref HealthComponent health, DamageData damage)
+        public static HealthChangeData ProcessDamage(ref HealthComponent health, HealthChangeData healthChange)
         {
             var mult = Mathf.Clamp01(1f - health.damageResistance);
-            damage.value *= mult;
+            healthChange.value *= mult;
             
-            health.current -= damage.value;
+            health.current -= healthChange.value;
             
             if (health.current < 0)
             {
-                damage.value += health.current;
+                healthChange.value += health.current;
                 health.current = 0;
             }
 
-            return damage;
+            return healthChange;
         }
         
         public void Run(EcsSystems systems)

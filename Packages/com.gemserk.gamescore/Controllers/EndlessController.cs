@@ -29,7 +29,7 @@ namespace Game.Controllers
             
             if (platformerComponent.fallingTime > maxFallingTime)
             {
-                healthComponent.damages.Add(new DamageData()
+                healthComponent.damages.Add(new HealthChangeData()
                 {
                     knockback = false,
                     position = Vector3.zero,
