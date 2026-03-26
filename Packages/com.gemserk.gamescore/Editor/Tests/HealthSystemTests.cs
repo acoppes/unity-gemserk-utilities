@@ -15,7 +15,7 @@ namespace Game.Editor.Tests
         [SetUp]
         public void BeforeEach()
         {
-            var gameObject = new GameObject();
+            var gameObject = new GameObject("~TestWorldObject");
             world = gameObject.AddComponent<World>();
             gameObject.AddComponent<HealthSystem>();
             world.fixedUpdateParent = world.transform;
@@ -25,6 +25,7 @@ namespace Game.Editor.Tests
         [TearDown]
         public void AfterEach()
         {
+            world.OnDestroy();
             Object.DestroyImmediate(world.gameObject);
             world = null;
             healthSystem = null;
