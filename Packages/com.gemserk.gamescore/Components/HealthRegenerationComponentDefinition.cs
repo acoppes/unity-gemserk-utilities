@@ -1,5 +1,4 @@
 ﻿using Gemserk.Leopotam.Ecs;
-using Gemserk.Utilities;
 using UnityEngine.Serialization;
 
 namespace Game.Components
@@ -13,7 +12,7 @@ namespace Game.Components
         }
         
         public bool enabled;
-        public float deltaHealth;
+        public float regeneration;
 
         public RegenerationType regenerationType;
     }
@@ -24,8 +23,9 @@ namespace Game.Components
         public HealthRegenerationComponent.RegenerationType regenerationType;
         
         public bool startsEnabled;
+        [FormerlySerializedAs("deltaHealth")]
         [FormerlySerializedAs("regenerationPerTick")] 
-        public float deltaHealth;
+        public float regeneration;
 
         public override void Apply(World world, Entity entity)
         {
@@ -33,7 +33,7 @@ namespace Game.Components
             {
                 regenerationType = regenerationType,
                 enabled = startsEnabled,
-                deltaHealth = deltaHealth
+                regeneration = regeneration
             });
         }
     }

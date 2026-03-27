@@ -44,12 +44,12 @@ namespace Game.Systems
                 {
                     if (regenerationCooldown.IsReady)
                     {
-                        health.current += regeneration.deltaHealth;
+                        health.current += regeneration.regeneration;
                     }
                 } else if (regeneration.regenerationType ==
                            HealthRegenerationComponent.RegenerationType.PerTime)
                 {
-                    health.current += regeneration.deltaHealth * dt;
+                    health.current += regeneration.regeneration * dt;
                 }
                 
                 if (health.current >= health.total)
