@@ -1,14 +1,26 @@
 ﻿using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Triggers;
+using MyBox;
 using UnityEngine.Assertions;
 
 namespace Game.Triggers
 {
     public class AssertTriggerAction : WorldTriggerAction
     {
+        public enum ActionType
+        {
+            MatchCondition = 0,
+            Pass = 1,
+            Fail = 0
+        }
+
+        public ActionType actionType = ActionType.MatchCondition;
+        
+        [ConditionalField(nameof(actionType), false, ActionType.MatchCondition)]
         public TriggerTarget triggerTarget;
 
+        [ConditionalField(nameof(actionType), false, ActionType.MatchCondition)]
         public TriggerCondition condition;
         
         public override string GetObjectName()
@@ -22,6 +34,26 @@ namespace Game.Triggers
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
+            if (actionType == ActionType.Pass)
+            {
+                // TODO: ideally here there will be some static field/method to check.
+#if UNITY_EDITOR
+                // if not running a test runner, then auto stop unity editor.
+                UnityEditor.EditorApplication.isPlaying = false;
+#endif
+                return ITrigger.ExecutionResult.Interrupt;
+            }
+            
+            if (actionType == ActionType.Fail)
+            {
+                // TODO: ideally here there will be some static field/method to check.
+#if UNITY_EDITOR
+                // if not running a test runner, then auto stop unity editor.
+                UnityEditor.EditorApplication.isPlaying = false;
+#endif
+                return ITrigger.ExecutionResult.Interrupt;
+            }
+            
             var entities = new List<Entity>();
             
             world.GetTriggerTargetEntities(null, triggerTarget, activator, entities);
