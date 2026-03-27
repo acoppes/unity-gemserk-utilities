@@ -15,6 +15,9 @@ namespace Game.Components
         public float regeneration;
 
         public RegenerationType regenerationType;
+        
+        public float damageRegenerationDisableTime;
+        public float damageRegenerationDisableCurrent;
     }
     
     public class HealthRegenerationComponentDefinition : ComponentDefinitionBase
@@ -26,6 +29,8 @@ namespace Game.Components
         [FormerlySerializedAs("deltaHealth")]
         [FormerlySerializedAs("regenerationPerTick")] 
         public float regeneration;
+        
+        public float damageRegenerationDisableTime;
 
         public override void Apply(World world, Entity entity)
         {
@@ -33,7 +38,8 @@ namespace Game.Components
             {
                 regenerationType = regenerationType,
                 enabled = startsEnabled,
-                regeneration = regeneration
+                regeneration = regeneration,
+                damageRegenerationDisableTime = damageRegenerationDisableTime
             });
         }
     }

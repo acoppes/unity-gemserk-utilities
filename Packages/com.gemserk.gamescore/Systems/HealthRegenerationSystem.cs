@@ -22,7 +22,9 @@ namespace Game.Systems
         
         public void Run(EcsSystems systems)
         {
-            regenerationCooldown.Increase(dt);
+            var deltaTime = dt;
+            
+            regenerationCooldown.Increase(deltaTime);
             
             foreach (var e in filter.Value)
             {
@@ -32,6 +34,22 @@ namespace Game.Systems
                 if (!regeneration.enabled || health.IsFull())
                 {
                     continue;
+                }
+
+                if (regeneration.damageRegenerationDisableTime > 0)
+                {
+                    regeneration.damageRegenerationDisableCurrent += deltaTime;
+                    
+                    if (health.processedDamages.Count > 0)
+                    {
+                        // TODO: could check if damges did damage or not...
+                        regeneration.damageRegenerationDisableCurrent = 0;
+                    }
+                    
+                    if (regeneration.damageRegenerationDisableCurrent < regeneration.damageRegenerationDisableTime)
+                    {
+                        continue;
+                    }
                 }
 
                 if (health.aliveType != HealthComponent.AliveType.Alive)
@@ -49,7 +67,7 @@ namespace Game.Systems
                 } else if (regeneration.regenerationType ==
                            HealthRegenerationComponent.RegenerationType.PerTime)
                 {
-                    health.current += regeneration.regeneration * dt;
+                    health.current += regeneration.regeneration * deltaTime;
                 }
                 
                 if (health.current >= health.total)
