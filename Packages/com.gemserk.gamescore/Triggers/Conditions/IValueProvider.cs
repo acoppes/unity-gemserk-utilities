@@ -4,6 +4,6 @@ namespace Game.Triggers.Conditions
 {
     public interface IValueProvider
     {
-        int GetIntValue(World world, object activator);
+        float GetValue(World world, object activator);
     }
 }

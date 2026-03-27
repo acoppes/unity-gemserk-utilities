@@ -5,11 +5,11 @@ using Gemserk.Triggers.Queries;
 
 namespace Game.Queries
 {
-    public struct HealthParameter : IQueryParameter
+    public struct IsAliveMatcher : IQueryParameter
     {
         public HealthComponent.AliveType aliveType; 
 
-        public HealthParameter(HealthComponent.AliveType aliveType)
+        public IsAliveMatcher(HealthComponent.AliveType aliveType)
         {
             this.aliveType = aliveType;
         }
@@ -25,13 +25,13 @@ namespace Game.Queries
         }
     }
     
-    public class HealthQueryParameter : QueryParameterBase
+    public class IsAliveQueryParameter : QueryParameterBase
     {
         public HealthComponent.AliveType aliveType; 
         
         public override bool MatchQuery(Entity entity)
         {
-            return new HealthParameter(aliveType).MatchQuery(entity);
+            return new IsAliveMatcher(aliveType).MatchQuery(entity);
         }
 
         public override string ToString()

@@ -1,4 +1,5 @@
 ﻿using Gemserk.Triggers;
+using UnityEngine;
 
 namespace Game.Triggers.Conditions
 {
@@ -23,12 +24,12 @@ namespace Game.Triggers.Conditions
         
         public override bool Evaluate(object activator = null)
         {
-            var a = valueProviderA.GetIntValue(world, activator);
-            var b = valueProviderB.GetIntValue(world, activator);
+            var a = valueProviderA.GetValue(world, activator);
+            var b = valueProviderB.GetValue(world, activator);
 
             return compareType switch
             {
-                CompareType.EqualsTo => a == b,
+                CompareType.EqualsTo => Mathf.Approximately(a, b),
                 CompareType.GreaterThan => a > b,
                 CompareType.LessThan => a < b,
                 _ => false

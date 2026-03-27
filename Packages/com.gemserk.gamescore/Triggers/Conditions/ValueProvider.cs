@@ -30,7 +30,7 @@ namespace Game.Triggers.Conditions
         [ObjectType(typeof(IValueProvider))]
         public Object delegateProvider;
         
-        public int GetIntValue(World world, object activator)
+        public float GetValue(World world, object activator)
         {
             if (sourceType == SourceType.Constant)
             {
@@ -46,7 +46,7 @@ namespace Game.Triggers.Conditions
             
             if (sourceType == SourceType.Delegate)
             {
-                return delegateProvider.GetInterface<IValueProvider>().GetIntValue(world, activator);
+                return delegateProvider.GetInterface<IValueProvider>().GetValue(world, activator);
             }
             
             return 0;
