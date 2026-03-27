@@ -10,7 +10,6 @@ namespace Game.Editor.Tests
     public class HealthSystemTests
     {
         private World world;
-        private HealthSystem healthSystem;
         
         [SetUp]
         public void BeforeEach()
@@ -28,7 +27,6 @@ namespace Game.Editor.Tests
             world.OnDestroy();
             Object.DestroyImmediate(world.gameObject);
             world = null;
-            healthSystem = null;
         }
         
         [Test]
