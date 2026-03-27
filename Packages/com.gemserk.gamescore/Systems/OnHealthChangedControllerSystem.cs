@@ -29,8 +29,8 @@ namespace Game.Systems
                 ref var controllers = ref filter.Pools.Inc1.Get(e);
                 ref var health = ref filter.Pools.Inc2.Get(e);
 
-                var hasDamages = health.processedDamages.Count == 0;
-                var hasHealEffects = health.processedHealEffects.Count == 0;
+                var hasDamages = health.processedDamages.Count > 0;
+                var hasHealEffects = health.processedHealEffects.Count > 0;
                 
                 if (hasDamages && hasHealEffects)
                 {
