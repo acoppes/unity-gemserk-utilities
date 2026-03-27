@@ -100,16 +100,16 @@ namespace Gemserk.Triggers.Editor
                 selectedTriggerSystem.gameObject.GetComponentsInChildrenDepth1(true, true, cachedTriggers);
                 scrollPositionTriggersList = EditorGUILayout.BeginScrollView(scrollPositionTriggersList);
 
-                foreach (var trigger in cachedTriggers)
-                {
-                    if (GUILayout.Button(trigger.name))
-                    {
-                        SceneHierarchyUtility.SetExpanded(trigger.gameObject, true);
-                        EditorGUIUtility.PingObject(trigger.gameObject);
-                        Selection.SetActiveObjectWithContext(trigger.gameObject, null);
-                        Repaint();
-                    }
-                }
+                // foreach (var trigger in cachedTriggers)
+                // {
+                //     if (GUILayout.Button(trigger.name))
+                //     {
+                //         SceneHierarchyUtility.SetExpanded(trigger.gameObject, true);
+                //         EditorGUIUtility.PingObject(trigger.gameObject);
+                //         Selection.SetActiveObjectWithContext(trigger.gameObject, null);
+                //         Repaint();
+                //     }
+                // }
                 
                 EditorGUILayout.EndScrollView();
             }
