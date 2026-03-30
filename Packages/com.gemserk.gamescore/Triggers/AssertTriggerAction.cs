@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.Triggers.Conditions;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Triggers;
 using MyBox;
@@ -29,7 +30,8 @@ namespace Game.Triggers
             {
                 return $"Assert{condition.GetObjectName()}";
             }
-            return "Assert()";
+            
+            return $"Assert.{actionType}()";
         }
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
@@ -66,12 +68,38 @@ namespace Game.Triggers
                     // {
                     //     
                     // }
-                    Assert.IsTrue(condition.Evaluate(entity), $"{condition.GetObjectName()} failed on {entity}");
+                    var eval = condition.Evaluate(entity);
+                    var assertMessage = $"{condition.GetObjectName()} failed on {entity}";
+                    
+                    if (!eval)
+                    {
+                        if (condition is CompareTriggerCondition compareCondition)
+                        {
+                            var value1 = compareCondition.valueProviderA.GetValue(world, entity);
+                            var value2 = compareCondition.valueProviderB.GetValue(world, entity);
+                            assertMessage = $"expected {value1}, but was {value2}";
+                        }
+                    }
+                    
+                    Assert.IsTrue(eval, assertMessage);
                 } 
             }
             else
             {
-                Assert.IsTrue(condition.Evaluate(activator), $"{condition.GetObjectName()} failed on {activator}");
+                var eval = condition.Evaluate(activator);
+                var assertMessage = $"{condition.GetObjectName()} failed on {activator}";
+                    
+                if (!eval)
+                {
+                    if (condition is CompareTriggerCondition compareCondition)
+                    {
+                        var value1 = compareCondition.valueProviderA.GetValue(world, activator);
+                        var value2 = compareCondition.valueProviderB.GetValue(world, activator);
+                        assertMessage = $"expected {value1}, but was {value2}";
+                    }
+                }
+                
+                Assert.IsTrue(condition.Evaluate(activator), assertMessage);
             }
 
             
