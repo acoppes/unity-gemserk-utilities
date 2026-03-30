@@ -16,6 +16,8 @@ namespace Game.Triggers.Conditions
         
         public ValueProvider valueProviderA;
         public ValueProvider valueProviderB;
+
+        public float epsilon;
         
         public override string GetObjectName()
         {
@@ -29,7 +31,7 @@ namespace Game.Triggers.Conditions
 
             return compareType switch
             {
-                CompareType.EqualsTo => Mathf.Approximately(a, b),
+                CompareType.EqualsTo => Mathf.Abs(a - b) < epsilon,
                 CompareType.GreaterThan => a > b,
                 CompareType.LessThan => a < b,
                 _ => false
