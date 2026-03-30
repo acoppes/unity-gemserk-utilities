@@ -12,7 +12,7 @@ namespace Game.Triggers
         {
             MatchCondition = 0,
             Pass = 1,
-            Fail = 0
+            Fail = 2
         }
 
         public ActionType actionType = ActionType.MatchCondition;
