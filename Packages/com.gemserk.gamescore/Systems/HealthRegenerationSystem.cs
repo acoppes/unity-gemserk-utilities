@@ -63,16 +63,24 @@ namespace Game.Systems
                     if (regenerationCooldown.IsReady)
                     {
                         health.current += regeneration.regeneration;
+                        if (health.current > health.total)
+                        {
+                            health.current = health.total;
+                        }
                     }
                 } else if (regeneration.regenerationType ==
                            HealthRegenerationComponent.RegenerationType.PerTime)
                 {
-                    health.current += regeneration.regeneration * deltaTime;
-                }
-                
-                if (health.current >= health.total)
-                {
-                    health.current = health.total;
+                    var regenValue = regeneration.regeneration * deltaTime;
+                    if (health.current < health.total)
+                    {
+                        health.current += regenValue;
+                        if (health.current > health.total)
+                        {
+                            health.current = health.total;
+                        }
+                    }
+                    
                 }
             }
 
