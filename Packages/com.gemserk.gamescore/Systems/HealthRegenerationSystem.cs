@@ -25,28 +25,34 @@ namespace Game.Systems
             var deltaTime = dt;
             
             regenerationCooldown.Increase(deltaTime);
+
+            var regenPerTickCooldownReady = regenerationCooldown.IsReady;
             
             foreach (var e in filter.Value)
             {
                 ref var regeneration = ref filter.Pools.Inc1.Get(e);
                 ref var health = ref filter.Pools.Inc2.Get(e);
+
+                regeneration.wasActive = regeneration.isActive;
+                regeneration.isActive = false;
                 
                 if (!regeneration.enabled || health.IsFull())
                 {
+                    regeneration.regenerationDelayCurrent = 0;
                     continue;
                 }
 
-                if (regeneration.damageRegenerationDisableTime > 0)
+                if (regeneration.regenerationDelayTotal > 0)
                 {
-                    regeneration.damageRegenerationDisableCurrent += deltaTime;
+                    regeneration.regenerationDelayCurrent += deltaTime;
                     
                     if (health.processedDamages.Count > 0)
                     {
                         // TODO: could check if damges did damage or not...
-                        regeneration.damageRegenerationDisableCurrent = 0;
+                        regeneration.regenerationDelayCurrent = 0;
                     }
                     
-                    if (regeneration.damageRegenerationDisableCurrent < regeneration.damageRegenerationDisableTime)
+                    if (regeneration.regenerationDelayCurrent < regeneration.regenerationDelayTotal)
                     {
                         continue;
                     }
@@ -60,12 +66,17 @@ namespace Game.Systems
                 if (regeneration.regenerationType ==
                     HealthRegenerationComponent.RegenerationType.PerTick)
                 {
-                    if (regenerationCooldown.IsReady)
+                    if (health.current < health.total)
                     {
-                        health.current += regeneration.regeneration;
-                        if (health.current > health.total)
+                        regeneration.isActive = true;
+                 
+                        if (regenPerTickCooldownReady)
                         {
-                            health.current = health.total;
+                            health.current += regeneration.regeneration;
+                            if (health.current > health.total)
+                            {
+                                health.current = health.total;
+                            }
                         }
                     }
                 } else if (regeneration.regenerationType ==
@@ -74,17 +85,18 @@ namespace Game.Systems
                     var regenValue = regeneration.regeneration * deltaTime;
                     if (health.current < health.total)
                     {
+                        regeneration.isActive = true;
+                        
                         health.current += regenValue;
                         if (health.current > health.total)
                         {
                             health.current = health.total;
                         }
                     }
-                    
                 }
             }
 
-            if (regenerationCooldown.IsReady)
+            if (regenPerTickCooldownReady)
             {
                 regenerationCooldown.Reset();
             }
