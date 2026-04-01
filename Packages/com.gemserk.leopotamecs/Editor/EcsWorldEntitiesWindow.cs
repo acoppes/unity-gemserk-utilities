@@ -105,6 +105,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
         {
             EcsWorldEntitiesWindowDebugSystem.windowOpenCount++;
             EditorApplication.playModeStateChanged += EditorApplicationOnplayModeStateChanged;
+            sortedByName = EditorPrefs.GetBool($"{nameof(EcsWorldEntitiesWindow)}.{nameof(sortedByName)}", false);
         }
 
         private void OnDisable()
@@ -449,7 +450,14 @@ namespace Gemserk.Leopotam.Ecs.Editor
             
             EditorGUILayout.BeginVertical();
             EditorGUILayout.LabelField("-- TOOLBAR --", titleStyle);
+            
+            EditorGUI.BeginChangeCheck();
             sortedByName = EditorGUILayout.Toggle("Sort Components By Name", sortedByName);
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorPrefs.SetBool($"{nameof(EcsWorldEntitiesWindow)}.{nameof(sortedByName)}", sortedByName);
+            }
+            
             openAll = false;
             closeAll = false;
             if (GUILayout.Button("Open all"))
