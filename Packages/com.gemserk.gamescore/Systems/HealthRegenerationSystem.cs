@@ -3,11 +3,14 @@ using Gemserk.Leopotam.Ecs;
 using Gemserk.Utilities;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
 namespace Game.Systems
 {
     public class HealthRegenerationSystem : BaseSystem, IEcsRunSystem, IEcsInitSystem
     {
+        private const float MinRegeneration = 0.00001f;
+        
         readonly EcsFilterInject<Inc<HealthRegenerationComponent, HealthComponent>, Exc<DisabledComponent>> 
             filter = default;
         
@@ -36,7 +39,7 @@ namespace Game.Systems
                 regeneration.wasActive = regeneration.isActive;
                 regeneration.isActive = false;
                 
-                if (!regeneration.enabled || health.IsFull())
+                if (!regeneration.enabled || health.IsFull() || regeneration.regeneration < MinRegeneration)
                 {
                     regeneration.regenerationDelayCurrent = 0;
                     continue;
