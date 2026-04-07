@@ -2,6 +2,7 @@
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
 namespace Game.Systems
 {
@@ -98,6 +99,27 @@ namespace Game.Systems
                         foreach (var modifier in statsModifier.modifiers)
                         {
                             var stat = stats.GetStat(modifier.type);
+                            
+                            if (!stat.hasStat)
+                            {
+                                if (SystemDebugConfig.DebugUnsetStatsWhenApplyingModifiers)
+                                {
+                                    var entity = world.GetEntity(e);
+                                    if (entity.Has<NameComponent>())
+                                    {
+                                        Debug.LogError(
+                                            $"Trying to modify unset stat {modifier.type} for modifier {modifier.name} for {entity.Get<NameComponent>().name}");
+                                    }
+                                    else
+                                    {
+                                        Debug.LogError(
+                                            $"Trying to unset stat for modifier {modifier.name} for {entity}");
+                                    }
+                                }
+
+                                continue;
+                            }
+                            
                             // stat.value += modifier.add;
                             stat.add += modifier.add;
                             stat.mult *= modifier.mult;
