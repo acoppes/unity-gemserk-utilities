@@ -257,7 +257,7 @@ namespace Game.Editor
                     if (!stat.hasStat)
                         continue;
 
-                    EditorGUILayout.LabelField(stat.name);
+                    EditorGUILayout.LabelField(RegisteredStats.StatToName(i));
                     EditorGUI.indentLevel++;
                     // EditorGUILayout.BeginHorizontal();
                     EditorGUI.BeginChangeCheck();

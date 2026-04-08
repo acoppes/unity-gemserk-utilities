@@ -15,8 +15,6 @@ namespace Game.Components
     public struct Stat : IEquatable<Stat>
     {
         public const int Undefined = -1;
-
-        public string name;
         
         public int type;
         public float baseValue;
@@ -32,7 +30,6 @@ namespace Game.Components
         {
             return new Stat()
             {
-                name = string.Empty,
                 type = Undefined,
                 baseValue = 0,
                 add = 0f,
@@ -373,7 +370,6 @@ namespace Game.Components
                 var statDefinition = statDefinitions[i];
                 stats.SetStat(new Stat()
                 {
-                    name = RegisteredStats.StatToName(i),
                     type = i,
                     baseValue = statDefinition.value,
                     add = 0f,
