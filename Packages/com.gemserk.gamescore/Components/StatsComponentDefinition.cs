@@ -6,6 +6,12 @@ using UnityEngine;
 
 namespace Game.Components
 {
+    public static class RegisteredStats
+    {
+        public static int TotalStats;
+        public static Func<int, string> StatToName;
+    }
+    
     public struct Stat : IEquatable<Stat>
     {
         public const int Undefined = -1;
@@ -350,11 +356,14 @@ namespace Game.Components
 
     public class StatsComponentDefinition : ComponentDefinitionBase
     {
+        // public static string ValueToName(int value)
+        // public static void GetNames(int mask, System.Collections.Generic.ICollection<string> collection)
+        
         [Serializable]
         public class StatDefinition
         {
             // public int type;
-            public IntTypeAsset typeAsset;
+            // public IntTypeAsset typeAsset;
             public float value;
         }
 
@@ -363,20 +372,23 @@ namespace Game.Components
         public override void Apply(World world, Entity entity)
         {
             var stats = StatsComponent.Default();
-            
-            foreach (var statDefinition in statDefinitions)
+
+            for (var i = 0; i < statDefinitions.Count; i++)
             {
+                var statDefinition = statDefinitions[i];
                 stats.SetStat(new Stat()
                 {
-                    name = statDefinition.typeAsset.name,
-                    type = statDefinition.typeAsset.value,
+                    // name = statDefinition.typeAsset.name,
+                    // type = statDefinition.typeAsset.value,
+                    name = RegisteredStats.StatToName(i),
+                    type = i,
                     baseValue = statDefinition.value,
                     add = 0f,
                     mult = 1f
                     // value = statDefinition.value
                 });
             }
-            
+
             entity.Add(stats);
             entity.Add(StatsModifiersComponent.Default());
             
