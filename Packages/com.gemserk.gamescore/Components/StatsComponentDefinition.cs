@@ -356,14 +356,9 @@ namespace Game.Components
 
     public class StatsComponentDefinition : ComponentDefinitionBase
     {
-        // public static string ValueToName(int value)
-        // public static void GetNames(int mask, System.Collections.Generic.ICollection<string> collection)
-        
         [Serializable]
         public class StatDefinition
         {
-            // public int type;
-            // public IntTypeAsset typeAsset;
             public float value;
         }
 
@@ -378,8 +373,6 @@ namespace Game.Components
                 var statDefinition = statDefinitions[i];
                 stats.SetStat(new Stat()
                 {
-                    // name = statDefinition.typeAsset.name,
-                    // type = statDefinition.typeAsset.value,
                     name = RegisteredStats.StatToName(i),
                     type = i,
                     baseValue = statDefinition.value,
@@ -391,10 +384,6 @@ namespace Game.Components
 
             entity.Add(stats);
             entity.Add(StatsModifiersComponent.Default());
-            
-            // Should add automatically th estats modifier component too here?
-            
-            // entity.Add(new GenericStatComponent<Stat>());
         }
     }
 }
