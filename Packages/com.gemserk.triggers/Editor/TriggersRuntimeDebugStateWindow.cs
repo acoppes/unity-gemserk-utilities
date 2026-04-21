@@ -128,7 +128,7 @@ namespace Gemserk.Triggers.Editor
 
             public void Redraw(bool force = false)
             {
-                var triggerInstance = trigger as Trigger;
+                var triggerInstance = trigger;
                 var parentName = string.Empty;
                 var triggerName = string.Empty;
                 var isDisabled = false;
@@ -137,7 +137,7 @@ namespace Gemserk.Triggers.Editor
 
                 if (triggerInstance != null)
                 {
-                    maxExecutions = triggerInstance.maxExecutionTimes;
+                    maxExecutions = triggerInstance.GetTriggerState().maxExecutionTimes;
                     triggerName = triggerInstance.Name;
                     isDisabled = triggerInstance.IsDisabled();
                 }
@@ -170,13 +170,12 @@ namespace Gemserk.Triggers.Editor
                 {
                     return;
                 }
-
-               
+                
                 var currentState = triggerInstance.State;
                 
                 if (!force)
                 {
-                    if (wasDisabled == isDisabled && currentState == previousState && previousExecutionTimes == triggerInstance.executionTimes && 
+                    if (wasDisabled == isDisabled && currentState == previousState && previousExecutionTimes == triggerInstance.GetTriggerState().executionTimes && 
                         maxExecutionTimes == maxExecutions)
                     {
                         return;
@@ -186,14 +185,14 @@ namespace Gemserk.Triggers.Editor
 
                 previousState = currentState;
                 wasDisabled = isDisabled;
-                previousExecutionTimes = triggerInstance.executionTimes;
+                previousExecutionTimes = triggerInstance.GetTriggerState().executionTimes;
                 maxExecutionTimes = maxExecutions;
             
                 // var hidden = (triggerObject.gameObject.activeSelf && !triggerObject.gameObject.activeInHierarchy);
                 // root.visible = !hidden;
 
-                var cantExecute = triggerInstance.maxExecutionTimes > 0 &&
-                                  triggerInstance.executionTimes >= triggerInstance.maxExecutionTimes;
+                var cantExecute = triggerInstance.GetTriggerState().maxExecutionTimes > 0 &&
+                                  triggerInstance.GetTriggerState().executionTimes >= triggerInstance.GetTriggerState().maxExecutionTimes;
             
                 buttonExecute.SetEnabled(Application.isPlaying && !isDisabled && !cantExecute);
                 buttonForceExecute.SetEnabled(Application.isPlaying && !isDisabled);
@@ -203,11 +202,11 @@ namespace Gemserk.Triggers.Editor
                 label.RemoveFromClassList("trigger-state-completed");
                 label.RemoveFromClassList("trigger-state-done");
 
-                var executionNumber = $"{triggerInstance.executionTimes}";
+                var executionNumber = $"{triggerInstance.GetTriggerState().executionTimes}";
 
-                if (triggerInstance.maxExecutionTimes > 0)
+                if (triggerInstance.GetTriggerState().maxExecutionTimes > 0)
                 {
-                    executionNumber = $"{triggerInstance.executionTimes}/{maxExecutionTimes}";
+                    executionNumber = $"{triggerInstance.GetTriggerState().executionTimes}/{maxExecutionTimes}";
                 }
 
                 var suffix = string.Empty;
@@ -221,14 +220,14 @@ namespace Gemserk.Triggers.Editor
                 {
                     if (currentState == ITrigger.ExecutionState.Executing)
                     {
-                        executionNumber = $"{triggerInstance.executionTimes + 1}/{maxExecutionTimes}";
+                        executionNumber = $"{triggerInstance.GetTriggerState().executionTimes + 1}/{maxExecutionTimes}";
                     
                         suffix = $"[RUNNING:{executionNumber}]";
                         label.AddToClassList("trigger-state-running");
                     }
                     else
                     {
-                        if (triggerInstance.executionTimes > 0)
+                        if (triggerInstance.GetTriggerState().executionTimes > 0)
                         {
                             suffix = $"[COMPLETED:{executionNumber}]";
                             label.AddToClassList("trigger-state-completed");

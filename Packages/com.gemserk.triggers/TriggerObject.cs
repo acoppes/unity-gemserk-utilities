@@ -56,14 +56,16 @@ namespace Gemserk.Triggers
 
         public void Awake()
         {
+            var triggerState = trigger.GetTriggerState();
+            
             if (executionType == ExecutionType.Disabled)
-                trigger.maxExecutionTimes = 0;
+                triggerState.maxExecutionTimes = 0;
             else if (executionType == ExecutionType.Once)
             {
-                trigger.maxExecutionTimes = 1;
+                triggerState.maxExecutionTimes = 1;
             } else if (executionType == ExecutionType.More)
             {
-                trigger.maxExecutionTimes = maxExecutions;
+                triggerState.maxExecutionTimes = maxExecutions;
             }
             
             eventsParent = transform.Find("Events");
@@ -136,11 +138,18 @@ namespace Gemserk.Triggers
             trigger.ClearPendingExecutions();
         }
 
+        public TriggerState GetTriggerState()
+        {
+            return trigger.GetTriggerState();
+        }
+
         public void LogError(Exception e)
         {
-            if (trigger.executingAction < trigger.actions.Count)
+            var triggerState = trigger.GetTriggerState();
+            
+            if (triggerState.executingAction < trigger.actions.Count)
             {
-                var action = trigger.actions[trigger.executingAction];
+                var action = trigger.actions[triggerState.executingAction];
                 if (action is TriggerAction triggerAction)
                 {
                     Debug.LogException(e, triggerAction);

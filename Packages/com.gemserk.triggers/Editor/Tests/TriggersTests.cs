@@ -71,7 +71,7 @@ namespace Gemserk.Triggers.Editor
                 result = ITrigger.ExecutionResult.Completed
             });
 
-            trigger.maxExecutionTimes = 1;
+            trigger.GetTriggerState().maxExecutionTimes = 1;
             trigger.QueueExecution();
             Assert.AreEqual(1, trigger.pendingExecutions.Count);
             
@@ -79,13 +79,13 @@ namespace Gemserk.Triggers.Editor
             Assert.AreEqual(ITrigger.ExecutionResult.Completed, trigger.Execute());
             trigger.CompleteCurrentExecution();
             
-            Assert.AreEqual(1, trigger.executionTimes);
+            Assert.AreEqual(1, trigger.GetTriggerState().executionTimes);
             Assert.IsTrue(trigger.State == ITrigger.ExecutionState.Completed);
             
             trigger.QueueExecution();
             Assert.AreEqual(0, trigger.pendingExecutions.Count);
             Assert.IsTrue(trigger.State == ITrigger.ExecutionState.Completed);
-            Assert.AreEqual(1, trigger.executionTimes);
+            Assert.AreEqual(1, trigger.GetTriggerState().executionTimes);
         }
         
         [Test]
@@ -100,7 +100,7 @@ namespace Gemserk.Triggers.Editor
                 result = ITrigger.ExecutionResult.Completed
             });
 
-            trigger.maxExecutionTimes = 1;
+            trigger.GetTriggerState().maxExecutionTimes = 1;
             trigger.QueueExecution();
             
             trigger.StartExecution();
@@ -116,7 +116,7 @@ namespace Gemserk.Triggers.Editor
             trigger.CompleteCurrentExecution();
             
             Assert.IsTrue(trigger.State == ITrigger.ExecutionState.Completed);
-            Assert.AreEqual(2, trigger.executionTimes);
+            Assert.AreEqual(2, trigger.GetTriggerState().executionTimes);
         }
         
         [Test]
@@ -139,7 +139,7 @@ namespace Gemserk.Triggers.Editor
             trigger.Execute();
             trigger.CompleteCurrentExecution();
             
-            Assert.AreEqual(1, trigger.executionTimes);
+            Assert.AreEqual(1, trigger.GetTriggerState().executionTimes);
             Assert.AreEqual(0, mockAction.executionTimes);
         }
         

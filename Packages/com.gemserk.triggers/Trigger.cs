@@ -2,6 +2,13 @@
 
 namespace Gemserk.Triggers
 {
+    public class TriggerState
+    {
+        public int executionTimes;
+        public int maxExecutionTimes;
+        public int executingAction;
+    }
+    
     public class Trigger : ITrigger
     {
         public string name;
@@ -9,10 +16,8 @@ namespace Gemserk.Triggers
         public readonly List<ITrigger.IEvent> events = new();
         public readonly List<ITrigger.ICondition> conditions = new();
         public readonly List<ITrigger.IAction> actions = new();
-
-        public int executingAction;
-        public int executionTimes;
-        public int maxExecutionTimes;
+        
+        private readonly TriggerState triggerState = new TriggerState();
 
         public readonly List<object> pendingExecutions = new List<object>();
 
@@ -93,19 +98,19 @@ namespace Gemserk.Triggers
         public void StartExecution()
         {
             state = ITrigger.ExecutionState.Executing;
-            executingAction = 0;
+            triggerState.executingAction = 0;
         }
 
         public void CompleteCurrentExecution()
         {
-            executingAction = 0;
+            triggerState.executingAction = 0;
             
             if (pendingExecutions.Count > 0)
             {
                 pendingExecutions.RemoveAt(0);
             }
             
-            executionTimes++;
+            triggerState.executionTimes++;
 
             if (pendingExecutions.Count == 0)
             {
@@ -116,7 +121,7 @@ namespace Gemserk.Triggers
                 state = ITrigger.ExecutionState.PendingExecution;
             }
 
-            if (maxExecutionTimes > 0 && executionTimes >= maxExecutionTimes)
+            if (triggerState.maxExecutionTimes > 0 && triggerState.executionTimes >= triggerState.maxExecutionTimes)
             {
                 state = ITrigger.ExecutionState.Completed;
             }
@@ -132,11 +137,16 @@ namespace Gemserk.Triggers
             pendingExecutions.Clear();
         }
 
+        public TriggerState GetTriggerState()
+        {
+            return triggerState;
+        }
+
         public ITrigger.ExecutionResult Execute()
         {
-            while (executingAction < actions.Count)
+            while (triggerState.executingAction < actions.Count)
             {
-                var action = actions[executingAction];
+                var action = actions[triggerState.executingAction];
 
                 var result = ITrigger.ExecutionResult.Completed;
                 
@@ -151,10 +161,10 @@ namespace Gemserk.Triggers
                     return result;
                 }
                 
-                executingAction++;
+                triggerState.executingAction++;
             }
 
-            executingAction = 0;
+            triggerState.executingAction = 0;
             return ITrigger.ExecutionResult.Completed;
         }
     }

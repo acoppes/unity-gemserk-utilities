@@ -39,11 +39,11 @@ namespace Gemserk.Triggers.Editor
             
             EditorGUILayout.LabelField("State", trigger.State.ToString());
             EditorGUILayout.IntField("Pending Executions", trigger.pendingExecutions.Count);
-            EditorGUILayout.IntField("Completed Executions", trigger.executionTimes);
+            EditorGUILayout.IntField("Completed Executions", trigger.GetTriggerState().executionTimes);
             
             if (trigger.actions.Count > 0)
             {
-                var actionObject = trigger.actions[trigger.executingAction] as MonoBehaviour;
+                var actionObject = trigger.actions[trigger.GetTriggerState().executingAction] as MonoBehaviour;
                 EditorGUILayout.ObjectField("Current Action", 
                     actionObject.gameObject, typeof(GameObject), true);
             }
