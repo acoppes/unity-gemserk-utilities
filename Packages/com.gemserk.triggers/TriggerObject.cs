@@ -86,6 +86,8 @@ namespace Gemserk.Triggers
             {
                 actionsParent.gameObject.GetComponentsInChildrenDepth1(true, true, trigger.actions);
             }
+
+            trigger.name = gameObject.name;
         }
 
         public ITrigger.ExecutionResult Execute()

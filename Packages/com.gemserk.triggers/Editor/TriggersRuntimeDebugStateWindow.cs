@@ -137,14 +137,6 @@ namespace Gemserk.Triggers.Editor
 
                 TriggerState triggerState = null;
                 
-                if (triggerInstance != null)
-                {
-                    triggerState = triggerInstance.GetTriggerState();
-                    maxExecutions = triggerState.maxExecutionTimes;
-                    triggerName = triggerInstance.Name;
-                    isDisabled = triggerInstance.IsDisabled();
-                }
-                
                 if (trigger is TriggerObject triggerObject)
                 {
                     if (!triggerObject || !triggerObject.gameObject)
@@ -168,7 +160,13 @@ namespace Gemserk.Triggers.Editor
                     maxExecutions = triggerObject.GetCalculatedMaxExecutions();
                     
                     isDisabled = triggerObject.IsDisabled();
-                } 
+                } else if (triggerInstance != null)
+                {
+                    triggerState = triggerInstance.GetTriggerState();
+                    maxExecutions = triggerState.maxExecutionTimes;
+                    triggerName = triggerInstance.Name;
+                    isDisabled = triggerInstance.IsDisabled();
+                }
 
                 if (triggerInstance == null)
                 {
