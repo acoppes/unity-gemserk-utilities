@@ -224,9 +224,8 @@ namespace Game.Editor
             
             return true;
         }
-    }
-    
-     sealed class StatsComponentInspector : EcsComponentInspectorTyped<StatsComponent>
+        
+         sealed class StatsComponentInspector : EcsComponentInspectorTyped<StatsComponent>
         {
             public override bool OnGuiTyped(string label, ref StatsComponent stats,
                 EcsEntityDebugView entityView)
@@ -358,4 +357,5 @@ namespace Game.Editor
                 return true;
             }
         }
+    }
 }
