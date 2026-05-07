@@ -50,6 +50,16 @@ namespace Gemserk.Triggers
                     return ITrigger.ExecutionResult.Completed;
                 }
 
+                if (entityInstance is GameObject entityObject)
+                {
+                    var prefabInstances = entityObject.GetComponentsInChildren<BaseEntityPrefabInstance>();
+                    foreach (var baseEntityPrefabInstance in prefabInstances)
+                    {
+                        baseEntityPrefabInstance.InstantiateEntity();
+                    }
+                    return ITrigger.ExecutionResult.Completed;
+                }
+                
                 var entityPrefabInstance = entityInstance.GetInterface<BaseEntityPrefabInstance>();
             
                 if (!entityPrefabInstance)
