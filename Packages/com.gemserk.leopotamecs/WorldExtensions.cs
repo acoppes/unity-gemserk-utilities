@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Gemserk.Utilities;
 
 namespace Gemserk.Leopotam.Ecs
@@ -11,9 +12,10 @@ namespace Gemserk.Leopotam.Ecs
         }
         
         public static Entity CreateEntity(this World world, UnityEngine.Object definition, 
-            IEnumerable<IEntityInstanceParameter> parameters)
+            IEnumerable<IEntityInstanceParameter> parameters, Action<Entity> configuration = null)
         {
-            return world.CreateEntity(definition.GetInterface<IEntityDefinition>(),  parameters);
+            return world.CreateEntity(definition.GetInterface<IEntityDefinition>(), parameters, configuration);
         }
+        
     }
 }
