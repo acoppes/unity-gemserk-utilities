@@ -5,6 +5,7 @@ namespace Game.Components
 {
     public struct InputReaderComponent : IEntityComponent
     {
+        public string path;
         public StreamReader reader;
     }
     
@@ -16,7 +17,7 @@ namespace Game.Components
         {
             world.AddComponent(entity, new InputReaderComponent()
             {
-                reader = new StreamReader(new FileStream(path, FileMode.Open))
+                path = path
             });
         }
     }

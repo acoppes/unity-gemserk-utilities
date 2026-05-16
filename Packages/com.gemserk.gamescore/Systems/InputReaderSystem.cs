@@ -1,16 +1,40 @@
-﻿using Game.Components;
+﻿using System.IO;
+using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 
 namespace Game.Systems
 {
-    public class InputReaderSystem : BaseSystem, IEcsRunSystem
+    public class InputReaderSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler, IEntityDestroyedHandler
     {
         // copy controls from unique input entity to each entity controlled by that control 
         readonly EcsFilterInject<Inc<InputComponent, InputReaderComponent>, Exc<DisabledComponent>> filter = default;
 
-        public InputComponentSerializer serializer = new InputComponentSerializer();
+        private readonly InputComponentSerializer serializer = new InputComponentSerializer();
+        
+        public void OnEntityCreated(World world, Entity entity)
+        {
+            if (entity.Has<InputReaderComponent>())
+            {
+                ref var inputReader = ref entity.Get<InputReaderComponent>();
+                
+                inputReader.reader?.Close();
+                inputReader.reader = null;
+                
+                inputReader.reader = new StreamReader(new FileStream(inputReader.path, FileMode.Open));
+            }
+        }
+
+        public void OnEntityDestroyed(World world, Entity entity)
+        {
+            if (entity.Has<InputReaderComponent>())
+            {
+                ref var inputReader = ref entity.Get<InputReaderComponent>();
+                inputReader.reader?.Close();
+                inputReader.reader = null;
+            }
+        }
         
         public void Run(EcsSystems systems)
         {
@@ -27,5 +51,7 @@ namespace Game.Systems
                 serializer.Deserialize(ref input, reader.reader);
             }
         }
+
+
     }
 }

@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 
 namespace Game.Components
 {
-    
     public class InputComponentSerializer
     {
         public void Serialize(InputComponent input, StreamWriter writer)
