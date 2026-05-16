@@ -9,17 +9,22 @@ namespace Game.Components
         public List<string> types;
     }
     
-    public class TypesComponentDefinition : ComponentDefinitionBase
+    public class TypesComponentDefinition : ComponentDefinitionBase, IEntityInstanceParameter
     {
         public List<string> types;
         public bool forceLowerCase = true;
 
         public override void Apply(World world, Entity entity)
         {
-            var typesComponent = new TypesComponent()
+            if (!entity.Has<TypesComponent>())
             {
-                types = new List<string>()
-            };
+                world.AddComponent(entity, new TypesComponent()
+                {
+                    types = new List<string>()
+                });
+            }
+
+            ref var typesComponent = ref entity.Get<TypesComponent>();
 
             if (forceLowerCase)
             {
@@ -29,8 +34,6 @@ namespace Game.Components
             {
                 typesComponent.types.AddRange(types);
             }
-            
-            world.AddComponent(entity, typesComponent);
         }
     }
 }
