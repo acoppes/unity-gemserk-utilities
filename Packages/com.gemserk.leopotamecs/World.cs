@@ -79,9 +79,14 @@ namespace Gemserk.Leopotam.Ecs
             
             if (parametersList != null)
             {
-                foreach (var parameters in parametersList)
+                foreach (var parameter in parametersList)
                 {
-                    parameters.Apply(this, entity);
+                    if (parameter is Behaviour monoBehaviour)
+                    {
+                        if (!monoBehaviour.enabled)
+                            continue;
+                    }
+                    parameter.Apply(this, entity);
                 }
             }
         }
