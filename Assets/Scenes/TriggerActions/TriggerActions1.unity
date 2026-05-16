@@ -17205,7 +17205,7 @@ GameObject:
   - component: {fileID: 2035158932}
   - component: {fileID: 2035158933}
   m_Layer: 0
-  m_Name: Invoke(Trigger_To_Disable, force:False)
+  m_Name: Invoke(Trigger_DisabedOnStart, force:False)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
