@@ -3,6 +3,7 @@ using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
 namespace Game.Systems
 {
@@ -22,7 +23,7 @@ namespace Game.Systems
                 inputReader.reader?.Close();
                 inputReader.reader = null;
                 
-                inputReader.reader = new StreamReader(new FileStream(inputReader.path, FileMode.Open));
+                inputReader.reader = new StreamReader(new FileStream(Path.Combine(Application.streamingAssetsPath, inputReader.path), FileMode.Open));
             }
         }
 

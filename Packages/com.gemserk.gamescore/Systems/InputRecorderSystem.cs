@@ -3,6 +3,7 @@ using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
 namespace Game.Systems
 {
@@ -21,7 +22,7 @@ namespace Game.Systems
                 
                 inputRecorder.writer?.Close();
                 inputRecorder.writer = null;
-                inputRecorder.writer = new StreamWriter(inputRecorder.path, false);
+                inputRecorder.writer = new StreamWriter(Path.Combine(Application.streamingAssetsPath, inputRecorder.path), false);
             }
         }
 
