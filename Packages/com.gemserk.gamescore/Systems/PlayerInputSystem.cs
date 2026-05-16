@@ -38,7 +38,7 @@ namespace Game.Systems
 
                 var playerInput = PlayerInput.GetPlayerByIndex(playerInputComponent.playerInput);
 
-                if (playerInput == null)
+                if (!playerInput)
                 {
                     continue;
                 }
@@ -73,7 +73,7 @@ namespace Game.Systems
                 
                 playerInputComponent.isControlled = false;
 
-                if (playerInput == null || playerInputComponent.disabledByControllable)
+                if (!playerInput || playerInputComponent.disabledByControllable)
                 {
                     continue;
                 }
