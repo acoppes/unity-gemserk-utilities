@@ -1,16 +1,39 @@
-﻿using Game.Components;
+﻿using System.IO;
+using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 
 namespace Game.Systems
 {
-    public class InputRecorderSystem : BaseSystem, IEcsRunSystem
+    public class InputRecorderSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler, IEntityDestroyedHandler
     {
         // copy controls from unique input entity to each entity controlled by that control 
         readonly EcsFilterInject<Inc<InputComponent, InputRecorderComponent>, Exc<DisabledComponent>> filter = default;
 
-        public InputComponentSerializer serializer = new InputComponentSerializer();
+        private readonly InputComponentSerializer serializer = new InputComponentSerializer();
+        
+        public void OnEntityCreated(World world, Entity entity)
+        {
+            if (entity.Has<InputRecorderComponent>())
+            {
+                ref var inputRecorder = ref entity.Get<InputRecorderComponent>();
+                
+                inputRecorder.writer?.Close();
+                inputRecorder.writer = null;
+                inputRecorder.writer = new StreamWriter(inputRecorder.path, false);
+            }
+        }
+
+        public void OnEntityDestroyed(World world, Entity entity)
+        {
+            if (entity.Has<InputRecorderComponent>())
+            {
+                ref var inputRecorder = ref entity.Get<InputRecorderComponent>();
+                inputRecorder.writer?.Close();
+                inputRecorder.writer = null;
+            }
+        }
         
         public void Run(EcsSystems systems)
         {

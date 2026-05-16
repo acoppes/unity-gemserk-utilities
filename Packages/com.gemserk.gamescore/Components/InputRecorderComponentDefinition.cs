@@ -5,6 +5,7 @@ namespace Game.Components
 {
     public struct InputRecorderComponent : IEntityComponent
     {
+        public string path;
         public StreamWriter writer;
     }
     
@@ -16,7 +17,7 @@ namespace Game.Components
         {
             world.AddComponent(entity, new InputRecorderComponent()
             {
-                writer = new StreamWriter(path, false)
+                path = path
             });
         }
     }
