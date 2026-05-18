@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Gemserk.Triggers
 {
+    [TriggerEditor("Spawn Entity Prefab")]
     public class InstantiateEntityPrefabInstance : WorldTriggerAction
     {
         public enum SourceType
