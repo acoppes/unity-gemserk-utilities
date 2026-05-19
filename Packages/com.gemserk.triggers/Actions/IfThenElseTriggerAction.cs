@@ -10,12 +10,12 @@
 
         public override string GetObjectName()
         {
-            if (thenGroup == null && elseGroup == null)
+            if (!thenGroup && !elseGroup)
             {
                 return "If()";
             }
             
-            if (thenGroup != null && elseGroup == null)
+            if (thenGroup && !elseGroup)
             {
                 return $"IfThen({thenGroup.name})";
             }
@@ -28,7 +28,7 @@
             ITrigger.ExecutionResult result;
             
             // if we already have a running
-            if (runningGroup != null)
+            if (runningGroup)
             {
                 result = runningGroup.Execute(activator);
                 if (result == ITrigger.ExecutionResult.Completed)
@@ -47,7 +47,7 @@
                 runningGroup = elseGroup;
             }
 
-            if (runningGroup == null)
+            if (!runningGroup)
             {
                 return ITrigger.ExecutionResult.Completed;
             }

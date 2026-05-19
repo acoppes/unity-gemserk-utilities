@@ -11,6 +11,8 @@ namespace Gemserk.Triggers.Editor
 {
     public class TriggerSystemEditorWindow : EditorWindow, IHasCustomMenu
     {
+        public delegate void OnTriggerElementCreated(GameObject gameObject, Component triggerComponent);
+        
         private GameObject selectedGameObject;
         private TriggerObject selectedTrigger;
         private TriggerSystem selectedTriggerSystem;
@@ -21,16 +23,18 @@ namespace Gemserk.Triggers.Editor
         private Transform triggerActionsParent;
         private TriggerSystemFilteredTypeCache triggerTypes;
         
-        
         private Vector2 scrollPositionTriggerTypes;
         private Vector2 scrollPositionTriggersList;
         
         private SearchField searchField;
         private string searchText;
 
-        private List<TriggerObject> cachedTriggers = new();
+        private readonly List<TriggerObject> cachedTriggers = new();
 
         public static readonly List<(string name, Action<GameObject> callback)> extraActions = new List<(string, Action<GameObject>)>();
+
+        public static readonly Dictionary<Type, OnTriggerElementCreated> customCreateHandlers =
+            new Dictionary<Type, OnTriggerElementCreated>();
 
         private enum TriggerScope
         {
@@ -344,8 +348,15 @@ namespace Gemserk.Triggers.Editor
                     Undo.IncrementCurrentGroup();
                     var newActionObject = new GameObject(typeInfo.visualName);
                     Undo.RegisterCreatedObjectUndo(newActionObject, $"Created {typeInfo.visualName} Trigger Stuff");
-                    Undo.AddComponent(newActionObject,typeInfo.type);
+                    var component = Undo.AddComponent(newActionObject,typeInfo.type);
                     var parentToUse = Event.current.shift ? parent : alternativeParent;
+
+                    if (customCreateHandlers.ContainsKey(typeInfo.type))
+                    {
+                        var onTriggerElementCreated = customCreateHandlers[typeInfo.type];
+                        onTriggerElementCreated(newActionObject, component);
+                    }
+                    
                     Undo.SetTransformParent(newActionObject.transform, parentToUse, false, "Setting parent for trigger stuff");
                     Undo.RegisterFullObjectHierarchyUndo(newActionObject,$"Created {typeInfo.visualName} Trigger Stuff" );
                     
