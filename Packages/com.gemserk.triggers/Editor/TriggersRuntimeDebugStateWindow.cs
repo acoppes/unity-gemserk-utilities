@@ -341,6 +341,13 @@ namespace Gemserk.Triggers.Editor
 
                 if (triggerElement.trigger != null)
                 {
+                    if (triggerElement.trigger is TriggerObject triggerObject)
+                    {
+                        // this is happenign during a reload, I would love to not have that destroyed object in the list
+                        if (!triggerObject || !triggerObject.gameObject)
+                            continue;
+                    }
+                    
                     if (!searchText.IsNullOrEmpty())
                     {
                         if (searchTexts != null && searchTexts.Length > 0)

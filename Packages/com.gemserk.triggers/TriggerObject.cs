@@ -39,7 +39,7 @@ namespace Gemserk.Triggers
             return 0;
         }
 
-        public string Name => gameObject.name;
+        public string Name => gameObject ? gameObject.name : null;
 
         public ITrigger.ExecutionState State
         {
