@@ -6,7 +6,7 @@ using UnityEngine.InputSystem.Utilities;
 
 namespace Game.Triggers
 {
-    public class ControlTriggerEvent : TriggerEvent
+    public class InputActionTriggerEvent : TriggerEvent
     {
         public enum EventType
         {
@@ -29,13 +29,13 @@ namespace Game.Triggers
         {
             if (eventType == EventType.InputAction)
             {
-                return $"Control{eventType}()";
+                return $"Input_{eventType}()";
             }
             if (eventType == EventType.InputActionReference && reference)
             {
-                return $"Control{eventType}({reference.action.name})";
+                return $"Input_{eventType}({reference.action.name})";
             }
-            return $"Control{eventType}()";
+            return $"Input_{eventType}()";
         }
 
         private void OnEnable()
