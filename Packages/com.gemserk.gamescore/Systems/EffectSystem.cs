@@ -67,7 +67,15 @@ namespace Game.Systems
 
                 if (!effects.hasDelaySet && effects.maxDelay > 0 && effects.minDelay >= 0)
                 {
-                    effects.delayFramesToApply = UnityEngine.Random.Range(effects.minDelay, effects.maxDelay);
+                    if (effects.delayType == EffectsComponent.DelayType.Random)
+                    {
+                        effects.delayFramesToApply = UnityEngine.Random.Range(effects.minDelay, effects.maxDelay);
+                    } else if (effects.delayType == EffectsComponent.DelayType.UseFactor)
+                    {
+                        var delay = effects.factor * effects.maxDelay + effects.minDelay;
+                        effects.delayFramesToApply = Mathf.RoundToInt(delay);
+                        // maybe would be better to have an expansion speed or something like that
+                    }
                     effects.hasDelaySet = true;
                 }
 

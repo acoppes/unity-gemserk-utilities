@@ -50,6 +50,12 @@ namespace Game.Components
     
     public struct EffectsComponent : IEntityComponent
     {
+        public enum DelayType
+        {
+            Random = 0,
+            UseFactor = 1
+        }
+        
         public Target target;
         public Entity source;
         public List<Effect> effects;
@@ -57,7 +63,8 @@ namespace Game.Components
 
         public float factor;
         public float valueMultiplier;
-        
+
+        public DelayType delayType;
         public int minDelay;
         public int maxDelay;
 
@@ -74,7 +81,8 @@ namespace Game.Components
     public class EffectsComponentDefinition : ComponentDefinitionBase
     {
         public List<Effect> effects;
-        
+
+        public EffectsComponent.DelayType delayType = EffectsComponent.DelayType.Random;
         public int minDelay;
         public int maxDelay;
 
@@ -86,7 +94,8 @@ namespace Game.Components
                 factor = 1f,
                 valueMultiplier = 1f,
                 minDelay = minDelay,
-                maxDelay = maxDelay
+                maxDelay = maxDelay,
+                delayType = delayType
             });
         }
     }
