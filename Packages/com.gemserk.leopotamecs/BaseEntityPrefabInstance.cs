@@ -1,10 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using Gemserk.Utilities;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Object = UnityEngine.Object;
 
 namespace Gemserk.Leopotam.Ecs
 {
+    public static class BaseEntityPrefabUtils
+    {
+        public static void SpawnEntityPrefab(Object entityInstance)
+        {
+            if (!entityInstance)
+            {
+                return;
+            }
+
+            if (entityInstance is GameObject entityObject)
+            {
+                var prefabInstances = entityObject.GetComponentsInChildren<BaseEntityPrefabInstance>();
+                foreach (var baseEntityPrefabInstance in prefabInstances)
+                {
+                    baseEntityPrefabInstance.InstantiateEntity();
+                }
+                return;
+            }
+                
+            var entityPrefabInstance = entityInstance.GetInterface<BaseEntityPrefabInstance>();
+            if (entityPrefabInstance)
+            {
+                entityPrefabInstance.InstantiateEntity();
+            }
+        }
+    }
+    
     public abstract class BaseEntityPrefabInstance : MonoBehaviour
     {
         public enum OnInstantiateActionType
