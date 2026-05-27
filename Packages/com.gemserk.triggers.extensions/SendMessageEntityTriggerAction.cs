@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Leopotam.Ecs.Components;
 using UnityEngine;
@@ -42,6 +43,12 @@ namespace Gemserk.Triggers
         {
             var targets = new List<Entity>();
             target.Get(targets, world, activator);
+
+            if (string.IsNullOrEmpty(methodName))
+            {
+                Debug.LogError("Can't send empty method name to object", gameObject);
+                return ITrigger.ExecutionResult.Interrupt;
+            }
 
             foreach (var target in targets)
             {
