@@ -6,6 +6,11 @@ using Vertx.Debugging;
 
 namespace Game.Components
 {
+    public struct AttachedToAttachPointComponent : IEntityComponent
+    {
+        public string attachPoint;
+    }
+    
     public class AttachPoint
     {
         public Vector3 entityPosition;
