@@ -13,6 +13,12 @@ using Object = UnityEngine.Object;
 
 namespace Gemserk.Leopotam.Ecs.Editor
 {
+    public static class EcsWorldEntitiesWindowCurrent
+    {
+        public static EcsWorld World;
+        public static int Entity;
+    }
+    
     static class EcsComponentInspectors {
         static readonly Dictionary<Type, IEcsComponentInspector> Inspectors = new Dictionary<Type, IEcsComponentInspector> ();
 
@@ -225,6 +231,9 @@ namespace Gemserk.Leopotam.Ecs.Editor
                     {
                         if (customInspector != null)
                         {
+                            EcsWorldEntitiesWindowCurrent.World = world;
+                            EcsWorldEntitiesWindowCurrent.Entity = entity;
+                            
                             var (changed, newValue) = customInspector.OnGui(typeName, component, null);
 
                             if (changed)
@@ -232,6 +241,9 @@ namespace Gemserk.Leopotam.Ecs.Editor
                                 // update value.
                                 pool.SetRaw(entity.ecsEntity, newValue);
                             }
+                            
+                            EcsWorldEntitiesWindowCurrent.World = null;
+                            EcsWorldEntitiesWindowCurrent.Entity = 0;
                         }
                         else
                         {

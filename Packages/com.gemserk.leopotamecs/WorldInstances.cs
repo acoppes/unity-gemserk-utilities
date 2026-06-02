@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Leopotam.EcsLite;
 using UnityEngine.SceneManagement;
 
 namespace Gemserk.Leopotam.Ecs
@@ -38,6 +39,11 @@ namespace Gemserk.Leopotam.Ecs
         public static World GetBySceneName(string name)
         {
             return instances.First(i => i.gameObject.scene.name.Equals(name, StringComparison.OrdinalIgnoreCase));
+        }
+        
+        public static World GetByEcsWorld(EcsWorld ecsWorld)
+        {
+            return instances.First(i => i.EcsWorld == ecsWorld);
         }
 
         public static void Register(World world)
