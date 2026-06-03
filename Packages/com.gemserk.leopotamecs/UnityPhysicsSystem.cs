@@ -15,9 +15,15 @@ namespace Gemserk.Leopotam.Ecs
         
         public void Run(EcsSystems systems)
         {
-            if (!disableSimulation)
+            if (disableSimulation)
             {
-                Physics.Simulate(Time.deltaTime);
+                return;
+            }
+            
+            var deltaTime = dt;
+            if (deltaTime > 0)
+            {
+                Physics.Simulate(deltaTime);
             }
         }
     }
