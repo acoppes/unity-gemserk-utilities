@@ -26,7 +26,7 @@ namespace Game.Systems
         public void Init(EcsSystems systems)
         {
             poolMap = new GameObjectPoolMap("~SfxPool");
-            listener = FindFirstObjectByType<AudioListener>();
+            listener = FindAnyObjectByType<AudioListener>();
         }
 
         public void OnEntityCreated(World world, Entity entity)
