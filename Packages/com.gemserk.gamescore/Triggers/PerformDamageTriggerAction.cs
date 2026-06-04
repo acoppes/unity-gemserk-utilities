@@ -21,7 +21,7 @@ namespace Game.Triggers
         
         public override string GetObjectName()
         {
-            if (query != null)
+            if (query)
             {
                 return $"Damage({damage}, {query})";
             }

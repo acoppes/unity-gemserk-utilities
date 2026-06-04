@@ -1,14 +1,10 @@
 ﻿using Game.Components;
 using Gemserk.Leopotam.Ecs;
-using Leopotam.EcsLite.Di;
 
 namespace Game.Systems
 {
     public class CopyFromSourceOnSpawnSystem : BaseSystem, IEntityCreatedHandler
     {
-        readonly EcsFilterInject<Inc<SourceEntityComponent, PlayerComponent>, Exc<DisabledComponent>> playerFilter = default;
-        readonly EcsFilterInject<Inc<SourceEntityComponent, StatsModifiersComponent>, Exc<DisabledComponent>> modifiersFilter = default;
-        
         public void OnEntityCreated(World world, Entity entity)
         {
             if (entity.Has<SourceEntityComponent>())
