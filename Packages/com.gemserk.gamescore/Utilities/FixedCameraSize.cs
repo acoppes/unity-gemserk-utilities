@@ -8,7 +8,7 @@ namespace Game.Utilities
     public class FixedCameraSize : MonoBehaviour
     {
         [SerializeField]
-        private CinemachineVirtualCamera virtualCamera;
+        private CinemachineCamera virtualCamera;
 
         public bool updateWhileEditing = false;
         public bool updateWhilePlaying = false;
@@ -51,7 +51,7 @@ namespace Game.Utilities
         
         private void FixCameraSize()
         {
-            if (virtualCamera != null)
+            if (virtualCamera)
             {
                 var ratioToMatchWidth = Screen.height / (float)Screen.width;
                 // var ratioToMatchHeight = Screen.width / (float)Screen.height;
@@ -64,7 +64,7 @@ namespace Game.Utilities
                 var heightMatch = match;
 
                 result = (sizeToMatchWidth * widthMatch + sizeToMatchHeight * heightMatch);
-                virtualCamera.m_Lens.OrthographicSize = result;
+                virtualCamera.Lens.OrthographicSize = result;
             }
         }
     }

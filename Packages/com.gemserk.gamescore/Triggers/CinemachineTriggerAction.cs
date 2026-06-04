@@ -25,22 +25,19 @@ namespace Game.Triggers
             {
                 return $"SetCameraConfiner({cameraName}, {cameraConfinerName})";
             }
-            else
+            
+            if (noiseSettings)
             {
-                if (noiseSettings != null)
-                {
-                    return $"SetNoiseSettings({cameraName}, {noiseSettings.name})";
-                }
-                return $"UnsetNoiseSettings({cameraName})";
+                return $"SetNoiseSettings({cameraName}, {noiseSettings.name})";
             }
-
-            return "Cinemachine()";
+            
+            return $"UnsetNoiseSettings({cameraName})";
         }
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
             var cameraObject = GameObject.Find(cameraName);
-            if (cameraObject == null)
+            if (!cameraObject)
             {
                 return ITrigger.ExecutionResult.Running;
             }
@@ -52,7 +49,7 @@ namespace Game.Triggers
                 var cameraConfiner = GameObject.Find(cameraConfinerName);
                 var cinemachineConfiner2D = virtualCamera.GetComponent<CinemachineConfiner2D>();
 
-                if (cameraConfiner == null)
+                if (!cameraConfiner)
                 {
                     cinemachineConfiner2D.BoundingShape2D = null;
                     cinemachineConfiner2D.enabled = false;

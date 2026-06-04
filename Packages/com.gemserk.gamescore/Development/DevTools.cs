@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace Game.Development
 {
@@ -33,7 +34,7 @@ namespace Game.Development
 
         public List<DevToolInputCallback> devActions;
 
-        private Coroutine _showTextCoroutine;
+        private Coroutine showTextCoroutine;
 
         private void Start()
         {
@@ -73,7 +74,7 @@ namespace Game.Development
         {
             if (toggleInputBufferDebug.WasReleasedThisFrame())
             {
-                if (debugInputBufferObject != null)
+                if (debugInputBufferObject)
                 {
                     debugInputBufferObject.SetActive(!debugInputBufferObject.activeInHierarchy);
                 }
@@ -81,7 +82,7 @@ namespace Game.Development
             
             if (toggleGridDebug.WasReleasedThisFrame())
             {
-                if (gridObject != null)
+                if (gridObject)
                 {
                     gridObject.SetActive(!gridObject.activeInHierarchy);
                 }
@@ -89,8 +90,8 @@ namespace Game.Development
             
             if (toggleHitBoxes.WasReleasedThisFrame())
             {
-                var debugHitBoxSystem = FindObjectOfType<DebugHitBoxSystem>();
-                if (debugHitBoxSystem != null)
+                var debugHitBoxSystem = FindAnyObjectByType<DebugHitBoxSystem>();
+                if (debugHitBoxSystem)
                 {
                     debugHitBoxSystem.debugHitBoxesEnabled = !debugHitBoxSystem.debugHitBoxesEnabled;
                 }
@@ -142,7 +143,7 @@ namespace Game.Development
             if (Math.Abs(previousTimeScale - Time.timeScale) > Mathf.Epsilon)
             {
                 // update
-                _showTextCoroutine = StartCoroutine(ShowNewTimeScale());
+                showTextCoroutine = StartCoroutine(ShowNewTimeScale());
             }
             
             foreach (var devAction in devActions)
@@ -156,10 +157,10 @@ namespace Game.Development
 
         private IEnumerator ShowNewTimeScale()
         {
-            if (_showTextCoroutine != null)
+            if (showTextCoroutine != null)
             {
-                StopCoroutine(_showTextCoroutine);
-                _showTextCoroutine = null;
+                StopCoroutine(showTextCoroutine);
+                showTextCoroutine = null;
             }
             
             debugTimeScale.enabled = true;
