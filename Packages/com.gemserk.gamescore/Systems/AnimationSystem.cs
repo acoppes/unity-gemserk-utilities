@@ -127,12 +127,12 @@ namespace Game.Systems
             foreach (var entity in animationFilter.Value)
             {
                 ref var animationComponent = ref animationFilter.Pools.Inc1.Get(entity);
-                UpdateAnimation(ref animationComponent, animationDt);
+                UpdateAnimation(entity, ref animationComponent, animationDt);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void UpdateAnimation(ref AnimationsComponent animations, float dt)
+        public static void UpdateAnimation(int entity, ref AnimationsComponent animations, float dt)
         {
             if (animations.paused)
             {
@@ -159,6 +159,14 @@ namespace Game.Systems
                 //     animationComponent.OnStart();
                 //     animationComponent.onStartEventPending = false;
                 // }
+
+                // TODO: could set this with a special compilation flag to toggle off once I find the issue?
+                var totalAnimations = animations.animationsAsset.animations.Count;
+                if (animations.currentAnimation < 0 || animations.currentAnimation >= totalAnimations)
+                {
+                    Debug.LogError($"AnimationSystem: wrong animation index for {entity} - {animations.animationsAsset.name} - {animations.currentAnimation}");
+                    return;
+                }
 
                 var currentAnimation = animations.animationsAsset.animations[animations.currentAnimation];
 

@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Game.Components;
 using Game.Definitions;
 using Game.Systems;
 using Gemserk.Utilities;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 namespace Game.Editor.Tests
 {
@@ -33,15 +35,15 @@ namespace Game.Editor.Tests
             
             animationComponent.Play(0);
             
-            AnimationSystem.UpdateAnimation(ref animationComponent, 1.0f);
+            AnimationSystem.UpdateAnimation(1, ref animationComponent, 1.0f);
             
             // Assert.AreEqual(1, animationComponent.playingTime, 0.01f);
             Assert.AreEqual(1, animationComponent.totalPlayingTime, 0.01f);
             
             animationComponent.pauseTime = 0.5f;
 
-            AnimationSystem.UpdateAnimation(ref animationComponent, 0.5f);
-            AnimationSystem.UpdateAnimation(ref animationComponent, 0.5f);
+            AnimationSystem.UpdateAnimation(1, ref animationComponent, 0.5f);
+            AnimationSystem.UpdateAnimation(1, ref animationComponent, 0.5f);
             
             // Assert.AreEqual(1.5f, animationComponent.playingTime, 0.01f);
             Assert.AreEqual(2f, animationComponent.totalPlayingTime, 0.01f);
@@ -126,5 +128,34 @@ namespace Game.Editor.Tests
             Assert.AreEqual(0, directionalAnimation.animationIndex);
         }
 
+        [Test]
+        public void Test_UpdateAnimation_WrongAnimationIndex()
+        {
+            var animationComponent = new AnimationsComponent();
+            animationComponent.speed = 1;
+            
+            animationComponent.animationsAsset = ScriptableObject.CreateInstance<AnimationsAsset>();
+            animationComponent.animationsAsset.name = "my animation asset";
+            animationComponent.animationsAsset.animations.Add(new AnimationDefinition()
+            {
+                name = "Idle",
+                duration = 1f,
+                frames = new List<AnimationFrame>()
+                {
+                    new AnimationFrame()
+                    {
+                        time = 1f,
+                        sprite = null
+                    }
+                }
+            });
+
+            animationComponent.Play(5);
+            
+            AnimationSystem.UpdateAnimation(1, ref animationComponent, 0.5f);
+            
+            LogAssert.Expect(LogType.Error, new Regex(".*"));
+            Assert.AreEqual(0f, animationComponent.currentTime, 0.01f);
+        }
     }
 }
