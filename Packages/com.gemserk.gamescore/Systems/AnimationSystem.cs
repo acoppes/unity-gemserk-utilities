@@ -171,10 +171,19 @@ namespace Game.Systems
                 var currentAnimation = animations.animationsAsset.animations[animations.currentAnimation];
 
                 animations.currentAnimationDefinition = currentAnimation;
+                
+                
+                // TODO: could set this with a special compilation flag to toggle off once I find the issue?
+                var totalFrames = currentAnimation.TotalFrames;
+                if (animations.currentFrame < 0 || animations.currentFrame >= totalFrames)
+                {
+                    Debug.LogError($"AnimationSystem: wrong frame index for {entity} - {animations.animationsAsset.name} - {animations.currentAnimation} - {animations.currentFrame}");
+                    return;
+                }
 
                 animations.currentTime += animationDt;
                 animations.playingTime += animationDt;
-
+                
                 var currentFrame = currentAnimation.frames[animations.currentFrame];
                 
                 // #if UNITY_EDITOR

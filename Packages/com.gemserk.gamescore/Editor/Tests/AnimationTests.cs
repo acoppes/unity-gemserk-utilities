@@ -154,7 +154,39 @@ namespace Game.Editor.Tests
             
             AnimationSystem.UpdateAnimation(1, ref animationComponent, 0.5f);
             
-            LogAssert.Expect(LogType.Error, new Regex(".*"));
+            LogAssert.Expect(LogType.Error, new Regex(".*wrong animation index.*"));
+            Assert.AreEqual(0f, animationComponent.currentTime, 0.01f);
+        }
+        
+        [Test]
+        public void Test_UpdateAnimation_WrongFrameIndex()
+        {
+            var animationComponent = new AnimationsComponent
+            {
+                speed = 1,
+                animationsAsset = ScriptableObject.CreateInstance<AnimationsAsset>()
+            };
+
+            animationComponent.animationsAsset.name = "my animation asset";
+            animationComponent.animationsAsset.animations.Add(new AnimationDefinition()
+            {
+                name = "Idle",
+                duration = 1f,
+                frames = new List<AnimationFrame>()
+                {
+                    new AnimationFrame()
+                    {
+                        time = 1f,
+                        sprite = null
+                    }
+                }
+            });
+
+            animationComponent.Play(0, 15, -1);
+            
+            AnimationSystem.UpdateAnimation(1, ref animationComponent, 0.5f);
+            
+            LogAssert.Expect(LogType.Error, new Regex(".*wrong frame index.*"));
             Assert.AreEqual(0f, animationComponent.currentTime, 0.01f);
         }
     }
