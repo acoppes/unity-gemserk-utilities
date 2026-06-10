@@ -2,6 +2,7 @@
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
 namespace Game.Systems
 {
@@ -48,8 +49,23 @@ namespace Game.Systems
                 if (copyAnimationCached.animation != animations.currentAnimation || 
                     copyAnimationCached.frame != animations.currentFrame)
                 {
-                    var currentAnimationDefinition = animations.animationsAsset.animations[animations.currentAnimation];
-                    var frame = currentAnimationDefinition.frames[animations.currentFrame];
+                    var totalAnimations = animations.animationsAsset.animations.Count;
+                    if (animations.currentAnimation < 0 || animations.currentAnimation >= totalAnimations)
+                    {
+                        Debug.LogError($"CopyFromAnimationToModelSystem: wrong animation index for {e} - {animations.animationsAsset.name} - {animations.currentAnimation}");
+                        continue;
+                    }
+                    
+                    var currentAnimation = animations.animationsAsset.animations[animations.currentAnimation];
+                    
+                    var totalFrames = currentAnimation.TotalFrames;
+                    if (animations.currentFrame < 0 || animations.currentFrame >= totalFrames)
+                    {
+                        Debug.LogError($"CopyFromAnimationToModelSystem: wrong frame index for {e} - {animations.animationsAsset.name} - {animations.currentAnimation} - {animations.currentFrame}");
+                        continue;
+                    }
+               
+                    var frame = currentAnimation.frames[animations.currentFrame];
                     
                     modelComponent.instance.spriteRenderer.sprite = frame.sprite;
 
