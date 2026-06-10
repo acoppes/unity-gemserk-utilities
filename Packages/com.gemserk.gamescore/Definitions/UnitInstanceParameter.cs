@@ -61,11 +61,7 @@ namespace Game.Definitions
         [Separator("Model")]
         public bool overrideModel;
         [ConditionalField(nameof(overrideModel))]
-        public GameObject modelInstance;
-        [ConditionalField(nameof(overrideModel))]
         public int startingTextureVariant;
-        [ConditionalField(nameof(overrideModel))]
-        public bool overridePositionFromModel;
 
         [Separator("Animation")] 
         public StartingAnimationComponent.StartingAnimationType startingAnimationType = StartingAnimationComponent.StartingAnimationType.None;
@@ -148,20 +144,6 @@ namespace Game.Definitions
                 {
                     ref var remapComponent = ref world.GetComponent<ModelRemapTexturePerPlayerComponent>(entity);
                     remapComponent.textureVariant = startingTextureVariant;
-                }
-                
-                ref var modelComponent = ref world.GetComponent<ModelComponent>(entity);
-
-                if (modelInstance && !modelComponent.prefab)
-                {
-                    modelComponent.instance = modelInstance.GetComponent<Model>();
-
-                    if (overridePositionFromModel)
-                    {
-                        ref var position = ref world.GetComponent<PositionComponent>(entity);
-                        position.value =
-                            GamePerspective.ConvertToWorld(modelInstance.transform.position);
-                    }
                 }
             }
             
