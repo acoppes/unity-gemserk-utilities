@@ -61,7 +61,7 @@ namespace Game.Systems
                     modelShakeComponent.currentOffset = Vector3.zero;
                 }
                 
-                if (modelComponent.instance != null)
+                if (modelComponent.instance && modelComponent.instance.spriteRenderer)
                 {
                     modelComponent.instance.spriteRenderer.transform.localPosition +=
                         modelShakeComponent.currentOffset;
