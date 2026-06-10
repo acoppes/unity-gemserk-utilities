@@ -30,7 +30,7 @@ namespace Gemserk.Utilities.Pooling
         public override void Release(GameObject element)
         {
             var poolInstance = element.GetComponent<GameObjectPool.GameObjectPoolInstance>();
-            if (poolInstance != null && poolInstance.source != null)
+            if (poolInstance && poolInstance.source)
             {
                 var pool = GetOrCreatePool(poolInstance.source);
                 pool.Release(element);

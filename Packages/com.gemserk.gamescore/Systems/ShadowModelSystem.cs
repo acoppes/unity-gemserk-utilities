@@ -74,6 +74,7 @@ namespace Game.Systems
             var positionComponents = world.GetComponents<PositionComponent>();
             
             var modelComponents = world.GetComponents<ModelComponent>();
+            var modeInstanceComponents = world.GetComponents<ModelInstanceComponent>();
             var lookingDirectionComponents = world.GetComponents<LookingDirection>();
             
             foreach (var entity in world.GetFilter<HasShadowComponent>()
@@ -128,7 +129,7 @@ namespace Game.Systems
                 var lookingDirection = lookingDirectionComponents.Get(entity);
                 var positionComponent = positionComponents.Get(entity);
 
-                if (hasShadowComponent.instance == null)
+                if (!hasShadowComponent.instance)
                 {
                     continue;
                 }
@@ -190,33 +191,35 @@ namespace Game.Systems
             }
             
             foreach (var entity in world.GetFilter<HasShadowComponent>()
-                         .Inc<ModelComponent>()
+                         .Inc<ModelInstanceComponent>()
                          .Exc<DisabledComponent>()
                          // .Exc<SpineComponent>()
                          .End())
             {
                 var hasShadowComponent = hasShadowComponents.Get(entity);
-                var modelComponent = modelComponents.Get(entity);
+                var modelInstance = modeInstanceComponents.Get(entity);
 
                 // copy sprite to shadow
                 if (hasShadowComponent.instance != null && hasShadowComponent.copyFromModel)
                 {
-                    hasShadowComponent.instance.shadow.sprite = modelComponent.instance.spriteRenderer.sprite;
+                    hasShadowComponent.instance.shadow.sprite = modelInstance.instance.spriteRenderer.sprite;
                 }
             }
             
             foreach (var entity in world.GetFilter<ShadowComponent>()
                          .Inc<ModelComponent>()
+                         .Inc<ModelInstanceComponent>()
                          .Exc<DisabledComponent>()
                          .End())
             {
                 var shadowComponent = shadowComponents.Get(entity);
                 var modelComponent = modelComponents.Get(entity);
+                var modelInstance = modeInstanceComponents.Get(entity);
 
-                var shadowColor = modelComponent.instance.spriteRenderer.color;
+                var shadowColor = modelInstance.instance.spriteRenderer.color;
                 var opacityByDistance = 1.0f - shadowComponent.distanceToGround;
                 shadowColor.a = baseShadowOpacity * modelComponent.color.a * opacityByDistance;
-                modelComponent.instance.spriteRenderer.color = shadowColor;
+                modelInstance.instance.spriteRenderer.color = shadowColor;
             }
             
             foreach (var entity in world.GetFilter<HasShadowComponent>()

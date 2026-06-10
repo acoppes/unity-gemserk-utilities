@@ -27,6 +27,13 @@ namespace Game.Components
         public bool updated;
     }
 
+    public struct ModelInstanceComponent : IEntityComponent
+    {
+        public Model instance;
+        public GameObject modelGameObject;
+        public bool hasSubModelObject;
+    }
+
     public struct ModelComponent : IEntityComponent
     {
         public enum Visiblity
@@ -50,12 +57,7 @@ namespace Game.Components
         
         public GameObject prefab;
         
-        public Model instance;
-        public GameObject modelGameObject;
         public bool isModelActive;
-
-        // TODO: cache this on creation
-        public bool hasSubModelObject;
 
         public RotationType rotation;
         public bool flipUseRotation;
@@ -103,8 +105,7 @@ namespace Game.Components
                 sortingLayer = SortingLayer.NameToID(sortingLayer),
                 sortingOrder = sortingOrder,
                 flipUseRotation = flipUseRotation,
-                fixedRotationAngles = fixedRotationAngles,
-                instance = null
+                fixedRotationAngles = fixedRotationAngles
             });
         }
     }

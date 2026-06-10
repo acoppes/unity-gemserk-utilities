@@ -87,7 +87,7 @@ namespace Game.Triggers
                         }
                         else
                         {
-                            var modelComponent = world.GetComponent<ModelComponent>(entity);
+                            var modelComponent = world.GetComponent<ModelInstanceComponent>(entity);
                     
                             if (!useModel)
                             {
@@ -143,7 +143,7 @@ namespace Game.Triggers
                         }
                         else
                         {
-                            var modelComponent = world.GetComponent<ModelComponent>(entity);
+                            var modelComponent = world.GetComponent<ModelInstanceComponent>(entity);
                     
                             if (!useModel)
                             {

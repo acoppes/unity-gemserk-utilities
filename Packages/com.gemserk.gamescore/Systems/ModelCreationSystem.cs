@@ -11,8 +11,8 @@ namespace Game.Systems
     public class ModelCreationSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler, IEntityDestroyedHandler,
         IEcsInitSystem
     {
-        readonly EcsFilterInject<Inc<ModelComponent>, Exc<ModelEnabledComponent, DisabledComponent>> filter = default;
-        readonly EcsFilterInject<Inc<ModelComponent, ModelEnabledComponent, DisabledComponent>> disabledFilter = default;
+        readonly EcsFilterInject<Inc<ModelComponent>, Exc<ModelInstanceComponent, DisabledComponent>> filter = default;
+        readonly EcsFilterInject<Inc<ModelComponent, ModelInstanceComponent, ModelEnabledComponent, DisabledComponent>> disabledFilter = default;
         
         private GameObjectPoolMap poolMap;
 
@@ -34,14 +34,15 @@ namespace Game.Systems
             foreach (var e in disabledFilter.Value)
             {
                 ref var model = ref disabledFilter.Pools.Inc1.Get(e);
+                var modelInstance = disabledFilter.Pools.Inc2.Get(e);
                 
-                if (model.modelGameObject != null && model.isModelActive)
+                if (modelInstance.modelGameObject && model.isModelActive)
                 {
-                    model.modelGameObject.SetActive(false);
+                    modelInstance.modelGameObject.SetActive(false);
                     model.isModelActive = false;
                 }
                 
-                disabledFilter.Pools.Inc2.Del(e);
+                disabledFilter.Pools.Inc3.Del(e);
                 // world.RemoveComponent<ModelEnabledComponent>(e);
             }
             
@@ -50,43 +51,54 @@ namespace Game.Systems
 
         private void CreateModel(int entity, ref ModelComponent model)
         {
-            if (model.prefab && !model.modelGameObject)
+            if (!model.prefab)
             {
-                model.modelGameObject = poolMap.Get(model.prefab);
-
-                if (!model.modelGameObject.HasComponent<EntityReference>())
-                {
-                    model.modelGameObject.AddComponent<EntityReference>();
-                }
-                    
-                var entityReference = model.modelGameObject.GetComponent<EntityReference>();
-                entityReference.entity = world.GetEntity(entity);
-
-                model.instance = model.modelGameObject.GetComponent<Model>();
-                model.hasSubModelObject = model.instance.model;
-                
-                model.modelGameObject.SetActive(true);
-                model.isModelActive = true;
-                
-                world.AddComponent(entity, new ModelEnabledComponent());
-
-                if (model.instance.sortingGroup)
-                {
-                    world.AddComponent(entity, new ModelSortingGroupComponent()
-                    {
-                        sortingGroup = model.instance.sortingGroup,
-                        layer = model.sortingLayer,
-                        order = model.sortingOrder,
-                        updated = false
-                    });
-                }
+                return;
             }
+
+            // if (world.HasComponent<ModelInstanceComponent>(entity))
+            // {
+            //     return;
+            // }
+
+            var modelInstance = new ModelInstanceComponent();
+            
+            modelInstance.modelGameObject = poolMap.Get(model.prefab);
+
+            if (!modelInstance.modelGameObject.HasComponent<EntityReference>())
+            {
+                modelInstance.modelGameObject.AddComponent<EntityReference>();
+            }
+                    
+            var entityReference = modelInstance.modelGameObject.GetComponent<EntityReference>();
+            entityReference.entity = world.GetEntity(entity);
+
+            modelInstance.instance = modelInstance.modelGameObject.GetComponent<Model>();
+            modelInstance.hasSubModelObject = modelInstance.instance.model;
+            
+            if (modelInstance.instance.sortingGroup)
+            {
+                world.AddComponent(entity, new ModelSortingGroupComponent()
+                {
+                    sortingGroup = modelInstance.instance.sortingGroup,
+                    layer = model.sortingLayer,
+                    order = model.sortingOrder,
+                    updated = false
+                });
+            }
+            
+            modelInstance.modelGameObject.SetActive(true);
+            model.isModelActive = true;
+            
+            world.AddComponent(entity, new ModelEnabledComponent());
+            world.AddComponent(entity, modelInstance);
         }
         
         public void OnEntityCreated(World world, Entity entity)
         {
             var modelComponents = world.GetComponents<ModelComponent>();
-            if (modelComponents.Has(entity))
+            var modelInstanceComponents = world.GetComponents<ModelInstanceComponent>();
+            if (modelComponents.Has(entity) && !modelInstanceComponents.Has(entity))
             {
                 ref var model = ref modelComponents.Get(entity);
                 CreateModel(entity, ref model);
@@ -95,10 +107,10 @@ namespace Game.Systems
 
         public void OnEntityDestroyed(World world, Entity entity)
         {
-            var modelComponents = world.GetComponents<ModelComponent>();
-            if (modelComponents.Has(entity))
+            var modelInstanceComponents = world.GetComponents<ModelInstanceComponent>();
+            if (modelInstanceComponents.Has(entity))
             {
-                ref var model = ref modelComponents.Get(entity);
+                ref var model = ref modelInstanceComponents.Get(entity);
                 if (model.instance)
                 {
                     model.instance.ResetModel();
@@ -106,7 +118,6 @@ namespace Game.Systems
                 }
                 model.instance = null;
                 model.modelGameObject = null;
-                model.isModelActive = false;
             }
         }
 

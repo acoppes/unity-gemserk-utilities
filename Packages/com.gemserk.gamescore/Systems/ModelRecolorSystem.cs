@@ -8,7 +8,7 @@ namespace Game.Systems
 {
     public class ModelRecolorSystem : BaseSystem, IEcsRunSystem
     {
-        readonly EcsFilterInject<Inc<ModelComponent, ModelRemapTexturePerPlayerComponent>, Exc<DisabledComponent>> filter = default;
+        readonly EcsFilterInject<Inc<ModelInstanceComponent, ModelRemapTexturePerPlayerComponent>, Exc<DisabledComponent>> filter = default;
         
         public void Run(EcsSystems systems)
         {
@@ -17,7 +17,7 @@ namespace Game.Systems
                 var modelComponent = filter.Pools.Inc1.Get(e);
                 var remapTexturePerPlayerComponent = filter.Pools.Inc2.Get(e);
 
-                if (modelComponent.instance.remapShader != null && remapTexturePerPlayerComponent.remapTexturesPerPlayer.Length > 0)
+                if (modelComponent.instance.remapShader && remapTexturePerPlayerComponent.remapTexturesPerPlayer.Length > 0)
                 {
                     modelComponent.instance.remapShader.lutTexture = 
                         remapTexturePerPlayerComponent.remapTexturesPerPlayer.GetItemOrLast(remapTexturePerPlayerComponent.textureVariant);

@@ -10,20 +10,20 @@ namespace Game.Systems
 {
     public class ModelUpdateSystem : BaseSystem, IEcsRunSystem
     {
-        readonly EcsFilterInject<Inc<ModelComponent>, Exc<DisabledComponent>> modelFilter = default;
+        readonly EcsFilterInject<Inc<ModelComponent, ModelInstanceComponent>, Exc<DisabledComponent>> modelFilter = default;
         
-        readonly EcsFilterInject<Inc<ModelComponent>, Exc<DisabledComponent, ModelSortingGroupComponent>> modelWithoutSortingFilter = default;
+        readonly EcsFilterInject<Inc<ModelComponent, ModelInstanceComponent>, Exc<DisabledComponent, ModelSortingGroupComponent>> modelWithoutSortingFilter = default;
         readonly EcsFilterInject<Inc<ModelComponent, ModelSortingGroupComponent>, Exc<DisabledComponent>> modelWithSortingFilter = default;
         
-        readonly EcsFilterInject<Inc<ModelComponent, PositionComponent>, Exc<DisabledComponent, ModelStaticProcessedComponent>> positionFilter = default;
+        readonly EcsFilterInject<Inc<ModelInstanceComponent, PositionComponent>, Exc<DisabledComponent, ModelStaticProcessedComponent>> positionFilter = default;
         
-        readonly EcsFilterInject<Inc<ModelComponent, PositionComponent, LookingDirection>, Exc<DisabledComponent>> 
+        readonly EcsFilterInject<Inc<ModelComponent, ModelInstanceComponent, PositionComponent, LookingDirection>, Exc<DisabledComponent>> 
             modelAllFilter = default;
         
-        readonly EcsFilterInject<Inc<ModelComponent, ModelInterpolationComponent>, Exc<DisabledComponent, ModelStaticProcessedComponent>> 
+        readonly EcsFilterInject<Inc<ModelInstanceComponent, ModelInterpolationComponent>, Exc<DisabledComponent, ModelStaticProcessedComponent>> 
             modelInterpolationFilter = default;
         
-        readonly EcsFilterInject<Inc<ModelComponent, DisabledComponent>> 
+        readonly EcsFilterInject<Inc<ModelComponent, ModelInstanceComponent, DisabledComponent>> 
             disabledFilter = default;
         
         readonly EcsFilterInject<Inc<StaticObjectComponent>, Exc< DisabledComponent, ModelStaticProcessedComponent>> 
@@ -34,30 +34,30 @@ namespace Game.Systems
             foreach (var entity in modelFilter.Value)
             {
                 ref var modelComponent = ref modelFilter.Pools.Inc1.Get(entity);
-
-                var model = modelComponent.instance;
+                ref var modelInstance = ref modelFilter.Pools.Inc2.Get(entity);
                 
                 if (!modelComponent.isModelActive && modelComponent.IsVisible)
                 {
-                    modelComponent.modelGameObject.SetActive(true);
+                    modelInstance.modelGameObject.SetActive(true);
                     modelComponent.isModelActive = true;
                 } else if (modelComponent.isModelActive && !modelComponent.IsVisible)
                 {
-                    modelComponent.modelGameObject.SetActive(false);
+                    modelInstance.modelGameObject.SetActive(false);
                     modelComponent.isModelActive = false;
                     continue;
                 }
                 
-                if (model.hasSpriteRenderer)
+                if (modelInstance.instance.hasSpriteRenderer)
                 {
-                    model.spriteRenderer.color = modelComponent.color;
+                    modelInstance.instance.spriteRenderer.color = modelComponent.color;
                 }
             }
             
             foreach (var entity in modelWithoutSortingFilter.Value)
             {
                 ref var modelComponent = ref modelWithoutSortingFilter.Pools.Inc1.Get(entity);
-            
+                ref var modelInstance = ref modelWithoutSortingFilter.Pools.Inc2.Get(entity);
+                
                 // For now will assume we don't want to update sorting all the time.
                 if (modelComponent.sortingUpdated)
                 {
@@ -66,7 +66,7 @@ namespace Game.Systems
                 
                 if (modelComponent.sortingLayerType == ModelComponent.SortingLayerType.CopyFromComponent)
                 {
-                    var model = modelComponent.instance;
+                    var model = modelInstance.instance;
                     model.spriteRenderer.sortingOrder = modelComponent.sortingOrder;
                     model.spriteRenderer.sortingLayerID = modelComponent.sortingLayer;
                     modelComponent.sortingUpdated = true;
@@ -86,32 +86,29 @@ namespace Game.Systems
                 if (modelComponent.sortingLayerType == ModelComponent.SortingLayerType.CopyFromComponent)
                 {
                     // For now will assume we don't want to update sorting all the time.
-                    if (!modelSortingGroupComponent.updated)
-                    {
-                        modelSortingGroupComponent.sortingGroup.sortingOrder = modelSortingGroupComponent.order;
-                        modelSortingGroupComponent.sortingGroup.sortingLayerID = modelSortingGroupComponent.layer;
-                        modelSortingGroupComponent.updated = true;
-                    }
+                    modelSortingGroupComponent.sortingGroup.sortingOrder = modelSortingGroupComponent.order;
+                    modelSortingGroupComponent.sortingGroup.sortingLayerID = modelSortingGroupComponent.layer;
+                    modelSortingGroupComponent.updated = true;
                 }
             }
             
             foreach (var entity in positionFilter.Value)
             {
-                ref var modelComponent = ref positionFilter.Pools.Inc1.Get(entity);
+                ref var modelInstance = ref positionFilter.Pools.Inc1.Get(entity);
                 var positionComponent = positionFilter.Pools.Inc2.Get(entity);
 
                 if (positionComponent.type == 0)
                 {
                     var position = GamePerspective.ConvertFromWorld(positionComponent.value);
                     
-                    if (modelComponent.hasSubModelObject)
+                    if (modelInstance.hasSubModelObject)
                     {
-                        modelComponent.instance.cachedTransform.position = new Vector3(position.x, position.y, 0);
-                        modelComponent.instance.model.localPosition = new Vector3(0, position.z, 0);
+                        modelInstance.instance.cachedTransform.position = new Vector3(position.x, position.y, 0);
+                        modelInstance.instance.model.localPosition = new Vector3(0, position.z, 0);
                     }
                     else
                     {
-                        modelComponent.instance.cachedTransform.position =
+                        modelInstance.instance.cachedTransform.position =
                             new Vector3(position.x, position.y + position.z, 0);
                     }
                 }
@@ -119,45 +116,44 @@ namespace Game.Systems
                 {
                     var position = positionComponent.value;
                     
-                    if (modelComponent.hasSubModelObject)
+                    if (modelInstance.hasSubModelObject)
                     {
-                        modelComponent.instance.cachedTransform.position = new Vector3(position.x, 0, position.z);
-                        modelComponent.instance.model.localPosition = new Vector3(0, position.y, 0);
+                        modelInstance.instance.cachedTransform.position = new Vector3(position.x, 0, position.z);
+                        modelInstance.instance.model.localPosition = new Vector3(0, position.y, 0);
                     }
                     else
                     {
-                        modelComponent.instance.cachedTransform.position = position;
+                        modelInstance.instance.cachedTransform.position = position;
                     }
                 }
             }
 
             foreach (var entity in modelInterpolationFilter.Value)
             {
-                ref var modelComponent = ref modelInterpolationFilter.Pools.Inc1.Get(entity);
+                ref var modelInstance = ref modelInterpolationFilter.Pools.Inc1.Get(entity);
                 var interpolationComponent = modelInterpolationFilter.Pools.Inc2.Get(entity);
 
                 var position = interpolationComponent.position;
                 
-                if (modelComponent.hasSubModelObject)
+                if (modelInstance.hasSubModelObject)
                 {
-                    modelComponent.instance.cachedTransform.position = new Vector3(position.x, position.y, 0);
-                    modelComponent.instance.model.localPosition = new Vector3(0, position.z, 0);
+                    modelInstance.instance.cachedTransform.position = new Vector3(position.x, position.y, 0);
+                    modelInstance.instance.model.localPosition = new Vector3(0, position.z, 0);
                 }
                 else
                 {
-                    modelComponent.instance.cachedTransform.position = new Vector3(position.x, position.y + position.z, 0);
+                    modelInstance.instance.cachedTransform.position = new Vector3(position.x, position.y + position.z, 0);
                 }
             }
 
             foreach (var entity in modelAllFilter.Value)
             {
                 var modelComponent = modelAllFilter.Pools.Inc1.Get(entity);
-                var positionComponent = modelAllFilter.Pools.Inc2.Get(entity);
-                var lookingDirection = modelAllFilter.Pools.Inc3.Get(entity);
+                ref var modelInstance = ref modelAllFilter.Pools.Inc2.Get(entity);
+                var positionComponent = modelAllFilter.Pools.Inc3.Get(entity);
+                var lookingDirection = modelAllFilter.Pools.Inc4.Get(entity);
                 
-                var modelInstance = modelComponent.instance;
-
-                var modelTransform = modelInstance.cachedTransform;
+                var modelTransform = modelInstance.instance.cachedTransform;
 
                 var scale = modelTransform.localScale;
 
@@ -181,7 +177,7 @@ namespace Game.Systems
                         
                         modelTransform.localScale = scale;
 
-                        modelComponent.instance.model.localEulerAngles = Vector3.zero;
+                        modelInstance.instance.model.localEulerAngles = Vector3.zero;
                     }
                     else
                     {
@@ -201,7 +197,7 @@ namespace Game.Systems
 
                     var angle = Vector2.SignedAngle(Vector2.right, p1 - p0);
                     
-                    var objectModel = modelComponent.instance;
+                    var objectModel = modelInstance.instance;
 
                     var t = objectModel.model;
 
@@ -225,11 +221,13 @@ namespace Game.Systems
             foreach (var entity in disabledFilter.Value)
             {
                 var modelComponent = disabledFilter.Pools.Inc1.Get(entity);
-                if (modelComponent.modelGameObject != null)
+                var modelInstance = disabledFilter.Pools.Inc2.Get(entity);
+                
+                if (modelInstance.modelGameObject)
                 {
                     if (modelComponent.isModelActive)
                     {
-                        modelComponent.modelGameObject.SetActive(false);
+                        modelInstance.modelGameObject.SetActive(false);
                         modelComponent.isModelActive = false;
                     }
                 }

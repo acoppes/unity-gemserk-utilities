@@ -12,7 +12,7 @@ namespace Game.Systems
     public class BillboardsSystem : BaseSystem, IEcsRunSystem
     {
         readonly EcsFilterInject<Inc<BillboardComponent, PositionComponent>, Exc<DisabledComponent>> filter = default;
-        readonly EcsFilterInject<Inc<BillboardComponent, ModelComponent>, Exc<DisabledComponent>> modelFilter = default;
+        readonly EcsFilterInject<Inc<BillboardComponent, ModelInstanceComponent>, Exc<DisabledComponent>> modelFilter = default;
 
         public void Run(EcsSystems systems)
         {

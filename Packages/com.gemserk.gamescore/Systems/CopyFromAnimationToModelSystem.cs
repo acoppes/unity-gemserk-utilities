@@ -15,7 +15,7 @@ namespace Game.Systems
     
     public class CopyFromAnimationToModelSystem : BaseSystem, IEcsRunSystem, IEntityCreatedHandler
     {
-        readonly EcsFilterInject<Inc<AnimationsComponent, ModelComponent, CopyAnimationCacheComponent>, Exc<DisabledComponent>> filter = default;
+        readonly EcsFilterInject<Inc<AnimationsComponent, ModelInstanceComponent, CopyAnimationCacheComponent>, Exc<DisabledComponent>> filter = default;
         
         public void OnEntityCreated(World world, Entity entity)
         {

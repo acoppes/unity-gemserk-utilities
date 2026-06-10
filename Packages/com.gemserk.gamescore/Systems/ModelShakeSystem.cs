@@ -16,17 +16,17 @@ namespace Game.Systems
         
         public void Run(EcsSystems systems)
         {
-            var modelComponents = world.GetComponents<ModelComponent>();
+            var modelInstanceComponents = world.GetComponents<ModelInstanceComponent>();
             var modelShakeComponents = world.GetComponents<ModelShakeComponent>();
 
             var dt = Time.deltaTime;
 
-            foreach (var entity in world.GetFilter<ModelComponent>()
-                         .Inc<ModelShakeComponent>()
+            foreach (var entity in world.GetFilter<ModelShakeComponent>()
+                         .Inc<ModelInstanceComponent>()
                          .Exc<DisabledComponent>()
                          .End())
             {
-                ref var modelComponent = ref modelComponents.Get(entity);
+                ref var modelInstance = ref modelInstanceComponents.Get(entity);
                 ref var modelShakeComponent = ref modelShakeComponents.Get(entity);
 
                 modelShakeComponent.time += dt;
@@ -61,9 +61,9 @@ namespace Game.Systems
                     modelShakeComponent.currentOffset = Vector3.zero;
                 }
                 
-                if (modelComponent.instance && modelComponent.instance.spriteRenderer)
+                if (modelInstance.instance && modelInstance.instance.spriteRenderer)
                 {
-                    modelComponent.instance.spriteRenderer.transform.localPosition +=
+                    modelInstance.instance.spriteRenderer.transform.localPosition +=
                         modelShakeComponent.currentOffset;
                 }
             }
