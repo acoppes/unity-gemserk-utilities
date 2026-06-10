@@ -5,7 +5,6 @@ using Gemserk.Utilities.Pooling;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using MyBox;
-using UnityEngine.Profiling;
 
 namespace Game.Systems
 {
@@ -100,7 +99,7 @@ namespace Game.Systems
             if (modelComponents.Has(entity))
             {
                 ref var model = ref modelComponents.Get(entity);
-                if (model.instance != null)
+                if (model.instance)
                 {
                     model.instance.ResetModel();
                     poolMap.Release(model.modelGameObject);

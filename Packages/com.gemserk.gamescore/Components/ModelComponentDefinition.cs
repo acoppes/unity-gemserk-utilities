@@ -103,7 +103,8 @@ namespace Game.Components
                 sortingLayer = SortingLayer.NameToID(sortingLayer),
                 sortingOrder = sortingOrder,
                 flipUseRotation = flipUseRotation,
-                fixedRotationAngles = fixedRotationAngles
+                fixedRotationAngles = fixedRotationAngles,
+                instance = null
             });
         }
     }

@@ -152,7 +152,7 @@ namespace Game.Definitions
                 
                 ref var modelComponent = ref world.GetComponent<ModelComponent>(entity);
 
-                if (modelInstance != null && modelComponent.prefab == null)
+                if (modelInstance && !modelComponent.prefab)
                 {
                     modelComponent.instance = modelInstance.GetComponent<Model>();
 
