@@ -187,6 +187,8 @@ namespace Game.Components
         public AnimationsAsset animationsAsset;
         public SpritesMetadata metadata;
 
+        public string lastPlayedAnimationNameForDebug;
+        
         public int currentAnimation;
         public AnimationDefinition currentAnimationDefinition;
         
@@ -251,6 +253,8 @@ namespace Game.Components
             state = State.Playing;
             
             // onStartEventPending = true;
+
+            lastPlayedAnimationNameForDebug = null;
         }
         
         public void Play(int animation, int loops = -1)
@@ -263,6 +267,8 @@ namespace Game.Components
             var animationIndex = cachedAnimations[animation];
             // Assert.IsTrue(animationIndex >= 0, $"Couldn't find {animation}");
             Play(animationIndex, loops);
+
+            lastPlayedAnimationNameForDebug = animation;
 
             // pendingCommand = new AnimationCommand
             // {

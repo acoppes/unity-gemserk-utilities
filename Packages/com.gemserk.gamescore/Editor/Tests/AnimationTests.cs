@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using Game.Components;
 using Game.Definitions;
 using Game.Systems;
+using Gemserk.Leopotam.Ecs;
 using Gemserk.Utilities;
 using NUnit.Framework;
 using UnityEngine;
@@ -12,6 +13,29 @@ namespace Game.Editor.Tests
 {
     public class AnimationTests
     {
+        private World world;
+        
+        [SetUp]
+        public void BeforeEach()
+        {
+            var gameObject = new GameObject("~TestWorldObject");
+            world = gameObject.AddComponent<World>();
+            
+            gameObject.AddComponent<AnimationSystem>();
+            
+            world.fixedUpdateParent = world.transform;
+            
+            world.Awake();
+        }
+        
+        [TearDown]
+        public void AfterEach()
+        {
+            world.OnDestroy();
+            Object.DestroyImmediate(world.gameObject);
+            world = null;
+        }
+        
         [Test]
         public void Test_TotalAnimationTime_IgnorePause()
         {
@@ -161,33 +185,41 @@ namespace Game.Editor.Tests
         [Test]
         public void Test_UpdateAnimation_WrongFrameIndex()
         {
-            var animationComponent = new AnimationsComponent
+            var entity = world.CreateEntity(null, null, e =>
             {
-                speed = 1,
-                animationsAsset = ScriptableObject.CreateInstance<AnimationsAsset>()
-            };
-
-            animationComponent.animationsAsset.name = "my animation asset";
-            animationComponent.animationsAsset.animations.Add(new AnimationDefinition()
-            {
-                name = "Idle",
-                duration = 1f,
-                frames = new List<AnimationFrame>()
+                var animationComponent = new AnimationsComponent
                 {
-                    new AnimationFrame()
+                    speed = 1,
+                    animationsAsset = ScriptableObject.CreateInstance<AnimationsAsset>()
+                };
+
+                animationComponent.animationsAsset.name = "my animation asset";
+                animationComponent.animationsAsset.animations.Add(new AnimationDefinition()
+                {
+                    name = "Idle",
+                    duration = 1f,
+                    frames = new List<AnimationFrame>()
                     {
-                        time = 1f,
-                        sprite = null
+                        new AnimationFrame()
+                        {
+                            time = 1f,
+                            sprite = null
+                        }
                     }
-                }
+                });
+
+                e.Add(animationComponent);
             });
 
-            animationComponent.Play(0, 15, -1);
+            entity.Get<AnimationsComponent>().Play("Idle");
+            entity.Get<AnimationsComponent>().currentFrame = 15;
             
-            AnimationSystem.UpdateAnimation(1, ref animationComponent, 0.5f);
+            world.FixedUpdate();
+            
+            // AnimationSystem.UpdateAnimation(1, ref animationComponent, 0.5f);
             
             LogAssert.Expect(LogType.Error, new Regex(".*wrong frame index.*"));
-            Assert.AreEqual(0f, animationComponent.currentTime, 0.01f);
+            Assert.AreEqual(0f, entity.Get<AnimationsComponent>().currentTime, 0.01f);
         }
     }
 }

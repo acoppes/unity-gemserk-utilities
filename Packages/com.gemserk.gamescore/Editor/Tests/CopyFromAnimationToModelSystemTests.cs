@@ -19,10 +19,18 @@ namespace Game.Editor.Tests
         {
             var gameObject = new GameObject("~TestWorldObject");
             world = gameObject.AddComponent<World>();
+
+            var fixedUpdate = new GameObject();
+            fixedUpdate.transform.SetParent(gameObject.transform);
             
-            gameObject.AddComponent<CopyFromAnimationToModelSystem>();
+            var lateUpdate = new GameObject();
+            lateUpdate.transform.SetParent(gameObject.transform);
             
-            world.fixedUpdateParent = world.transform;
+            fixedUpdate.AddComponent<AnimationSystem>();
+            lateUpdate.AddComponent<CopyFromAnimationToModelSystem>();
+            
+            world.fixedUpdateParent = fixedUpdate.transform;
+            world.lateUpdateParent = lateUpdate.transform;
             
             world.Awake();
         }
@@ -72,7 +80,7 @@ namespace Game.Editor.Tests
                 });
             });
             
-            world.FixedUpdate();
+            world.LateUpdate();
             
             LogAssert.Expect(LogType.Error, new Regex(".*wrong animation index.*"));
         }
@@ -96,25 +104,26 @@ namespace Game.Editor.Tests
                 }
             });
             
-            world.CreateEntity(null, null, entity =>
+            var entity = world.CreateEntity(null, null, e =>
             {
-                entity.Add(new AnimationsComponent()
+                e.Add(new AnimationsComponent()
                 {
-                    animationsAsset = animationsAsset,
-                    currentAnimation = 0,
-                    currentFrame = 100
+                    animationsAsset = animationsAsset
                 });
-                entity.Add(new ModelInstanceComponent()
+                e.Add(new ModelInstanceComponent()
                 {
                 });
-                entity.Add(new CopyAnimationCacheComponent()
+                e.Add(new CopyAnimationCacheComponent()
                 {
                     animation = -1,
                     frame = -1
                 });
             });
             
-            world.FixedUpdate();
+            entity.Get<AnimationsComponent>().Play("Idle");
+            entity.Get<AnimationsComponent>().currentFrame = 15;
+            
+            world.LateUpdate();
             
             LogAssert.Expect(LogType.Error, new Regex(".*wrong frame index.*"));
         }

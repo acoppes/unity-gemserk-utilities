@@ -52,7 +52,7 @@ namespace Game.Systems
                     var totalAnimations = animations.animationsAsset.animations.Count;
                     if (animations.currentAnimation < 0 || animations.currentAnimation >= totalAnimations)
                     {
-                        Debug.LogError($"CopyFromAnimationToModelSystem: wrong animation index for {e} - {animations.animationsAsset.name} - {animations.currentAnimation}");
+                        Debug.LogError($"CopyFromAnimationToModelSystem: wrong animation index for {e} - {animations.animationsAsset.name} - {animations.currentAnimation} - {animations.lastPlayedAnimationNameForDebug}");
                         continue;
                     }
                     
@@ -61,7 +61,7 @@ namespace Game.Systems
                     var totalFrames = currentAnimation.TotalFrames;
                     if (animations.currentFrame < 0 || animations.currentFrame >= totalFrames)
                     {
-                        Debug.LogError($"CopyFromAnimationToModelSystem: wrong frame index for {e} - {animations.animationsAsset.name} - {animations.currentAnimation} - {animations.currentFrame}");
+                        Debug.LogError($"CopyFromAnimationToModelSystem: wrong frame index for {e} - {animations.animationsAsset.name} - {animations.currentAnimation} - {animations.currentFrame} - {animations.lastPlayedAnimationNameForDebug}");
                         continue;
                     }
                

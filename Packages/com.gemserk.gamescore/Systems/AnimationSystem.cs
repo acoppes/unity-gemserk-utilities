@@ -164,7 +164,7 @@ namespace Game.Systems
                 var totalAnimations = animations.animationsAsset.animations.Count;
                 if (animations.currentAnimation < 0 || animations.currentAnimation >= totalAnimations)
                 {
-                    Debug.LogError($"AnimationSystem: wrong animation index for {entity} - {animations.animationsAsset.name} - {animations.currentAnimation}");
+                    Debug.LogError($"AnimationSystem: wrong animation index for {entity} - {animations.animationsAsset.name} - {animations.currentAnimation} - {animations.lastPlayedAnimationNameForDebug}");
                     return;
                 }
 
@@ -177,7 +177,7 @@ namespace Game.Systems
                 var totalFrames = currentAnimation.TotalFrames;
                 if (animations.currentFrame < 0 || animations.currentFrame >= totalFrames)
                 {
-                    Debug.LogError($"AnimationSystem: wrong frame index for {entity} - {animations.animationsAsset.name} - {animations.currentAnimation} - {animations.currentFrame}");
+                    Debug.LogError($"AnimationSystem: wrong frame index for {entity} - {animations.animationsAsset.name} - {animations.currentAnimation} - {animations.currentFrame} - {animations.lastPlayedAnimationNameForDebug}");
                     return;
                 }
 
