@@ -51,9 +51,13 @@ namespace Gemserk.Utilities.UI
                 }
             }
         }
-
+        
+        [ContextMenu("Open")]
         public void Open()
         {
+            if (!Application.isPlaying)
+                return;
+            
             Open(true);
         }
         
@@ -89,8 +93,12 @@ namespace Gemserk.Utilities.UI
             }
         }
         
+        [ContextMenu("Close")]
         public void Close()
         {
+            if (!Application.isPlaying)
+                return;
+            
             Close(true);
         }
 
