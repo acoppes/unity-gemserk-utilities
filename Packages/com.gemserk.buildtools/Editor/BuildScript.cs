@@ -101,10 +101,16 @@ namespace Gemserk.BuildTools.Editor
                 AssetDatabaseExt.FindAssets<BuildConfiguration>().FirstOrDefault(b => 
                     b.name.Equals(projectName, StringComparison.OrdinalIgnoreCase));
 
-            if (buildConfiguration == null)
+            if (!buildConfiguration)
             {
                 Debug.Log($"BUILD FAILED: missing build configuration named {projectName}");
                 EditorApplication.Exit(1);
+                return;
+            }
+            
+            if (buildConfiguration.forceCopyPdbFiles)
+            {
+                EditorUserBuildSettings.SetPlatformSettings("Standalone", "CopyPDBFiles", true.ToString());
             }
             
             buildConfiguration.Load();

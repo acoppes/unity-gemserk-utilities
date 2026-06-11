@@ -14,6 +14,8 @@ namespace Gemserk.BuildTools
         public int defaultWebScreenWidth;
         public int defaultWebScreenHeight;
 
+        public bool forceCopyPdbFiles = true;
+
 #if UNITY_EDITOR
         // public string[] scenes;
         public List<UnityEditor.SceneAsset> sceneAssets = new List<UnityEditor.SceneAsset>();
