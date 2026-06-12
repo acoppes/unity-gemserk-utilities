@@ -9,7 +9,7 @@ namespace Gemserk.Utilities.UI
         
         public void OnMove(AxisEventData eventData)
         {
-            delegateObject.GetComponent<IMoveHandler>().OnMove(eventData);
+            ExecuteEvents.ExecuteHierarchy(delegateObject, eventData, ExecuteEvents.moveHandler);
         }
     }
 }
