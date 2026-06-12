@@ -5,7 +5,7 @@ namespace Gemserk.Utilities.UI
 {
     public class CanvasToolsDelegate : MonoBehaviour
     {
-        public void ForceRefresh()
+        public static void ForceRefreshAll()
         {
 #if UNITY_6000_4_OR_NEWER
             var graphicsArray = FindObjectsByType<Graphic>(FindObjectsInactive.Include);
@@ -17,6 +17,11 @@ namespace Gemserk.Utilities.UI
             {
                 graphic.SetAllDirty();
             }
+        }
+        
+        public void ForceRefresh()
+        {
+            ForceRefreshAll();
         }
 
     }
