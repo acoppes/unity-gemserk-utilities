@@ -17,7 +17,7 @@ namespace Game.Systems
         
         public void Init(EcsSystems systems)
         {
-            if (worldCamera == null)
+            if (!worldCamera)
             {
                 worldCamera = GameObject.FindWithTag("WorldCamera").GetComponent<Camera>();
             }
