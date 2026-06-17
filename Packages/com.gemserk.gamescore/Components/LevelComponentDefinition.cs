@@ -11,11 +11,11 @@ namespace Game.Components
         public int previous;
         public int next;
 
-        public int levelUpDifference => current - previous;
+        // public int levelUpDifference => current - previous;
 
         public int visibleLevel => current + 1;
 
-        public bool levelUpLastFrame;
+        // public bool levelUpLastFrame;
 
         public bool IsMaxLevel => current == max - 1;
 
@@ -23,6 +23,11 @@ namespace Game.Components
         {
             next = current + levels;
         }
+    }
+    
+    public struct LevelChangedEventComponent : IEventComponent
+    {
+        
     }
     
     public class LevelComponentDefinition : ComponentDefinitionBase

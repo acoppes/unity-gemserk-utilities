@@ -14,7 +14,7 @@ namespace Game.Systems
     
     public class OnLevelUpEventControllerSystem : BaseSystem, IEcsRunSystem
     {
-        readonly EcsFilterInject<Inc<ControllerComponent, LevelComponent>, Exc<DisabledComponent>>
+        readonly EcsFilterInject<Inc<ControllerComponent, LevelChangedEventComponent>, Exc<DisabledComponent>>
             filter = default;
 
         public void Run(EcsSystems systems)
@@ -22,12 +22,6 @@ namespace Game.Systems
             foreach (var e in filter.Value)
             {
                 ref var controllers = ref filter.Pools.Inc1.Get(e);
-                ref var level = ref filter.Pools.Inc2.Get(e);
-
-                if (!level.levelUpLastFrame)
-                {
-                    continue;
-                }
 
                 foreach (var controller in controllers.controllers)
                 {

@@ -8,17 +8,23 @@ namespace Game.Systems
 {
     public class LevelUpSystem : BaseSystem, IEcsRunSystem
     {
+        readonly EcsFilterInject<Inc<LevelChangedEventComponent>> eventsFilter = default;
         readonly EcsFilterInject<Inc<LevelComponent>, Exc<DisabledComponent>> filter = default;
         
         public SignalAsset onLevelUpSignal;
         
         public void Run(EcsSystems systems)
         {
+            foreach (var e in eventsFilter.Value)
+            {
+                eventsFilter.Pools.Inc1.Del(e);
+            }
+
             foreach (var entity in filter.Value)
             {
                 ref var level = ref filter.Pools.Inc1.Get(entity);
 
-                level.levelUpLastFrame = false;
+                // level.levelUpLastFrame = false;
                 
                 if (level.next >= level.max)
                 {
@@ -31,7 +37,9 @@ namespace Game.Systems
                     level.previous = level.current;
                     level.current = level.next;
                     
-                    level.levelUpLastFrame = true;
+                    // level.levelUpLastFrame = true;
+
+                    world.AddComponent(entity, new LevelChangedEventComponent());
 
                     if (onLevelUpSignal)
                     {
