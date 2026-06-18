@@ -1,13 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using Game.Components;
-using Game.Definitions;
+﻿using Game.Components;
 using Game.Systems;
 using Gemserk.Leopotam.Ecs;
-using Gemserk.Utilities;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Game.Editor.Tests
 {
