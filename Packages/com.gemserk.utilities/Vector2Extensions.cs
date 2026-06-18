@@ -45,5 +45,10 @@ namespace Gemserk.Utilities
                 y = Mathf.Clamp(v.y, -size.y * 0.5f, size.y * 0.5f)
             };
         }
+        
+        public static Vector2 RoundToDpi(this Vector2 v, float dpi = 1f)
+        {
+            return new Vector2(Mathf.RoundToInt(v.x * dpi) / dpi, Mathf.RoundToInt(v.y * dpi) / dpi);
+        }
     }
 }
