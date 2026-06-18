@@ -124,9 +124,12 @@ namespace Game.Systems
                             offset = new Vector3(random.x, 0, random.y);
                         }
                     
-                        var spawnedEntity = world.CreateEntity(spawnData.definition, new IEntityInstanceParameter[]
+                        var spawnedEntity = world.CreateEntity(spawnData.definition, null, e =>
                         {
-                            new SourceEntityParameter(entity)
+                            e.Add(new SourceEntityComponent()
+                            {
+                                source = entity
+                            });
                         });
                         
                         spawnedEntity.Get<PositionComponent>().value = spawnData.position + offset;
@@ -160,9 +163,12 @@ namespace Game.Systems
                             offset = new Vector3(random.x, 0, random.y);
                         }
                     
-                        var spawnedEntity = world.CreateEntity(spawnData.definition, new IEntityInstanceParameter[]
+                        var spawnedEntity = world.CreateEntity(spawnData.definition, null, e =>
                         {
-                            new SourceEntityParameter(entity)
+                            e.Add(new SourceEntityComponent()
+                            {
+                                source = entity
+                            });
                         });
                         
                         spawnedEntity.Get<PositionComponent>().value = spawnData.position + offset;

@@ -22,9 +22,12 @@ namespace Game.Systems
 
                 foreach (var spawnDefinition in spawnOnSpawn.definitions)
                 {
-                    var spawnedEntity = world.CreateEntity(spawnDefinition, new IEntityInstanceParameter[]
+                    var spawnedEntity = world.CreateEntity(spawnDefinition, null, e =>
                     {
-                        new SourceEntityParameter(entity)
+                        e.Add(new SourceEntityComponent()
+                        {
+                            source = entity
+                        });
                     });
                     
                     spawnedEntity.Get<PositionComponent>().value = position.value;
