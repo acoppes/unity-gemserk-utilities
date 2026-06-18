@@ -188,5 +188,10 @@ namespace Game.Components.Abilities
                 currentCharges = 0;
             }
         }
+
+        public void Delay(float time)
+        {
+            cooldown.Decrease(time);
+        }
     }
 }
