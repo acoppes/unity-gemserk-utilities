@@ -26,7 +26,7 @@ namespace Game.Triggers
         
         public override string GetObjectName()
         {
-            return $"{actionType}({preferenceKey})";
+            return $"PlayerPref{actionType}({preferenceKey})";
         }
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
