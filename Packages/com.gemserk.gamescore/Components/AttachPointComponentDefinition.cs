@@ -8,7 +8,8 @@ namespace Game.Components
 {
     public struct AttachedToAttachPointComponent : IEntityComponent
     {
-        public string attachPoint;
+        // public string attachPoint;
+        public int attachPointChildIndex;
     }
     
     public class AttachPoint
