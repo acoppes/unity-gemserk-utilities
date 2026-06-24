@@ -1,5 +1,7 @@
+using System;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs.Controllers
 {
@@ -16,10 +18,17 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                 ref var controllerComponent = ref controllerFilter.Pools.Inc1.Get(entity);
                 
                 var worldEntity = world.GetEntity(entity);
-                
-                foreach (var updateable in controllerComponent.updateListeners)
+
+                try
                 {
-                    updateable.OnUpdate(world, worldEntity, deltaTime);
+                    foreach (var updateable in controllerComponent.updateListeners)
+                    {
+                        updateable.OnUpdate(world, worldEntity, deltaTime);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogException(new Exception($"Failed to update {entity}", ex), controllerComponent.instance);
                 }
             }
         }
