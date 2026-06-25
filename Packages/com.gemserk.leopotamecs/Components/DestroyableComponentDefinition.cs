@@ -4,6 +4,11 @@
     {
         public bool destroy;
         public bool signalOnDestroy;
+
+        public void Destroy()
+        {
+            destroy = true;
+        }
     }
 
     // disables object and destroy in specified frames
