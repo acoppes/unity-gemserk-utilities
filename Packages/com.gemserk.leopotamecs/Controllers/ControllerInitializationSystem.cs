@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs.Components;
 using Gemserk.Leopotam.Ecs.Events;
 using Leopotam.EcsLite;
@@ -158,14 +159,21 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                 
                 foreach (var controller in controllersList)
                 {
-                    if (!controllerComponent.intialized && controller is IInit init)
+                    try
                     {
-                        init.OnInit(world, worldEntity);
+                        if (!controllerComponent.intialized && controller is IInit init)
+                        {
+                            init.OnInit(world, worldEntity);
+                        }
+                        
+                        if (controllerComponent.onConfigurationPending && controller is IConfigurable configurable)
+                        {
+                            configurable.OnConfigured(world, worldEntity);
+                        }
                     }
-                    
-                    if (controllerComponent.onConfigurationPending && controller is IConfigurable configurable)
+                    catch (Exception ex)
                     {
-                        configurable.OnConfigured(world, worldEntity);
+                        Debug.LogException(new Exception($"Failed to update {entity}", ex), controllerComponent.instance);
                     }
                 }
                 

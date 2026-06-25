@@ -21,7 +21,7 @@ namespace Game.Utilities
                 var entityReference = collision.gameObject.GetComponentInParent<EntityReference>();
                 var collisionEntity = Entity.NullEntity;
         
-                if (entityReference != null)
+                if (entityReference)
                 {
                     collisionEntity = entityReference.entity;
                 }
