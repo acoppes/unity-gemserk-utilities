@@ -1,4 +1,5 @@
-﻿using Game.Components;
+﻿using System.Collections.Generic;
+using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
@@ -124,16 +125,16 @@ namespace Game.Systems
                             offset = new Vector3(random.x, 0, random.y);
                         }
                     
-                        var spawnedEntity = world.CreateEntity(spawnData.definition, null, e =>
+                        world.CreateEntity(spawnData.definition, null, e =>
                         {
                             e.Add(new SourceEntityComponent()
                             {
                                 source = entity
                             });
+                            e.Get<PositionComponent>().value = spawnData.position + offset;
                         });
                         
-                        spawnedEntity.Get<PositionComponent>().value = spawnData.position + offset;
-
+                        // spawnedEntity.Get<PositionComponent>().value = spawnData.position + offset;
                         // if (entity.Has<PlayerComponent>() && spawnedEntity.Has<PlayerComponent>())
                         // {
                         //     spawnedEntity.Get<PlayerComponent>().player = entity.Get<PlayerComponent>().player;
@@ -145,6 +146,8 @@ namespace Game.Systems
                 if (health.wasKilledLastFrame)
                 {
                     var entity = world.GetEntity(e);
+
+                    // var spawns = new List<Entity>();
                     
                     for (var i = 0; i < damageEffects.onDeathSpawns.Length; i++)
                     {
@@ -169,9 +172,12 @@ namespace Game.Systems
                             {
                                 source = entity
                             });
+                            e.Get<PositionComponent>().value = spawnData.position + offset;
                         });
                         
-                        spawnedEntity.Get<PositionComponent>().value = spawnData.position + offset;
+                        // spawns.Add(spawnedEntity);
+                        
+                        // spawnedEntity.Get<PositionComponent>().value = spawnData.position + offset;
                         
                         // if (entity.Has<PlayerComponent>() && spawnedEntity.Has<PlayerComponent>())
                         // {
@@ -196,6 +202,11 @@ namespace Game.Systems
                         //     }
                         // }
                     }
+                    
+                    // entity.Add(new OnDeathSpawnedEntitiesEvent()
+                    // {
+                    //     entities = spawns
+                    // });
                 }
             }
             
