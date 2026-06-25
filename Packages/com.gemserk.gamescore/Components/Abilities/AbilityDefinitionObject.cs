@@ -4,7 +4,7 @@ namespace Game.Components.Abilities
 {
     public class AbilityDefinitionObject : MonoBehaviour
     {
-        public AbilityDefinition abilityDefinition;
+        public AbilityDefinition abilityDefinition = new ();
 
         private void OnValidate()
         {
