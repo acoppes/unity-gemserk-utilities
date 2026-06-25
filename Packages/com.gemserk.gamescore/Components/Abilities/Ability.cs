@@ -47,11 +47,11 @@ namespace Game.Components.Abilities
         public ReloadCooldownType cooldownType = ReloadCooldownType.IfNoExecuting;
         public ResetCooldownType resetCooldownType = ResetCooldownType.None;
         
-        public bool isReady => cooldown.IsReady && (totalCharges == 0 || currentCharges > 0);
+        public bool isReady => cooldown.IsReady && isLoaded;
         public bool hasTargets => abilityTargets.Count > 0;
 
         public bool isExecuting;
-        public bool isCharged;
+        public bool isLoaded => (totalCharges == 0 || currentCharges > 0);
 
         public bool autoTarget;
         public ITargeting targeting;
@@ -172,6 +172,15 @@ namespace Game.Components.Abilities
         {
             this.currentCharges -= charges;
         }
+
+        public void Reload(int charges = 1)
+        {
+            currentCharges += charges;
+            if (currentCharges > totalCharges)
+            {
+                currentCharges = totalCharges;
+            }
+        }
         
         public void Fill()
         {
@@ -179,11 +188,11 @@ namespace Game.Components.Abilities
             currentCharges = totalCharges;
         }
         
-        public void Reset()
+        public void Reset(bool resetCharges = true)
         {
             cooldown.Reset();
             
-            if (totalCharges > 0)
+            if (resetCharges && totalCharges > 0)
             {
                 currentCharges = 0;
             }
