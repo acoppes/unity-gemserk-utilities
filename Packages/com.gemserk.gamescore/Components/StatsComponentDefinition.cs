@@ -359,7 +359,7 @@ namespace Game.Components
             public float value;
         }
 
-        public List<StatDefinition> statDefinitions;
+        public List<StatDefinition> statDefinitions = new ();
         
         public override void Apply(World world, Entity entity)
         {
