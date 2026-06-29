@@ -173,8 +173,13 @@ namespace Game.Components.Abilities
         {
             this.currentCharges -= charges;
         }
+        
+        public void Reload()
+        {
+            Reload(totalCharges);
+        }
 
-        public void Reload(int charges = 1)
+        public void Reload(int charges)
         {
             currentCharges += charges;
             if (currentCharges > totalCharges)
