@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs;
 using UnityEngine.InputSystem;
 
@@ -7,7 +6,7 @@ namespace Game.Components
 {
     public class PlayerInputComponentDefinition : ComponentDefinitionBase
     {
-        public List<InputActionReference> predefinedInputActions;
+        public List<InputActionReference> predefinedInputActions = new ();
 
         public override void Apply(World world, Entity entity)
         {
