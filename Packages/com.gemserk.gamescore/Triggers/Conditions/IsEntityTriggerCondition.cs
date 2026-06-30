@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Gemserk.Leopotam.Ecs;
+﻿using Gemserk.Leopotam.Ecs;
 using Gemserk.Triggers;
+using UnityEngine.Pool;
 
 namespace Game.Triggers.Conditions
 {
@@ -16,11 +16,20 @@ namespace Game.Triggers.Conditions
         public override bool Evaluate(object activator = null)
         {
             if (activator == null)
+            {
                 return false;
+            }
             
-            var results = new List<Entity>();
-            target.Get(results, world, activator);
-            return results.Contains((Entity)activator);
+            var results = ListPool<Entity>.Get();
+            var isEntity = false;
+            
+            if (target.Get(results, world, activator))
+            {
+                isEntity = results.Contains((Entity)activator);
+            }
+            
+            ListPool<Entity>.Release(results);
+            return isEntity;
         }
     }
 }
