@@ -91,6 +91,31 @@ namespace Gemserk.Utilities
             return null;
         }
         
+        public static T GetFirstComponentActiveAndEnabled<T>(this GameObject gameObject) where T : MonoBehaviour
+        {
+            var allComponents = gameObject.GetComponentsInChildren<T>();
+            foreach (var component in allComponents)
+            {
+                if (component.gameObject == gameObject)
+                {
+                    continue;
+                }
+                
+                if (!component.enabled)
+                {
+                    continue;
+                }
+
+                if (!component.gameObject.activeInHierarchy)
+                {
+                    continue;
+                }
+                
+                return component;
+            }
+            return null;
+        }
+        
         public static bool IsSafeToModifyName(this GameObject gameObject)
         {
 #if !UNITY_EDITOR

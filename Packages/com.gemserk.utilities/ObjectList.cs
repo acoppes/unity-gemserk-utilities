@@ -79,7 +79,7 @@ namespace Gemserk.Utilities
         {
             var objects = Get<GameObject>();
             return objects
-                .Where(g => g.GetComponent<T>() != null)
+                .Where(g => g.GetComponent<T>())
                 .Select(g => g.GetComponent<T>())
                 .ToList();
         }
