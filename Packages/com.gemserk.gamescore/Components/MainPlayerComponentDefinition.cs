@@ -2,8 +2,9 @@
 
 namespace Game.Components
 {
-    public struct MainPlayerComponent : IEntityComponent
+    public struct MainPlayerComponent : ITagComponent
     {
+        
     }
     
     public class MainPlayerComponentDefinition : ComponentDefinitionBase

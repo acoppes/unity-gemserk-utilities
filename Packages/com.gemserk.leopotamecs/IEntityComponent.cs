@@ -11,12 +11,17 @@ namespace Gemserk.Leopotam.Ecs
         
     }
 
-    public interface IEventComponent
+    public interface IEventComponent : IEntityComponent
     {
         
     }
 
-    public interface IActionComponent
+    public interface IActionComponent : IEntityComponent
+    {
+        
+    }
+
+    public interface ITagComponent : IEntityComponent
     {
         
     }
