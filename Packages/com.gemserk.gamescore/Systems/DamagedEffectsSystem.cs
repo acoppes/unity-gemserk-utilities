@@ -112,7 +112,7 @@ namespace Game.Systems
                     {
                         var spawnData = damageEffects.onDamageSpawns[i];
 
-                        if (spawnData.disabled)
+                        if (spawnData.disabled || spawnData.definition == null)
                         {
                             continue;
                         }
@@ -153,7 +153,7 @@ namespace Game.Systems
                     {
                         var spawnData = damageEffects.onDeathSpawns[i];
                         
-                        if (spawnData.disabled)
+                        if (spawnData.disabled || spawnData.definition == null)
                         {
                             continue;
                         }
