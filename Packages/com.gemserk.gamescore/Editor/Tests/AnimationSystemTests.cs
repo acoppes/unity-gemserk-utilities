@@ -11,7 +11,7 @@ using UnityEngine.TestTools;
 
 namespace Game.Editor.Tests
 {
-    public class AnimationTests
+    public class AnimationSystemTests
     {
         private World world;
         
@@ -221,5 +221,60 @@ namespace Game.Editor.Tests
             LogAssert.Expect(LogType.Error, new Regex(".*wrong frame index.*"));
             Assert.AreEqual(0f, entity.Get<AnimationsComponent>().currentTime, 0.01f);
         }
+        
+        [Test]
+        public void Test_WrongFrame_WhenStartAnimationAlpha1()
+        {
+            var entity = world.CreateEntity(null, null, e =>
+            {
+                var animationComponent = new AnimationsComponent
+                {
+                    speed = 1,
+                    animationsAsset = ScriptableObject.CreateInstance<AnimationsAsset>()
+                };
+
+                animationComponent.animationsAsset.name = "my animation asset";
+                animationComponent.animationsAsset.animations.Add(new AnimationDefinition()
+                {
+                    name = "Idle",
+                    duration = 2f,
+                    frames = new List<AnimationFrame>()
+                    {
+                        new AnimationFrame()
+                        {
+                            time = 1f,
+                            sprite = null
+                        },
+                        new AnimationFrame()
+                        {
+                            time = 1f,
+                            sprite = null
+                        }
+                    }
+                });
+
+                e.Add(animationComponent);
+                
+                e.Add(new StartingAnimationComponent()
+                {
+                    alpha = 1.0f,
+                    name = "Idle",
+                    loop = true,
+                    startingAnimationType = StartingAnimationComponent.StartingAnimationType.Name,
+                    randomizeStartFrame = false
+                });
+            });
+            
+            Assert.AreEqual(1, entity.Get<AnimationsComponent>().currentFrame);
+            
+            world.FixedUpdate();
+            
+            // AnimationSystem.UpdateAnimation(1, ref animationComponent, 0.5f);
+            
+            // LogAssert.Expect(LogType.Error, new Regex(".*wrong frame index.*"));
+            // Assert.AreEqual(0f, entity.Get<AnimationsComponent>().currentTime, 0.01f);
+        }
+        
+        //ProcessStartAnimation
     }
 }

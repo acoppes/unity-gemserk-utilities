@@ -78,7 +78,7 @@ namespace Game.Systems
             }
             else
             {
-                startingFrame = Mathf.FloorToInt(startingAnimationComponent.alpha * animationDefinition.TotalFrames);
+                startingFrame = Mathf.RoundToInt(startingAnimationComponent.alpha * (animationDefinition.TotalFrames - 1));
             }
 
             animations.Play(animation, startingFrame, startingAnimationComponent.loop);
