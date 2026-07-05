@@ -1,4 +1,5 @@
 using Game.Components;
+using Game.Configurations;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
@@ -28,7 +29,7 @@ namespace Game.Systems
 
                 var configuration = configurationComponent.configuration;
                 {
-                    var healthConfiguration = configuration.GetConfiguration("health");
+                    var healthConfiguration = configuration.Get<IConfiguration>("health");
                     if (healthConfiguration != null)
                     {
                         if (healthConfiguration.Has("total"))

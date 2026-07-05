@@ -23,6 +23,7 @@
     "com.unity.ide.rider": "3.0.40",
     "com.unity.inputsystem": "1.19.0",
     "com.unity.multiplayer.center": "1.0.1",
+    "com.unity.nuget.newtonsoft-json": "3.2.2",
     "com.unity.sdk.linux-x86_64": "1.1.0",
     "com.unity.search.extensions": "https://github.com/Unity-Technologies/com.unity.search.extensions.git?path=package",
     "com.unity.test-framework": "1.6.0",

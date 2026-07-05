@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Game.Components;
+using Game.Configurations;
 using Game.Systems;
 using Gemserk.Leopotam.Ecs;
 using NUnit.Framework;
@@ -35,17 +36,20 @@ namespace Game.Editor.Tests
         [Test]
         public void Test_BasicConfiguration()
         {
-            var configuration = new DictionaryConfiguration(new Dictionary<string, object>()
-            {
-                {
-                    "health", new DictionaryConfiguration(new Dictionary<string, object>()
-                    {
-                        {
-                            "total", 350f
-                        }
-                    })
-                }
-            });
+            var configuration = new DictionaryConfiguration();
+            configuration["health"] = new DictionaryConfiguration();
+            configuration["health.total"] = 350f;
+            
+            Assert.IsNotNull(configuration.Get<object>("health"));
+            Assert.AreEqual(350, configuration.Get<float>("health.total"));
+        }
+        
+        [Test]
+        public void Test_ConfigurationJson()
+        {
+            var configuration = new JsonConfiguration();
+            configuration["health"] = new JsonConfiguration();
+            configuration["health.total"] = 350f;
             
             Assert.IsNotNull(configuration.Get<object>("health"));
             Assert.AreEqual(350, configuration.Get<float>("health.total"));
