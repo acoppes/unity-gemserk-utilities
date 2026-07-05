@@ -5,7 +5,7 @@ namespace Gemserk.Leopotam.Ecs
 {
     public class ConfigurationScriptSystem : BaseSystem, IEntityCreatedHandler, IEcsRunSystem
     {
-        readonly EcsFilterInject<Inc<ConfigurationScriptComponent, ConfigurationScriptReconfigureComponent>, Exc<DisabledComponent>> startingAnimationFilter = default;
+        readonly EcsFilterInject<Inc<ConfigurationScriptComponent, ConfigurationScriptReconfigureComponent>, Exc<DisabledComponent>> filter = default;
         
         public void OnEntityCreated(World world, Entity entity)
         {
@@ -19,12 +19,12 @@ namespace Gemserk.Leopotam.Ecs
 
         public void Run(EcsSystems systems)
         {
-            foreach (var e in startingAnimationFilter.Value)
+            foreach (var e in filter.Value)
             {
-                ref var configuration = ref startingAnimationFilter.Pools.Inc1.Get(e);
+                ref var configuration = ref filter.Pools.Inc1.Get(e);
                 configuration.configurationScript?.Configure(world, this.GetEntity(e));
                 configuration.configuredVersion++;
-                startingAnimationFilter.Pools.Inc2.Del(e);
+                filter.Pools.Inc2.Del(e);
             }
         }
     }

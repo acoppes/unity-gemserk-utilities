@@ -1,0 +1,86 @@
+using System.Collections.Generic;
+using Game.Components;
+using Game.Systems;
+using Gemserk.Leopotam.Ecs;
+using NUnit.Framework;
+using UnityEngine;
+
+namespace Game.Editor.Tests
+{
+    public class ConfigurationTests
+    {
+        private World world;
+        
+        [SetUp]
+        public void BeforeEach()
+        {
+            var gameObject = new GameObject("~TestWorldObject");
+            world = gameObject.AddComponent<World>();
+            
+            gameObject.AddComponent<ConfigurationSystem>();
+            
+            world.fixedUpdateParent = world.transform;
+            
+            world.Awake();
+        }
+        
+        [TearDown]
+        public void AfterEach()
+        {
+            world.OnDestroy();
+            Object.DestroyImmediate(world.gameObject);
+            world = null;
+        }
+        
+        [Test]
+        public void Test_BasicConfiguration()
+        {
+            var configuration = new DictionaryConfiguration(new Dictionary<string, object>()
+            {
+                {
+                    "health", new DictionaryConfiguration(new Dictionary<string, object>()
+                    {
+                        {
+                            "total", 350f
+                        }
+                    })
+                }
+            });
+            
+            Assert.IsNotNull(configuration.Get<object>("health"));
+            Assert.AreEqual(350, configuration.Get<float>("health.total"));
+        }
+        
+        [Test]
+        public void Test_ConfigurationScript_OnCreation()
+        {
+            var createdEntity = world.CreateEntity(null, null, entity =>
+            {
+                entity.Add(new HealthComponent()
+                {
+                    total = 100f
+                });
+
+                var config = new DictionaryConfiguration
+                {
+                    ["health"] = new DictionaryConfiguration()
+                    {
+                        ["total"] = 300f
+                    },
+                    ["health.current"] = 50f
+                };
+
+                entity.Add(new ConfigurationComponent()
+                {
+                    configuration = config
+                });
+            });
+            
+            world.FixedUpdate();
+                        
+            Assert.AreEqual(300f, createdEntity.Get<HealthComponent>().total);
+            Assert.AreEqual(50f, createdEntity.Get<HealthComponent>().current);
+        }
+        
+    }
+}

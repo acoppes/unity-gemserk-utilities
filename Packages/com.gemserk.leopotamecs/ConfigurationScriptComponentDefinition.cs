@@ -36,7 +36,7 @@ namespace Gemserk.Leopotam.Ecs
         
     }
     
-    public class ConfigurationComponentDefinition : ComponentDefinitionBase
+    public class ConfigurationScriptComponentDefinition : ComponentDefinitionBase
     {
         [FormerlySerializedAs("configuration")] 
         public Object configurationScript;
