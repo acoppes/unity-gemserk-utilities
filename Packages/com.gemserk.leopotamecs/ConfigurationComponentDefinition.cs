@@ -29,7 +29,11 @@ namespace Gemserk.Leopotam.Ecs
     {
         public IConfigurationScript configurationScript;
         public int configuredVersion;
-        public bool reconfigure;
+    }
+
+    public struct ConfigurationScriptReconfigureComponent : IActionComponent
+    {
+        
     }
     
     public class ConfigurationComponentDefinition : ComponentDefinitionBase

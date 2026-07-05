@@ -1,9 +1,12 @@
 ﻿using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 
 namespace Gemserk.Leopotam.Ecs
 {
     public class ConfigurationScriptSystem : BaseSystem, IEntityCreatedHandler, IEcsRunSystem
     {
+        readonly EcsFilterInject<Inc<ConfigurationScriptComponent, ConfigurationScriptReconfigureComponent>, Exc<DisabledComponent>> startingAnimationFilter = default;
+        
         public void OnEntityCreated(World world, Entity entity)
         {
             if (world.HasComponent<ConfigurationScriptComponent>(entity))
@@ -16,18 +19,12 @@ namespace Gemserk.Leopotam.Ecs
 
         public void Run(EcsSystems systems)
         {
-            var configurations = world.GetComponents<ConfigurationScriptComponent>();
-            foreach (var entity in world.GetFilter<ConfigurationScriptComponent>()
-                         .Exc<DisabledComponent>()
-                         .End())
+            foreach (var e in startingAnimationFilter.Value)
             {
-                ref var configuration = ref configurations.Get(entity);
-                if (configuration.reconfigure)
-                {
-                    configuration.configurationScript?.Configure(world, this.GetEntity(entity));
-                    configuration.reconfigure = false;
-                    configuration.configuredVersion++;
-                }
+                ref var configuration = ref startingAnimationFilter.Pools.Inc1.Get(e);
+                configuration.configurationScript?.Configure(world, this.GetEntity(e));
+                configuration.configuredVersion++;
+                startingAnimationFilter.Pools.Inc2.Del(e);
             }
         }
     }

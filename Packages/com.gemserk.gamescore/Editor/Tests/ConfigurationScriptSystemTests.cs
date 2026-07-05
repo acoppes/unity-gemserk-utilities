@@ -79,7 +79,7 @@ namespace Game.Editor.Tests
             world.FixedUpdate();
             Assert.AreEqual(30f, createdEntity.Get<MovementComponent>().speed);
 
-            createdEntity.Get<ConfigurationScriptComponent>().reconfigure = true;
+            createdEntity.Add(new ConfigurationScriptReconfigureComponent());
             
             world.FixedUpdate();
             Assert.AreEqual(100f, createdEntity.Get<MovementComponent>().speed);
