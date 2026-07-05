@@ -2,29 +2,29 @@
 
 namespace Gemserk.Leopotam.Ecs
 {
-    public class ConfigurationSystem : BaseSystem, IEntityCreatedHandler, IEcsRunSystem
+    public class ConfigurationScriptSystem : BaseSystem, IEntityCreatedHandler, IEcsRunSystem
     {
         public void OnEntityCreated(World world, Entity entity)
         {
-            if (world.HasComponent<ConfigurationComponent>(entity))
+            if (world.HasComponent<ConfigurationScriptComponent>(entity))
             {
-                ref var configuration = ref world.GetComponent<ConfigurationComponent>(entity);
-                configuration.configuration?.Configure(world, entity);
+                ref var configuration = ref world.GetComponent<ConfigurationScriptComponent>(entity);
+                configuration.configurationScript?.Configure(world, entity);
                 configuration.configuredVersion++;
             }
         }
 
         public void Run(EcsSystems systems)
         {
-            var configurations = world.GetComponents<ConfigurationComponent>();
-            foreach (var entity in world.GetFilter<ConfigurationComponent>()
+            var configurations = world.GetComponents<ConfigurationScriptComponent>();
+            foreach (var entity in world.GetFilter<ConfigurationScriptComponent>()
                          .Exc<DisabledComponent>()
                          .End())
             {
                 ref var configuration = ref configurations.Get(entity);
                 if (configuration.reconfigure)
                 {
-                    configuration.configuration?.Configure(world, this.GetEntity(entity));
+                    configuration.configurationScript?.Configure(world, this.GetEntity(entity));
                     configuration.reconfigure = false;
                     configuration.configuredVersion++;
                 }

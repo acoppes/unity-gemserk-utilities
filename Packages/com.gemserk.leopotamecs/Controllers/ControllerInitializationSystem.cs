@@ -12,10 +12,10 @@ namespace Gemserk.Leopotam.Ecs.Controllers
     public class ControllerInitializationSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler, 
         IEntityCreatedHandler, IEcsInitSystem
     {
-        readonly EcsFilterInject<Inc<ControllerComponent, ConfigurationComponent>, Exc<DisabledComponent>> configurableControllers = default;
+        readonly EcsFilterInject<Inc<ControllerComponent, ConfigurationScriptComponent>, Exc<DisabledComponent>> configurableControllers = default;
         readonly EcsFilterInject<Inc<ControllerComponent>, Exc<DisabledComponent>> controllerFilter = default;
         
-        readonly EcsPoolInject<ConfigurationComponent> configurationComponents = default;
+        readonly EcsPoolInject<ConfigurationScriptComponent> configurationComponents = default;
         readonly EcsPoolInject<ControllerComponent> controllerComponents = default;
         
 #if GEMSERK_CONTROLLERS_DEBUG && UNITY_EDITOR

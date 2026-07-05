@@ -1,29 +1,47 @@
-﻿using Gemserk.Utilities;
-using UnityEngine;
+﻿using System;
+using Gemserk.Utilities;
+using UnityEngine.Serialization;
+using Object = UnityEngine.Object;
 
 namespace Gemserk.Leopotam.Ecs
 {
-    public interface IConfiguration
+    public interface IConfigurationScript
     {
         void Configure(World world, Entity entity);
     }
-    
-    public struct ConfigurationComponent : IEntityComponent
+
+    public class ConfigurationScriptFunc : IConfigurationScript
     {
-        public IConfiguration configuration;
+        private readonly Action<World, Entity> configurationAction;
+
+        public ConfigurationScriptFunc(Action<World, Entity> configurationAction)
+        {
+            this.configurationAction = configurationAction;
+        }
+
+        public void Configure(World world, Entity entity)
+        {
+            configurationAction.Invoke(world, entity);
+        }
+    }
+    
+    public struct ConfigurationScriptComponent : IEntityComponent
+    {
+        public IConfigurationScript configurationScript;
         public int configuredVersion;
         public bool reconfigure;
     }
     
     public class ConfigurationComponentDefinition : ComponentDefinitionBase
     {
-        public Object configuration;
+        [FormerlySerializedAs("configuration")] 
+        public Object configurationScript;
 
         public override void Apply(World world, Entity entity)
         {
-            world.AddComponent(entity, new ConfigurationComponent()
+            world.AddComponent(entity, new ConfigurationScriptComponent()
             {
-                configuration = configuration.GetInterface<IConfiguration>()
+                configurationScript = configurationScript.GetInterface<IConfigurationScript>()
             });
         }
     }

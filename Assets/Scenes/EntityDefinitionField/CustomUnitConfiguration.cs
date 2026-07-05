@@ -1,6 +1,6 @@
 using Gemserk.Leopotam.Ecs;using UnityEngine;
 
-public class CustomUnitConfiguration : MonoBehaviour, IConfiguration
+public class CustomUnitConfigurationScript : MonoBehaviour, IConfigurationScript
 {
     public float speed;
     
