@@ -29,7 +29,7 @@ namespace Game.Systems
 
                 var configuration = configurationComponent.configuration;
                 {
-                    var healthConfiguration = configuration.Get<IConfiguration>("health");
+                    var healthConfiguration = configuration.GetConfiguration("health");
                     if (healthConfiguration != null)
                     {
                         if (healthConfiguration.Has("total"))

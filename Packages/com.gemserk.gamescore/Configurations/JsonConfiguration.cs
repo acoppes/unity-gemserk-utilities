@@ -57,7 +57,8 @@ namespace Game.Configurations
 
         public IConfiguration GetConfiguration(string key)
         {
-            throw new System.NotImplementedException();
+            var subConfiguration = jObject[key] as JObject;
+            return new JsonConfiguration(subConfiguration);
         }
 
         // public IConfiguration GetConfiguration(string key)
