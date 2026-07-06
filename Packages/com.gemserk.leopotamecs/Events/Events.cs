@@ -15,10 +15,10 @@
         void OnDestroyed(World world, Entity entity);
     }
     
-    public interface IConfigurable : IControllerEvent
-    {
-        void OnConfigured(World world, Entity entity);
-    }
+    // public interface IConfigurable : IControllerEvent
+    // {
+    //     void OnConfigured(World world, Entity entity);
+    // }
 
     public interface IStateChanged : IControllerEvent
     {
