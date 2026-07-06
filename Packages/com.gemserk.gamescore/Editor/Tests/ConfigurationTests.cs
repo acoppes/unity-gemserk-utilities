@@ -71,22 +71,19 @@ namespace Game.Editor.Tests
         [Test]
         public void Test_ConfigurationScript_OnCreation()
         {
+            var config = new DictionaryConfiguration
+            {
+                ["health.total"] = 300f,
+                ["health.current"] = 50f
+            };
+            
             var createdEntity = world.CreateEntity(null, null, entity =>
             {
                 entity.Add(new HealthComponent()
                 {
                     total = 100f
                 });
-
-                var config = new DictionaryConfiguration
-                {
-                    ["health"] = new DictionaryConfiguration()
-                    {
-                        ["total"] = 300f
-                    },
-                    ["health.current"] = 50f
-                };
-
+                
                 entity.Add(new ConfigurationComponent()
                 {
                     configuration = config
@@ -96,6 +93,15 @@ namespace Game.Editor.Tests
             world.FixedUpdate();
                         
             Assert.AreEqual(300f, createdEntity.Get<HealthComponent>().total);
+            Assert.AreEqual(50f, createdEntity.Get<HealthComponent>().current);
+
+            config["health.total"] = 500f;
+            
+            createdEntity.Add(new ConfigurationReconfigureComponent());
+            
+            world.FixedUpdate();
+            
+            Assert.AreEqual(500f, createdEntity.Get<HealthComponent>().total);
             Assert.AreEqual(50f, createdEntity.Get<HealthComponent>().current);
         }
         
