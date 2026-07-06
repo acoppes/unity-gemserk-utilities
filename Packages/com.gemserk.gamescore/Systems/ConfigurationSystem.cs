@@ -12,9 +12,9 @@ namespace Game.Systems
 {
     public class ConfigurationSystem : BaseSystem, IEntityCreatedHandler, IEcsRunSystem
     {
-        readonly EcsFilterInject<Inc<ConfigurationComponent, ConfigurationReconfigureComponent>, Exc<DisabledComponent>> filter = default;
-        readonly EcsFilterInject<Inc<ConfigurationComponent, HealthComponent, ConfigurationReconfigureComponent>, Exc<DisabledComponent>> healthFilter = default;
-        readonly EcsFilterInject<Inc<ConfigurationReconfigureComponent>, Exc<DisabledComponent>> reconfigureFilter = default;
+        readonly EcsFilterInject<Inc<ConfigurationComponent, HealthComponent, ConfigurationReconfiguredEvent>, Exc<DisabledComponent>> healthFilter = default;
+        readonly EcsFilterInject<Inc<ConfigurationComponent, ConfigurationReconfiguredEvent>, Exc<DisabledComponent>> reconfigureFilter = default;
+        readonly EcsFilterInject<Inc<ConfigurationComponent>, Exc<ConfigurationReconfiguredEvent, DisabledComponent>> pendingFilterCheck = default;
 
         private readonly Dictionary<string, JsonConfiguration> cachedJsonConfigurations = new Dictionary<string, JsonConfiguration>();
         
@@ -44,12 +44,31 @@ namespace Game.Systems
             
             if (world.HasComponent<ConfigurationComponent>(entity))
             {
-                world.AddOrSetComponent(entity, new ConfigurationReconfigureComponent());
+                ref var configuration = ref world.GetComponent<ConfigurationComponent>(entity);
+                configuration.version++;
+                // world.AddOrSetComponent(entity, new ConfigurationReconfiguredEvent());
             }
         }
 
         public void Run(EcsSystems systems)
         {
+            // this is for next loop, to clear the events
+            foreach (var e in reconfigureFilter.Value)
+            {
+                // ref var configuration = ref pendingFilterCheck.Pools.Inc1.Get(e);
+                reconfigureFilter.Pools.Inc2.Del(e);
+            }
+            
+            foreach (var e in pendingFilterCheck.Value)
+            {
+                ref var configuration = ref pendingFilterCheck.Pools.Inc1.Get(e);
+                if (configuration.pendingReconfigure)
+                {
+                    world.AddComponent(e, new ConfigurationReconfiguredEvent());
+                    configuration.previousVersion = configuration.version;
+                }
+            }
+            
             foreach (var e in healthFilter.Value)
             {
                 var configurationComponent = healthFilter.Pools.Inc1.Get(e);
@@ -73,12 +92,7 @@ namespace Game.Systems
                 }
             }
             
-            foreach (var e in filter.Value)
-            {
-                ref var configuration = ref filter.Pools.Inc1.Get(e);
-                configuration.configuredVersion++;
-                filter.Pools.Inc2.Del(e);
-            }
+
         }
     }
 }

@@ -96,8 +96,8 @@ namespace Game.Editor.Tests
             Assert.AreEqual(50f, createdEntity.Get<HealthComponent>().current);
 
             config["health.total"] = 500f;
-            
-            createdEntity.Add(new ConfigurationReconfigureComponent());
+
+            createdEntity.Get<ConfigurationComponent>().SetDirty();
             
             world.FixedUpdate();
             

@@ -8,10 +8,18 @@ namespace Game.Components
     public struct ConfigurationComponent : IEntityComponent
     {
         public IConfiguration configuration;
-        public int configuredVersion;
+        public int version;
+        public int previousVersion;
+
+        public bool pendingReconfigure => version != previousVersion;
+
+        public void SetDirty()
+        {
+            version++;
+        }
     }
     
-    public struct ConfigurationReconfigureComponent : IActionComponent
+    public struct ConfigurationReconfiguredEvent : IEventComponent
     {
         
     }
