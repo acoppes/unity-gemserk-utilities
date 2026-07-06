@@ -56,6 +56,19 @@ namespace Game.Editor.Tests
         }
         
         [Test]
+        public void Test_Configuration_CreateSubConfigurations()
+        {
+            var configuration = new JsonConfiguration();
+            configuration["health.total"] = 350f;
+            
+            var dictionaryConfiguration = new DictionaryConfiguration();
+            dictionaryConfiguration["health.total"] = 250f;
+            
+            Assert.AreEqual(350, configuration.Get<float>("health.total"));
+            Assert.AreEqual(250, dictionaryConfiguration.Get<float>("health.total"));
+        }
+        
+        [Test]
         public void Test_ConfigurationScript_OnCreation()
         {
             var createdEntity = world.CreateEntity(null, null, entity =>

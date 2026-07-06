@@ -9,5 +9,7 @@ namespace Game.Configurations
         T Get<T>(string key);
 
         void Set<T>(string key, T value);
+
+        IConfiguration GetConfiguration(string key);
     }
 }

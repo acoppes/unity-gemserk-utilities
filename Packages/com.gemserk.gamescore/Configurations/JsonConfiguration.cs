@@ -27,8 +27,8 @@ namespace Game.Configurations
             var splitKey = ConfigurationUtils.SplitKey(key);
             if (splitKey.parentKey != null)
             {
-                var configuration = jObject[splitKey.parentKey].Value<IConfiguration>();
-                return configuration.Get<T>(splitKey.childKey);
+                var configurationObject = jObject[splitKey.parentKey] as JObject;
+                return new JsonConfiguration(configurationObject).Get<T>(splitKey.childKey);
             }
             return jObject[key].Value<T>();
         }
@@ -42,12 +42,22 @@ namespace Game.Configurations
                 {
                     jObject[splitKey.parentKey] = new JObject();
                 }
+
+                var childConfiguration = jObject[splitKey.parentKey] as JObject;
+                var childJsonConfiguration = new JsonConfiguration(childConfiguration);
+                childJsonConfiguration.Set(splitKey.childKey, value);
                 
-                var configuration = jObject[splitKey.parentKey].Value<JsonConfiguration>();
-                configuration.Set(key, value);
+                // childConfiguration.Add(splitKey.childKey, JToken.FromObject(value));
+                
                 return;
             }
-            jObject[key] = JObject.FromObject(value);
+            
+            jObject.Add(key, JToken.FromObject(value));
+        }
+
+        public IConfiguration GetConfiguration(string key)
+        {
+            throw new System.NotImplementedException();
         }
 
         // public IConfiguration GetConfiguration(string key)

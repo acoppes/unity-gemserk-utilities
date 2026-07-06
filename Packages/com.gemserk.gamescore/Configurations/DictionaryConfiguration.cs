@@ -55,6 +55,11 @@ namespace Game.Configurations
 
             if (splitKey.parentKey != null)
             {
+                if (!configurationDict.ContainsKey(splitKey.parentKey))
+                {
+                    configurationDict[splitKey.parentKey] = new DictionaryConfiguration();
+                }
+                
                 Get<IConfiguration>(splitKey.parentKey).Set(splitKey.childKey, value);
                 return;
             }
@@ -62,17 +67,17 @@ namespace Game.Configurations
             configurationDict[key] = value;
         }
 
-        // public IConfiguration GetConfiguration(string key)
-        // {
-        //     if (configurationDict.TryGetValue(key, out var o))
-        //     {
-        //         if (o is IConfiguration configuration)
-        //         {
-        //             return configuration;
-        //         }
-        //     }
-        //     return null;
-        // }
+        public IConfiguration GetConfiguration(string key)
+        {
+            if (configurationDict.TryGetValue(key, out var o))
+            {
+                if (o is IConfiguration configuration)
+                {
+                    return configuration;
+                }
+            }
+            return null;
+        }
         
         public object this[string key]
         {
