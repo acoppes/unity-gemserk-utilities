@@ -30,7 +30,7 @@ namespace Game.Configurations
                 var configurationObject = jObject[splitKey.parentKey] as JObject;
                 return new JsonConfiguration(configurationObject).Get<T>(splitKey.childKey);
             }
-            return jObject[key].Value<T>();
+            return jObject[key].ToObject<T>();
         }
 
         public void Set<T>(string key, T value)
