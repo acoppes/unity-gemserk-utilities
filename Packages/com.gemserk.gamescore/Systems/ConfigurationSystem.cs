@@ -1,8 +1,12 @@
+using System.Collections.Generic;
+using System.IO;
 using Game.Components;
 using Game.Configurations;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using Newtonsoft.Json.Linq;
+using UnityEngine;
 
 namespace Game.Systems
 {
@@ -11,9 +15,33 @@ namespace Game.Systems
         readonly EcsFilterInject<Inc<ConfigurationComponent, ConfigurationReconfigureComponent>, Exc<DisabledComponent>> filter = default;
         readonly EcsFilterInject<Inc<ConfigurationComponent, HealthComponent, ConfigurationReconfigureComponent>, Exc<DisabledComponent>> healthFilter = default;
         readonly EcsFilterInject<Inc<ConfigurationReconfigureComponent>, Exc<DisabledComponent>> reconfigureFilter = default;
+
+        private readonly Dictionary<string, JsonConfiguration> cachedJsonConfigurations = new Dictionary<string, JsonConfiguration>();
         
         public void OnEntityCreated(World world, Entity entity)
         {
+            if (world.HasComponent<ConfigurationJsonComponent>(entity))
+            {
+                var configurationJsonComponent = world.GetComponent<ConfigurationJsonComponent>(entity);
+                if (!cachedJsonConfigurations.ContainsKey(configurationJsonComponent.jsonPath))
+                {
+                    // load master json path
+                    var jsonPath = Path.Combine(Application.streamingAssetsPath, configurationJsonComponent.jsonPath);
+                    cachedJsonConfigurations[configurationJsonComponent.jsonPath] =
+                        new JsonConfiguration(JObject.Parse(File.ReadAllText(jsonPath)));
+                }
+
+                ref var configurationComponent = ref world.GetComponent<ConfigurationComponent>(entity);
+                var mainJsonConfiguration = cachedJsonConfigurations[configurationJsonComponent.jsonPath];
+                configurationComponent.configuration = mainJsonConfiguration;
+
+                if (!string.IsNullOrEmpty(configurationJsonComponent.configurationKey))
+                {
+                    configurationComponent.configuration = mainJsonConfiguration
+                        .GetConfiguration(configurationJsonComponent.configurationKey);
+                }
+            }
+            
             if (world.HasComponent<ConfigurationComponent>(entity))
             {
                 world.AddOrSetComponent(entity, new ConfigurationReconfigureComponent());
