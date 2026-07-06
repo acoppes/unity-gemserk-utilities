@@ -1,7 +1,5 @@
 using Game.Configurations;
 using Gemserk.Leopotam.Ecs;
-using Gemserk.Utilities;
-using Object = UnityEngine.Object;
 
 namespace Game.Components
 {
@@ -22,18 +20,5 @@ namespace Game.Components
     public struct ConfigurationReconfiguredEvent : IEventComponent
     {
         
-    }
-    
-    public class ConfigurationComponentDefinition : ComponentDefinitionBase
-    { 
-        public Object configurationObject;
-
-        public override void Apply(World world, Entity entity)
-        {
-            world.AddComponent(entity, new ConfigurationComponent()
-            {
-                configuration = configurationObject.GetInterface<IConfiguration>()
-            });
-        }
     }
 }
