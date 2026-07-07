@@ -105,5 +105,35 @@ namespace Game.Editor.Tests
             Assert.AreEqual(50f, createdEntity.Get<HealthComponent>().current);
         }
         
+        [Test]
+        public void Test_GetConfiguration_ShouldBeNull()
+        {
+            {
+                var config = new DictionaryConfiguration
+                {
+                    ["vision"] = 10f
+                };
+
+                var healthConfig = config.GetConfiguration("health");
+                Assert.IsNull(healthConfig);
+            
+                var visionStats = config.GetConfiguration("vision.stats");
+                Assert.IsNull(visionStats);
+            }
+
+            {
+                var config = new JsonConfiguration()
+                {
+                    ["vision"] = 10f
+                };
+
+                var healthConfig = config.GetConfiguration("health");
+                Assert.IsNull(healthConfig);
+            
+                var visionStats = config.GetConfiguration("vision.stats");
+                Assert.IsNull(visionStats);
+            }
+        }
+        
     }
 }

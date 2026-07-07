@@ -61,11 +61,21 @@ namespace Game.Configurations
             if (splitKey.parentKey != null)
             {
                 var childConfiguration = jObject[splitKey.parentKey] as JObject;
-                return new JsonConfiguration(childConfiguration).GetConfiguration(splitKey.childKey);
+                if (childConfiguration != null)
+                {
+                    return new JsonConfiguration(childConfiguration).GetConfiguration(splitKey.childKey);
+                }
+                
+                return null;
             }
             
             var subConfiguration = jObject[key] as JObject;
-            return new JsonConfiguration(subConfiguration);
+            if (subConfiguration != null)
+            {
+                return new JsonConfiguration(subConfiguration);
+            }
+            
+            return null;
         }
 
         // public IConfiguration GetConfiguration(string key)
