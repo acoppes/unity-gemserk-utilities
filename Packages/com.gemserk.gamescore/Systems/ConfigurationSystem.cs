@@ -81,7 +81,9 @@ namespace Game.Systems
                     {
                         if (healthConfiguration.Has("total"))
                         {
+                            var factor = health.factor;
                             health.total = healthConfiguration.Get<float>("total");
+                            health.factor = factor;
                         }
                         
                         if (healthConfiguration.Has("current"))
