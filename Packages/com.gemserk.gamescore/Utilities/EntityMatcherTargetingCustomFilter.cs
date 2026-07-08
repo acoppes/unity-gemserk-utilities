@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace Game.Utilities
 {
-    public class EntityTargetQueryFilter : MonoBehaviour, ITargetCustomFilter
+    public class EntityMatcherTargetingCustomFilter : MonoBehaviour, ITargetCustomFilter
     {
-        public Query matcher;
+        public EntityMatcherBase matcher;
         
         public bool Filter(Target target, RuntimeTargetingParameters runtimeTargetingParameters)
         {
             if (!target.entity.Exists())
                 return false;
-
-            return matcher.GetEntityQuery().MatchQuery(target.entity);
+            
+            return matcher.Match(target.entity);
         }
     }
 }
