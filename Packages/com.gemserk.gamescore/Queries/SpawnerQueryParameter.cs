@@ -4,19 +4,19 @@ using Gemserk.Triggers.Queries;
 
 namespace Game.Queries
 {
-    public struct SpawnerParameter : IQueryParameter
+    public struct SpawnerParameter : IEntityMatcher
     {
-        public bool MatchQuery(Entity entity)
+        public bool Match(Entity entity)
         {
             return entity.Has<SpawnerComponent>();
         }
     }
     
-    public class SpawnerQueryParameter : QueryParameterBase
+    public class SpawnerQueryParameter : EntityMatcherBase
     {
-        public override bool MatchQuery(Entity entity)
+        public override bool Match(Entity entity)
         {
-            return new SpawnerParameter().MatchQuery(entity);
+            return new SpawnerParameter().Match(entity);
         }
 
         public override string ToString()

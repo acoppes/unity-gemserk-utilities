@@ -2,7 +2,7 @@
 
 namespace Gemserk.Triggers.Queries
 {
-    public struct PlayerParameter : IQueryParameter
+    public struct PlayerParameter : IEntityMatcher
     {
         public int player;
 
@@ -11,7 +11,7 @@ namespace Gemserk.Triggers.Queries
             this.player = player;
         }
         
-        public bool MatchQuery(Entity entity)
+        public bool Match(Entity entity)
         {
             if (!entity.Has<PlayerComponent>())
             {
@@ -22,13 +22,13 @@ namespace Gemserk.Triggers.Queries
         }
     }
     
-    public class PlayerQueryParameter : QueryParameterBase
+    public class PlayerQueryParameter : EntityMatcherBase
     {
         public int player;
         
-        public override bool MatchQuery(Entity entity)
+        public override bool Match(Entity entity)
         {
-            return new PlayerParameter(player).MatchQuery(entity);
+            return new PlayerParameter(player).Match(entity);
         }
 
         public override string ToString()

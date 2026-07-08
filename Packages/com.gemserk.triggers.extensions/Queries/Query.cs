@@ -19,12 +19,12 @@ namespace Gemserk.Triggers.Queries
 #if UNITY_EDITOR
             if (!Application.isPlaying)
             {
-                return EntityQuery.Create(GetComponents<IQueryParameter>());
+                return EntityQuery.Create(GetComponents<IEntityMatcher>());
             }
 #endif
             if (!cached)
             {
-                entityQuery = EntityQuery.Create(GetComponents<IQueryParameter>());
+                entityQuery = EntityQuery.Create(GetComponents<IEntityMatcher>());
             }
             
             return entityQuery;

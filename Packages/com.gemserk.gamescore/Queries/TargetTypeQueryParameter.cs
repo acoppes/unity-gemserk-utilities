@@ -5,7 +5,7 @@ using Gemserk.Triggers.Queries;
 
 namespace Game.Queries
 {
-    public readonly struct TargetTypeParameter : IQueryParameter
+    public readonly struct TargetTypeParameter : IEntityMatcher
     {
         private readonly TargetType targetType;
 
@@ -14,7 +14,7 @@ namespace Game.Queries
             this.targetType = targetType;
         }
         
-        public bool MatchQuery(Entity entity)
+        public bool Match(Entity entity)
         {
             if (!entity.Has<TargetComponent>())
             {
@@ -26,13 +26,13 @@ namespace Game.Queries
         }
     }
     
-    public class TargetTypeQueryParameter : QueryParameterBase
+    public class TargetTypeQueryParameter : EntityMatcherBase
     {
         public TargetType targetType;
         
-        public override bool MatchQuery(Entity entity)
+        public override bool Match(Entity entity)
         {
-            return new TargetTypeParameter(targetType).MatchQuery(entity);
+            return new TargetTypeParameter(targetType).Match(entity);
         }
 
         public override string ToString()

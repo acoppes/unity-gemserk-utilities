@@ -15,7 +15,7 @@ namespace Gemserk.Triggers
         
         private void OnEnable()
         {
-            types = TypeCache.GetTypesDerivedFrom<QueryParameterBase>()
+            types = TypeCache.GetTypesDerivedFrom<EntityMatcherBase>()
                 .Where(t => !t.IsAbstract)
                 .Where(t => t.IsSubclassOf(typeof(MonoBehaviour)))
                 .ToList();
