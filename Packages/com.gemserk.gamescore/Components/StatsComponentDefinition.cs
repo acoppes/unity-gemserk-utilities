@@ -221,6 +221,17 @@ namespace Game.Components
             return statsModifier;
         }
 
+        public static StatsModifier Create(int modifierType, string name, float time)
+        {
+            var statsModifiersData = StatsModifier.Default();
+
+            statsModifiersData.type = modifierType;
+            statsModifiersData.name = name;
+            statsModifiersData.time = time;
+
+            return statsModifiersData;
+        }
+
         // public ref StatModifier Get(int statType)
         // {
         //     return ref modifiers[statType];
