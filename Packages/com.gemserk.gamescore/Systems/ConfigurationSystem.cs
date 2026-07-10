@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Game.Components;
@@ -35,10 +36,10 @@ namespace Game.Systems
                 var mainJsonConfiguration = cachedJsonConfigurations[configurationJsonComponent.jsonPath];
                 configurationComponent.configuration = mainJsonConfiguration;
 
-                if (!string.IsNullOrEmpty(configurationJsonComponent.configurationKey))
+                if (!string.IsNullOrEmpty(configurationComponent.configurationKey))
                 {
                     configurationComponent.configuration = mainJsonConfiguration
-                        .GetConfiguration(configurationJsonComponent.configurationKey);
+                        .GetConfiguration(configurationComponent.configurationKey);
                 }
             }
             
@@ -76,20 +77,27 @@ namespace Game.Systems
 
                 var configuration = configurationComponent.configuration;
                 {
-                    var healthConfiguration = configuration.GetConfiguration("health");
-                    if (healthConfiguration != null)
+                    try
                     {
-                        if (healthConfiguration.Has("total"))
+                        var componentConfiguration = configuration.GetConfiguration("health");
+                        if (componentConfiguration != null)
                         {
-                            var factor = health.factor;
-                            health.total = healthConfiguration.Get<float>("total");
-                            health.factor = factor;
+                            if (componentConfiguration.Has("total"))
+                            {
+                                var factor = health.factor;
+                                health.total = componentConfiguration.Get<float>("total");
+                                health.factor = factor;
+                            }
+
+                            if (componentConfiguration.Has("current"))
+                            {
+                                health.current = componentConfiguration.Get<float>("current");
+                            }
                         }
-                        
-                        if (healthConfiguration.Has("current"))
-                        {
-                            health.current = healthConfiguration.Get<float>("current");
-                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"Failed to configure health for {configurationComponent.configurationKey}: {ex.Message}");
                     }
                 }
             }

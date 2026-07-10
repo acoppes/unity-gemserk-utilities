@@ -5,7 +5,6 @@ namespace Game.Components
     public struct ConfigurationJsonComponent : IEntityComponent
     {
         public string jsonPath;
-        public string configurationKey;
     }
     
     public class ConfigurationJsonComponentDefinition : ComponentDefinitionBase
@@ -15,11 +14,13 @@ namespace Game.Components
 
         public override void Apply(World world, Entity entity)
         {
-            world.AddComponent(entity, new ConfigurationComponent());
+            world.AddComponent(entity, new ConfigurationComponent()
+            {
+                configurationKey = configurationKey
+            });
             world.AddComponent(entity, new ConfigurationJsonComponent()
             {
-                jsonPath = configurationJsonPath,
-                configurationKey = configurationKey
+                jsonPath = configurationJsonPath
             });
         }
     }

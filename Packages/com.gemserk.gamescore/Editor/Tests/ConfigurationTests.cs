@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Game.Components;
 using Game.Configurations;
 using Game.Systems;
@@ -6,6 +7,7 @@ using Gemserk.Leopotam.Ecs;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 namespace Game.Editor.Tests
 {
@@ -196,6 +198,43 @@ namespace Game.Editor.Tests
                 Assert.AreEqual(100, configurations[0].Get<int>("key1"));
                 Assert.AreEqual(300f, configurations[1].Get<float>("key2"));
             }
+        }
+        
+        [Test]
+        public void Test_ConfigurationSystem_DontExplode()
+        {
+            var entity1 = world.CreateEntity(null, null, e =>
+            {
+                e.Add(new ConfigurationComponent
+                {
+                    configurationKey = "units.unit1",
+                    configuration = new JsonConfiguration
+                    {
+                        ["health.total"] = "wrong value"
+                    }
+                });
+                e.Add(new HealthComponent());
+            });
+            
+            var entity2 = world.CreateEntity(null, null, e =>
+            {
+                e.Add(new ConfigurationComponent
+                {
+                    configurationKey = "units.unit2",
+                    configuration = new JsonConfiguration
+                    {
+                        ["health.total"] = 300
+                    }
+                });
+                e.Add(new HealthComponent());
+            });
+            
+            world.FixedUpdate();
+            
+            LogAssert.Expect(LogType.Error, new Regex(".*Failed to configure health for.*"));
+            
+            Assert.AreEqual(0, entity1.Get<HealthComponent>().total);
+            Assert.AreEqual(300, entity2.Get<HealthComponent>().total);
         }
     }
 }
