@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Game.Configurations
 {
@@ -78,7 +79,13 @@ namespace Game.Configurations
             }
             return null;
         }
-        
+
+        public IConfiguration[] GetConfigurationArray(string key)
+        {
+            var list = configurationDict[key] as DictionaryConfiguration[];
+            return list!.Cast<IConfiguration>().ToArray();
+        }
+
         public object this[string key]
         {
             get => Get<object>(key);

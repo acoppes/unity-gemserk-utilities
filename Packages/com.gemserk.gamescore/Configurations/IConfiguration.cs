@@ -11,5 +11,7 @@ namespace Game.Configurations
         void Set<T>(string key, T value);
 
         IConfiguration GetConfiguration(string key);
+
+        IConfiguration[] GetConfigurationArray(string key);
     }
 }

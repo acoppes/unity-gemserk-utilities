@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
 namespace Game.Configurations
@@ -78,10 +79,18 @@ namespace Game.Configurations
             return null;
         }
 
-        // public IConfiguration GetConfiguration(string key)
-        // {
-        //     throw new System.NotImplementedException();
-        // }
+        public IConfiguration[] GetConfigurationArray(string key)
+        {
+            var list = new List<IConfiguration>();
+            var jArray = jObject[key] as JArray;
+
+            foreach (var child in jArray)
+            {
+                list.Add(new JsonConfiguration(child as JObject));
+            }
+
+            return list.ToArray();
+        }
         
         public object this[string key]
         {
