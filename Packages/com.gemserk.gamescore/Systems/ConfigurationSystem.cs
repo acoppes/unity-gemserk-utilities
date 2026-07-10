@@ -16,7 +16,9 @@ namespace Game.Systems
         readonly EcsFilterInject<Inc<ConfigurationComponent, HealthComponent, ConfigurationReconfiguredEvent>, Exc<DisabledComponent>> healthFilter = default;
         readonly EcsFilterInject<Inc<ConfigurationComponent, ConfigurationReconfiguredEvent>, Exc<DisabledComponent>> reconfigureFilter = default;
         readonly EcsFilterInject<Inc<ConfigurationComponent>, Exc<ConfigurationReconfiguredEvent, DisabledComponent>> pendingFilterCheck = default;
-
+        private readonly EcsFilterInject<Inc<EffectsComponent, ConfigurationComponent, ConfigurationReconfiguredEvent>, 
+            Exc<DisabledComponent>> effectsConfigFilter = default;
+        
         private readonly Dictionary<string, JsonConfiguration> cachedJsonConfigurations = new Dictionary<string, JsonConfiguration>();
         
         public void OnEntityCreated(World world, Entity entity)
@@ -72,37 +74,78 @@ namespace Game.Systems
             
             foreach (var e in healthFilter.Value)
             {
-                var configurationComponent = healthFilter.Pools.Inc1.Get(e);
+                var configuration = healthFilter.Pools.Inc1.Get(e);
                 ref var health = ref healthFilter.Pools.Inc2.Get(e);
 
-                var configuration = configurationComponent.configuration;
+                try
                 {
-                    try
+                    var componentConfiguration = configuration.configuration.GetConfiguration("health");
+                    if (componentConfiguration != null)
                     {
-                        var componentConfiguration = configuration.GetConfiguration("health");
-                        if (componentConfiguration != null)
+                        if (componentConfiguration.Has("total"))
                         {
-                            if (componentConfiguration.Has("total"))
-                            {
-                                var factor = health.factor;
-                                health.total = componentConfiguration.Get<float>("total");
-                                health.factor = factor;
-                            }
+                            var factor = health.factor;
+                            health.total = componentConfiguration.Get<float>("total");
+                            health.factor = factor;
+                        }
 
-                            if (componentConfiguration.Has("current"))
-                            {
-                                health.current = componentConfiguration.Get<float>("current");
-                            }
+                        if (componentConfiguration.Has("current"))
+                        {
+                            health.current = componentConfiguration.Get<float>("current");
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        Debug.LogError($"Failed to configure health for {configurationComponent.configurationKey}: {ex.Message}");
-                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"Failed to configure health for {configuration.configurationKey}: {ex.Message}");
                 }
             }
             
+            foreach (var e in effectsConfigFilter.Value)
+            {
+                ref var effects = ref effectsConfigFilter.Pools.Inc1.Get(e);
+                var configuration = effectsConfigFilter.Pools.Inc2.Get(e);
 
+                const string valuesKey = "values";
+
+                try
+                {
+                    if (configuration.configuration.Has("effects"))
+                    {
+                        var componentConfig = configuration.configuration.GetConfiguration("effects");
+
+                        if (componentConfig.Has(valuesKey))
+                        {
+                            var effectConfigurations = componentConfig.GetConfigurationArray(valuesKey);
+
+                            for (int i = 0; i < effectConfigurations.Length; i++)
+                            {
+                                if (i < effects.effects.Count)
+                                {
+                                    var effect = effects.effects[i];
+                                    var effectConfiguration = effectConfigurations[i];
+
+                                    if (effectConfiguration.Has("min"))
+                                    {
+                                        effect.minValue = effectConfiguration.Get<float>("min");
+                                    }
+
+                                    if (effectConfiguration.Has("max"))
+                                    {
+                                        effect.maxValue = effectConfiguration.Get<float>("max");
+                                    }
+
+                                    effects.effects[i] = effect;
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"Failed to configure effects for {configuration.configurationKey}: {ex.Message}");
+                }
+            }
         }
     }
 }
