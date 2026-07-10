@@ -76,8 +76,8 @@ namespace Game.Editor.Tests
         {
             var config = new DictionaryConfiguration
             {
-                ["health.total"] = 300f,
-                ["health.current"] = 50f
+                ["_health.total"] = 300f,
+                ["_health.current"] = 50f
             };
 
             var createdEntity = world.CreateEntity(null, null, entity =>
@@ -98,7 +98,7 @@ namespace Game.Editor.Tests
             Assert.AreEqual(300f, createdEntity.Get<HealthComponent>().total);
             Assert.AreEqual(50f, createdEntity.Get<HealthComponent>().current);
 
-            config["health.total"] = 500f;
+            config["_health.total"] = 500f;
 
             createdEntity.Get<ConfigurationComponent>().SetDirty();
 
@@ -210,7 +210,7 @@ namespace Game.Editor.Tests
                     configurationKey = "units.unit1",
                     configuration = new JsonConfiguration
                     {
-                        ["health.total"] = "wrong value"
+                        ["_health.total"] = "wrong value"
                     }
                 });
                 e.Add(new HealthComponent());
@@ -223,7 +223,7 @@ namespace Game.Editor.Tests
                     configurationKey = "units.unit2",
                     configuration = new JsonConfiguration
                     {
-                        ["health.total"] = 300
+                        ["_health.total"] = 300
                     }
                 });
                 e.Add(new HealthComponent());

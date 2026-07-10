@@ -20,6 +20,9 @@ namespace Game.Systems
             Exc<DisabledComponent>> effectsConfigFilter = default;
         
         private readonly Dictionary<string, JsonConfiguration> cachedJsonConfigurations = new Dictionary<string, JsonConfiguration>();
+
+        private const string HealthConfigurationKey = "_health";
+        private const string EffectsConfigurationKey = "_effects";
         
         public void OnEntityCreated(World world, Entity entity)
         {
@@ -79,7 +82,9 @@ namespace Game.Systems
 
                 try
                 {
-                    var componentConfiguration = configuration.configuration.GetConfiguration("health");
+                   
+                    
+                    var componentConfiguration = configuration.configuration.GetConfiguration(HealthConfigurationKey);
                     if (componentConfiguration != null)
                     {
                         if (componentConfiguration.Has("total"))
@@ -110,13 +115,13 @@ namespace Game.Systems
 
                 try
                 {
-                    if (configuration.configuration.Has("effects"))
+                    if (configuration.configuration.Has(EffectsConfigurationKey))
                     {
-                        var componentConfig = configuration.configuration.GetConfiguration("effects");
+                        var componentConfiguration = configuration.configuration.GetConfiguration(EffectsConfigurationKey);
 
-                        if (componentConfig.Has(valuesKey))
+                        if (componentConfiguration.Has(valuesKey))
                         {
-                            var effectConfigurations = componentConfig.GetConfigurationArray(valuesKey);
+                            var effectConfigurations = componentConfiguration.GetConfigurationArray(valuesKey);
 
                             for (int i = 0; i < effectConfigurations.Length; i++)
                             {
