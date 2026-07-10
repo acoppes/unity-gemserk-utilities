@@ -45,6 +45,10 @@ namespace Game.Systems
                 {
                     configurationComponent.configuration = mainJsonConfiguration
                         .GetConfiguration(configurationComponent.configurationKey);
+                    if (configurationComponent.configuration == null)
+                    {
+                        Debug.LogError($"Failed to get {configurationComponent.configurationKey} from main config file {configurationJsonComponent.jsonPath}");
+                    }
                 }
             }
             
@@ -82,8 +86,6 @@ namespace Game.Systems
 
                 try
                 {
-                   
-                    
                     var componentConfiguration = configuration.configuration.GetConfiguration(HealthConfigurationKey);
                     if (componentConfiguration != null)
                     {
