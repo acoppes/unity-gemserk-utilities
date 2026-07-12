@@ -59,7 +59,7 @@ namespace Gemserk.Triggers
                     // weird to have to check this here..
                     if (!entity.Has<NameComponent>())
                         return false;
-                    return new NameParameter(identifier).MatchQuery(entity);
+                    return new NameMatcher(identifier).Match(entity);
                 case QuerySourceType.TriggerActivator:
                     return entity == (Entity)activator;
                 case QuerySourceType.Query:
@@ -81,7 +81,7 @@ namespace Gemserk.Triggers
 
             if (sourceType == QuerySourceType.Identifier)
             {
-                var queryEntities = world.GetEntities(new EntityQuery(new NameParameter(identifier)));
+                var queryEntities = world.GetEntities(new EntityQuery(new NameMatcher(identifier)));
                 if (queryEntities.Count == 0)
                     return false;
                 result.AddRange(queryEntities);
@@ -112,7 +112,7 @@ namespace Gemserk.Triggers
 
             if (sourceType == QuerySourceType.Identifier)
             {
-                return world.GetFirstOrDefault(new EntityQuery(new NameParameter(identifier)));
+                return world.GetFirstOrDefault(new EntityQuery(new NameMatcher(identifier)));
             }
 
             if (sourceType == QuerySourceType.Query)

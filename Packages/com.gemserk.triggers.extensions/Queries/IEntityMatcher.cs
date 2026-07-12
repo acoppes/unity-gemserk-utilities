@@ -2,8 +2,8 @@
 
 namespace Gemserk.Triggers.Queries
 {
-    public interface IQueryParameter
+    public interface IEntityMatcher
     {
-        bool MatchQuery(Entity entity);
+        bool Match(Entity entity);
     }
 }

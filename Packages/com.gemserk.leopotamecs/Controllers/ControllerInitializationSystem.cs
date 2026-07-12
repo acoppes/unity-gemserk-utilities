@@ -12,10 +12,9 @@ namespace Gemserk.Leopotam.Ecs.Controllers
     public class ControllerInitializationSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler, 
         IEntityCreatedHandler, IEcsInitSystem
     {
-        readonly EcsFilterInject<Inc<ControllerComponent, ConfigurationComponent>, Exc<DisabledComponent>> configurableControllers = default;
         readonly EcsFilterInject<Inc<ControllerComponent>, Exc<DisabledComponent>> controllerFilter = default;
         
-        readonly EcsPoolInject<ConfigurationComponent> configurationComponents = default;
+        readonly EcsPoolInject<ConfigurationScriptComponent> configurationComponents = default;
         readonly EcsPoolInject<ControllerComponent> controllerComponents = default;
         
 #if GEMSERK_CONTROLLERS_DEBUG && UNITY_EDITOR
@@ -138,16 +137,6 @@ namespace Gemserk.Leopotam.Ecs.Controllers
 
         public void Run(EcsSystems systems)
         {
-            foreach (var entity in configurableControllers.Value)
-            {
-                ref var controllerComponent = ref controllerComponents.Value.Get(entity);
-                var configuration = configurationComponents.Value.Get(entity);
-
-                controllerComponent.onConfigurationPending =
-                    controllerComponent.configurationVersion != configuration.configuredVersion;
-                controllerComponent.configurationVersion = configuration.configuredVersion;
-            }
-
             foreach (var entity in controllerFilter.Value)
             {
                 ref var controllerComponent = ref controllerComponents.Value.Get(entity);
@@ -165,11 +154,6 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                         {
                             init.OnInit(world, worldEntity);
                         }
-                        
-                        if (controllerComponent.onConfigurationPending && controller is IConfigurable configurable)
-                        {
-                            configurable.OnConfigured(world, worldEntity);
-                        }
                     }
                     catch (Exception ex)
                     {
@@ -178,7 +162,6 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                 }
                 
                 controllerComponent.intialized = true;
-                controllerComponent.onConfigurationPending = false;
             }
         }
     }

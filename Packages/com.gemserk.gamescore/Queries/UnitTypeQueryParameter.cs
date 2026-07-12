@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game.Queries
 {
-    public readonly struct UnitTypeParameter : IQueryParameter
+    public readonly struct UnitTypeParameter : IEntityMatcher
     {
         private readonly int type;
 
@@ -15,7 +15,7 @@ namespace Game.Queries
             this.type = type;
         }
         
-        public bool MatchQuery(Entity entity)
+        public bool Match(Entity entity)
         {
             if (!entity.Has<UnitTypeComponent>())
             {
@@ -28,7 +28,7 @@ namespace Game.Queries
         }
     }
     
-    public class UnitTypeQueryParameter : QueryParameterBase
+    public class UnitTypeQueryParameter : EntityMatcherBase
     {
         public BitmaskTypeAsset[] types;
         
@@ -50,9 +50,9 @@ namespace Game.Queries
             }
         }
 
-        public override bool MatchQuery(Entity entity)
+        public override bool Match(Entity entity)
         {
-            return new UnitTypeParameter(unitType).MatchQuery(entity);
+            return new UnitTypeParameter(unitType).Match(entity);
         }
 
         public override string ToString()

@@ -18,7 +18,7 @@ namespace Gemserk.Triggers.Queries
         {
             for (var i = 0; i < query.parameters.Count; i++)
             {
-                if (!query.parameters[i].MatchQuery(entity))
+                if (!query.parameters[i].Match(entity))
                 {
                     return false;
                 }

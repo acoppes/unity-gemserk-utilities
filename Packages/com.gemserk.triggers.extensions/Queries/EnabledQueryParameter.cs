@@ -2,7 +2,7 @@
 
 namespace Gemserk.Triggers.Queries
 {
-    public struct EnabledParameter : IQueryParameter
+    public struct IsEnabledMatcher : IEntityMatcher
     {
         public enum EnabledType
         {
@@ -12,12 +12,12 @@ namespace Gemserk.Triggers.Queries
         
         public EnabledType enabledType;
 
-        public EnabledParameter(EnabledType enabledType)
+        public IsEnabledMatcher(EnabledType enabledType)
         {
             this.enabledType = enabledType;
         }
         
-        public bool MatchQuery(Entity entity)
+        public bool Match(Entity entity)
         {
             var disabled = entity.Has<DisabledComponent>();
 
@@ -35,13 +35,13 @@ namespace Gemserk.Triggers.Queries
         }
     }
     
-    public class EnabledQueryParameter : QueryParameterBase
+    public class EnabledQueryParameter : EntityMatcherBase
     {
-        public EnabledParameter.EnabledType enabledType;
+        public IsEnabledMatcher.EnabledType enabledType;
         
-        public override bool MatchQuery(Entity entity)
+        public override bool Match(Entity entity)
         {
-            return new EnabledParameter(enabledType).MatchQuery(entity);
+            return new IsEnabledMatcher(enabledType).Match(entity);
         }
 
         public override string ToString()

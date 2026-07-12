@@ -2,17 +2,17 @@
 
 namespace Gemserk.Triggers.Queries
 {
-    public struct HasComponent<T> : IQueryParameter where T : struct, IEntityComponent
+    public struct HasComponent<T> : IEntityMatcher where T : struct, IEntityComponent
     {
-        public bool MatchQuery(Entity entity)
+        public bool Match(Entity entity)
         {
             return entity.Has<T>();
         }
     }
     
-    public abstract class HasComponentQueryParameter<T> : QueryParameterBase where T : struct, IEntityComponent
+    public abstract class HasComponentQueryParameter<T> : EntityMatcherBase where T : struct, IEntityComponent
     {
-        public override bool MatchQuery(Entity entity)
+        public override bool Match(Entity entity)
         {
             return entity.Has<T>();
         }

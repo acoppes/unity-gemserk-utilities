@@ -2,13 +2,13 @@
 
 namespace Gemserk.Triggers.Queries
 {
-    public class NotQueryParameter : QueryParameterBase
+    public class NotQueryParameter : EntityMatcherBase
     {
-        public QueryParameterBase queryParameter;
+        public EntityMatcherBase queryParameter;
         
-        public override bool MatchQuery(Entity entity)
+        public override bool Match(Entity entity)
         {
-            return !queryParameter.MatchQuery(entity);
+            return !queryParameter.Match(entity);
         }
     }
 }

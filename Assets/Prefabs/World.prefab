@@ -685,6 +685,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88630cd82fbe451d8288b9458301a28c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1830105483794691775
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6828673806588390017}
+  - component: {fileID: 8489504805752264719}
+  m_Layer: 0
+  m_Name: ConfigurationSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6828673806588390017
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1830105483794691775}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2005433260932249392}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8489504805752264719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1830105483794691775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 436f006b9c9e44ce9daa8612d0ea5afa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::Game.Systems.ConfigurationSystem
 --- !u!1 &1966848935898984135
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,7 +829,7 @@ GameObject:
   - component: {fileID: 2005433259262783756}
   - component: {fileID: 2005433259262783757}
   m_Layer: 0
-  m_Name: ConfigurationSystem
+  m_Name: ConfigurationScriptSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1427,6 +1471,7 @@ Transform:
   - {fileID: 1694393290782627906}
   - {fileID: 5360271264737666903}
   - {fileID: 3451105556338062388}
+  - {fileID: 6828673806588390017}
   - {fileID: 2005433259262783756}
   - {fileID: 5854465207345146158}
   - {fileID: 8284901024326853750}
@@ -2371,7 +2416,7 @@ GameObject:
   - component: {fileID: 4673624727167393587}
   - component: {fileID: 5074258280531149780}
   m_Layer: 0
-  m_Name: OnDamageEventControllerSystem
+  m_Name: OnHealthChangedControllerSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3024,8 +3069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185494918e74bcc94289d9eb85e51d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numbersPrefab: {fileID: 5700376748609075319, guid: d9daa0abf71718640bba73351503490f,
-    type: 3}
+  numbersPrefab: {fileID: 0}
 --- !u!1 &6614390580097432500
 GameObject:
   m_ObjectHideFlags: 0

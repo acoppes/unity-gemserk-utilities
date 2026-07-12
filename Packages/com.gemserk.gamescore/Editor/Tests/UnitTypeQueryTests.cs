@@ -21,9 +21,9 @@ namespace Game.Editor.Tests
                 unitType = 1 << 3
             });
             
-            Assert.IsFalse(new UnitTypeParameter(1 << 0).MatchQuery(entity));
-            Assert.IsTrue(new UnitTypeParameter(1 << 3).MatchQuery(entity));
-            Assert.IsTrue(new UnitTypeParameter(1 << 3 | 1 << 0).MatchQuery(entity));
+            Assert.IsFalse(new UnitTypeParameter(1 << 0).Match(entity));
+            Assert.IsTrue(new UnitTypeParameter(1 << 3).Match(entity));
+            Assert.IsTrue(new UnitTypeParameter(1 << 3 | 1 << 0).Match(entity));
         }
     }
 }

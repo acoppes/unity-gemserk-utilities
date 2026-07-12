@@ -5,14 +5,14 @@ namespace Gemserk.Triggers.Queries
 {
     public readonly struct EntityQuery
     {
-        public readonly List<IQueryParameter> parameters;
+        public readonly List<IEntityMatcher> parameters;
 
-        public EntityQuery(List<IQueryParameter> parameters)
+        public EntityQuery(List<IEntityMatcher> parameters)
         {
             this.parameters = parameters;
         }
         
-        public EntityQuery(params IQueryParameter[] parameters)
+        public EntityQuery(params IEntityMatcher[] parameters)
         {
             this.parameters = parameters.ToList();
         }
@@ -37,7 +37,7 @@ namespace Gemserk.Triggers.Queries
             return string.Join(",", list);
         }
         
-        public static EntityQuery Create(IQueryParameter[] parameters)
+        public static EntityQuery Create(IEntityMatcher[] parameters)
         {
             return new EntityQuery(parameters);
         }
