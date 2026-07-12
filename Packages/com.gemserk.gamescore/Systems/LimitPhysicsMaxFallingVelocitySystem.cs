@@ -9,7 +9,7 @@ namespace Game.Systems
     public class LimitPhysicsMaxFallingVelocitySystem : BaseSystem, IEcsRunSystem
     {
         readonly EcsFilterInject<Inc<PhysicsComponent, LimitMaxFallingVelocityComponent>, Exc<DisabledComponent>> physicsFilter = default;
-        readonly EcsFilterInject<Inc<Physics2dComponent, LimitMaxFallingVelocityComponent, ConfigurationComponent>, Exc<DisabledComponent>> physics2dFilter = default;
+        readonly EcsFilterInject<Inc<Physics2dComponent, LimitMaxFallingVelocityComponent>, Exc<DisabledComponent>> physics2dFilter = default;
         
         public float maxVerticalVelocity = 1;
         
