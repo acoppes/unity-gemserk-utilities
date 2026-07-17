@@ -27,6 +27,8 @@ namespace Gemserk.Triggers.Editor
                     triggerObject.maxExecutions = EditorGUILayout.IntField(triggerObject.maxExecutions);
                     triggerObject.maxExecutions = Mathf.Clamp(triggerObject.maxExecutions, 1, 9999);
                 }
+                
+                triggerObject.maxQueue = EditorGUILayout.IntField("Max Queue", triggerObject.maxQueue);
 
                 if (EditorGUI.EndChangeCheck())
                 {   

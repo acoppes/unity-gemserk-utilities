@@ -7,6 +7,7 @@ namespace Gemserk.Triggers
         public int executionTimes;
         public int maxExecutionTimes;
         public int executingAction;
+        public int maxQueue;
     }
     
     public class Trigger : ITrigger
@@ -78,6 +79,11 @@ namespace Gemserk.Triggers
             }
             
             if (state == ITrigger.ExecutionState.Completed)
+            {
+                return;
+            }
+
+            if (triggerState.maxQueue > 0 && pendingExecutions.Count >= triggerState.maxQueue)
             {
                 return;
             }

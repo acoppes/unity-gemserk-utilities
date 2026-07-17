@@ -1,8 +1,6 @@
-using System.Collections;
 using Gemserk.Triggers.Actions;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Gemserk.Triggers.Editor
 {
@@ -244,6 +242,53 @@ namespace Gemserk.Triggers.Editor
             gameObject.SetActive(true);
             triggerObject.OnEnable();
             Assert.IsFalse(triggerObject.IsDisabled());
+        }
+        
+        [Test]
+        public void Test_QueueExecutions_DifferentModes()
+        {
+            var trigger = new Trigger();
+            trigger.QueueExecution();
+            trigger.QueueExecution();
+            Assert.AreEqual(2, trigger.pendingExecutions.Count);
+            
+            var trigger2 = new Trigger();
+            trigger2.GetTriggerState().maxQueue = 1;
+            trigger2.QueueExecution();
+            trigger2.QueueExecution();
+            Assert.AreEqual(1, trigger2.pendingExecutions.Count);
+            
+            trigger2.CompleteCurrentExecution();
+            Assert.AreEqual(0, trigger2.pendingExecutions.Count);
+            trigger2.QueueExecution();
+            trigger2.QueueExecution();
+            Assert.AreEqual(1, trigger2.pendingExecutions.Count);
+        }
+        
+        [Test]
+        public void Test_CantQueueWhileExecuting_IfAtMaxQueue()
+        {
+            var trigger = new Trigger();
+            trigger.GetTriggerState().maxQueue = 1;
+            
+            trigger.actions.Add(new MockTriggerAction()
+            {
+                disabled = false,
+                result = ITrigger.ExecutionResult.Running
+            });
+            
+            trigger.QueueExecution();
+            trigger.StartExecution();
+            
+            var executionResult = trigger.Execute();
+            
+            Assert.AreEqual(1, trigger.pendingExecutions.Count);
+            Assert.AreEqual(ITrigger.ExecutionResult.Running, executionResult);
+            
+            trigger.QueueExecution();
+            trigger.QueueExecution();
+            Assert.AreEqual(1, trigger.pendingExecutions.Count);
+
         }
     }
 }

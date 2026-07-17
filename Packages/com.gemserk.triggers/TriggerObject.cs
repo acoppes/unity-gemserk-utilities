@@ -24,6 +24,8 @@ namespace Gemserk.Triggers
         public ExecutionType executionType;
         public int maxExecutions;
 
+        public int maxQueue;
+
         public int GetCalculatedMaxExecutions()
         {
             if (executionType == TriggerObject.ExecutionType.Once)
@@ -67,6 +69,8 @@ namespace Gemserk.Triggers
             {
                 triggerState.maxExecutionTimes = maxExecutions;
             }
+
+            triggerState.maxQueue = maxQueue;
             
             eventsParent = transform.Find("Events");
             conditionsParent = transform.Find("Conditions");
