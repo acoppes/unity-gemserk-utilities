@@ -157,7 +157,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                     }
                     catch (Exception ex)
                     {
-                        Debug.LogException(new Exception($"Failed to update {entity}", ex), controllerComponent.instance);
+                        Debug.LogException(new Exception($"Failed to initialize {entity}", ex), controllerComponent.instance);
                     }
                 }
                 
