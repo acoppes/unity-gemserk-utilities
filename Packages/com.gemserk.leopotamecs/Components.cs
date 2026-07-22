@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using Gemserk.Utilities;
 using UnityEngine;
 
 namespace Gemserk.Leopotam.Ecs
@@ -15,6 +16,11 @@ namespace Gemserk.Leopotam.Ecs
     {
         public Vector3 value;
         public float angle;
+
+        public void SetFromAngle(float angleInDegrees)
+        {
+            value = Vector2.right.Rotate(angleInDegrees * Mathf.Deg2Rad);
+        }
     }
     
     public struct PositionComponent : IEntityComponent
