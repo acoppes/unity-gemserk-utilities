@@ -1,9 +1,12 @@
-﻿using Gemserk.Leopotam.Ecs;
+﻿using System.Collections.Generic;
+using Game.Components;
+using Gemserk.Leopotam.Ecs;
 using Gemserk.Leopotam.Ecs.Components;
 using Gemserk.Utilities.Pooling;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using MyBox;
+using UnityEngine;
 
 namespace Game.Systems
 {
@@ -54,7 +57,24 @@ namespace Game.Systems
                     
                     // gameObjectComponent.gameObject = Instantiate(gameObjectComponent.prefab);
                     gameObjectComponent.gameObject.SetActive(true);
-                    
+                }
+
+                if (gameObjectComponent.autoCreatePhysicsComponent && gameObjectComponent.gameObject 
+                                                                   && !world.HasComponent<Physics2dComponent>(entity))
+                {
+                    var body = gameObjectComponent.gameObject.GetComponent<Rigidbody2D>();
+                    if (body)
+                    {
+                        world.AddComponent(entity, new Physics2dComponent()
+                        {
+                            prefab = null,
+                            gameObject = gameObjectComponent.gameObject,
+                            contacts = new List<ContactPoint2D>(),
+                            transform = gameObjectComponent.gameObject.transform,
+                            body = body,
+                            disableContactsCalculations = true
+                        });
+                    }
                 }
             }
         }

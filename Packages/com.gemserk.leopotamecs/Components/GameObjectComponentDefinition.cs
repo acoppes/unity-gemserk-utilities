@@ -12,6 +12,8 @@ namespace Gemserk.Leopotam.Ecs.Components
         public bool reusablePrefab;
 
         public Transform transform => gameObject.transform;
+
+        public bool autoCreatePhysicsComponent;
     }
 
     public struct CopyPositionFromEntityComponent : IEntityComponent
@@ -48,13 +50,16 @@ namespace Gemserk.Leopotam.Ecs.Components
 
         public bool isController;
 
+        public bool autoCreatePhysicsComponent;
+
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new GameObjectComponent
             {
                 gameObject = linkedObjectInstance,
                 prefab = prefab,
-                reusablePrefab = reusable
+                reusablePrefab = reusable,
+                autoCreatePhysicsComponent = autoCreatePhysicsComponent
             });
 
             if (copyPositionType == CopyPositionType.CopyFromEntity)
