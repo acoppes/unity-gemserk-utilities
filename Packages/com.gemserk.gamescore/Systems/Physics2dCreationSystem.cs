@@ -120,14 +120,14 @@ namespace Game.Systems
             {
                 ref var physics2dComponent = ref world.GetComponent<Physics2dComponent>(entity);
 
-                if (physics2dComponent.prefab != null)
+                if (physics2dComponent.prefab)
                 {
                     physics2dComponent.gameObject = poolMap.Get(physics2dComponent.prefab);
                     physics2dComponent.transform = physics2dComponent.gameObject.transform;
                     physics2dComponent.gameObject.SetActive(true);
                     
                     physics2dComponent.body = physics2dComponent.gameObject.GetComponent<Rigidbody2D>();
-                    physics2dComponent.isStatic = physics2dComponent.body == null;
+                    physics2dComponent.isStatic = !physics2dComponent.body;
                     
                     var entityReference = physics2dComponent.gameObject.GetOrAddComponent<EntityReference>();
                     entityReference.entity = entity;
@@ -137,7 +137,7 @@ namespace Game.Systems
                     var position = world.GetComponent<PositionComponent>(entity);
                     physics2dComponent.body.position = position.value;
                 }
-                else
+                else if (!physics2dComponent.gameObject)
                 {
                     physics2dComponent.gameObject = new GameObject("~Physics2dObject");
                     physics2dComponent.transform = physics2dComponent.gameObject.transform;
@@ -200,7 +200,7 @@ namespace Game.Systems
                     }
                 }
 
-                if (physics2dComponent.body != null)
+                if (physics2dComponent.body)
                 {
                     physics2dComponent.collisionsEventsDelegate =
                         physics2dComponent.gameObject.GetOrAddComponent<EntityCollision2dDelegate>();
