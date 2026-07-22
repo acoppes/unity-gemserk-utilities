@@ -28,7 +28,7 @@ namespace Game.Systems
                 if (physics2dComponent.disableContactsCalculations)
                     continue;
                 
-                if (physics2dComponent.body != null)
+                if (physics2dComponent.body)
                 {
                     Physics2D.GetContacts(physics2dComponent.body, physics2dComponent.contacts);
                 }

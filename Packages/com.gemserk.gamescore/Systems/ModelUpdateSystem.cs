@@ -17,7 +17,10 @@ namespace Game.Systems
         
         readonly EcsFilterInject<Inc<ModelInstanceComponent, PositionComponent>, Exc<DisabledComponent, ModelStaticProcessedComponent>> positionFilter = default;
         
-        readonly EcsFilterInject<Inc<ModelComponent, ModelInstanceComponent, PositionComponent, LookingDirection>, Exc<DisabledComponent>> 
+        readonly EcsFilterInject<Inc<PositionComponent, LookingDirection>, Exc<DisabledComponent>> 
+            lookingDirectionAngleFilter = default;
+        
+        readonly EcsFilterInject<Inc<ModelComponent, ModelInstanceComponent, LookingDirection>, Exc<DisabledComponent>> 
             modelAllFilter = default;
         
         readonly EcsFilterInject<Inc<ModelInstanceComponent, ModelInterpolationComponent>, Exc<DisabledComponent, ModelStaticProcessedComponent>> 
@@ -145,13 +148,27 @@ namespace Game.Systems
                     modelInstance.instance.cachedTransform.position = new Vector3(position.x, position.y + position.z, 0);
                 }
             }
+            
+            foreach (var entity in lookingDirectionAngleFilter.Value)
+            {
+                var position = lookingDirectionAngleFilter.Pools.Inc1.Get(entity);
+                ref var lookingDirection = ref lookingDirectionAngleFilter.Pools.Inc2.Get(entity);
+                
+                var direction = GamePerspective.ProjectFromWorld(lookingDirection.value);
+
+                var p0 = GamePerspective.ProjectFromWorld(position.value);
+                var p1 = p0 + direction;
+
+                var angle = Vector2.SignedAngle(Vector2.right, p1 - p0);
+
+                lookingDirection.angle = angle;
+            }
 
             foreach (var entity in modelAllFilter.Value)
             {
                 var modelComponent = modelAllFilter.Pools.Inc1.Get(entity);
                 ref var modelInstance = ref modelAllFilter.Pools.Inc2.Get(entity);
-                var positionComponent = modelAllFilter.Pools.Inc3.Get(entity);
-                var lookingDirection = modelAllFilter.Pools.Inc4.Get(entity);
+                var lookingDirection = modelAllFilter.Pools.Inc3.Get(entity);
                 
                 var modelTransform = modelInstance.instance.cachedTransform;
 
@@ -189,13 +206,9 @@ namespace Game.Systems
                 }
                 else if (modelComponent.rotation == ModelComponent.RotationType.Rotate)
                 {
-                    var direction3d = lookingDirection.value;
-                    var direction2d = GamePerspective.ProjectFromWorld(direction3d);
-
-                    var p0 = GamePerspective.ProjectFromWorld(positionComponent.value);
-                    var p1 = p0 + direction2d;
-
-                    var angle = Vector2.SignedAngle(Vector2.right, p1 - p0);
+                    var direction = GamePerspective.ProjectFromWorld(lookingDirection.value);
+                    
+                    var angle = lookingDirection.angle;
                     
                     var objectModel = modelInstance.instance;
 
@@ -209,7 +222,7 @@ namespace Game.Systems
                     
                     t.localEulerAngles = t.localEulerAngles.SetZ(angle);
                     var modelScale = t.localScale;
-                    t.localScale = new Vector3(direction2d.magnitude, modelScale.y, modelScale.z);
+                    t.localScale = new Vector3(direction.magnitude, modelScale.y, modelScale.z);
                 }
             }
             

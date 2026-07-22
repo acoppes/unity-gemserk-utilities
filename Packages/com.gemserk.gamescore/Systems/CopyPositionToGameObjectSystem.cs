@@ -2,6 +2,7 @@
 using Gemserk.Leopotam.Ecs.Components;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
 namespace Game.Systems
 {
@@ -9,6 +10,9 @@ namespace Game.Systems
     {
         readonly EcsFilterInject<Inc<PositionComponent, GameObjectComponent, CopyPositionFromEntityComponent>, 
             Exc<DisabledComponent, CopyPositionFromEntityStaticProcessedComponent>> fromEntity = default;
+        
+        readonly EcsFilterInject<Inc<LookingDirection, GameObjectComponent, CopyPositionFromEntityComponent>, 
+            Exc<DisabledComponent, CopyPositionFromEntityStaticProcessedComponent>> lookingDirectionEntity = default;
         
         readonly EcsFilterInject<Inc<CopyPositionFromEntityComponent, StaticObjectComponent>, 
             Exc<DisabledComponent, CopyPositionFromEntityStaticProcessedComponent>> fromEntityStatic = default;
@@ -48,6 +52,13 @@ namespace Game.Systems
                 }
 
                 // i++;
+            }
+            
+            foreach (var e in lookingDirectionEntity.Value)
+            {
+                ref var lookingDirection = ref lookingDirectionEntity.Pools.Inc1.Get(e);
+                ref var gameObjectComponent = ref lookingDirectionEntity.Pools.Inc2.Get(e);
+                gameObjectComponent.gameObject.transform.localEulerAngles = new Vector3(0, 0, lookingDirection.angle);
             }
 
             

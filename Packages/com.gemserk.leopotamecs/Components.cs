@@ -14,6 +14,7 @@ namespace Gemserk.Leopotam.Ecs
     public struct LookingDirection : IEntityComponent
     {
         public Vector3 value;
+        public float angle;
     }
     
     public struct PositionComponent : IEntityComponent
