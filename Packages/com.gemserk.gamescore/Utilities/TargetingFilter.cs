@@ -12,8 +12,8 @@ namespace Game.Utilities
         public enum CheckDistanceType
         {
             Nothing = 0,
-            InsideDistance = 1,
-            InsideDistanceXZ = 2,
+            Sphere = 1,
+            PlaneXZ = 2,
         }
 
         public TargetType targetTypes;

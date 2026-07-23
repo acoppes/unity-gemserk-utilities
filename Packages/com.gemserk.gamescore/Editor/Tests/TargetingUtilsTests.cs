@@ -23,8 +23,8 @@ namespace Game.Editor.Tests
                 {
                     aliveType = HealthComponent.AliveType.Alive,
                     angle = new MinMaxFloat(0, 20),
-                    angleType = TargetingFilter.CheckDistanceType.InsideDistanceXZ,
-                    distanceType = TargetingFilter.CheckDistanceType.InsideDistance,
+                    angleType = TargetingFilter.CheckDistanceType.PlaneXZ,
+                    distanceType = TargetingFilter.CheckDistanceType.Sphere,
                     playerAllianceType = PlayerAllianceType.Everything,
                     range = new MinMaxFloat(0, 2f)
                 }
@@ -60,8 +60,8 @@ namespace Game.Editor.Tests
                 {
                     aliveType = HealthComponent.AliveType.Alive,
                     angle = new MinMaxFloat(0, 20),
-                    angleType = TargetingFilter.CheckDistanceType.InsideDistance,
-                    distanceType = TargetingFilter.CheckDistanceType.InsideDistance,
+                    angleType = TargetingFilter.CheckDistanceType.Sphere,
+                    distanceType = TargetingFilter.CheckDistanceType.Sphere,
                     playerAllianceType = PlayerAllianceType.Everything,
                     range = new MinMaxFloat(0, 2f)
                 }

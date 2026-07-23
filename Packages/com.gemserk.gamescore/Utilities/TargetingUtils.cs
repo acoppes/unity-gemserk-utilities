@@ -350,10 +350,10 @@ namespace Game.Utilities
             {
                 var targetAngle = 0f;
                 
-                if (runtimeTargetingParameters.filter.angleType == TargetingFilter.CheckDistanceType.InsideDistanceXZ)
+                if (runtimeTargetingParameters.filter.angleType == TargetingFilter.CheckDistanceType.PlaneXZ)
                 {
                     targetAngle = Vector2.Angle(runtimeTargetingParameters.direction.XZ(), difference.XZ());
-                } else if (runtimeTargetingParameters.filter.angleType == TargetingFilter.CheckDistanceType.InsideDistance)
+                } else if (runtimeTargetingParameters.filter.angleType == TargetingFilter.CheckDistanceType.Sphere)
                 {
                     targetAngle = Vector2.Angle(runtimeTargetingParameters.direction, difference);
                 }
@@ -369,7 +369,7 @@ namespace Game.Utilities
                 }
             }
 
-            if (targetingFilter.distanceType == TargetingFilter.CheckDistanceType.InsideDistance)
+            if (targetingFilter.distanceType == TargetingFilter.CheckDistanceType.Sphere)
             {
                 var differenceSqrMagnitude = difference.sqrMagnitude;
                 
@@ -384,7 +384,7 @@ namespace Game.Utilities
                 }
             }
             
-            if (targetingFilter.distanceType == TargetingFilter.CheckDistanceType.InsideDistanceXZ)
+            if (targetingFilter.distanceType == TargetingFilter.CheckDistanceType.PlaneXZ)
             {
                 var differenceSqrMagnitude = difference.XZ().sqrMagnitude;
                 
