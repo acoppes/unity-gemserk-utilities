@@ -19,6 +19,7 @@ namespace Game.Utilities
             playerAllianceType = PlayerAllianceType.Enemies,
             aliveType = HealthComponent.AliveType.Alive,
             distanceType = TargetingFilter.CheckDistanceType.Nothing,
+            angleType = TargetingFilter.CheckDistanceType.InsideDistanceXZ,
             angle = new MinMaxFloat(0, 180),
             range = new MinMaxFloat(0, 1),
             sorter = null

@@ -28,6 +28,7 @@ namespace Game.Utilities
 
         public HealthComponent.AliveType aliveType;
 
+        public CheckDistanceType angleType;
         [Tooltip("Use 0 to disable, max shouldn't be bigger than 180")]
         public MinMaxFloat angle;
 

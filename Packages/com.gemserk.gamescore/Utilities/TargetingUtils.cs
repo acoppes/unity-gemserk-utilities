@@ -348,7 +348,16 @@ namespace Game.Utilities
 
             if (targetingFilter.angle.Min > 0 || targetingFilter.angle.Max < 180)
             {
-                var targetAngle = Vector2.Angle(runtimeTargetingParameters.direction.XZ(), difference.XZ());
+                var targetAngle = 0f;
+                
+                if (runtimeTargetingParameters.filter.angleType == TargetingFilter.CheckDistanceType.InsideDistanceXZ)
+                {
+                    targetAngle = Vector2.Angle(runtimeTargetingParameters.direction.XZ(), difference.XZ());
+                } else if (runtimeTargetingParameters.filter.angleType == TargetingFilter.CheckDistanceType.InsideDistance)
+                {
+                    targetAngle = Vector2.Angle(runtimeTargetingParameters.direction, difference);
+                }
+                
                 if (targetAngle > targetingFilter.angle.Max)
                 {
                     return false;
