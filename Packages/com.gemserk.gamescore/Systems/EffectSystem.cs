@@ -20,6 +20,7 @@ namespace Game.Systems
         readonly EcsFilterInject<Inc<EffectsComponent>, Exc<DisabledComponent>> effectsFilter = default;
         readonly EcsFilterInject<Inc<EffectsComponent, DestroyableComponent>, Exc<DisabledComponent>> destroyableEffectsFilter = default;
         
+        readonly EcsFilterInject<Inc<AreaEffectComponent, LookingDirection>, Exc<DisabledComponent>> areaEffectDirectionFilter = default;
         readonly EcsFilterInject<Inc<AreaEffectComponent, PositionComponent, PlayerComponent>, Exc<DisabledComponent>> areaEffects = default;
         readonly EcsFilterInject<Inc<AreaEffectComponent, DestroyableComponent>, Exc<DisabledComponent>> destroyableAreaEffects = default;
         
@@ -169,7 +170,15 @@ namespace Game.Systems
             }
             
             // COPY DIRECTION FROM LOOKING DIRECTION?
-            
+
+            foreach (var e in areaEffectDirectionFilter.Value)
+            {
+                // var cursor = ref cursorInputFilter.Pools.Inc1.Get(e);
+                ref var areaEffect = ref areaEffectDirectionFilter.Pools.Inc1.Get(e);
+                var lookingDirection = areaEffectDirectionFilter.Pools.Inc2.Get(e);
+                areaEffect.direction = lookingDirection.value;
+            }
+
             foreach (var e in areaEffects.Value)
             {
                 // var cursor = ref cursorInputFilter.Pools.Inc1.Get(e);
@@ -181,7 +190,7 @@ namespace Game.Systems
                 {
                     alliedPlayersBitmask = player.GetAlliedPlayers(),
                     position = position.value,
-                    direction = new Vector3(1, 0, 0),
+                    direction = areaEffect.direction,
                     filter = areaEffect.targeting.targetingFilter,
                     rangeMultiplier = areaEffect.rangeMultiplier
                 }, Targets);

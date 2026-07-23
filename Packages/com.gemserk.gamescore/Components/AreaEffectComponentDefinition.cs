@@ -14,6 +14,7 @@ namespace Game.Components
         public List<IEntityDefinition> effectDefinitions;
         public float effectValueMultiplier;
         public float rangeMultiplier;
+        public Vector3 direction;
     }
     
     public class AreaEffectComponentDefinition : ComponentDefinitionBase
@@ -30,6 +31,7 @@ namespace Game.Components
                 targeting = targeting,
                 effectValueMultiplier = 1f,
                 rangeMultiplier = 1f,
+                direction = new Vector3(1, 0, 0),
                 effectDefinitions = effectDefinitions.Select(e => e.GetInterface<IEntityDefinition>()).ToList()
             });
         }
