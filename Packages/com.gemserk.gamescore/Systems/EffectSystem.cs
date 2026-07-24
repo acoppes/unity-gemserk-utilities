@@ -65,19 +65,24 @@ namespace Game.Systems
             {
                 // var cursor = ref cursorInputFilter.Pools.Inc1.Get(e);
                 ref var effects = ref effectsFilter.Pools.Inc1.Get(e);
+                effects.delayFramesToApply = 0;
 
-                if (!effects.hasDelaySet && effects.maxDelay > 0 && effects.minDelay >= 0)
+                if (effects.delayType != EffectsComponent.DelayType.None)
                 {
-                    if (effects.delayType == EffectsComponent.DelayType.Random)
+                    if (!effects.hasDelaySet && effects.maxDelay > 0 && effects.minDelay >= 0)
                     {
-                        effects.delayFramesToApply = UnityEngine.Random.Range(effects.minDelay, effects.maxDelay);
-                    } else if (effects.delayType == EffectsComponent.DelayType.UseFactor)
-                    {
-                        var delay = effects.factor * effects.maxDelay + effects.minDelay;
-                        effects.delayFramesToApply = Mathf.RoundToInt(delay);
-                        // maybe would be better to have an expansion speed or something like that
+                        if (effects.delayType == EffectsComponent.DelayType.Random)
+                        {
+                            effects.delayFramesToApply = UnityEngine.Random.Range(effects.minDelay, effects.maxDelay);
+                        } else if (effects.delayType == EffectsComponent.DelayType.UseFactor)
+                        {
+                            var delay = effects.factor * effects.maxDelay + effects.minDelay;
+                            effects.delayFramesToApply = Mathf.RoundToInt(delay);
+                            // maybe would be better to have an expansion speed or something like that
+                        }
+
+                        effects.hasDelaySet = true;
                     }
-                    effects.hasDelaySet = true;
                 }
 
                 effects.currentFrame++;

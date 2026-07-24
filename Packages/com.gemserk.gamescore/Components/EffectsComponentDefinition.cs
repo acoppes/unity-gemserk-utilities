@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Game.Utilities;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Utilities;
+using MyBox;
 using UnityEngine;
 
 namespace Game.Components
@@ -53,7 +54,8 @@ namespace Game.Components
         public enum DelayType
         {
             Random = 0,
-            UseFactor = 1
+            UseFactor = 1,
+            None = 2
         }
         
         public Target target;
@@ -83,7 +85,11 @@ namespace Game.Components
         public List<Effect> effects;
 
         public EffectsComponent.DelayType delayType = EffectsComponent.DelayType.Random;
+        
+        [ConditionalField(nameof(delayType), true, EffectsComponent.DelayType.None)]
         public int minDelay;
+        
+        [ConditionalField(nameof(delayType), true, EffectsComponent.DelayType.None)]
         public int maxDelay;
 
         public override void Apply(World world, Entity entity)
