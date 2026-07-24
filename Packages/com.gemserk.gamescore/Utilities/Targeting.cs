@@ -45,6 +45,30 @@ namespace Game.Utilities
             
             Gizmos.color = new Color(1f, 1f, 1f, 0.75f);
             Gizmos.DrawWireSphere(transform.position, targeting.range.Max);
+
+            var p0 = transform.position;
+            
+            if (targeting.angle.Max < 180)
+            {
+                Gizmos.color = new Color(1f, 0.25f, 0.25f, 0.75f);
+                
+                var maxAngleRight = Vector2.right.Rotate(-targeting.angle.Max * Mathf.Deg2Rad) * targeting.range.Max;
+                var maxAngleLeft = Vector2.right.Rotate(targeting.angle.Max * Mathf.Deg2Rad) * targeting.range.Max;
+                
+                Gizmos.DrawLine(p0, transform.position + (Vector3) maxAngleRight);
+                Gizmos.DrawLine(p0, transform.position + (Vector3) maxAngleLeft);
+            }
+            
+            if (targeting.angle.Min > 0)
+            {
+                Gizmos.color = new Color(1f, 1f, 0.25f, 0.75f);
+                
+                var minAngleRight = Vector2.right.Rotate(-targeting.angle.Min * Mathf.Deg2Rad) * targeting.range.Max;
+                var minAngleLeft = Vector2.right.Rotate(targeting.angle.Min * Mathf.Deg2Rad) * targeting.range.Max;
+              
+                Gizmos.DrawLine(p0, transform.position + (Vector3) minAngleRight);
+                Gizmos.DrawLine(p0, transform.position + (Vector3) minAngleLeft);
+            }
         }
     }
 }
