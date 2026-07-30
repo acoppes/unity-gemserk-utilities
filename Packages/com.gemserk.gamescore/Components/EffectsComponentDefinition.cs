@@ -25,7 +25,8 @@ namespace Game.Components
         public enum ValueCalculationType
         {
             Random = 0,
-            BasedOnFactor = 1
+            BasedOnFactor = 1,
+            Max = 2
         }
         
         public enum TargetType

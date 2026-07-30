@@ -255,25 +255,19 @@ namespace Game.Systems
         // public static void ApplyEffect(float factor, float valueMultiplier, Target target, Entity source, Effect effect, Vector3 position, int player)
         public static void ApplyEffect(EffectsComponent effects, Target target, Entity source, Effect effect)
         {
-            var value = 0f;
             var factor = effects.factor;
             var valueMultiplier = effects.valueMultiplier;
             var position = effects.position;
             var player = effects.player;
-            
-            if (effect.valueCalculationType == Effect.ValueCalculationType.BasedOnFactor && factor > 0)
+
+            var value = effect.valueCalculationType switch
             {
-                value = Mathf.Lerp(effect.maxValue, effect.minValue, factor);
-            }
-            else if (effect.valueCalculationType == Effect.ValueCalculationType.Random)
-            {
-                value = Random.Range(effect.minValue, effect.maxValue);
-            }
-            else
-            {
-                value = effect.maxValue;
-            }
-            
+                Effect.ValueCalculationType.BasedOnFactor => Mathf.Lerp(effect.maxValue, effect.minValue, factor),
+                Effect.ValueCalculationType.Random => Random.Range(effect.minValue, effect.maxValue),
+                Effect.ValueCalculationType.Max => effect.maxValue,
+                _ => effect.minValue
+            };
+
             if (effect.type == Effect.EffectType.Damage && target.entity.Has<HealthComponent>())
             {
                 var playerDamageMult = DamagePerTeam[player];
