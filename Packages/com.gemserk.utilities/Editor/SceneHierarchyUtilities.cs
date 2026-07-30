@@ -47,8 +47,9 @@ namespace SandolkakosDigital.EditorUtils
             var methodInfo = hierarchyWindow
                 .GetType()
                 .GetMethod("SetExpanded", BindingFlags.NonPublic | BindingFlags.Instance);
-            
-            methodInfo.Invoke(hierarchyWindow, new object[] { go.GetInstanceID(), expand });
+
+            if (methodInfo != null) 
+                methodInfo.Invoke(hierarchyWindow, new object[] { go.GetEntityId(), expand });
         }
 
         /// <summary>
@@ -62,7 +63,8 @@ namespace SandolkakosDigital.EditorUtils
                 .GetType()
                 .GetMethod("SetExpandedRecursive", BindingFlags.Public | BindingFlags.Instance);
 
-            methodInfo.Invoke(sceneHierarchy, new object[] { go.GetInstanceID(), expand });
+            if (methodInfo != null) 
+                methodInfo.Invoke(sceneHierarchy, new object[] { go.GetEntityId(), expand });
         }
 
         private static object GetSceneHierarchy()
