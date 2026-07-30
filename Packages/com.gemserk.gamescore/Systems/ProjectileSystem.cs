@@ -65,7 +65,9 @@ namespace Game.Systems
 
                     if (projectileComponent.trajectoryType == ProjectileComponent.TrajectoryType.Linear)
                     {
-                        physicsComponent.velocity = projectileComponent.initialVelocity * projectileComponent.initialSpeed;
+                        var initialSpeed = projectileComponent.initialSpeed +
+                                           projectileComponent.initialSpeedRandom.RandomInRange();
+                        physicsComponent.velocity = projectileComponent.initialVelocity * initialSpeed;
                     }
                     
                     lookingDirectionComponent.value = projectileComponent.initialVelocity.normalized;
@@ -122,7 +124,9 @@ namespace Game.Systems
                     
                     if (projectileComponent.trajectoryType == ProjectileComponent.TrajectoryType.Linear)
                     {
-                        physicsComponent.velocity = projectileComponent.initialVelocity * projectileComponent.initialSpeed;
+                        var initialSpeed = projectileComponent.initialSpeed +
+                                           projectileComponent.initialSpeedRandom.RandomInRange();
+                        physicsComponent.velocity = projectileComponent.initialVelocity * initialSpeed;
                     }
 
                     physicsComponent.body.constraints = RigidbodyConstraints2D.None;

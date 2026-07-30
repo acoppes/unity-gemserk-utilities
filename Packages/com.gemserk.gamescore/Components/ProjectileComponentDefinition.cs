@@ -41,6 +41,7 @@ namespace Game.Components
         public TrajectoryType trajectoryType;
 
         public float initialSpeed;
+        public RangedFloat initialSpeedRandom;
 
         public bool wasImpacted;
         public bool impacted;
@@ -76,7 +77,8 @@ namespace Game.Components
                 maxDistance = maxDistance,
                 projectileType = projectileType,
                 trajectoryType = trajectoryType,
-                initialSpeed = initialSpeed + initialSpeedRandom.RandomInRange()
+                initialSpeed = initialSpeed,
+                initialSpeedRandom = initialSpeedRandom,
             });
         }
     }
