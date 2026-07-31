@@ -196,11 +196,11 @@ namespace Game.Systems
                     alliedPlayersBitmask = player.GetAlliedPlayers(),
                     position = position.value,
                     direction = areaEffect.direction,
-                    filter = areaEffect.targeting.targetingFilter,
+                    filter = areaEffect.targeting,
                     rangeMultiplier = areaEffect.rangeMultiplier
                 }, Targets);
 
-                var rangeSqr = areaEffect.targeting.targetingFilter.maxRangeSqr * (areaEffect.rangeMultiplier * areaEffect.rangeMultiplier);
+                var rangeSqr = areaEffect.targeting.maxRangeSqr * (areaEffect.rangeMultiplier * areaEffect.rangeMultiplier);
 
                 foreach (var target in Targets)
                 {
@@ -214,7 +214,7 @@ namespace Game.Systems
                         ref var effects = ref effectEntity.Get<EffectsComponent>();
                         effects.target = target;
                         effects.source = areaEffect.source;
-                        effects.factor = Mathf.Clamp01(distSqr / rangeSqr);
+                        effects.factor = 1f - Mathf.Clamp01(distSqr / rangeSqr);
                         effects.valueMultiplier = areaEffect.effectValueMultiplier;
                         effects.direction = direction.normalized;
                         
@@ -262,7 +262,7 @@ namespace Game.Systems
 
             var value = effect.valueCalculationType switch
             {
-                Effect.ValueCalculationType.BasedOnFactor => Mathf.Lerp(effect.maxValue, effect.minValue, factor),
+                Effect.ValueCalculationType.BasedOnFactor => Mathf.Lerp(effect.minValue, effect.maxValue, factor),
                 Effect.ValueCalculationType.Random => Random.Range(effect.minValue, effect.maxValue),
                 Effect.ValueCalculationType.Max => effect.maxValue,
                 _ => effect.minValue

@@ -10,7 +10,7 @@ namespace Game.Components
     public struct AreaEffectComponent : IEntityComponent
     {
         public Entity source;
-        public Targeting targeting;
+        public TargetingFilter targeting;
         public List<IEntityDefinition> effectDefinitions;
         public float effectValueMultiplier;
         public float rangeMultiplier;
@@ -28,7 +28,7 @@ namespace Game.Components
         {
             world.AddComponent(entity, new AreaEffectComponent()
             {
-                targeting = targeting,
+                targeting = targeting.targetingFilter,
                 effectValueMultiplier = 1f,
                 rangeMultiplier = 1f,
                 direction = new Vector3(1, 0, 0),
