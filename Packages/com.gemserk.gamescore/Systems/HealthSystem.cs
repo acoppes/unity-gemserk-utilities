@@ -9,6 +9,8 @@ namespace Game.Systems
 {
     public class HealthSystem : BaseSystem, IEcsRunSystem
     {
+        public static bool DebugLogDamages;
+        
         readonly EcsFilterInject<Inc<HealthComponent>, Exc<DisabledComponent>> filter = default;
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -52,6 +54,11 @@ namespace Game.Systems
                     {
                         var damage = health.damages[i];
                         health.timeSinceLastHit = 0;
+
+                        if (DebugLogDamages)
+                        {
+                            Debug.Log($"NEW DAMAGE VALUE: {damage.value}");
+                        }
 
                         damage = ProcessDamage(ref health, damage);
                         
