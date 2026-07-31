@@ -57,7 +57,7 @@ namespace Game.Systems
 
                         if (DebugLogDamages)
                         {
-                            Debug.Log($"NEW DAMAGE VALUE: {damage.value}");
+                            Debug.Log($"DAMAGE VALUE: [{entity}] {damage.value}");
                         }
 
                         damage = ProcessDamage(ref health, damage);
