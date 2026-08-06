@@ -40,6 +40,10 @@ namespace Game.Utilities
         public HealthComponent.AliveType aliveType = HealthComponent.AliveType.None;
         
         public bool targeted;
+
+        public float size;
+
+        public float sizeSqr => size * size;
     }
 
     public static class TargetExtensions

@@ -371,14 +371,17 @@ namespace Game.Utilities
 
             if (targetingFilter.distanceType == TargetingFilter.CheckDistanceType.Sphere)
             {
-                var differenceSqrMagnitude = difference.sqrMagnitude;
+                // var differenceSqrMagnitude = difference.sqrMagnitude;
                 
-                if (differenceSqrMagnitude > targetingFilter.maxRangeSqr * runtimeTargetingParameters.rangeMultiplierSqr)
+                var m_max = difference.magnitude - target.size;
+                var m_min = difference.magnitude + target.size;
+                
+                if (m_max * m_max > targetingFilter.maxRangeSqr * runtimeTargetingParameters.rangeMultiplierSqr)
                 {
                     return false;
                 }
                 
-                if (differenceSqrMagnitude < targetingFilter.minRangeSqr * runtimeTargetingParameters.rangeMultiplierSqr)
+                if (m_min * m_min < targetingFilter.minRangeSqr * runtimeTargetingParameters.rangeMultiplierSqr)
                 {
                     return false;
                 }
