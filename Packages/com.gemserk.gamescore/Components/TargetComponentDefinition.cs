@@ -17,6 +17,8 @@ namespace Game.Components
 
         public IntTypeAsset targetTypeAsset;
 
+        public float size;
+
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new TargetComponent()
@@ -24,7 +26,8 @@ namespace Game.Components
                 target = new Target
                 {
                     entity = entity,
-                    targetType = targetTypeAsset ? targetTypeAsset.value : (int) targetType
+                    targetType = targetTypeAsset ? targetTypeAsset.value : (int) targetType,
+                    size = size
                 }
             });
         }

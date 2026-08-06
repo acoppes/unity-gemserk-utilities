@@ -371,32 +371,36 @@ namespace Game.Utilities
 
             if (targetingFilter.distanceType == TargetingFilter.CheckDistanceType.Sphere)
             {
-                // var differenceSqrMagnitude = difference.sqrMagnitude;
+                var maxRange = targetingFilter.range.Max + target.size;
+                var minRange = targetingFilter.range.Min - target.size;
                 
-                var m_max = difference.magnitude - target.size;
-                var m_min = difference.magnitude + target.size;
+                var differenceSqrMagnitude = difference.sqrMagnitude;
                 
-                if (m_max * m_max > targetingFilter.maxRangeSqr * runtimeTargetingParameters.rangeMultiplierSqr)
+                if (differenceSqrMagnitude > (maxRange * maxRange) * runtimeTargetingParameters.rangeMultiplierSqr)
                 {
                     return false;
                 }
                 
-                if (m_min * m_min < targetingFilter.minRangeSqr * runtimeTargetingParameters.rangeMultiplierSqr)
+                if (differenceSqrMagnitude < (minRange * minRange) * runtimeTargetingParameters.rangeMultiplierSqr)
                 {
                     return false;
                 }
+
             }
             
             if (targetingFilter.distanceType == TargetingFilter.CheckDistanceType.PlaneXZ)
             {
+                var maxRange = targetingFilter.range.Max + target.size;
+                var minRange = targetingFilter.range.Min - target.size;
+                
                 var differenceSqrMagnitude = difference.XZ().sqrMagnitude;
                 
-                if (differenceSqrMagnitude > targetingFilter.maxRangeSqr * runtimeTargetingParameters.rangeMultiplierSqr)
+                if (differenceSqrMagnitude > (maxRange * maxRange) * runtimeTargetingParameters.rangeMultiplierSqr)
                 {
                     return false;
                 }
                 
-                if (differenceSqrMagnitude < targetingFilter.minRangeSqr * runtimeTargetingParameters.rangeMultiplierSqr)
+                if (differenceSqrMagnitude < (minRange * minRange) * runtimeTargetingParameters.rangeMultiplierSqr)
                 {
                     return false;
                 }

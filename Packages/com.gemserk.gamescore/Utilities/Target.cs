@@ -42,8 +42,6 @@ namespace Game.Utilities
         public bool targeted;
 
         public float size;
-
-        public float sizeSqr => size * size;
     }
 
     public static class TargetExtensions
