@@ -1,7 +1,9 @@
-﻿using Game.Utilities;
+﻿using System;
+using Game.Utilities;
 using Gemserk.BitmaskTypes;
 using Gemserk.Leopotam.Ecs;
 using MyBox;
+using UnityEngine;
 
 namespace Game.Components
 {
@@ -30,6 +32,15 @@ namespace Game.Components
                     size = size
                 }
             });
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            if (size > 0)
+            {
+                Gizmos.color = Color.burlywood;
+                Gizmos.DrawWireSphere(transform.position, size);
+            }
         }
     }
 }
