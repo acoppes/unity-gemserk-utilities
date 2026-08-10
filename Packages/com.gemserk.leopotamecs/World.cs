@@ -222,6 +222,18 @@ namespace Gemserk.Leopotam.Ecs
             component = GetComponent<T>(entity);
             return true;
         }
+
+        public delegate void ModifyComponentFunc<T>(ref T t) where T : struct;
+        
+        public bool TryModifyComponent<T>(Entity entity, ModifyComponentFunc<T> callback) where T : struct
+        {
+            if (HasComponent<T>(entity))
+            {
+                callback(ref GetComponent<T>(entity));
+                return true;
+            }
+            return false;
+        }
         
         public bool HasComponent<T>(int e) where T : struct
         {
