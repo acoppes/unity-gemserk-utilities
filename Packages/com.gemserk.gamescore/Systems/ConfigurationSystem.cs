@@ -36,6 +36,7 @@ namespace Game.Systems
                 {
                     world.AddComponent(e, new ConfigurationReconfiguredEvent());
                     configuration.previousVersion = configuration.version;
+                    configuration.previousConfiguration = configuration.configuration;
                 }
             }
             

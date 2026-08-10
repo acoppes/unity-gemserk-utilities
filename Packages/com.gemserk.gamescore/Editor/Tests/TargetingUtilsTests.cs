@@ -135,5 +135,29 @@ namespace Game.Editor.Tests
                 size = 1f
             }, runtimeTargetingParameters));
         }
+        
+        [Test]
+        public void Test_MultipleTargetType()
+        {
+            var runtimeTargetingParameters = new RuntimeTargetingParameters()
+            {
+                position = new Vector3(0, 0, 0),
+                filter = new TargetingFilter()
+                {
+                    aliveType = HealthComponent.AliveType.None,
+                    angleType = TargetingFilter.CheckDistanceType.Nothing,
+                    distanceType = TargetingFilter.CheckDistanceType.Nothing,
+                    playerAllianceType = PlayerAllianceType.Everything,
+                    targetTypes = TargetType.TargetType0 | TargetType.TargetType5
+                }
+            };
+            
+            Assert.True(TargetingUtils.ValidateTarget(new Target()
+            {
+                position = new Vector3(0, 0, 0),
+                targetType = (int)TargetType.TargetType5,
+                size = 0
+            }, runtimeTargetingParameters));
+        }
     }
 }

@@ -10,8 +10,10 @@ namespace Game.Components
         
         public int version;
         public int previousVersion;
+
+        public IConfiguration previousConfiguration;
         
-        public bool pendingReconfigure => version != previousVersion;
+        public bool pendingReconfigure => version != previousVersion || previousConfiguration != configuration;
 
         public void SetDirty()
         {
