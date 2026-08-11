@@ -212,10 +212,15 @@ namespace Game.Components
         public float current;
     }
 
-    public struct HealthAliveStateControllerEvent : IEntityComponent
+    public struct HealthStateChangedEvent : IEventComponent
     {
-        
+        public bool wasKilled;
     }
+
+    // public struct HealthAliveStateControllerEvent : IEntityComponent
+    // {
+    //     
+    // }
     
     public interface IHealthStateChanged : IControllerEvent
     {

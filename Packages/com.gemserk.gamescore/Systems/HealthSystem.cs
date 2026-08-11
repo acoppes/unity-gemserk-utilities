@@ -13,6 +13,8 @@ namespace Game.Systems
         
         readonly EcsFilterInject<Inc<HealthComponent>, Exc<DisabledComponent>> filter = default;
         
+        readonly EcsFilterInject<Inc<HealthStateChangedEvent>> stateChangedFilter = default;
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static HealthChangeData ProcessDamage(ref HealthComponent health, HealthChangeData healthChange)
         {
@@ -33,7 +35,12 @@ namespace Game.Systems
         public void Run(EcsSystems systems)
         {
             var deltaTime = dt;
-            
+
+            foreach (var e in stateChangedFilter.Value)
+            {
+                stateChangedFilter.Pools.Inc1.Del(e);
+            }
+
             foreach (var entity in filter.Value)
             {
                 ref var health = ref filter.Pools.Inc1.Get(entity);
@@ -100,6 +107,14 @@ namespace Game.Systems
                 else
                 {
                     health.timeInFullHealth = 0;
+                }
+
+                if (health.previousAliveState != health.aliveType)
+                {
+                    world.AddComponent(entity, new HealthStateChangedEvent()
+                    {
+                        wasKilled = health.wasKilledLastFrame
+                    });
                 }
             }
         }
