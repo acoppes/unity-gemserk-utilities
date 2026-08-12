@@ -5,12 +5,7 @@ using UnityEngine;
 
 namespace Game.Utilities
 {
-    public interface ITargeting
-    {
-        public TargetingFilter targetingFilter { get; }
-    }
-    
-    public class Targeting : MonoBehaviour, ITargeting
+    public class Targeting : MonoBehaviour
     {
         [SerializeField]
         protected TargetingFilter targeting = new TargetingFilter()
@@ -34,10 +29,14 @@ namespace Game.Utilities
             get
             {
                 var filter = targeting;
-                if (filter.targetTypeMask)
+                if (targetTypeMask)
                 {
-                    filter.targetTypes = (TargetType) filter.targetTypeMask.GetInterface<ITargetTypeMask>().GetTargetTypeMask();
+                    filter.targetTypes = (TargetType) targetTypeMask.GetInterface<ITargetTypeMask>().GetTargetTypeMask();
                 }
+
+                filter.sorter = sorter ? sorter.GetInterface<ITargetSorter>() : filter.sorter;
+                filter.customFilter = customFilter ? customFilter.GetInterface<ITargetCustomFilter>() : filter.customFilter;
+                
                 return filter;
             }
         }

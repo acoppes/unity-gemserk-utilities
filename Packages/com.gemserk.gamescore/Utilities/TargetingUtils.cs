@@ -201,10 +201,7 @@ namespace Game.Utilities
             //     }
             // }
 
-            if (runtimeTargetingParameters.filter.sorter is ITargetSorter sorter)
-            {
-                sorter.Sort(results, runtimeTargetingParameters);
-            }
+            runtimeTargetingParameters.filter.sorter?.Sort(results, runtimeTargetingParameters);
 
             // return targetsCount;
             
@@ -406,15 +403,12 @@ namespace Game.Utilities
                 }
             }
 
-            if (targetingFilter.customFilter is ITargetCustomFilter customFilter)
+            if (targetingFilter.customFilter == null)
             {
-                if (!customFilter.Filter(target, runtimeTargetingParameters))
-                {
-                    return false;
-                }
+                return true;
             }
-
-            return true;
+            
+            return targetingFilter.customFilter.Filter(target, runtimeTargetingParameters);
         }
 
         
@@ -423,7 +417,7 @@ namespace Game.Utilities
         {
             return new RuntimeTargetingParameters()
             {
-                filter = ability.targeting.targetingFilter,
+                filter = ability.targeting,
                 position = ability.center,
                 direction = ability.direction,
                 alliedPlayersBitmask = ability.alliedPlayersBitmask,

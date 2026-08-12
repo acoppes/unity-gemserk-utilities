@@ -55,8 +55,10 @@ namespace Game.Components.Abilities
         public bool isFullyLoaded => totalCharges == 0 || currentCharges == totalCharges;
 
         public bool autoTarget;
-        public ITargeting targeting;
+        // public ITargeting targeting;
 
+        public TargetingFilter targeting;
+        
         public bool pendingExecution;
         // public int completedTimes;
 

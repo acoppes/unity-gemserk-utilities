@@ -2,7 +2,6 @@
 using Game.Components;
 using MyBox;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Game.Utilities
 {
@@ -17,7 +16,6 @@ namespace Game.Utilities
         }
 
         public TargetType targetTypes;
-        public Object targetTypeMask;
 
         // public int TargetTypes => targetTypeMask ? targetTypeMask.GetTargetTypeMask() : (int) targetTypes;
         
@@ -35,7 +33,7 @@ namespace Game.Utilities
         public float maxRangeSqr => range.Max * range.Max;
         public float minRangeSqr => range.Min * range.Min;
 
-        public Object sorter;
-        public Object customFilter;
+        public ITargetSorter sorter;
+        public ITargetCustomFilter customFilter;
     }
 }

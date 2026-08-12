@@ -41,7 +41,7 @@ namespace Game.Components.Abilities
                 cooldownType = cooldownType,
                 resetCooldownType = resetCooldownType,
                 autoTarget = autoTarget,
-                targeting = targeting,
+                targeting = targeting ? targeting.targetingFilter : new TargetingFilter(),
                 currentCharges = charges,
                 totalCharges = charges,
                 maxTargets = maxTargets,
