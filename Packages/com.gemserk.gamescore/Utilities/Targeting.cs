@@ -24,7 +24,11 @@ namespace Game.Utilities
             range = new MinMaxFloat(0, 1),
             sorter = null
         };
-
+        
+        public Object targetTypeMask;
+        public Object sorter;
+        public Object customFilter;
+        
         public TargetingFilter targetingFilter
         {
             get
