@@ -21,7 +21,9 @@ namespace Game.Utilities
         };
         
         public Object targetTypeMask;
+        [ObjectType(typeof(ITargetSorter))]
         public Object sorter;
+        [ObjectType(typeof(ITargetCustomFilter))]
         public Object customFilter;
         
         public TargetingFilter targetingFilter
