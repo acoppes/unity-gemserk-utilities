@@ -369,7 +369,7 @@ namespace Game.Utilities
             if (targetingFilter.distanceType == TargetingFilter.CheckDistanceType.Sphere)
             {
                 var maxRange = targetingFilter.range.Max + target.size;
-                var minRange = targetingFilter.range.Min - target.size;
+                var minRange = Mathf.Max(0, targetingFilter.range.Min - target.size);
                 
                 var differenceSqrMagnitude = difference.sqrMagnitude;
                 
@@ -388,7 +388,7 @@ namespace Game.Utilities
             if (targetingFilter.distanceType == TargetingFilter.CheckDistanceType.PlaneXZ)
             {
                 var maxRange = targetingFilter.range.Max + target.size;
-                var minRange = targetingFilter.range.Min - target.size;
+                var minRange = Mathf.Max(0, targetingFilter.range.Min - target.size);
                 
                 var differenceSqrMagnitude = difference.XZ().sqrMagnitude;
                 

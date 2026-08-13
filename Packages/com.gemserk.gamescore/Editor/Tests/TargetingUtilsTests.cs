@@ -136,6 +136,33 @@ namespace Game.Editor.Tests
             }, runtimeTargetingParameters));
         }
         
+         [Test]
+        public void Test_TargetSize_ForDistanceCentered()
+        {
+            var runtimeTargetingParameters = new RuntimeTargetingParameters()
+            {
+                position = new Vector3(0, 0, 0),
+                alliedPlayersBitmask = 1,
+                rangeMultiplier = 1f,
+                filter = new TargetingFilter()
+                {
+                    aliveType = HealthComponent.AliveType.None,
+                    angleType = TargetingFilter.CheckDistanceType.Nothing,
+                    distanceType = TargetingFilter.CheckDistanceType.Sphere,
+                    playerAllianceType = PlayerAllianceType.Everything,
+                    range = new MinMaxFloat(0f, 10f)
+                }
+            };
+            
+            Assert.True(TargetingUtils.ValidateTarget(new Target()
+            {
+                player = 0,
+                position = new Vector3(0f, 0, 0),
+                targetType = 1,
+                size = 2
+            }, runtimeTargetingParameters));
+        }
+        
         [Test]
         public void Test_MultipleTargetType()
         {
