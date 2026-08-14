@@ -11,7 +11,6 @@ namespace Game.Utilities
         public IntTypeAsset[] targetTypes;
 
         private int mask;
-        private bool cached;
 
         public int GetTargetTypeMask()
         {
@@ -20,15 +19,11 @@ namespace Game.Utilities
                 return -1;
             }
             
-            if (!cached)
-            {
-                mask = 0;
+            mask = 0;
 
-                for (var i = 0; i < targetTypes.Length; i++)
-                {
-                    mask |= targetTypes[i].value;
-                }
-                cached = true;
+            for (var i = 0; i < targetTypes.Length; i++)
+            {
+                mask |= targetTypes[i].value;
             }
 
             return mask;

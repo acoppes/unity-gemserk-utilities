@@ -1,5 +1,6 @@
 ﻿using Game.Components;
 using Game.Components.Abilities;
+using Game.Utilities;
 using Leopotam.EcsLite.UnityEditor;
 using UnityEditor;
 using UnityEngine;
@@ -9,7 +10,10 @@ namespace Game.Editor
 {
     public static class DebugForComponents
     {
-        sealed class AbilitiesComponentInspector : EcsComponentInspectorTyped<AbilitiesComponent> {
+        sealed class AbilitiesComponentInspector : EcsComponentInspectorTyped<AbilitiesComponent>
+        {
+            private bool foldout;
+            
             public override bool OnGuiTyped (string label, ref AbilitiesComponent abilities, EcsEntityDebugView entityView) {
                 
                 if (entityView != null)
@@ -42,6 +46,15 @@ namespace Game.Editor
                         EditorGUILayout.LabelField("Duration",$"{ability.duration.current:0.0}/{ability.duration.Total:0.0}");
                     }
 
+                    if (ability.autoTarget)
+                    {
+                        foldout = EditorGUILayout.Foldout(foldout, "Targeting");
+                        if (foldout)
+                        {
+                            EditorGUILayout.EnumFlagsField(ability.targeting.targetTypes);
+                        }
+                    }
+
                     if (ability.hasTargets)
                     {
                         EditorGUILayout.LabelField("-- Targets --");
@@ -52,9 +65,6 @@ namespace Game.Editor
                         }
                         EditorGUI.indentLevel--;
                     }
-                 
-                    
-
                     
                     EditorGUI.indentLevel--;
                 }
