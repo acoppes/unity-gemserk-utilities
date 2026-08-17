@@ -1,5 +1,6 @@
 using System;
 using Game.Components;
+using Game.Components.Abilities;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
@@ -11,13 +12,16 @@ namespace Game.Systems
     {
         // public static bool DebugLogConfiguration = true;
         
-        readonly EcsFilterInject<Inc<ConfigurationComponent, HealthComponent, ConfigurationReconfiguredEvent>, Exc<DisabledComponent>> healthFilter = default;
         readonly EcsFilterInject<Inc<ConfigurationComponent, ConfigurationReconfiguredEvent>, Exc<DisabledComponent>> reconfigureFilter = default;
         readonly EcsFilterInject<Inc<ConfigurationComponent>, Exc<ConfigurationReconfiguredEvent, DisabledComponent>> pendingFilterCheck = default;
-        private readonly EcsFilterInject<Inc<EffectsComponent, ConfigurationComponent, ConfigurationReconfiguredEvent>, 
+        
+        readonly EcsFilterInject<Inc<ConfigurationComponent, HealthComponent, ConfigurationReconfiguredEvent>, Exc<DisabledComponent>> healthFilter = default;
+        readonly EcsFilterInject<Inc<ConfigurationComponent, AbilitiesComponent, ConfigurationReconfiguredEvent>, Exc<DisabledComponent>> abilitiesFilter = default;
+        readonly EcsFilterInject<Inc<EffectsComponent, ConfigurationComponent, ConfigurationReconfiguredEvent>, 
             Exc<DisabledComponent>> effectsConfigFilter = default;
 
         private const string HealthConfigurationKey = "_health";
+        private const string AbilitiesConfigurationKey = "_abilities";
         private const string EffectsConfigurationKey = "_effects";
 
         public void Run(EcsSystems systems)
@@ -60,6 +64,50 @@ namespace Game.Systems
                         if (componentConfiguration.Has("current"))
                         {
                             health.current = componentConfiguration.Get<float>("current");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"Failed to configure health for {configuration.configurationKey}: {ex.Message}");
+                }
+            }
+            
+            foreach (var e in abilitiesFilter.Value)
+            {
+                var configuration = abilitiesFilter.Pools.Inc1.Get(e);
+                ref var abilities = ref abilitiesFilter.Pools.Inc2.Get(e);
+
+                try
+                {
+                    var componentConfiguration = configuration.configuration.GetConfiguration(AbilitiesConfigurationKey);
+                    if (componentConfiguration != null)
+                    {
+                        foreach (var ability in abilities.abilities)
+                        {
+                            if (componentConfiguration.Has(ability.name))
+                            {
+                                var abilityConfiguration = componentConfiguration.GetConfiguration(ability.name);
+
+                                if (abilityConfiguration.Has("_targeting"))
+                                {
+                                    var targetingConfiguration = abilityConfiguration.GetConfiguration("_targeting");
+                                    
+                                    var filter = ability.targeting;
+
+                                    if (targetingConfiguration.Has("min_range"))
+                                    {
+                                        filter.range.Min = targetingConfiguration.Get<float>("min_range");
+                                    }
+                                
+                                    if (targetingConfiguration.Has("max_range"))
+                                    {
+                                        filter.range.Max = targetingConfiguration.Get<float>("max_range");
+                                    }
+
+                                    ability.targeting = filter;
+                                }
+                            }
                         }
                     }
                 }

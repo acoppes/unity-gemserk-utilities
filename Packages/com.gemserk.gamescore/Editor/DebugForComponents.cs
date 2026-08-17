@@ -51,7 +51,8 @@ namespace Game.Editor
                         foldout = EditorGUILayout.Foldout(foldout, "Targeting");
                         if (foldout)
                         {
-                            EditorGUILayout.EnumFlagsField(ability.targeting.targetTypes);
+                            EditorGUILayout.EnumFlagsField("Filter", ability.targeting.targetTypes);
+                            EditorGUILayout.Vector2Field("Range", new Vector2(ability.targeting.range.Min, ability.targeting.range.Max));
                         }
                     }
 
