@@ -72,7 +72,8 @@ namespace Game.Systems
                             contacts = new List<ContactPoint2D>(),
                             transform = gameObjectComponent.gameObject.transform,
                             body = body,
-                            disableContactsCalculations = true
+                            disableContactsCalculations = true,
+                            colliders = new List<Collider2D>()
                         });
                     }
                 }
