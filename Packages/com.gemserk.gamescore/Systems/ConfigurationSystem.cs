@@ -10,7 +10,7 @@ namespace Game.Systems
 {
     public class ConfigurationSystem : BaseSystem, IEcsRunSystem
     {
-        // public static bool DebugLogConfiguration = true;
+        public static bool DebugLogConfiguration;
         
         readonly EcsFilterInject<Inc<ConfigurationComponent, ConfigurationReconfiguredEvent>, Exc<DisabledComponent>> reconfigureFilter = default;
         readonly EcsFilterInject<Inc<ConfigurationComponent>, Exc<ConfigurationReconfiguredEvent, DisabledComponent>> pendingFilterCheck = default;
@@ -41,6 +41,11 @@ namespace Game.Systems
                     world.AddComponent(e, new ConfigurationReconfiguredEvent());
                     configuration.previousVersion = configuration.version;
                     configuration.previousConfiguration = configuration.configuration;
+                    
+                    if (DebugLogConfiguration)
+                    {
+                        Debug.Log($"Set dirty {configuration.configurationKey} for reconfigure on start.");
+                    }
                 }
             }
             
@@ -124,6 +129,11 @@ namespace Game.Systems
 
                 const string valuesKey = "values";
 
+                if (DebugLogConfiguration)
+                {
+                    Debug.Log($"Configuring effects for: {configuration.configurationKey}");
+                }
+
                 try
                 {
                     if (configuration.configuration.Has(EffectsConfigurationKey))
@@ -132,6 +142,11 @@ namespace Game.Systems
 
                         if (componentConfiguration.Has(valuesKey))
                         {
+                            if (DebugLogConfiguration)
+                            {
+                                Debug.Log($"Configuring values for: {configuration.configurationKey}.{EffectsConfigurationKey}");
+                            }
+                            
                             var effectConfigurations = componentConfiguration.GetConfigurationArray(valuesKey);
 
                             for (int i = 0; i < effectConfigurations.Length; i++)
@@ -144,11 +159,21 @@ namespace Game.Systems
                                     if (effectConfiguration.Has("min"))
                                     {
                                         effect.minValue = effectConfiguration.Get<float>("min");
+                                        
+                                        if (DebugLogConfiguration)
+                                        {
+                                            Debug.Log($"Read {effect.minValue} min for: {configuration.configurationKey}.{EffectsConfigurationKey}.{valuesKey}");
+                                        }
                                     }
 
                                     if (effectConfiguration.Has("max"))
                                     {
                                         effect.maxValue = effectConfiguration.Get<float>("max");
+                                        
+                                        if (DebugLogConfiguration)
+                                        {
+                                            Debug.Log($"Read {effect.maxValue} max for: {configuration.configurationKey}.{EffectsConfigurationKey}.{valuesKey}");
+                                        }
                                     }
 
                                     effects.effects[i] = effect;

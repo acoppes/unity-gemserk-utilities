@@ -79,6 +79,9 @@ namespace Game.Systems
                             var delay = effects.factor * effects.maxDelay + effects.minDelay;
                             effects.delayFramesToApply = Mathf.RoundToInt(delay);
                             // maybe would be better to have an expansion speed or something like that
+                        } else if (effects.delayType == EffectsComponent.DelayType.Max)
+                        {
+                            effects.delayFramesToApply = effects.maxDelay;
                         }
 
                         effects.hasDelaySet = true;

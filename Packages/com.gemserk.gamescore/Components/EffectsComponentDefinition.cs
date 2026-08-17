@@ -56,7 +56,8 @@ namespace Game.Components
         {
             Random = 0,
             UseFactor = 1,
-            None = 2
+            None = 2,
+            Max = 3
         }
         
         public Target target;
