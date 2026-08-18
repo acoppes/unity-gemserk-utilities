@@ -93,6 +93,7 @@ namespace Game.Components.Abilities
         public int executedTimes;
 
         public float executionTime;
+        public float totalExecutionTime;
 
         public int maxTargets;
 

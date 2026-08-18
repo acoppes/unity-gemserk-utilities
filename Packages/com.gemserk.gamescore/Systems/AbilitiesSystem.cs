@@ -77,6 +77,7 @@ namespace Game.Systems
                     if (ability.isExecuting)
                     {
                         ability.executionTime += dt;
+                        ability.totalExecutionTime += dt;
                         ability.duration.Increase(dt);
                     }
                     
