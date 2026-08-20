@@ -32,6 +32,7 @@ namespace Game.Systems
                 ref var indicatorComponent = ref lookingDirectionIndicators.Get(entity);
                 indicatorComponent.instance = pool.Get();
                 indicatorComponent.pivot = indicatorComponent.instance.transform.Find("Pivot");
+                indicatorComponent.indicator = indicatorComponent.pivot.GetChild(0);
             }
         }
 
@@ -41,7 +42,7 @@ namespace Game.Systems
             if (indicators.Has(entity))
             {
                 ref var indicatorComponent = ref indicators.Get(entity);
-                if (indicatorComponent.instance != null)
+                if (indicatorComponent.instance)
                 {
                     pool.Release(indicatorComponent.instance);
                 }
@@ -54,7 +55,7 @@ namespace Game.Systems
             foreach (var entity in visibilityFilter.Value)
             {
                 ref var indicator = ref visibilityFilter.Pools.Inc1.Get(entity);
-                if (indicator.instance != null)
+                if (indicator.instance)
                 {
                     if (indicator.visiblity == ModelComponent.Visiblity.Hidden && indicator.instance.activeSelf)
                     {
@@ -86,6 +87,8 @@ namespace Game.Systems
                 {
                     eulerAngles.z = Vector2.SignedAngle(Vector2.right, lookingDirection.value);
                 }
+
+                indicator.indicator.localPosition = indicator.offset;
                 
                 pivot.localEulerAngles = eulerAngles;
             }

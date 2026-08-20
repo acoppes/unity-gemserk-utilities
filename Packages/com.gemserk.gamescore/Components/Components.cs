@@ -317,7 +317,7 @@ namespace Game.Components
         
         public void AddShake(CameraShakeAsset shake)
         {
-            if (shake != null)
+            if (shake)
             {
                 AddShake(shake.shake);
             }
@@ -333,6 +333,8 @@ namespace Game.Components
     {
         public GameObject instance;
         public Transform pivot;
+        public Transform indicator;
+        public Vector3 offset;
         public ModelComponent.Visiblity visiblity;
     }
     
