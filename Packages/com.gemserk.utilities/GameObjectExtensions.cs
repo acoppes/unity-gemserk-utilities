@@ -154,5 +154,11 @@ namespace Gemserk.Utilities
             }
             return gameObject.transform.GetInstanceFromRoot<T>();
         }
+        
+        public static string GetPathToRoot(this Transform current) {
+            if (!current.parent)
+                return "/" + current.name;
+            return current.parent.GetPathToRoot() + "/" + current.name;
+        }
     }
 }
