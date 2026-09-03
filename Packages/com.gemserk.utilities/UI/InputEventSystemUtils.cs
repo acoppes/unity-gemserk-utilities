@@ -16,5 +16,19 @@ namespace Gemserk.Utilities.UI
                 EventSystem.current.SetSelectedGameObject(newSelection);
             }
         }
+        
+        public static IEnumerator DelegateSelectionDelayed(GameObject newSelection, int frames = 1)
+        {
+            for (var i = 0; i < frames; i++)
+            {
+                yield return null;
+            }
+            
+            // check if this window is still the selected one
+            if (EventSystem.current && newSelection)
+            {
+                EventSystem.current.SetSelectedGameObject(newSelection);
+            }
+        }
     }
 }
