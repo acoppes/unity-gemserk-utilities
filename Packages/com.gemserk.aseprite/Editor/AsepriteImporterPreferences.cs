@@ -25,8 +25,12 @@ namespace Gemserk.Aseprite.Editor
                     executablePath = EditorGUILayout.TextField("Executable Path", executablePath);
                     if (GUILayout.Button("Browse"))
                     {
+#if UNITY_EDITOR_WIN
                         var newExecutablePath = EditorUtility.OpenFilePanel("Executable Path", "", "exe");
-                
+#else
+                        var newExecutablePath = EditorUtility.OpenFilePanel("Executable Path", "", "");
+#endif
+                        
                         if (!string.IsNullOrEmpty(newExecutablePath))
                         {
                             executablePath = newExecutablePath;
