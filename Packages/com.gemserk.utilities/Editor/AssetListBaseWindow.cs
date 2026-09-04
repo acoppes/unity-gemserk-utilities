@@ -77,7 +77,7 @@ namespace Gemserk.Utilities.Editor
                     for (var i = 0; i < objectsList.Count; i++)
                     {
                         var asset = objectsList[i];
-                        if (asset == null)
+                        if (!asset)
                         {
                             continue;
                         }
