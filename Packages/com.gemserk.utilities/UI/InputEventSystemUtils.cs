@@ -19,8 +19,9 @@ namespace Gemserk.Utilities.UI
         
         public static IEnumerator DelegateSelectionDelayed(GameObject newSelection, int frames = 1)
         {
-            for (var i = 0; i < frames; i++)
+            while (frames > 0)
             {
+                frames--;
                 yield return null;
             }
             
