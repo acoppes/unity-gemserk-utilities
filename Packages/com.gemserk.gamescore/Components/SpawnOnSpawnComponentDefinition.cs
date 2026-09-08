@@ -19,7 +19,8 @@ namespace Game.Components
         {
             world.AddComponent(entity, new SpawnOnSpawnComponent()
             {
-                definitions = definitions.Select(d => d.GetInterface<IEntityDefinition>()).ToList()
+                definitions = definitions.Cast<GameObject>().Where(o => o.activeSelf)
+                    .Select(d => d.GetInterface<IEntityDefinition>()).ToList()
             });
         }
     }
