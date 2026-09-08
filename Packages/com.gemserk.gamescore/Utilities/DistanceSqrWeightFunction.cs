@@ -4,7 +4,7 @@ namespace Game.Utilities
 {
     public class DistanceSqrWeightFunction : BaseWeightFunction
     {
-        public override float Compare(Target x, RuntimeTargetingParameters runtimeTargetingParameters)
+        public override float Evaluate(Target x, RuntimeTargetingParameters runtimeTargetingParameters)
         {
             var diff = x.position - runtimeTargetingParameters.position;
             var distanceSqr = diff.sqrMagnitude;

@@ -23,8 +23,8 @@ namespace Game.Utilities
                 
                 foreach (var weightFunction in weightFunctions)
                 {
-                    xWeight += weightFunction.Compare(x, runtimeTargetingParameters);
-                    yWeight += weightFunction.Compare(y, runtimeTargetingParameters);
+                    xWeight += weightFunction.Evaluate(x, runtimeTargetingParameters);
+                    yWeight += weightFunction.Evaluate(y, runtimeTargetingParameters);
                 }
 
                 if (normalized && weightFunctions.Count > 0)

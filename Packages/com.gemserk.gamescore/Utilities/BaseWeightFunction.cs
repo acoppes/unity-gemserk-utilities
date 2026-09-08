@@ -6,6 +6,6 @@ namespace Game.Utilities
     {
         public AnimationCurve weightCurve = AnimationCurve.Linear(0, 0, 1, 1);
         
-        public abstract float Compare(Target x, RuntimeTargetingParameters targetingParameters);
+        public abstract float Evaluate(Target x, RuntimeTargetingParameters targetingParameters);
     }
 }
