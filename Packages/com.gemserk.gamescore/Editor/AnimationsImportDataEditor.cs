@@ -46,7 +46,7 @@ namespace Game.Editor
             var selectSourceFolder = new GUIContent(openFolderIcon.image, "Select Source Folder");
             if (GUILayout.Button(selectSourceFolder, GUILayout.Width(25), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
             {
-                var absolutePath = Path.GetFullPath(importData.sourceFolder, Application.dataPath);
+                var absolutePath = importData.sourceAbsolutePath;
                 var newFolder = EditorUtility.OpenFolderPanel("Source Folder", absolutePath, "");
                 if (!string.IsNullOrEmpty(newFolder))
                 {
@@ -63,7 +63,7 @@ namespace Game.Editor
             var selectOutputGuiContent = new GUIContent(openFolderIcon.image, "Select Output Folder");
             if (GUILayout.Button(selectOutputGuiContent, GUILayout.Width(25), GUILayout.Height(EditorGUIUtility.singleLineHeight)))
             {
-                var absolutePath = Path.GetFullPath(importData.outputFolder, Application.dataPath);
+                var absolutePath = importData.outputAbsolutePath;
                 var newFolder = EditorUtility.OpenFolderPanel("Output Folder", absolutePath, "");
 
                 if (!string.IsNullOrEmpty(newFolder))

@@ -15,6 +15,18 @@ namespace Game.Definitions
         
         public string sourceFolder;
         public string outputFolder;
+        
+        private static string NormalizeRelativePath(string path)
+        {
+#if UNITY_EDITOR_WINDOWS
+            return path.Replace('/', Path.DirectorySeparatorChar);
+#else
+            return path.Replace('\\', Path.DirectorySeparatorChar);
+#endif
+        }
+        
+        public string sourceAbsolutePath => Path.GetFullPath(NormalizeRelativePath(sourceFolder), Application.dataPath);
+        public string outputAbsolutePath => Path.GetFullPath(NormalizeRelativePath(outputFolder), Application.dataPath);
 
         public List<string> GetSourceFiles()
         {
@@ -24,8 +36,7 @@ namespace Game.Definitions
                 // TODO: get all folders inside sourceFolder
                 if (!Path.IsPathRooted(sourceFolder))
                 {
-                    var absolutePath = Path.GetFullPath(sourceFolder, Application.dataPath);
-                    asepriteFiles.AddRange(Directory.GetDirectories(absolutePath, "*", SearchOption.TopDirectoryOnly));
+                    asepriteFiles.AddRange(Directory.GetDirectories(sourceAbsolutePath, "*", SearchOption.TopDirectoryOnly));
                     // asepriteFiles.AddRange(Directory.GetDirectories(sourceFolder, "*", SearchOption.TopDirectoryOnly));
                 }
             }
