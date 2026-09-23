@@ -16,7 +16,7 @@ namespace Game
             {
                 if (playModeStateChange == PlayModeStateChange.ExitingEditMode || playModeStateChange == PlayModeStateChange.EnteredEditMode)
                 {
-                    GamePause.Reset();
+                    GamePause.Reset(false);
                 }
             };
         }
@@ -34,9 +34,13 @@ namespace Game
 
         public static event Action onGamePauseChanged;
 
-        public static void Reset()
+        public static void Reset(bool resetTimeScale)
         {
             pausedCount = 0;
+            if (resetTimeScale)
+            {
+                Time.timeScale = 1f;
+            }
             onGamePauseChanged = null;
         }
 
