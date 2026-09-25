@@ -44,6 +44,11 @@ namespace Gemserk.Triggers.Queries
             return results;
         }
         
+        public static List<Entity> Query(this World world, EntityQuery query)
+        {
+            return GetEntities(world, query);
+        }
+        
         public static List<Entity> GetEntities(this World world, TriggerTarget target, object activator)
         {
             var results = new List<Entity>();
@@ -80,6 +85,11 @@ namespace Gemserk.Triggers.Queries
         }
         
         public static Entity GetFirstOrDefault(this World world, EntityQuery query)
+        {
+            return GetFirstOrDefault(world, query, world.GetFilter<QueryableComponent>().End());
+        }
+        
+        public static Entity QueryFirst(this World world, EntityQuery query)
         {
             return GetFirstOrDefault(world, query, world.GetFilter<QueryableComponent>().End());
         }
