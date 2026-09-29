@@ -111,8 +111,8 @@ namespace Game.LevelDesign
             var modelComponentDefinition = objectDefinition.GetComponent<ModelComponentDefinition>();
             var animationComponentDefinition = objectDefinition.GetComponent<AnimationsComponentDefinition>();
             
-            if (modelComponentDefinition != null && animationComponentDefinition != null 
-                                                 && animationComponentDefinition.animationsAsset != null)
+            if (modelComponentDefinition && animationComponentDefinition 
+                                         && animationComponentDefinition.animationsAsset && animationComponentDefinition.enabled)
             {
                 if (modelComponentDefinition.prefab != null)
                 {
