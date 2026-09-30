@@ -38,11 +38,7 @@ namespace Gemserk.Triggers
 
             if (isDisabled)
             {
-                if (state == ITrigger.ExecutionState.PendingExecution)
-                {
-                    state = ITrigger.ExecutionState.Waiting;
-                }
-                
+                state = ITrigger.ExecutionState.Waiting;
                 ClearPendingExecutions();
             }
         }

@@ -41,6 +41,7 @@ namespace Gemserk.Triggers.Editor
     public class ClassForTest
     {
         public string value;
+        public int number;
     }
     
     public class TriggersTests
@@ -339,6 +340,42 @@ namespace Gemserk.Triggers.Editor
             Assert.AreNotEqual(ITrigger.ExecutionState.PendingExecution, trigger.State);
             
             triggerExecutor.Execute();
+        }
+        
+        [Test]
+        public void Bug_DisableEnable_WhileExecuting()
+        {
+            var trigger = new Trigger();
+            
+            trigger.actions.Add(new CallbackAction(o =>
+            {
+                var objectToTest = o as ClassForTest;
+                objectToTest.number--;
+                Debug.Log(objectToTest.value);
+                if (objectToTest.number > 0)
+                {
+                    return ITrigger.ExecutionResult.Running;
+                }
+                return ITrigger.ExecutionResult.Completed;
+            }));
+            
+            var triggerExecutor = new TriggerSystemExecutor();
+            triggerExecutor.triggers.Add(trigger);
+
+            trigger.ForceQueueExecution(new ClassForTest()
+            {
+                value = "TEST",
+                number = 10
+            });
+            
+            triggerExecutor.Execute();
+            Assert.AreEqual(ITrigger.ExecutionState.Executing, trigger.State);
+            
+            trigger.SetEnabled(false);
+            trigger.SetEnabled(true);
+            
+            triggerExecutor.Execute();
+            Assert.AreEqual(ITrigger.ExecutionState.Waiting, trigger.State);
         }
     }
 }
