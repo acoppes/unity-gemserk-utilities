@@ -1,3 +1,4 @@
+using System;
 using Gemserk.Triggers.Actions;
 using NUnit.Framework;
 using UnityEngine;
@@ -18,6 +19,28 @@ namespace Gemserk.Triggers.Editor
             executionTimes++;
             return result;
         }
+    }
+    
+    public class CallbackAction : ITrigger.IAction
+    {
+        private readonly Func<object, ITrigger.ExecutionResult> callback;
+
+        public bool Disabled => false;
+
+        public CallbackAction(Func<object, ITrigger.ExecutionResult> callback)
+        {
+            this.callback = callback;
+        }
+
+        public ITrigger.ExecutionResult Execute(object activator = null)
+        {
+            return callback.Invoke(activator);
+        }
+    }
+
+    public class ClassForTest
+    {
+        public string value;
     }
     
     public class TriggersTests
@@ -288,7 +311,34 @@ namespace Gemserk.Triggers.Editor
             trigger.QueueExecution();
             trigger.QueueExecution();
             Assert.AreEqual(1, trigger.pendingExecutions.Count);
+        }
+        
+        [Test]
+        public void Bug_DisableEnable_WhilePendingExecutions()
+        {
+            var trigger = new Trigger();
+            
+            trigger.actions.Add(new CallbackAction(o =>
+            {
+                var objectToTest = o as ClassForTest;
+                Debug.Log(objectToTest.value);
+                return ITrigger.ExecutionResult.Completed;
+            }));
+            
+            var triggerExecutor = new TriggerSystemExecutor();
+            triggerExecutor.triggers.Add(trigger);
 
+            trigger.ForceQueueExecution(new ClassForTest()
+            {
+                value = "TEST"
+            });
+            
+            trigger.SetEnabled(false);
+            trigger.SetEnabled(true);
+            
+            Assert.AreNotEqual(ITrigger.ExecutionState.PendingExecution, trigger.State);
+            
+            triggerExecutor.Execute();
         }
     }
 }
