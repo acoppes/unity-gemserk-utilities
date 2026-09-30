@@ -28,7 +28,7 @@ namespace Gemserk.Triggers
         
         public ITrigger.ExecutionState State => state;
 
-        private object currentActivator => pendingExecutions.Count > 0 ? pendingExecutions[0] : null;
+        public object currentActivator => pendingExecutions.Count > 0 ? pendingExecutions[0] : null;
 
         private bool isDisabled;
 

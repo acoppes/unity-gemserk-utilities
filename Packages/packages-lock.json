@@ -75,7 +75,7 @@
       "url": "https://package.openupm.com"
     },
     "com.gemserk.selectionhistory": {
-      "version": "1.5.8",
+      "version": "1.5.18",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
