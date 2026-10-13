@@ -178,5 +178,54 @@ namespace Game.Editor.Tests
             Assert.AreEqual(0, e.Get<HealthComponent>().processedDamages.Count);
             Assert.AreEqual(0, e.Get<HealthComponent>().processedHealEffects.Count);
         }
+        
+        [Test]
+        public void DamageResult_AffectedByTeamMultiplier()
+        {
+            var health = new HealthComponent
+            {
+                total = 50,
+                current = 50,
+                damageResistance = 0f
+            };
+
+            var damageResult = HealthSystem.ProcessDamage(ref health, new HealthChangeData()
+            {
+                value = 20
+            }, 2f);
+            
+            Assert.AreEqual(10, health.current, 0.1f);
+            Assert.AreEqual(40, damageResult.value, 0.1f);
+        }
+        
+        [Test]
+        public void HealthSystem_ProcessDamage_UseTeamDamageMultiplier()
+        {
+            var e = world.CreateEntity(null, null, entity =>
+            {
+                entity.Add(new HealthComponent()
+                {
+                    damages = new List<HealthChangeData>(),
+                    processedDamages = new List<HealthChangeData>(),
+                    healEffects = new List<HealthChangeData>(),
+                    processedHealEffects = new List<HealthChangeData>(),
+                    current = 100,
+                    total = 100
+                });
+            });
+
+            HealthSystem.DamageMultipliersPerTeam[0] = 1f;
+            HealthSystem.DamageMultipliersPerTeam[1] = 0.5f;
+            
+            e.Get<HealthComponent>().damages.Add(new HealthChangeData()
+            {
+                value = 35,
+                player = 1
+            });
+            
+            world.FixedUpdate();
+            
+            Assert.AreEqual(82.5f, e.Get<HealthComponent>().current, 0.01f);
+        }
     }
 }

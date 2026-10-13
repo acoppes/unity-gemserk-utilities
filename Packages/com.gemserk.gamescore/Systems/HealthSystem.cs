@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.CompilerServices;
 using Game.Components;
 using Gemserk.Leopotam.Ecs;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace Game.Systems
 {
-    public class HealthSystem : BaseSystem, IEcsRunSystem
+    public class HealthSystem : BaseSystem, IEcsRunSystem, IEcsInitSystem
     {
         public static bool DebugLogDamages;
         
@@ -15,11 +16,19 @@ namespace Game.Systems
         
         readonly EcsFilterInject<Inc<HealthStateChangedEvent>> stateChangedFilter = default;
         
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static HealthChangeData ProcessDamage(ref HealthComponent health, HealthChangeData healthChange)
+        public static readonly float[] DamageMultipliersPerTeam = new float[PlayerComponent.MaxPlayers];
+        
+        public void Init(EcsSystems systems)
         {
-            var mult = Mathf.Clamp01(1f - health.damageResistance);
-            healthChange.value *= mult;
+            Array.Fill(DamageMultipliersPerTeam, 1f);
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static HealthChangeData ProcessDamage(ref HealthComponent health, HealthChangeData healthChange, float teamDamageMultiplier = 1f)
+        {
+            var resistanceMultiplier = Mathf.Clamp01(1f - health.damageResistance);
+            healthChange.value *= resistanceMultiplier;
+            healthChange.value *= teamDamageMultiplier;
             
             health.current -= healthChange.value;
             
@@ -64,10 +73,16 @@ namespace Game.Systems
 
                         if (DebugLogDamages)
                         {
-                            Debug.Log($"DAMAGE VALUE: [{entity}] {damage.value}");
+                            Debug.Log($"DAMAGE VALUE ORIGINAL: [{entity}] {damage.value}");
                         }
 
-                        damage = ProcessDamage(ref health, damage);
+                        var teamDamageMultiplier = DamageMultipliersPerTeam[damage.player];
+                        damage = ProcessDamage(ref health, damage, teamDamageMultiplier);
+                        
+                        if (DebugLogDamages)
+                        {
+                            Debug.Log($"DAMAGE VALUE PROCESSED: [{entity}] {damage.value}");
+                        }
                         
                         health.processedDamages.Add(damage);
                         health.temporaryInvulnerability.Fill();

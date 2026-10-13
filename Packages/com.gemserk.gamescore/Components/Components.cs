@@ -141,12 +141,12 @@ namespace Game.Components
     public struct HealthChangeData
     {
         public float value;
-        
         public Vector3 position;
         public int player;
         
         public Entity source;
-        
+
+        // old
         public bool knockback;
         public IEntityDefinition vfxDefinition;
     }
