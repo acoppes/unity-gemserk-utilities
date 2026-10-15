@@ -13,8 +13,7 @@ namespace Gemserk.Triggers.Systems
 
         public void Init(EcsSystems systems)
         {
-            triggerContainers.AddRange(FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude, 
-                FindObjectsSortMode.None));
+            triggerContainers.AddRange(FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude));
         }
         
         public void Run(EcsSystems systems)
