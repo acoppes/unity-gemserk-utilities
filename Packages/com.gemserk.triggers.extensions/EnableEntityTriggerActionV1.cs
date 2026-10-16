@@ -43,7 +43,7 @@ namespace Gemserk.Triggers
             {
                 foreach (var entity in entities)
                 {
-                    entity.Add(new EnableDisabledComponent());
+                    entity.Add(new EnableEntityComponent());
                 }                    
             }
             

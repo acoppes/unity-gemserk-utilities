@@ -69,7 +69,12 @@ namespace Gemserk.Leopotam.Ecs
         
     }
     
-    public struct EnableDisabledComponent : IEntityComponent
+    public struct EnableEntityComponent : IActionComponent
+    {
+        
+    }
+    
+    public struct DisableEntityComponent : IActionComponent
     {
         
     }

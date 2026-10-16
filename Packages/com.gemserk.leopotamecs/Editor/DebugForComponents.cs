@@ -58,7 +58,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
 
                 if (GUILayout.Button("enable"))
                 {
-                    entityView.World.GetPool<EnableDisabledComponent>().Add(entityView.Entity);   
+                    entityView.World.GetPool<EnableEntityComponent>().Add(entityView.Entity);   
                 }
                 
                 return true;

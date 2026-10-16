@@ -1,5 +1,4 @@
 ﻿using Gemserk.Leopotam.Ecs.Components;
-using Gemserk.Leopotam.Ecs.Controllers;
 using Gemserk.Utilities.Signals;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;

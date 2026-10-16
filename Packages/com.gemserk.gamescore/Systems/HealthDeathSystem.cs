@@ -50,7 +50,9 @@ namespace Game.Systems
                     if (healthComponent.previousAliveState == HealthComponent.AliveType.Alive &&
                         healthComponent.aliveType == HealthComponent.AliveType.Death)
                     {
-                        world.AddComponent(world.GetEntity(entity), new DisabledComponent());
+                        // queue a disable action for the enable/disable system, dont disable directly here
+                        // so some entity callbacks can still execute.
+                        world.AddComponent(world.GetEntity(entity), new DisableEntityComponent());
                     }
                 }
             }
