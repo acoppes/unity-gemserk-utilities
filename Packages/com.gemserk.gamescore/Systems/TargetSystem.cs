@@ -2,6 +2,7 @@ using Game.Components;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
+using UnityEngine;
 
 namespace Game.Systems
 {
@@ -13,22 +14,28 @@ namespace Game.Systems
         readonly EcsFilterInject<Inc<TargetComponent, HealthComponent>, Exc<DisabledComponent>> healthFilter = default;
         readonly EcsFilterInject<Inc<TargetComponent, MovementComponent>, Exc<DisabledComponent>> movementFilter = default;
         
+        readonly EcsFilterInject<Inc<TargetComponent, DisabledComponent>> disabledEntities = default;
+        
         public void Run(EcsSystems systems)
         {
+            foreach (var entity in disabledEntities.Value)
+            {
+                ref var target = ref disabledEntities.Pools.Inc1.Get(entity);
+                target.target.Clear();
+            }
+            
             foreach (var entity in filter.Value)
             {
-                ref var targetComponent = ref filter.Pools.Inc1.Get(entity);
-                targetComponent.target.targeted = false;
+                ref var target = ref filter.Pools.Inc1.Get(entity);
+                target.target.targeted = false;
+                target.target.entity = world.GetEntity(entity);
             }
 
             foreach (var entity in positionFilter.Value)
             {
-                ref var targetComponent = ref positionFilter.Pools.Inc1.Get(entity);
-                var positionComponent = positionFilter.Pools.Inc2.Get(entity);
-
-                ref var target = ref targetComponent.target;
-                target.entity = world.GetEntity(entity);
-                target.position = positionComponent.value;
+                ref var target = ref positionFilter.Pools.Inc1.Get(entity);
+                var position = positionFilter.Pools.Inc2.Get(entity);
+                target.target.position = position.value;
             }
             
             foreach (var entity in playerFilter.Value)

@@ -1,5 +1,4 @@
-﻿using System;
-using Game.Utilities;
+﻿using Game.Utilities;
 using Gemserk.BitmaskTypes;
 using Gemserk.Leopotam.Ecs;
 using MyBox;
