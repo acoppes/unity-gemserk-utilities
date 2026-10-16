@@ -32,7 +32,7 @@ namespace Game.Systems
                 var hasDamages = health.processedDamages.Count > 0;
                 var hasHealEffects = health.processedHealEffects.Count > 0;
                 
-                if (hasDamages && hasHealEffects)
+                if (!hasDamages && !hasHealEffects)
                 {
                     continue;
                 }

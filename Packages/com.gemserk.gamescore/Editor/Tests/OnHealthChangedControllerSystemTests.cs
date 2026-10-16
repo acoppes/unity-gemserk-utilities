@@ -125,5 +125,46 @@ namespace Game.Editor.Tests
             Assert.IsFalse(mockController.damageWasCalled);
             Assert.IsTrue(mockController.healWasCalled);
         }
+        
+        [Test]
+        public void Bug_DamageCallback_WhenHealAndDamageProcessed()
+        {
+            var mockController = new MockController();
+                
+            var e = world.CreateEntity(null, null, entity =>
+            {
+                entity.Add(new HealthComponent()
+                {
+                    damages = new List<HealthChangeData>(),
+                    processedDamages = new List<HealthChangeData>(),
+                    healEffects = new List<HealthChangeData>(),
+                    processedHealEffects = new List<HealthChangeData>(),
+                    current = 100,
+                    total = 100
+                });
+
+                entity.Add(new ControllerComponent()
+                {
+                    controllers = new List<IController>()
+                    {
+                        mockController
+                    },
+                });
+            });
+
+            e.Get<HealthComponent>().processedDamages.Add(new HealthChangeData()
+            {
+                value = 10
+            });
+            e.Get<HealthComponent>().processedHealEffects.Add(new HealthChangeData()
+            {
+                value = 5
+            });
+            
+            world.FixedUpdate();
+            
+            Assert.IsTrue(mockController.damageWasCalled);
+            Assert.IsTrue(mockController.healWasCalled);
+        }
     }
 }
