@@ -151,6 +151,12 @@ namespace Game.Components
         public IEntityDefinition vfxDefinition;
     }
 
+    public struct HealthPlayerTeamDamageMultiplier
+    {
+        public float alliedDamageMultiplier;
+        public float enemyDamageMultiplier;
+    }
+
     public struct HealthComponent : IEntityComponent
     {
         [Flags]

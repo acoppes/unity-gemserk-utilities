@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using Game.Components;
+using Game.Utilities;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
@@ -13,7 +14,7 @@ namespace Game.Systems
         public static bool DebugLogDamages;
         
         readonly EcsFilterInject<Inc<HealthComponent>, Exc<DisabledComponent>> filter = default;
-        
+        readonly EcsFilterInject<Inc<HealthComponent, HealthPlayerTeamDamageMultiplier, PlayerComponent>, Exc<DisabledComponent>> damagePerTeamFilter = default;
         readonly EcsFilterInject<Inc<HealthStateChangedEvent>> stateChangedFilter = default;
         
         public static readonly float[] DamageMultipliersPerTeam = new float[PlayerComponent.MaxPlayers];
@@ -48,6 +49,38 @@ namespace Game.Systems
             foreach (var e in stateChangedFilter.Value)
             {
                 stateChangedFilter.Pools.Inc1.Del(e);
+            }
+            
+            // pre process damages to multiply per team
+            foreach (var e in damagePerTeamFilter.Value)
+            {
+                ref var health = ref damagePerTeamFilter.Pools.Inc1.Get(e);
+                var damagePerTeam = damagePerTeamFilter.Pools.Inc2.Get(e);
+                var player = damagePerTeamFilter.Pools.Inc3.Get(e);
+                var alliedPlayers = player.GetAlliedPlayers();
+
+                if (health.damages.Count == 0)
+                {
+                    continue;
+                }
+                
+                for (var i = 0; i < health.damages.Count; i++)
+                {
+                    var damage = health.damages[i];
+                    var damagePlayer = PlayerComponent.GetPlayerBitmask(damage.player);
+                    
+                    if ((alliedPlayers & damagePlayer) == damagePlayer)
+                    {
+                        // allied player
+                        damage.value *= damagePerTeam.alliedDamageMultiplier;
+                    }
+                    else
+                    {
+                        damage.value *= damagePerTeam.enemyDamageMultiplier;
+                    }
+
+                    health.damages[i] = damage;
+                }
             }
 
             foreach (var entity in filter.Value)

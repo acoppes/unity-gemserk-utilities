@@ -227,5 +227,49 @@ namespace Game.Editor.Tests
             
             Assert.AreEqual(82.5f, e.Get<HealthComponent>().current, 0.01f);
         }
+        
+        [Test]
+        public void HealthSystem_SpecificTeamDamageMultiplier()
+        {
+            var e = world.CreateEntity(null, null, entity =>
+            {
+                entity.Add(new PlayerComponent()
+                {
+                    player = 0
+                });
+                entity.Add(new HealthComponent()
+                {
+                    damages = new List<HealthChangeData>(),
+                    processedDamages = new List<HealthChangeData>(),
+                    healEffects = new List<HealthChangeData>(),
+                    processedHealEffects = new List<HealthChangeData>(),
+                    current = 100,
+                    total = 100
+                });
+                entity.Add(new HealthPlayerTeamDamageMultiplier()
+                {
+                    alliedDamageMultiplier = 0.5f,
+                    enemyDamageMultiplier = 2f
+                });
+            });
+            
+            e.Get<HealthComponent>().damages.Add(new HealthChangeData()
+            {
+                value = 10f,
+                player = 0
+            });
+            
+            world.FixedUpdate();
+            Assert.AreEqual(95f, e.Get<HealthComponent>().current, 0.01f);
+            
+            e.Get<HealthComponent>().damages.Add(new HealthChangeData()
+            {
+                value = 20f,
+                player = 1
+            });
+            
+            world.FixedUpdate();
+            Assert.AreEqual(55f, e.Get<HealthComponent>().current, 0.01f);
+        }
     }
 }
