@@ -27,8 +27,8 @@ namespace Game.Components
 
         public bool startsInvulnerable;
 
+        [Separator("Friendly Damage")]
         public bool hasDamagePerTeamMultipliers;
-        
         [ConditionalField(nameof(hasDamagePerTeamMultipliers))] 
         public float alliedDamageMultiplier = 1;
         [ConditionalField(nameof(hasDamagePerTeamMultipliers))] 
