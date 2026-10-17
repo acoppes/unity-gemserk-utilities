@@ -27,6 +27,13 @@ namespace Game.Components
 
         public bool startsInvulnerable;
 
+        public bool hasDamagePerTeamMultipliers;
+        
+        [ConditionalField(nameof(hasDamagePerTeamMultipliers))] 
+        public float alliedDamageMultiplier = 1;
+        [ConditionalField(nameof(hasDamagePerTeamMultipliers))] 
+        public float enemyDamageMultiplier = 1;
+
         public override void Apply(World world, Entity entity)
         {
             world.AddComponent(entity, new HealthComponent
@@ -58,6 +65,15 @@ namespace Game.Components
                 world.AddComponent(entity, new HealthDamageNumberComponent()
                 {
                     minToShow = damageNumberAccumulator
+                });
+            }
+
+            if (hasDamagePerTeamMultipliers)
+            {
+                world.AddComponent(entity, new HealthPlayerTeamDamageMultiplier()
+                {
+                    alliedDamageMultiplier = alliedDamageMultiplier,
+                    enemyDamageMultiplier = enemyDamageMultiplier
                 });
             }
         }

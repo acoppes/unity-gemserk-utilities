@@ -1,7 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
 using Game.Components;
-using Game.Utilities;
 using Gemserk.Leopotam.Ecs;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
