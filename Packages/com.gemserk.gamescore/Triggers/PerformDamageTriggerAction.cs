@@ -18,6 +18,8 @@ namespace Game.Triggers
         public TriggerTarget triggerTarget;
 
         public float damage;
+
+        public int player = PlayerComponent.MaxPlayers - 1;
         
         public override string GetObjectName()
         {
@@ -52,7 +54,8 @@ namespace Game.Triggers
                     position = position,
                     knockback = false,
                     source = Entity.NullEntity,
-                    vfxDefinition = null
+                    vfxDefinition = null,
+                    player = player
                 });
             }
             
