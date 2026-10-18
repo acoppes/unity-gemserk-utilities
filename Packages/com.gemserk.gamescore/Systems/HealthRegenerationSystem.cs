@@ -51,8 +51,13 @@ namespace Game.Systems
                     
                     if (health.processedDamages.Count > 0)
                     {
-                        // TODO: could check if damges did damage or not...
-                        regeneration.regenerationDelayCurrent = 0;
+                        foreach (var damageData in health.processedDamages)
+                        {
+                            if (damageData.value > 0)
+                            {
+                                regeneration.regenerationDelayCurrent = 0;
+                            }
+                        }
                     }
                     
                     if (regeneration.regenerationDelayCurrent < regeneration.regenerationDelayTotal)
