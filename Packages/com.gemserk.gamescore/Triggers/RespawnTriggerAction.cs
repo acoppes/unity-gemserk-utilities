@@ -20,7 +20,10 @@ namespace Game.Triggers
             
             foreach (var entity in entities)
             {
-                entity.Add(new RespawnActionComponent());
+                if (!entity.Has<RespawnActionComponent>())
+                {
+                    entity.Add(new RespawnActionComponent());
+                }
             }
             
             return ITrigger.ExecutionResult.Completed;
