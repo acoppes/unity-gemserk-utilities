@@ -2,6 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using Game.Components;
 using Gemserk.Leopotam.Ecs;
+using Gemserk.Utilities;
 using Leopotam.EcsLite;
 using Leopotam.EcsLite.Di;
 using UnityEngine;
@@ -108,7 +109,13 @@ namespace Game.Systems
                             Debug.Log($"DAMAGE VALUE ORIGINAL: [{entity}] {damage.value}");
                         }
 
-                        var teamDamageMultiplier = DamageMultipliersPerTeam[damage.player];
+                        var teamDamageMultiplier = 1f;
+                        
+                        if (damage.player >= 0 && damage.player < DamageMultipliersPerTeam.Length)
+                        {
+                            teamDamageMultiplier = DamageMultipliersPerTeam[damage.player];
+                        }
+                        
                         damage = ProcessDamage(ref health, damage, teamDamageMultiplier);
                         
                         if (DebugLogDamages)
