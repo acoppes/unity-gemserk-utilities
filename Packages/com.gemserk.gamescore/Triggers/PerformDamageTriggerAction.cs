@@ -19,6 +19,7 @@ namespace Game.Triggers
 
         public float damage;
 
+        [Range(0, PlayerComponent.MaxPlayers - 1)]
         public int player = PlayerComponent.MaxPlayers - 1;
         
         public override string GetObjectName()

@@ -218,34 +218,35 @@ namespace Game.Systems
                 
                 physics2dComponent.colliders.Clear();
 
-                if (physics2dComponent.collideWithDynamicCollider != null)
+                if (physics2dComponent.collideWithDynamicCollider)
                 {
                     physics2dComponent.collideWithDynamicCollider.transform.SetParent(null);
                     poolMap.Release(physics2dComponent.collideWithDynamicCollider.gameObject);
                     physics2dComponent.collideWithDynamicCollider = null;
                 }
                 
-                if (physics2dComponent.collideWithStaticCollider != null)
+                if (physics2dComponent.collideWithStaticCollider)
                 {
                     physics2dComponent.collideWithStaticCollider.transform.SetParent(null);
                     poolMap.Release(physics2dComponent.collideWithStaticCollider.gameObject);
                     physics2dComponent.collideWithStaticCollider = null;
                 }
 
-                if (physics2dComponent.collisionsEventsDelegate != null)
+                if (physics2dComponent.collisionsEventsDelegate)
                 {
                     physics2dComponent.collisionsEventsDelegate.onCollisionEnter = null;
+                    physics2dComponent.collisionsEventsDelegate.onCollisionExit = null;
                 }
                 
                 physics2dComponent.collisionsEventsDelegate = null;
                 physics2dComponent.contacts.Clear();
                 
-                if (physics2dComponent.gameObject != null)
+                if (physics2dComponent.gameObject)
                 {
-                    if (physics2dComponent.prefab != null)
+                    if (physics2dComponent.prefab)
                     {
                         // reset velocity when returning to pool
-                        if (physics2dComponent.body != null && physics2dComponent.body.bodyType == RigidbodyType2D.Dynamic)
+                        if (physics2dComponent.body && physics2dComponent.body.bodyType == RigidbodyType2D.Dynamic)
                         {
                             physics2dComponent.body.totalForce = Vector2.zero;
                             physics2dComponent.body.totalTorque = 0;
