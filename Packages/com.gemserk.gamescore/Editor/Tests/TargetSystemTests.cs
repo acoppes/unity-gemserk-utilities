@@ -77,6 +77,36 @@ namespace Game.Editor.Tests
             }));
         }
         
+        [Test]
+        public void Bug_DisabledEnabledEntity_ShouldKeepTargetType()
+        {
+            var targetEntity = world.CreateEntity(null, null, e =>
+            {
+                e.Add(new TargetComponent()
+                {
+                    target = new Target()
+                    {
+                        targetType = 2,
+                        size = 10
+                    }
+                });
+                e.Add(new HealthComponent()
+                {
+                    current = 100,
+                    total = 100
+                });
+            });
+            
+            targetEntity.Add(new DisabledComponent());
+            world.FixedUpdate();
+            
+            targetEntity.Remove<DisabledComponent>();
+            world.FixedUpdate();
+
+            Assert.AreEqual(2, targetEntity.Get<TargetComponent>().target.targetType);
+            Assert.AreEqual(10, targetEntity.Get<TargetComponent>().target.size);
+        }
+        
         
     }
 }

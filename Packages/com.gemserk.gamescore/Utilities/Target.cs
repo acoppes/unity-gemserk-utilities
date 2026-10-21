@@ -25,6 +25,8 @@ namespace Game.Utilities
     {
         public Entity entity;
 
+        // these two values are part of the declaration, are not overwritten later by another component
+        // so they should be kept as original values.
         public int targetType;
         public int player;
         
@@ -45,15 +47,16 @@ namespace Game.Utilities
 
         public void Clear()
         {
+            // targetType = 0;
+            // size = 0;
+            
             entity = Entity.NullEntity;
-            targetType = 0;
             player = 0;
             position = Vector3.zero;
             velocity = Vector3.zero;
             healthFactor = 0;
             aliveType = HealthComponent.AliveType.None;
             targeted = false;
-            size = 0;
         }
     }
 
