@@ -305,6 +305,23 @@ namespace Game.Utilities
             {
                 return false;
             }
+
+            if (targetingFilter.targetEnableType != 0)
+            {
+                if (target.disabled &&
+                    !targetingFilter.targetEnableType.HasTargetEnableFlag(
+                        (int)TargetingFilter.TargetEnableType.Disabled))
+                {
+                    return false;
+                }
+                
+                if (!target.disabled &&
+                    !targetingFilter.targetEnableType.HasTargetEnableFlag(
+                        (int)TargetingFilter.TargetEnableType.Enabled))
+                {
+                    return false;
+                }
+            }
             
             if (targetingFilter.playerAllianceType != PlayerAllianceType.Everything)
             {

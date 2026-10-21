@@ -29,6 +29,8 @@ namespace Game.Utilities
         // so they should be kept as original values.
         public int targetType;
         public int player;
+
+        public bool disabled;
         
         public int playerBitmask => 1 << player;
         public int alliedPlayersBitmask => PlayerAllianceExtensions.GetAlliedPlayers(player);
@@ -44,20 +46,6 @@ namespace Game.Utilities
         public bool targeted;
 
         public float size;
-
-        public void Clear()
-        {
-            // targetType = 0;
-            // size = 0;
-            
-            entity = Entity.NullEntity;
-            player = 0;
-            position = Vector3.zero;
-            velocity = Vector3.zero;
-            healthFactor = 0;
-            aliveType = HealthComponent.AliveType.None;
-            targeted = false;
-        }
     }
 
     public static class TargetExtensions
@@ -84,6 +72,12 @@ namespace Game.Utilities
         public static bool HasTargetFlag(int self, int flag)
         {
             return (self & flag) == flag;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool HasTargetEnableFlag(this TargetingFilter.TargetEnableType self, int flag)
+        {
+            return ((int)self & flag) == flag;
         }
     }
 }

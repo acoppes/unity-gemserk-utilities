@@ -21,12 +21,13 @@ namespace Game.Systems
             foreach (var entity in disabledEntities.Value)
             {
                 ref var target = ref disabledEntities.Pools.Inc1.Get(entity);
-                target.target.Clear();
+                target.target.disabled = true;
             }
             
             foreach (var entity in filter.Value)
             {
                 ref var target = ref filter.Pools.Inc1.Get(entity);
+                target.target.disabled = false;
                 target.target.targeted = false;
                 target.target.entity = world.GetEntity(entity);
             }

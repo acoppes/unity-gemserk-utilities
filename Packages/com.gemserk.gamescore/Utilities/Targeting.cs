@@ -8,13 +8,14 @@ namespace Game.Utilities
     public class Targeting : MonoBehaviour
     {
         [SerializeField]
-        protected TargetingFilter targeting = new TargetingFilter()
+        public TargetingFilter targeting = new TargetingFilter()
         {
             // targetTypes = TargetType.Everything,
             playerAllianceType = PlayerAllianceType.Enemies,
             aliveType = HealthComponent.AliveType.Alive,
             distanceType = TargetingFilter.CheckDistanceType.Nothing,
             angleType = TargetingFilter.CheckDistanceType.PlaneXZ,
+            targetEnableType = TargetingFilter.TargetEnableType.Enabled,
             angle = new MinMaxFloat(0, 180),
             range = new MinMaxFloat(0, 1),
             sorter = null

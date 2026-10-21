@@ -38,6 +38,10 @@ namespace Game.Editor.Tests
                 e.Add(new TargetComponent()
                 {
                     target = new Target()
+                    {
+                        targetType = (int) TargetType.TargetType1,
+                        size = 1
+                    }
                 });
                 e.Add(new HealthComponent()
                 {
@@ -56,7 +60,8 @@ namespace Game.Editor.Tests
                     angleType = TargetingFilter.CheckDistanceType.Nothing,
                     distanceType = TargetingFilter.CheckDistanceType.Nothing,
                     playerAllianceType = PlayerAllianceType.Everything,
-                    targetTypes = TargetType.Everything
+                    targetTypes = TargetType.TargetType1,
+                    targetEnableType = TargetingFilter.TargetEnableType.Enabled
                 }
             }));
             
@@ -72,9 +77,12 @@ namespace Game.Editor.Tests
                     angleType = TargetingFilter.CheckDistanceType.Nothing,
                     distanceType = TargetingFilter.CheckDistanceType.Nothing,
                     playerAllianceType = PlayerAllianceType.Everything,
-                    targetTypes = TargetType.Everything
+                    targetTypes = TargetType.TargetType1,
+                    targetEnableType = TargetingFilter.TargetEnableType.Enabled
                 }
             }));
+            
+            Assert.IsTrue(targetEntity.Get<TargetComponent>().target.disabled);
         }
         
         [Test]
@@ -105,6 +113,96 @@ namespace Game.Editor.Tests
 
             Assert.AreEqual(2, targetEntity.Get<TargetComponent>().target.targetType);
             Assert.AreEqual(10, targetEntity.Get<TargetComponent>().target.size);
+        }
+        
+        [Test]
+        public void DisabledEntity_ShouldStillBeTargeted()
+        {
+            var targetEntity = world.CreateEntity(null, null, e =>
+            {
+                e.Add(new TargetComponent()
+                {
+                    target = new Target()
+                    {
+                        targetType = (int) TargetType.TargetType1,
+                        size = 1
+                    }
+                });
+                e.Add(new HealthComponent()
+                {
+                    current = 100,
+                    total = 100
+                });
+            });
+            
+            world.FixedUpdate();
+            targetEntity.Add(new DisabledComponent());
+            world.FixedUpdate();
+            
+            Assert.IsTrue(TargetingUtils.ValidateTarget(targetEntity.Get<TargetComponent>().target, new RuntimeTargetingParameters()
+            {
+                filter = new TargetingFilter()
+                {
+                    aliveType = HealthComponent.AliveType.Alive,
+                    angleType = TargetingFilter.CheckDistanceType.Nothing,
+                    distanceType = TargetingFilter.CheckDistanceType.Nothing,
+                    playerAllianceType = PlayerAllianceType.Everything,
+                    targetTypes = TargetType.TargetType1,
+                    targetEnableType = TargetingFilter.TargetEnableType.Disabled
+                }
+            }));
+        }
+        
+        [Test]
+        public void Validate_EnableAndDisabled_Targets()
+        {
+            Assert.IsTrue(TargetingUtils.ValidateTarget(new Target()
+            {
+                disabled = false
+            }, new RuntimeTargetingParameters()
+            {
+                filter = new TargetingFilter() { targetEnableType = TargetingFilter.TargetEnableType.Enabled, playerAllianceType = PlayerAllianceType.Everything, }
+            }));
+            
+            Assert.IsFalse(TargetingUtils.ValidateTarget(new Target()
+            {
+                disabled = true
+            }, new RuntimeTargetingParameters()
+            {
+                filter = new TargetingFilter() { targetEnableType = TargetingFilter.TargetEnableType.Enabled, playerAllianceType = PlayerAllianceType.Everything, }
+            }));
+            
+            Assert.IsTrue(TargetingUtils.ValidateTarget(new Target()
+            {
+                disabled = true
+            }, new RuntimeTargetingParameters()
+            {
+                filter = new TargetingFilter() { targetEnableType = TargetingFilter.TargetEnableType.Disabled, playerAllianceType = PlayerAllianceType.Everything, }
+            }));
+            
+            Assert.IsFalse(TargetingUtils.ValidateTarget(new Target()
+            {
+                disabled = false
+            }, new RuntimeTargetingParameters()
+            {
+                filter = new TargetingFilter() { targetEnableType = TargetingFilter.TargetEnableType.Disabled, playerAllianceType = PlayerAllianceType.Everything, }
+            }));
+            
+            Assert.IsTrue(TargetingUtils.ValidateTarget(new Target()
+            {
+                disabled = false
+            }, new RuntimeTargetingParameters()
+            {
+                filter = new TargetingFilter() { targetEnableType = TargetingFilter.TargetEnableType.Everything, playerAllianceType = PlayerAllianceType.Everything, }
+            }));
+            
+            Assert.IsTrue(TargetingUtils.ValidateTarget(new Target()
+            {
+                disabled = true
+            }, new RuntimeTargetingParameters()
+            {
+                filter = new TargetingFilter() { targetEnableType = TargetingFilter.TargetEnableType.Everything, playerAllianceType = PlayerAllianceType.Everything, }
+            }));
         }
         
         

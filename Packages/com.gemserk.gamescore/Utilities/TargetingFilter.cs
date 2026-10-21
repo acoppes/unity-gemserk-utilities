@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Attributes;
 using Game.Components;
 using MyBox;
 using UnityEngine;
@@ -15,6 +16,15 @@ namespace Game.Utilities
             PlaneXZ = 2,
         }
 
+        [Flags]
+        public enum TargetEnableType
+        {
+            Ignore = 0,
+            Enabled = 1 << 0,
+            Disabled = 1 << 1,
+            Everything = -1
+        }
+
         public TargetType targetTypes;
 
         // public int TargetTypes => targetTypeMask ? targetTypeMask.GetTargetTypeMask() : (int) targetTypes;
@@ -23,8 +33,9 @@ namespace Game.Utilities
         public MinMaxFloat range;
 
         public PlayerAllianceType playerAllianceType;
-
         public HealthComponent.AliveType aliveType;
+
+        public TargetEnableType targetEnableType;
 
         public CheckDistanceType angleType;
         [Tooltip("Use 0 to disable, max shouldn't be bigger than 180")]
