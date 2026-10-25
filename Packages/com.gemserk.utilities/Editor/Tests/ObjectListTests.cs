@@ -32,7 +32,7 @@ namespace Gemserk.Utilities.Tests
             var gameObject1 = new GameObject("object1");
             var c1 = gameObject1.AddComponent<ComponentForTest>();
             objectList.assets.Add(gameObject1);
-            Assert.AreSame(c1, objectList.FindComponentByName<ComponentForTest>("object1"));
+            Assert.AreSame(c1, objectList.FindObjectByNameExt<ComponentForTest>("object1"));
         }
     }
 }
