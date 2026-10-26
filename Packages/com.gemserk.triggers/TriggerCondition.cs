@@ -1,5 +1,4 @@
-﻿using Gemserk.Utilities;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Gemserk.Triggers
 {
