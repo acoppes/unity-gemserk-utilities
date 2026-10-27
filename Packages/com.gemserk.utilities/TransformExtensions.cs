@@ -22,6 +22,17 @@ namespace Gemserk.Utilities
             return null;
         }
         
+        public static bool IsInParentHierarchy(this Transform t, Transform grandParent)
+        {
+            while (t.parent)
+            {
+                if (t.parent == grandParent)
+                    return true;
+                t = t.parent;
+            }
+            return false;
+        }
+        
         public static void DestroyAllChildren(this Transform t)
         {
             while (t.childCount > 0)
