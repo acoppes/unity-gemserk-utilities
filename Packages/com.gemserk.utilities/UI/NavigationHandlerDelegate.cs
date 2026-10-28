@@ -23,7 +23,9 @@ namespace Gemserk.Utilities.UI
 
             if (selectable)
             {
-                if (selectable.navigation.mode.HasFlag(Navigation.Mode.Horizontal))
+                var navigation = selectable.navigation;
+                
+                if (navigation.mode.HasFlag(Navigation.Mode.Horizontal))
                 {
                     if (eventData.moveDir is MoveDirection.Left or MoveDirection.Right)
                     {
@@ -31,9 +33,32 @@ namespace Gemserk.Utilities.UI
                     }
                 }
                 
-                if (selectable.navigation.mode.HasFlag(Navigation.Mode.Vertical))
+                if (navigation.mode.HasFlag(Navigation.Mode.Vertical))
                 {
                     if (eventData.moveDir is MoveDirection.Down or MoveDirection.Up)
+                    {
+                        return;
+                    }
+                }
+                
+                if (navigation.mode.HasFlag(Navigation.Mode.Explicit))
+                {
+                    if (eventData.moveDir == MoveDirection.Up && navigation.selectOnUp)
+                    {
+                        return;
+                    }
+                    
+                    if (eventData.moveDir == MoveDirection.Down && navigation.selectOnDown)
+                    {
+                        return;
+                    }
+                    
+                    if (eventData.moveDir == MoveDirection.Left && navigation.selectOnLeft)
+                    {
+                        return;
+                    }
+                    
+                    if (eventData.moveDir == MoveDirection.Right && navigation.selectOnRight)
                     {
                         return;
                     }
