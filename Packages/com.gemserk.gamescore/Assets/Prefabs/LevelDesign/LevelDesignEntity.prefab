@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9070944182295245042}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9070944182295244809
 MonoBehaviour:
@@ -46,9 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23a13de81ea045d59db72bd28f929121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityDefinition: {fileID: 0}
   onInstantiateActionType: 0
   instantiationType: 1
+  worldReference:
+    type: 0
+    name: 
+    tag: 
+  entityDefinition: {fileID: 0}
 --- !u!114 &9070944182295245044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,25 +68,25 @@ MonoBehaviour:
   namingType: 1
   entityName: 
   singleton: 1
+  disableSpawnNameOverride: 0
   positionType: 1
   controllable: 0
   playerInput: 0
   overridePlayer: 0
   team: 0
   overrideLookingDirection: 0
+  startingLookingDirectionType: 0
   startLookingDirection: {x: 0, y: 0, z: 0}
   overrideModel: 0
-  modelInstance: {fileID: 0}
   startingTextureVariant: 0
-  overridePositionFromModel: 0
   startingAnimationType: 0
   startingAnimation: 
   randomizeStartFrame: 0
   startLooping: 1
-  overrideHitPoints: 0
-  hitPoints: 0
-  isSpawner: 0
-  spawnArea: {fileID: 0}
+  overrideHealth: 0
+  health: 0
+  overrideStartingLevel: 0
+  startingLevel: 0
 --- !u!114 &1597207993456223412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,3 +100,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   disablePreview: 0
+  showName: 0
+  showComponentsPreview: 0
