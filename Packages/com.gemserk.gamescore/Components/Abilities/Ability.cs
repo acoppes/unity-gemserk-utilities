@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Game.Utilities;
-using Gemserk.Leopotam.Ecs;
 using Gemserk.Utilities;
 using UnityEngine;
 
@@ -14,8 +13,6 @@ namespace Game.Components.Abilities
         public bool valid;
 
         public Vector3 targetPosition => (target != null && valid) ? target.position : position;
-
-        public bool isEntityValid => valid && target != null && target.entity;
         
         public override string ToString()
         {

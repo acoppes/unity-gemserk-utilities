@@ -142,7 +142,7 @@ namespace Game.Systems
                                 continue;
                             }
 
-                            abilityTarget.valid = ability.IsValidTarget(abilityTarget.target);
+                            abilityTarget.valid = abilityTarget.target.entity && ability.IsValidTarget(abilityTarget.target);
                             // while target is valid, update position of ability target.
                             if (abilityTarget.valid)
                             {

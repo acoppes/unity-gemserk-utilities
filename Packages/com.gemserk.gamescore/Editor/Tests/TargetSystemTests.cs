@@ -2,7 +2,6 @@
 using Game.Systems;
 using Game.Utilities;
 using Gemserk.Leopotam.Ecs;
-using MyBox;
 using NUnit.Framework;
 using UnityEngine;
 
