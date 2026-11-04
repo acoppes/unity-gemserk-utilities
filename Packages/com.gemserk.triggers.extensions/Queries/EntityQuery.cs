@@ -6,6 +6,14 @@ namespace Gemserk.Triggers.Queries
     public readonly struct EntityQuery
     {
         public readonly List<IEntityMatcher> parameters;
+        
+        public EntityQuery(IEntityMatcher matcher)
+        {
+            parameters = new List<IEntityMatcher>()
+            {
+                matcher
+            };
+        }
 
         public EntityQuery(List<IEntityMatcher> parameters)
         {
