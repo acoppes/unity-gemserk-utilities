@@ -34,7 +34,7 @@ namespace Game.Models
 
         private void OnEnable()
         {
-            if (particleSystem != null)
+            if (particleSystem)
             {
                 particleSystem.Play(true);
             }
@@ -42,7 +42,7 @@ namespace Game.Models
 
         private void OnDisable()
         {
-            if (particleSystem != null)
+            if (particleSystem)
             {
                 particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             }
@@ -52,10 +52,15 @@ namespace Game.Models
         {
             transform.localScale = Vector3.one;
             
-            if (model != null)
+            if (model)
             {
                 model.localScale = Vector3.one;
                 model.localEulerAngles = Vector3.zero;
+            }
+
+            if (spriteRenderer)
+            {
+                spriteRenderer.sprite = null;
             }
         }
     }
