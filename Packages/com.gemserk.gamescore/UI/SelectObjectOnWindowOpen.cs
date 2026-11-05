@@ -8,7 +8,7 @@ namespace Game.UI
     {
         public UIWindow window;
         public GameObject objectToAutoSelect;
-
+        
         private GameObject previousSelectedObject;
 
         private void Awake()
@@ -16,6 +16,7 @@ namespace Game.UI
             if (window)
             {
                 window.onOpenAction.AddListener(OnWindowOpen);
+                window.onCloseAction.AddListener(OnWindowClosed);
             }
         }
 
@@ -24,6 +25,7 @@ namespace Game.UI
             if (window)
             {
                 window.onOpenAction.RemoveListener(OnWindowOpen);
+                window.onCloseAction.RemoveListener(OnWindowClosed);
             }
         }
 
@@ -38,8 +40,29 @@ namespace Game.UI
             {
                 previousSelectedObject = EventSystem.current.currentSelectedGameObject;
             }
+
+            var lastSelected = GetComponent<LastSelectedUIObjectData>();
+            if (lastSelected && lastSelected.previousSelectedObject)
+            {
+                lastSelected.TryRestorePreviouslySelectedObject();
+                return;
+            }
             
             StartCoroutine(InputEventSystemUtils.DelegateSelectionDelayed(objectToAutoSelect));
+        }
+        
+        private void OnWindowClosed()
+        {
+            if (!isActiveAndEnabled)
+            {
+                return;
+            }
+
+            var lastSelected = GetComponent<LastSelectedUIObjectData>();
+            if (lastSelected)
+            {
+                lastSelected.StoreSelectedObject();
+            }
         }
         
         public void TryRestorePreviouslySelectedObject()
