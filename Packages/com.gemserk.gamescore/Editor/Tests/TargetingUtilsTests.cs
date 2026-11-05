@@ -186,5 +186,32 @@ namespace Game.Editor.Tests
                 size = 0
             }, runtimeTargetingParameters));
         }
+        
+        [Test]
+        public void Test_DefaultFilter_ValidatesAllTargets()
+        {
+            var runtimeTargetingParameters = new RuntimeTargetingParameters()
+            {
+                filter = new TargetingFilter()
+            };
+            
+            Assert.True(TargetingUtils.ValidateTarget(new Target()
+            {
+                player = 0,
+                position = new Vector3(10, 0, 11),
+                targetType = 1,
+                aliveType = HealthComponent.AliveType.Alive,
+                disabled = false
+            }, runtimeTargetingParameters));
+            
+            Assert.True(TargetingUtils.ValidateTarget(new Target()
+            {
+                player = 1,
+                position = new Vector3(999, 0, -999),
+                targetType = 5,
+                aliveType = HealthComponent.AliveType.Death,
+                disabled = true
+            }, runtimeTargetingParameters));
+        }
     }
 }
