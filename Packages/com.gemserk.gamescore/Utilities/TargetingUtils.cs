@@ -217,42 +217,7 @@ namespace Game.Utilities
         
         public static int GetTargets(this World world, RuntimeTargetingParameters runtimeTargetingParameters, List<Target> results, int maxTargets = 0)
         {
-           // var targets = new List<Target>();
-
-            // var filter = runtimeTargetingParameters.filter;
             var targetsCount = 0;
-            
-            // if (filter.areaType == TargetingFilter.AreaType.HitBox)
-            // {
-            //     // collect targets using physics collider
-            //     var area = filter.area;
-            //
-            //     var colliderCount = DrawPhysics.OverlapBoxNonAlloc(area.position3d, area.size * 0.5f, colliders,
-            //         Quaternion.identity, HurtBoxContactFilter.layerMask,
-            //         QueryTriggerInteraction.Collide);
-            //
-            //     if (colliderCount > 0)
-            //     {
-            //         for (var i = 0; i < colliderCount; i++)
-            //         {
-            //             if (maxTargets > 0 && targetsCount >= maxTargets)
-            //                 break;
-            //             
-            //             var collider = colliders[i];
-            //             var targetEntityReference = collider.GetComponent<TargetReference>();
-            //             var target = targetEntityReference.target;
-            //             
-            //             if (ValidateTarget(target, runtimeTargetingParameters))
-            //             {
-            //                 results.Add(target);
-            //                 targetsCount++;
-            //             }
-            //         }
-            //     }
-            // } else
-            // {
-            //
-            // }
             
             var targetComponents = world.GetComponents<TargetComponent>();
 
@@ -271,20 +236,8 @@ namespace Game.Utilities
                     targetsCount++;
                 }
             }
-            
-            // filter valid targets
-            // foreach (var target in targets)
-            // {
-            //     if (ValidateTarget(target, runtimeTargetingParameters))
-            //     {
-            //         results.Add(target);
-            //     }
-            // }
 
-            if (runtimeTargetingParameters.filter.sorter is ITargetSorter sorter)
-            {
-                sorter.Sort(results, runtimeTargetingParameters);
-            }
+            runtimeTargetingParameters.filter.sorter?.Sort(results, runtimeTargetingParameters);
 
             return targetsCount;
         }
@@ -323,7 +276,8 @@ namespace Game.Utilities
                 }
             }
             
-            if (targetingFilter.playerAllianceType != PlayerAllianceType.Everything)
+            if (targetingFilter.playerAllianceType != PlayerAllianceType.Everything 
+                && targetingFilter.playerAllianceType != PlayerAllianceType.Nothing)
             {
                 var targetPlayerBitmask = 1 << target.player;
                 var allies = (runtimeTargetingParameters.alliedPlayersBitmask & targetPlayerBitmask) != 0;
