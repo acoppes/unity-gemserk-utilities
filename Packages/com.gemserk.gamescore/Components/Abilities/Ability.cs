@@ -126,6 +126,11 @@ namespace Game.Components.Abilities
             // abilityTargets.Clear();
             // targetsLocked = false;
         }
+
+        public void LoseTargets()
+        {
+            abilityTargets.Clear();
+        }
         
         public void CopyTarget(Target target, bool clear = true)
         {

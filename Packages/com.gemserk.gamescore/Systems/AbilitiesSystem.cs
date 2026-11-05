@@ -122,12 +122,9 @@ namespace Game.Systems
                         }
                         
                         // world.GetTargetsFromHitboxes(ability.GetRuntimeTargetingParameters(), temporaryTargets);
-                        
-                        if (runtimeTargetingParameters.filter.sorter is ITargetSorter sorter)
-                        {
-                            sorter.Sort(temporaryTargets, runtimeTargetingParameters);
-                        }
-                        
+
+                        runtimeTargetingParameters.filter.sorter?.Sort(temporaryTargets, runtimeTargetingParameters);
+
                         ability.CopyTargets(temporaryTargets);
                     }
 
