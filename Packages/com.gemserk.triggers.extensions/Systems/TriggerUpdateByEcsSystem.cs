@@ -21,7 +21,11 @@ namespace Gemserk.Triggers.Systems
 
         public void Init(EcsSystems systems)
         {
+#if UNITY_6000_4_OR_NEWER
             var triggerSystems = FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude);
+#else
+            var triggerSystems = FindObjectsByType<TriggerSystem>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+#endif
             foreach (var triggerSystem in triggerSystems)
             {
                 if (triggerSystem.GetComponent<AutoCreateTriggerSystemEntity>())
