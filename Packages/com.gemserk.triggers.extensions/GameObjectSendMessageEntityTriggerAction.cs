@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Gemserk.Leopotam.Ecs;
 using Gemserk.Leopotam.Ecs.Components;
 using UnityEngine;
@@ -7,7 +6,7 @@ using UnityEngine.Assertions;
 
 namespace Gemserk.Triggers
 {
-    public class SendMessageEntityTriggerAction : WorldTriggerAction
+    public class GameObjectSendMessageEntityTriggerAction : WorldTriggerAction
     {
         public enum Type
         {

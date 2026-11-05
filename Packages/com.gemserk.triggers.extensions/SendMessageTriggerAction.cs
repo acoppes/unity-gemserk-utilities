@@ -1,64 +1,25 @@
-﻿using UnityEngine;
-using UnityEngine.Assertions;
+﻿using Gemserk.Triggers.Queries;
+using Gemserk.Utilities.Messaging;
 
 namespace Gemserk.Triggers
 {
-    public class SendMessageTriggerAction : TriggerAction
+    public class SendMessageTriggerAction : WorldTriggerAction
     {
-        public enum Type
-        {
-            Send = 0,
-            Broadcast = 1
-        }
-
-        public GameObject target;
-        public string methodName;
-        public SendMessageOptions sendMessageOptions = SendMessageOptions.DontRequireReceiver;
-        public Type type;
-        public bool sendActivator;
+        public TriggerTarget target;
+        public MessageSystem.MessageInfo messageInfo;
         
         public override string GetObjectName()
         {
-            if (target == null)
-            {
-                return "Send(not configured)";
-            }
-            
-            if (type == Type.Send)
-            {
-                return $"SendMessage({methodName}, {target.name})";
-            }
-            else
-            {
-                return $"Broadcast({methodName}, {target.name})";
-            }
+            return $"SendMessage({messageInfo.message}, {messageInfo.parameter})";
         }
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
         {
-            if (type == Type.Send)
+            var targets = world.GetEntities(target, activator);
+
+            foreach (var targetEntity in targets)
             {
-                if (!sendActivator)
-                {
-                    target.SendMessage(methodName, sendMessageOptions);
-                }
-                else
-                {
-                    Assert.IsNotNull(activator, "Cant send message with null activator");
-                    target.SendMessage(methodName, activator, sendMessageOptions);
-                }
-            }
-            else
-            {
-                if (!sendActivator)
-                {
-                    target.BroadcastMessage(methodName, sendMessageOptions);
-                }
-                else
-                {
-                    Assert.IsNotNull(activator, "Cant send message with null activator");
-                    target.BroadcastMessage(methodName, activator, sendMessageOptions);
-                }
+                MessageSystem.SendMessage(targetEntity, messageInfo.message, messageInfo.parameter);
             }
             
             return ITrigger.ExecutionResult.Completed;
