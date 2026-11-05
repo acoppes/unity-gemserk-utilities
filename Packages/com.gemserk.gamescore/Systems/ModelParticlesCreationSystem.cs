@@ -47,6 +47,8 @@ namespace Game.Systems
                 if (modelParticle.instance)
                 {
                     modelParticle.instance.transform.SetParent(null, false);
+                    modelParticle.instance.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                    modelParticle.instance.transform.localScale = Vector3.one;
                     particlesPoolMap.Release(modelParticle.particleSystemPrefab, modelParticle.instance);
                 }
                 
