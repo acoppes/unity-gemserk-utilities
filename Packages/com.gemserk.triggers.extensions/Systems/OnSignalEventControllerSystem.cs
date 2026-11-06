@@ -11,10 +11,15 @@ namespace Gemserk.Triggers.Systems
 {
     public interface ISignalControllerEvent : IControllerEvent
     {
-        void OnGlobalSignal(World world, Entity entity, ISignal sourceSignal, object userData);
+        void OnGlobalSignal(World world, Entity entity, ISignal signal, object userData);
+    }
+
+    public struct OnSignalEventsComponent : IEntityComponent
+    {
+        public List<ISignal> signals;
     }
     
-    public class OnSignalEventControllerSystem : BaseSystem, IEcsInitSystem, IEcsDestroySystem, IEcsRunSystem
+    public class OnSignalEventControllerSystem : BaseSystem, IEcsDestroySystem, IEcsRunSystem
     {
         private struct ControllerSignalHandlerComponent : IEntityComponent
         {
@@ -28,45 +33,37 @@ namespace Gemserk.Triggers.Systems
 
         private class LocalSignalHandler : IDisposable
         {
-            private OnSignalEventControllerSystem system;
-            private SignalAsset signalAsset;
+            public OnSignalEventControllerSystem system;
+            public ISignal signal;
 
-            public LocalSignalHandler(SignalAsset signalAsset, OnSignalEventControllerSystem system)
+            public LocalSignalHandler(ISignal signal, OnSignalEventControllerSystem system)
             {
-                this.signalAsset = signalAsset;
                 this.system = system;
-                this.signalAsset.Register(OnSignalEvent);
+                this.signal = signal;
+                signal.Register(OnSignalEvent);
             }
 
             public void Dispose()
             {
-                signalAsset.Unregister(OnSignalEvent);
-                signalAsset = null;
+                signal?.Unregister(OnSignalEvent);
+                signal = null;
                 system = null;
             }
 
             private void OnSignalEvent(object userData)
             {
-                system.OnSignalEvent(signalAsset, userData);
+                system.OnSignalEvent(signal, userData);
             }
         }
         
         readonly EcsFilterInject<Inc<ControllerComponent>, Exc<DisabledComponent, ControllerSignalHandlerComponent, ControllerSignalHandlerCheckedComponent>> controllers = default;
         readonly EcsFilterInject<Inc<ControllerSignalHandlerComponent>, Exc<DisabledComponent>> controllersWithHandler = default;
+        readonly EcsFilterInject<Inc<OnSignalEventsComponent>, Exc<DisabledComponent>> onSignalRegisterFilter = default;
 
         private readonly List<ISignalControllerEvent> signalHandlers = new ();
 
-        public List<SignalAsset> signalAssets = new List<SignalAsset>();
-
         private readonly List<LocalSignalHandler> localSignalHandlers = new List<LocalSignalHandler>();
-
-        public void Init(EcsSystems systems)
-        {
-            foreach (var signalAsset in signalAssets)
-            {
-                localSignalHandlers.Add(new LocalSignalHandler(signalAsset, this));
-            }
-        }
+        
         
         public void Destroy(EcsSystems systems)
         {
@@ -76,7 +73,7 @@ namespace Gemserk.Triggers.Systems
             }
             localSignalHandlers.Clear();
         }
-
+        
         private void OnSignalEvent(ISignal signal, object userData)
         {
             foreach (var e in controllersWithHandler.Value)
@@ -91,8 +88,35 @@ namespace Gemserk.Triggers.Systems
 
         public void Run(EcsSystems systems)
         {
-            // ignore logic if no signals in the list
-            if (signalAssets.Count == 0)
+            foreach (var entity in onSignalRegisterFilter.Value)
+            {
+                ref var signalEventsComponent = ref onSignalRegisterFilter.Pools.Inc1.Get(entity);
+                
+                if (signalEventsComponent.signals != null)
+                {
+                    foreach (var signal in signalEventsComponent.signals)
+                    {
+                        var registered = false;
+                        foreach (var signalHandler in localSignalHandlers)
+                        {
+                            if (signalHandler.signal == signal)
+                            {
+                                registered = true;
+                                break;
+                            }
+                        }
+
+                        if (!registered)
+                        {
+                            localSignalHandlers.Add(new LocalSignalHandler(signal, this));
+                        }
+                    }
+                }
+                
+                onSignalRegisterFilter.Pools.Inc1.Del(entity);
+            }
+            
+            if (localSignalHandlers.Count == 0)
             {
                 return;
             }
@@ -128,5 +152,7 @@ namespace Gemserk.Triggers.Systems
                 }
             }
         }
+
+
     }
 }

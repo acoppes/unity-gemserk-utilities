@@ -12,16 +12,17 @@ namespace Gemserk.Triggers.Tests
     {
         private World world;
         private SignalAsset testSignalAsset;
+        private OnSignalEventControllerSystem system;
 
         private class TestControllerForSignal : ControllerBase, ISignalControllerEvent
         {
             public int calls;
             public ISignal calledSignal;
             
-            public void OnGlobalSignal(World world, Entity entity, ISignal sourceSignal, object userData)
+            public void OnGlobalSignal(World world, Entity entity, ISignal signal, object userData)
             {
                 calls++;
-                calledSignal = sourceSignal;
+                calledSignal = signal;
             }
         }
 
@@ -35,8 +36,7 @@ namespace Gemserk.Triggers.Tests
             gameObject.AddComponent<ControllerInitializationSystem>();
             gameObject.AddComponent<ControllerSystem>();
             
-            var signalsEventSystem = gameObject.AddComponent<OnSignalEventControllerSystem>();
-            signalsEventSystem.signalAssets.Add(testSignalAsset);
+            system = gameObject.AddComponent<OnSignalEventControllerSystem>();
             
             world.fixedUpdateParent = world.transform;
             
@@ -62,6 +62,13 @@ namespace Gemserk.Triggers.Tests
                 e.Add(new ControllerComponent()
                 {
                     prefab = controllerPrefab
+                });
+                e.Add(new OnSignalEventsComponent()
+                {
+                    signals = new List<ISignal>()
+                    {
+                        testSignalAsset
+                    }
                 });
             });
             
