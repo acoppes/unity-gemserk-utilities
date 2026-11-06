@@ -62,6 +62,11 @@ namespace Game.Models
             {
                 spriteRenderer.sprite = null;
             }
+            
+            if (particleSystem)
+            {
+                particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            }
         }
     }
 }

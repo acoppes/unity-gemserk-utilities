@@ -40,6 +40,11 @@ namespace Game.Systems
 
                 if (modelParticle.currentModel)
                 {
+                    if (modelParticle.currentModel.particleSystem)
+                    {
+                        modelParticle.currentModel.particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                    }
+                    
                     modelParticle.currentModel.particleSystem = null;
                     modelParticle.currentModel.model = null;
                 }
@@ -49,6 +54,7 @@ namespace Game.Systems
                     modelParticle.instance.transform.SetParent(null, false);
                     modelParticle.instance.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
                     modelParticle.instance.transform.localScale = Vector3.one;
+                    
                     particlesPoolMap.Release(modelParticle.particleSystemPrefab, modelParticle.instance);
                 }
                 
