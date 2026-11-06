@@ -14,9 +14,10 @@ namespace Gemserk.Triggers.Systems
         void OnGlobalSignal(World world, Entity entity, ISignal signal, object userData);
     }
 
-    public struct OnSignalEventsComponent : IEntityComponent
+    public struct RegisterOnSignalEventsComponent : IActionComponent
     {
         public List<ISignal> signals;
+        public object userData;
     }
     
     public class OnSignalEventControllerSystem : BaseSystem, IEcsDestroySystem, IEcsRunSystem
@@ -58,7 +59,7 @@ namespace Gemserk.Triggers.Systems
         
         readonly EcsFilterInject<Inc<ControllerComponent>, Exc<DisabledComponent, ControllerSignalHandlerComponent, ControllerSignalHandlerCheckedComponent>> controllers = default;
         readonly EcsFilterInject<Inc<ControllerSignalHandlerComponent>, Exc<DisabledComponent>> controllersWithHandler = default;
-        readonly EcsFilterInject<Inc<OnSignalEventsComponent>, Exc<DisabledComponent>> onSignalRegisterFilter = default;
+        readonly EcsFilterInject<Inc<RegisterOnSignalEventsComponent>, Exc<DisabledComponent>> onSignalRegisterFilter = default;
 
         private readonly List<ISignalControllerEvent> signalHandlers = new ();
 
@@ -113,7 +114,8 @@ namespace Gemserk.Triggers.Systems
                     }
                 }
                 
-                onSignalRegisterFilter.Pools.Inc1.Del(entity);
+                // onSignalRegisterFilter.Pools.Inc1.Del(entity);
+                world.EcsWorld.DelEntity(entity);
             }
             
             if (localSignalHandlers.Count == 0)

@@ -57,13 +57,18 @@ namespace Gemserk.Triggers.Tests
             var controllerPrefab = new GameObject();
             controllerPrefab.AddComponent<TestControllerForSignal>();
             
-            var e = world.CreateEntity(configuration:e =>
+            var entity = world.CreateEntity(configuration:e =>
             {
                 e.Add(new ControllerComponent()
                 {
                     prefab = controllerPrefab
                 });
-                e.Add(new OnSignalEventsComponent()
+            });
+            
+            // register signal action
+            world.CreateEntity(configuration:e =>
+            {
+                e.Add(new RegisterOnSignalEventsComponent()
                 {
                     signals = new List<ISignal>()
                     {
@@ -72,7 +77,7 @@ namespace Gemserk.Triggers.Tests
                 });
             });
             
-            return e;
+            return entity;
         }
         
         [Test]
