@@ -14,9 +14,6 @@ namespace Gemserk.Leopotam.Ecs.Controllers
     {
         readonly EcsFilterInject<Inc<ControllerComponent>, Exc<DisabledComponent>> controllerFilter = default;
         
-        readonly EcsPoolInject<ConfigurationScriptComponent> configurationComponents = default;
-        readonly EcsPoolInject<ControllerComponent> controllerComponents = default;
-        
 #if GEMSERK_CONTROLLERS_DEBUG && UNITY_EDITOR
         private GameObject instancesParent;
 #endif
@@ -139,8 +136,8 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         {
             foreach (var entity in controllerFilter.Value)
             {
-                ref var controllerComponent = ref controllerComponents.Value.Get(entity);
-
+                ref var controllerComponent = ref controllerFilter.Pools.Inc1.Get(entity);
+                
                 controllersList.Clear();
                 controllersList.AddRange(controllerComponent.controllers);
                 
