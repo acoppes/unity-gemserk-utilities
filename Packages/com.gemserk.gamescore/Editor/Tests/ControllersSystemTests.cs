@@ -73,5 +73,45 @@ namespace Game.Editor.Tests
             Assert.AreEqual(1, mockController.initCalledCount);
             Assert.AreEqual(1, mockController.updateCalledCount);
         }
+        
+        [Test]
+        public void Bug_UpdateBeforeInit()
+        {
+            var controllerPrefab = new GameObject();
+            controllerPrefab.AddComponent<MockController>();
+            
+            var entity = world.CreateEntity(null, null, e =>
+            {
+                e.Add(new ControllerComponent()
+                {
+                    prefab = controllerPrefab,
+                    sharedInstance = false,
+                });
+            });
+
+            var mockController = entity.Get<ControllerComponent>().controllers[0] as MockController;
+            var secondEntity = Entity.NullEntity;
+            
+            mockController.initCallback = () =>
+            {
+                secondEntity = world.CreateEntity(null, null, e =>
+                {
+                    e.Add(new ControllerComponent()
+                    {
+                        prefab = controllerPrefab,
+                        sharedInstance = false,
+                    });
+                });
+            };
+            
+            world.FixedUpdate();
+            
+            Assert.IsTrue(secondEntity.Exists());
+            
+            var secondController = secondEntity.Get<ControllerComponent>().controllers[0] as MockController;
+            
+            Assert.AreEqual(0, secondController.initCalledCount);
+            Assert.AreEqual(0, secondController.updateCalledCount);
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
     public class ControllerInitializationSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler, 
         IEntityCreatedHandler, IEcsInitSystem
     {
-        readonly EcsFilterInject<Inc<ControllerComponent>, Exc<DisabledComponent>> controllerFilter = default;
+        readonly EcsFilterInject<Inc<ControllerComponent>, Exc<DisabledComponent, ControllerInitializedComponent>> controllerFilter = default;
         
 #if GEMSERK_CONTROLLERS_DEBUG && UNITY_EDITOR
         private GameObject instancesParent;
@@ -134,14 +134,14 @@ namespace Gemserk.Leopotam.Ecs.Controllers
 
         public void Run(EcsSystems systems)
         {
-            foreach (var entity in controllerFilter.Value)
+            foreach (var e in controllerFilter.Value)
             {
-                ref var controllerComponent = ref controllerFilter.Pools.Inc1.Get(entity);
+                ref var controllerComponent = ref controllerFilter.Pools.Inc1.Get(e);
                 
                 controllersList.Clear();
                 controllersList.AddRange(controllerComponent.controllers);
                 
-                var worldEntity = world.GetEntity(entity);
+                var worldEntity = world.GetEntity(e);
                 
                 foreach (var controller in controllersList)
                 {
@@ -154,11 +154,12 @@ namespace Gemserk.Leopotam.Ecs.Controllers
                     }
                     catch (Exception ex)
                     {
-                        Debug.LogException(new Exception($"Failed to initialize {entity}", ex), controllerComponent.instance);
+                        Debug.LogException(new Exception($"Failed to initialize {e}", ex), controllerComponent.instance);
                     }
                 }
-                
+
                 controllerComponent.intialized = true;
+                world.AddComponent(e, new ControllerInitializedComponent());
             }
         }
     }

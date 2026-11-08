@@ -7,7 +7,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
 {
     public class ControllerSystem : BaseSystem, IEcsRunSystem
     {
-        readonly EcsFilterInject<Inc<ControllerComponent>, Exc<DisabledComponent>> controllerFilter = default;
+        readonly EcsFilterInject<Inc<ControllerComponent, ControllerInitializedComponent>, Exc<DisabledComponent>> controllerFilter = default;
         
         public void Run(EcsSystems systems)
         {

@@ -20,6 +20,11 @@ namespace Gemserk.Leopotam.Ecs.Controllers
         public List<IStateChanged> stateChangedListeners;
     }
 
+    public struct ControllerInitializedComponent : ITagComponent
+    {
+        
+    }
+
     public struct ControllerFromGameObject : IEntityComponent
     {
         
