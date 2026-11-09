@@ -54,8 +54,15 @@ namespace Gemserk.Triggers
             
             foreach (var entity in entities)
             {
-                ref var destroyableComponent = ref world.GetComponent<DestroyableComponent>(entity);
-                destroyableComponent.destroy = true;
+                if (entity.Has<DestroyableComponent>())
+                {
+                    ref var destroyableComponent = ref world.GetComponent<DestroyableComponent>(entity);
+                    destroyableComponent.destroy = true;
+                }
+                else
+                {
+                    world.DestroyEntity(entity);
+                }
             }
 
             if (failIfNoTargets && entities.Count == 0)
