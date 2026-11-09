@@ -7,6 +7,11 @@ using Object = UnityEngine.Object;
 
 namespace Gemserk.Utilities
 {
+    public interface IObjectListFilter
+    {
+        bool Match(Object o);
+    }
+    
     [Serializable]
     public class ObjectList : IObjectList
     {
@@ -14,6 +19,9 @@ namespace Gemserk.Utilities
         private SelectablePath[] paths;
 
         public List<string> typeFilters = new List<string>();
+
+        [ObjectType(typeof(IObjectListFilter))]
+        public Object customFilter;
 
         [Tooltip("Leave empty to allow all objects")]
         public string pattern = ".*";

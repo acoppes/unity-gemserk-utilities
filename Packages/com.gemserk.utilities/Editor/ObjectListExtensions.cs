@@ -50,6 +50,12 @@ namespace Gemserk.Utilities.Editor
                     objectList.assets.Add(asset);
                 }
             }
+
+            if (objectList.customFilter)
+            {
+                var customFilter = objectList.customFilter.GetInterface<IObjectListFilter>();
+                objectList.assets.RemoveAll(o => !customFilter.Match(o));
+            }
         }
     }
 }
