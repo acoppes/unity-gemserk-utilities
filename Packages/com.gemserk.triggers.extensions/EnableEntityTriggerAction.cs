@@ -3,6 +3,7 @@ using Gemserk.Leopotam.Ecs;
 
 namespace Gemserk.Triggers
 {
+    [TriggerEditor("Entity Enable/Disable")]
     public class EnableEntityTriggerAction : WorldTriggerAction
     {
         public enum ActionType
