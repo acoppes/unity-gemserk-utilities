@@ -45,7 +45,7 @@ namespace Gemserk.Triggers
         public QuerySourceType sourceType = QuerySourceType.Query;
 
         [ConditionalField(nameof(sourceType), false, QuerySourceType.Query)]
-        [ObjectType(typeof(Query), disableAssetReferences = true, prefabReferencesOnWhenStart = false)]
+        [ObjectType(typeof(Query), disableAssetReferences = true, prefabReferencesOnWhenStart = true)]
         public Query query;
 
         [ConditionalField(nameof(sourceType), false, QuerySourceType.Identifier)]
