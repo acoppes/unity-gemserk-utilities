@@ -145,14 +145,22 @@ namespace Gemserk.Utilities
             return transform.root.GetComponentInChildren<T>();
         }
         
-        public static T GetInstanceFromRoot<T>(this GameObject gameObject) where T : Component
+        public static T GetHighestInHierarchy<T>(this Transform transform) where T : Component
         {
-            var rootObjects = gameObject.scene.GetRootGameObjects();
-            foreach (var rootObject in rootObjects)
+            var parent = transform.parent;
+            T component = null;
+            
+            while (parent)
             {
-                
+                var newParentComponent = parent.GetComponent<T>();
+                if (newParentComponent)
+                {
+                    component = newParentComponent;
+                }
+                parent = parent.parent;
             }
-            return gameObject.transform.GetInstanceFromRoot<T>();
+            
+            return component;
         }
         
         public static string GetPathToRoot(this Transform current) {
