@@ -31,8 +31,6 @@ namespace Game.Components
         public Vector3 initialVelocity;
         public float initialOffset;
 
-        public Entity source;
-
         public float travelDistance;
         public float maxDistance;
         public Vector3 previousPosition;
