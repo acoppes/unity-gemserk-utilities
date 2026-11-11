@@ -7,10 +7,35 @@ namespace Gemserk.Vision
 {
     public struct VisionMatrix  {
 
+        public static VisionMatrix Create(float worldSize, float gridSize)
+        {
+            var width = Mathf.RoundToInt(worldSize / gridSize);
+            var height = Mathf.RoundToInt(worldSize / gridSize);
+            
+            return new VisionMatrix()
+            {
+                worldSize = worldSize,
+                gridSize = gridSize,
+                width = width,
+                height = height,
+                worldScale = new Vector2(gridSize, gridSize),
+                raycastEnabled = false,
+                cacheVisible = false,
+                visionData = new IntGrid(width, height, 0),
+                previousVisionData = new IntGrid(width, height, 0),
+                temporaryVisibleData = new IntGrid(width, height, 0),
+                groundData = new IntGrid(width, height, 0),
+                cachedAbsoluteValues = new CachedIntAbsoluteValues(Mathf.Max(width, height))
+            }; 
+        }
+        
         public CachedIntAbsoluteValues cachedAbsoluteValues;
         
         public int width;
         public int height;
+
+        public float worldSize;
+        public float gridSize;
 
         public bool raycastEnabled;
 
