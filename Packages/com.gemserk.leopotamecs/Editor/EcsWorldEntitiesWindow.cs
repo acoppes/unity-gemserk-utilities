@@ -595,8 +595,10 @@ namespace Gemserk.Leopotam.Ecs.Editor
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.BeginVertical(GUILayout.ExpandWidth(true));
+
+            var exists = selectedEntity.world && selectedEntity.world.EcsWorld != null && selectedEntity.Exists();
             
-            if (!world.Exists(selectedEntity))
+            if (!exists)
             {
                 EditorGUILayout.LabelField("-- SELECT ENTITY --", titleStyle);
                 EditorGUILayout.Separator();
