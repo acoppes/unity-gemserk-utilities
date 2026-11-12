@@ -22,8 +22,6 @@ namespace Gemserk.Leopotam.Ecs.Components
         public HashSet<string> statesEntered;
         public HashSet<string> statesExited;
 
-        public bool debugTransitions;
-
         public event StateChangedHandler onStatesEnterEvent;
         public event StateChangedHandler onStatesExitEvent;
 
@@ -122,8 +120,6 @@ namespace Gemserk.Leopotam.Ecs.Components
             world.AddComponent(entity, StatesComponent.Create());
 
             ref var statesComponent = ref world.GetComponent<StatesComponent>(entity);
-
-            statesComponent.debugTransitions = debugTransitions;
                 
             foreach (var state in startingStates)
             {

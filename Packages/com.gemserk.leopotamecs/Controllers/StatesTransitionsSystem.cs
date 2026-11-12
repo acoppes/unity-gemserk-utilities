@@ -8,6 +8,8 @@ namespace Gemserk.Leopotam.Ecs.Controllers
 {
     public class StatesTransitionsSystem : BaseSystem, IEcsRunSystem, IEntityDestroyedHandler
     {
+        public static bool DebugTransitions = false;
+        
         readonly EcsFilterInject<Inc<StatesComponent>, Exc<DisabledComponent>> statesFilter = default;
         readonly EcsPoolInject<StatesComponent> stateComponents = default;
 
@@ -35,7 +37,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             statesComponent.previousStates.UnionWith(statesComponent.activeStates);
             
 #if UNITY_EDITOR
-            if (statesComponent.debugTransitions)
+            if (DebugTransitions)
             {
                 if (statesComponent.statesExited.Count > 0)
                     Debug.Log($"EXIT: {string.Join(",", statesComponent.statesExited)}");
@@ -65,6 +67,7 @@ namespace Gemserk.Leopotam.Ecs.Controllers
             foreach (var entity in statesFilter.Value)
             {
                 var statesComponent = stateComponents.Value.Get(entity);
+                
                 UpdateStatesTransitions(statesComponent);
                 InvokeStatesCallbacks(statesComponent);
             }

@@ -115,7 +115,8 @@ namespace Gemserk.Leopotam.Ecs.Editor.Tests
         public void Test_DebugStates()
         {
             var statesComponent = StatesComponent.Create();
-            statesComponent.debugTransitions = true;
+            var previousValue = StatesTransitionsSystem.DebugTransitions;
+            StatesTransitionsSystem.DebugTransitions = true;
             
             statesComponent.EnterState("A");
             
@@ -125,6 +126,8 @@ namespace Gemserk.Leopotam.Ecs.Editor.Tests
             statesComponent.ExitState("A");
             
             StatesTransitionsSystem.UpdateStatesTransitions(statesComponent);
+            
+            StatesTransitionsSystem.DebugTransitions = previousValue;
         }
         
         [Test]
