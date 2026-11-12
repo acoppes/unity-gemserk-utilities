@@ -189,6 +189,7 @@ namespace Game.Components
             Playing
         }
         
+        [NonSerialized]
         public AnimationsAsset animationsAsset;
         
         public string lastPlayedAnimationNameForDebug;
@@ -212,6 +213,7 @@ namespace Game.Components
         
         public bool isCompleted => state == State.Completed;
         
+        [NonSerialized]
         public IDictionary<string, int> cachedAnimations;
         
         public float GetCurrentAnimationFactor()
