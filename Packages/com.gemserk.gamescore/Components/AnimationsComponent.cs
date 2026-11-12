@@ -192,6 +192,7 @@ namespace Game.Components
         [NonSerialized]
         public AnimationsAsset animationsAsset;
         
+        [NonSerialized]
         public string lastPlayedAnimationNameForDebug;
         
         public int currentAnimation;
