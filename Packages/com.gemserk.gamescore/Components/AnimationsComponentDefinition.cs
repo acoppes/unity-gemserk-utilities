@@ -26,7 +26,6 @@ namespace Game.Components
             world.AddComponent(entity, new AnimationsComponent
             {
                 animationsAsset = animationsAsset,
-                metadata = spritesMetadata,
                 currentAnimation = AnimationsComponent.NoAnimation,
                 currentFrame = AnimationsComponent.NoFrame,
                 currentTime = 0,
@@ -35,6 +34,14 @@ namespace Game.Components
                 paused = false,
                 speed = 1
             });
+
+            if (spritesMetadata)
+            {
+                entity.Add(new AnimationsSpritesMetadata()
+                {
+                    metadata = spritesMetadata
+                });
+            }
 
             if (hasMultipleDirectionsPerAnimation)
             {

@@ -1,52 +1,49 @@
 ﻿using Game.Components;
 using Game.Utilities;
 using Gemserk.Leopotam.Ecs;
+using Gemserk.Leopotam.Ecs.Components;
 using Leopotam.EcsLite;
+using Leopotam.EcsLite.Di;
 
 namespace Game.Systems
 {
     public class CopyFromAnimationFrameToHitBoxSystem : BaseSystem, IEcsRunSystem
     {
+        readonly EcsFilterInject<Inc<AnimationsComponent, PositionComponent, LookingDirection, HitBoxComponent, AnimationsSpritesMetadata>> filter = default;
+        
         public void Run(EcsSystems systems)
         {
-            var animations = world.GetComponents<AnimationsComponent>();
-            var hitBoxes = world.GetComponents<HitBoxComponent>();
-            var positions = world.GetComponents<PositionComponent>();
-            var lookingDirections = world.GetComponents<LookingDirection>();
-
-            foreach (var entity in world.GetFilter<AnimationsComponent>()
-                         .Inc<HitBoxComponent>()
-                         .Inc<PositionComponent>()
-                         .Inc<LookingDirection>().End())
+            foreach (var e in filter.Value)
             {
-                var animationComponent = animations.Get(entity);
+                var animations = filter.Pools.Inc1.Get(e);
 
-                if (animationComponent.currentAnimation == AnimationsComponent.NoAnimation)
+                if (animations.currentAnimation == AnimationsComponent.NoAnimation)
                 {
                     continue;
                 }
                 
-                var position = positions.Get(entity);
-                var lookingDirection = lookingDirections.Get(entity);
+                var position = filter.Pools.Inc2.Get(e);
+                var lookingDirection = filter.Pools.Inc3.Get(e);
                 
-                ref var hitBox = ref hitBoxes.Get(entity);
+                ref var hitBox = ref filter.Pools.Inc4.Get(e);
                 
-                var asset = animationComponent.animationsAsset;
-                var animationDefinition = asset.animations[animationComponent.currentAnimation];
-                var frame = animationDefinition.frames[animationComponent.currentFrame];
+                var asset = animations.animationsAsset;
+                var animationDefinition = asset.animations[animations.currentAnimation];
+                var frame = animationDefinition.frames[animations.currentFrame];
 
                 hitBox.hurt = new HitBox();
                 hitBox.hit = new HitBox();
 
-                if (hitBox.defaultHurt != null)
+                if (hitBox.defaultHurt)
                 {
                     hitBox.hurt = hitBox.defaultHurt.GetHitBox(position, lookingDirection);
                 }
                 
                 // hitBox.hurt.position = new Vector2(position.value.x, position.value.y);
                 // hitBox.hurt.offset += new Vector2(0, position.value.z);
-
-                var frameMetadata = animationComponent.metadata.GetFrameMetadata(frame.sprite);
+                var spritesMetadata = filter.Pools.Inc5.Get(e);
+                
+                var frameMetadata = spritesMetadata.metadata.GetFrameMetadata(frame.sprite);
 
                 if (frameMetadata != null && frameMetadata.hitBoxes.Count > 0)
                 {

@@ -170,8 +170,7 @@ namespace Game.Systems
 
                 var currentAnimation = animations.animationsAsset.animations[animations.currentAnimation];
 
-                animations.currentAnimationDefinition = currentAnimation;
-                
+                // animations.currentAnimationDefinition = currentAnimation;
                 
                 // TODO: could set this with a special compilation flag to toggle off once I find the issue?
                 var totalFrames = currentAnimation.TotalFrames;

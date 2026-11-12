@@ -170,6 +170,11 @@ namespace Game.Components
         }
     }
 
+    public struct AnimationsSpritesMetadata : IEntityComponent
+    {
+        public SpritesMetadata metadata;
+    }
+
     public struct AnimationsComponent : IEntityComponent
     {
         public const int NoAnimation = -1;
@@ -185,12 +190,10 @@ namespace Game.Components
         }
         
         public AnimationsAsset animationsAsset;
-        public SpritesMetadata metadata;
-
+        
         public string lastPlayedAnimationNameForDebug;
         
         public int currentAnimation;
-        public AnimationDefinition currentAnimationDefinition;
         
         public int currentFrame;
         public float currentTime;
@@ -208,17 +211,8 @@ namespace Game.Components
         // public AnimationCommand pendingCommand;
         
         public bool isCompleted => state == State.Completed;
-
-        // public event OnAnimatorEventHandler onStart;
-        // public event OnAnimatorEventHandler onComplete;
-        // public event OnAnimatorEventHandler onCompletedLoop;
-        // public event OnAnimationEventHandler onEvent;
-        
-        // public bool onStartEventPending;
         
         public IDictionary<string, int> cachedAnimations;
-
-        // public AnimationCommand pendingCommand;
         
         public float GetCurrentAnimationFactor()
         {
