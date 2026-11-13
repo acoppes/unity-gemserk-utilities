@@ -63,6 +63,16 @@ namespace Gemserk.DataGrids
             return GetWorldPosition(GetGridPosition(worldPosition));
         }
         
+        public Vector2 ClampPositionInsideWorld(Vector2 worldPosition)
+        {
+            var gridPosition = GetGridPosition(worldPosition);
+
+            gridPosition.x = Mathf.Clamp(gridPosition.x, 0, width - 1);
+            gridPosition.y = Mathf.Clamp(gridPosition.y, 0, height - 1);
+
+            return GetWorldPosition(gridPosition);
+        }
+        
         public void StoreValue<T>(Grid<T> grid, T value, Vector2 worldPosition) where T: struct
         {
             var gridPosition = GetGridPosition(worldPosition);
