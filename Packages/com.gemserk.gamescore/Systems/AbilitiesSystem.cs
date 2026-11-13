@@ -136,6 +136,7 @@ namespace Game.Systems
                                 
                             if (abilityTarget.target == null)
                             {
+                                abilityTarget.valid = false;
                                 continue;
                             }
 
