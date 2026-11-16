@@ -11,6 +11,7 @@ namespace Game.Systems
         IEcsInitSystem
     {
         readonly EcsFilterInject<Inc<HasLookingDirectionIndicatorComponent>, Exc<DisabledComponent>> visibilityFilter = default;
+        readonly EcsFilterInject<Inc<HasLookingDirectionIndicatorComponent, DisabledComponent>> visibilityDisabledFilter = default;
         readonly EcsFilterInject<Inc<HasLookingDirectionIndicatorComponent, LookingDirection, PositionComponent>, Exc<DisabledComponent>> filter = default;
         readonly EcsFilterInject<Inc<HasLookingDirectionIndicatorComponent, PositionComponent>, Exc<DisabledComponent>> positionsFilter = default;
         
@@ -65,6 +66,15 @@ namespace Game.Systems
                     {
                         indicator.instance.SetActive(true);
                     }
+                }
+            }
+            
+            foreach (var entity in visibilityDisabledFilter.Value)
+            {
+                ref var indicator = ref visibilityDisabledFilter.Pools.Inc1.Get(entity);
+                if (indicator.instance)
+                {
+                    indicator.instance.SetActive(false);
                 }
             }
             
