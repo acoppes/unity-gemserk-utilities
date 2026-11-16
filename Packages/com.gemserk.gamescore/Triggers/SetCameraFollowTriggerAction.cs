@@ -35,6 +35,8 @@ namespace Game.Triggers
         public bool useGameObject;
 
         public bool resetPreviousFollow = true;
+
+        public float weight = 1f;
         
         public override string GetObjectName()
         {
@@ -59,8 +61,8 @@ namespace Game.Triggers
             {
                 if (targetGameObject)
                 {
-                    CinemachineCameraUtils.FollowTarget(virtualCamera, targetGameObject.transform);
-                    CinemachineCameraUtils.LookAtTarget(virtualCamera, targetGameObject.transform);
+                    CinemachineCameraUtils.FollowTarget(virtualCamera, targetGameObject.transform, weight);
+                    CinemachineCameraUtils.LookAtTarget(virtualCamera, targetGameObject.transform, weight);
                 }
                 else
                 {
@@ -81,8 +83,8 @@ namespace Game.Triggers
                         {
                             var gameObjectComponent = world.GetComponent<GameObjectComponent>(entity);
 
-                            CinemachineCameraUtils.FollowTarget(virtualCamera, gameObjectComponent.gameObject.transform);
-                            CinemachineCameraUtils.LookAtTarget(virtualCamera, gameObjectComponent.gameObject.transform);
+                            CinemachineCameraUtils.FollowTarget(virtualCamera, gameObjectComponent.gameObject.transform, weight);
+                            CinemachineCameraUtils.LookAtTarget(virtualCamera, gameObjectComponent.gameObject.transform, weight);
                             
                         }
                         else
@@ -91,13 +93,13 @@ namespace Game.Triggers
                     
                             if (!useModel)
                             {
-                                CinemachineCameraUtils.FollowTarget(virtualCamera, modelComponent.instance.transform);
-                                CinemachineCameraUtils.LookAtTarget(virtualCamera, modelComponent.instance.transform);
+                                CinemachineCameraUtils.FollowTarget(virtualCamera, modelComponent.instance.transform, weight);
+                                CinemachineCameraUtils.LookAtTarget(virtualCamera, modelComponent.instance.transform, weight);
                             }
                             else
                             {
-                                CinemachineCameraUtils.FollowTarget(virtualCamera, modelComponent.instance.model);
-                                CinemachineCameraUtils.LookAtTarget(virtualCamera, modelComponent.instance.model);
+                                CinemachineCameraUtils.FollowTarget(virtualCamera, modelComponent.instance.model, weight);
+                                CinemachineCameraUtils.LookAtTarget(virtualCamera, modelComponent.instance.model, weight);
                             }
                         }
                         

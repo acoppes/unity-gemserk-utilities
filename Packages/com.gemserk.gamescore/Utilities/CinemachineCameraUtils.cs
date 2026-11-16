@@ -47,14 +47,14 @@ namespace Game.Utilities
             }
         }
         
-        public static void FollowTarget(CinemachineCamera camera, Transform followTransform)
+        public static void FollowTarget(CinemachineCamera camera, Transform followTransform, float weight)
         {
             if (camera.Follow)
             {
                 var targetGroup = camera.Follow.GetComponent<CinemachineTargetGroup>();
                 if (targetGroup)
                 {
-                    targetGroup.AddMember(followTransform, 1, 0);
+                    targetGroup.AddMember(followTransform, weight, 0);
                 }
             }
             else
@@ -63,14 +63,14 @@ namespace Game.Utilities
             }
         }
         
-        public static void LookAtTarget(CinemachineCamera camera, Transform followTransform)
+        public static void LookAtTarget(CinemachineCamera camera, Transform followTransform, float weight)
         {
             if (camera.LookAt)
             {
                 var targetGroup = camera.LookAt.GetComponent<CinemachineTargetGroup>();
                 if (targetGroup)
                 {
-                    targetGroup.AddMember(followTransform, 1, 0);
+                    targetGroup.AddMember(followTransform, weight, 0);
                 }
             }
             else
