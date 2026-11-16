@@ -42,9 +42,9 @@ namespace Game.Triggers
         {
             if (query)
             {
-                return $"SetCamera{actionType}({cameraName}, {query})";
+                return $"SetCamera{actionType}({cameraName}, {query}, {weight})";
             }    
-            return $"SetCamera{actionType}({cameraName}, {target})";
+            return $"SetCamera{actionType}({cameraName}, {target}, {weight})";
         }
 
         public override ITrigger.ExecutionResult Execute(object activator = null)
