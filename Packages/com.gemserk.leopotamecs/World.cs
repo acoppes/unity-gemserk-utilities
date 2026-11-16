@@ -254,6 +254,11 @@ namespace Gemserk.Leopotam.Ecs
         {
             return world.Filter<T>();
         }
+        
+        public EcsWorld.Mask GetEmptyFilter()
+        {
+            return world.EmptyMask();
+        }
 
         public EcsFilter Filter<T1>() where T1 : struct
         {
