@@ -29,7 +29,7 @@ namespace Gemserk.Triggers
             {
                 foreach (var entity in entities)
                 {
-                    entity.Add(new DisabledComponent());
+                    entity.AddOrSet(new DisabledComponent());
                 }                    
             }
             
@@ -37,7 +37,7 @@ namespace Gemserk.Triggers
             {
                 foreach (var entity in entities)
                 {
-                    entity.Add(new EnableEntityComponent());
+                    entity.AddOrSet(new EnableEntityComponent());
                 }                    
             }
             
