@@ -6,6 +6,8 @@ namespace Gemserk.Utilities
     {
         private int intLock;
 
+        public int ReadIntLock() => intLock;
+
         public bool value {
             get => intLock == 0;
             set {
@@ -29,6 +31,14 @@ namespace Gemserk.Utilities
         public override string ToString()
         {
             return $"V:{value.ToString()}, L:{intLock}";
+        }
+
+        public static IntLock CreateIntLock(int currentLock)
+        {
+            return new IntLock()
+            {
+                intLock = currentLock
+            };
         }
     }
 }
