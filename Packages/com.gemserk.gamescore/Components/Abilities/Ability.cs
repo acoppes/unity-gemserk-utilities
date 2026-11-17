@@ -220,5 +220,10 @@ namespace Game.Components.Abilities
         {
             cooldown.Decrease(time);
         }
+
+        public void QueueExecution()
+        {
+            pendingExecution = true;
+        }
     }
 }
