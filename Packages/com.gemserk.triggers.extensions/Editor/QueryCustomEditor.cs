@@ -49,6 +49,7 @@ namespace Gemserk.Triggers
                     cleanupFilter = new []
                     {
                         "QueryParameter",
+                        "Matcher"
                     },
                 });
             }
