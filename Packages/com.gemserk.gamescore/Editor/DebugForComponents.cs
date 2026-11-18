@@ -35,7 +35,14 @@ namespace Game.Editor
                     ability.pendingExecution = EditorGUILayout.Toggle("Pending", ability.pendingExecution);
                     
                     EditorGUILayout.LabelField("Charges", $"{ability.currentCharges} / {ability.totalCharges}");
+
+                    EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Cooldown",$"{ability.cooldown.current:0.0}/{ability.cooldown.Total:0.0}");
+                    if (GUILayout.Button("Fill"))
+                    {
+                        ability.cooldown.Fill();
+                    }
+                    EditorGUILayout.EndHorizontal();
                     
                     EditorGUILayout.LabelField("ExecutedTimes", $"{ability.executedTimes}");
                     
