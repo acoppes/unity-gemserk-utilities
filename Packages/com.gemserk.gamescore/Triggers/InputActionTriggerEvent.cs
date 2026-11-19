@@ -29,7 +29,14 @@ namespace Game.Triggers
         {
             if (eventType == EventType.InputAction)
             {
-                return $"Input_{eventType}()";
+                if (inputAction.bindings.Count > 0)
+                {
+                    return $"Input_{eventType}({inputAction.bindings[0].path})";
+                }
+                else
+                {
+                    return $"Input_{eventType}()";
+                }
             }
             if (eventType == EventType.InputActionReference && reference)
             {
