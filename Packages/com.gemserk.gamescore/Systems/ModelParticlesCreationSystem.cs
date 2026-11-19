@@ -33,6 +33,8 @@ namespace Game.Systems
             
                 modelParticle.instance.transform.SetParent(instance.transform, false);
                 modelParticle.currentModel = instance;
+                
+                instance.particleSystem.Play(true);
             }
         }
 
