@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Gemserk.Leopotam.Ecs;
-using Gemserk.Leopotam.Ecs.Events;
 using UnityEngine.Serialization;
 
 namespace Game.Components
