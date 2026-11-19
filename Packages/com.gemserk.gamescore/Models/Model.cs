@@ -22,8 +22,8 @@ namespace Game.Models
 
         private void Awake()
         {
-            cachedTransform = this.GetComponent<Transform>();
-            hasSpriteRenderer = spriteRenderer != null;
+            cachedTransform = transform;
+            hasSpriteRenderer = spriteRenderer;
 
             if (particleSystem)
             {

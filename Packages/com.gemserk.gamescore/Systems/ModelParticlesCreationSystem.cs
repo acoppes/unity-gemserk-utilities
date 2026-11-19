@@ -25,6 +25,10 @@ namespace Game.Systems
                 
                 var instance = entity.Get<ModelInstanceComponent>().instance;
                 instance.particleSystem = modelParticle.instance.GetComponent<ParticleSystem>();
+                
+                // keep prefab declared model to restore later for reuse.
+                modelParticle.previousModel = instance.model;
+                
                 instance.model = modelParticle.instance.transform;
             
                 modelParticle.instance.transform.SetParent(instance.transform, false);
@@ -46,7 +50,9 @@ namespace Game.Systems
                     }
                     
                     modelParticle.currentModel.particleSystem = null;
-                    modelParticle.currentModel.model = null;
+                    
+                    // restore previous model from prefab :S
+                    modelParticle.currentModel.model = modelParticle.previousModel;
                 }
                 
                 if (modelParticle.instance)

@@ -10,6 +10,8 @@ namespace Game.Components
         public GameObject particleSystemPrefab;
         public GameObject instance;
         public Model currentModel;
+        
+        public Transform previousModel;
     }
     
     public class ModelParticleSystemComponentDefinition : ComponentDefinitionBase
