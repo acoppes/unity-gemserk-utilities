@@ -55,7 +55,11 @@ namespace Gemserk.Utilities
 
         public bool IsReady => current >= total;
 
-        public float Progress => Mathf.Clamp(current / total, 0f, 1f);
+        public float Progress
+        {
+            get => Mathf.Clamp(current / total, 0f, 1f);
+            set => current = total * value;
+        }
 
         public float Total => total;
         
