@@ -443,6 +443,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
                 EditorGUILayout.LabelField("No world found");
                 selectedEntity = Entity.NullEntity;
                 // Repaint();
+                filterChanged = true;
                 return;
             }
             
