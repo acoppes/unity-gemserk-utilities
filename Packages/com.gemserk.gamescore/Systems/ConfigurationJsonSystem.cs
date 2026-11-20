@@ -18,9 +18,10 @@ namespace Game.Systems
         {
             if (world.HasComponent<ConfigurationJsonComponent>(entity))
             {
-                var configurationJsonComponent = world.GetComponent<ConfigurationJsonComponent>(entity);
-
-                var configJsonPath = configurationJsonComponent.jsonPath;
+                // var configurationJsonComponent = world.GetComponent<ConfigurationJsonComponent>(entity);
+                // var configJsonPath = configurationJsonComponent.jsonPath;
+                
+                var configJsonPath = string.Empty;
                 
                 if (string.IsNullOrEmpty(configJsonPath))
                 {
