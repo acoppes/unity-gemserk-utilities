@@ -129,7 +129,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
         private void OnFocus()
         {
             validComponentTypes = TypeCache.GetTypesDerivedFrom<IEntityComponent>()
-                .Where(t => !t.IsInterface).ToList();
+                .Where(t => !t.IsInterface && t.IsPublic).ToList();
         }
 
         private void DrawComponents (EcsWorld world, Entity entity)
