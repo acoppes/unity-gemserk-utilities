@@ -506,7 +506,7 @@ namespace Gemserk.Leopotam.Ecs.Editor
             var world = worlds[selectedWorld];
             
             // TODO: regenerate filter only if filterTypes changed
-            if (ecsFilter == null || filterChanged)
+            if (ecsFilter == null || ecsFilter.GetWorld() != world.EcsWorld || filterChanged)
             {
                 var mask = world.GetFilter<EcsWorldEntitiesDebugComponent>();
 
