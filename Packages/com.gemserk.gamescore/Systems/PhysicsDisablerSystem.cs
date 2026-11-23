@@ -14,42 +14,42 @@ namespace Game.Systems
         {
             foreach (var entity in enabledFilter.Value)
             {
-                var physics2dComponent = enabledFilter.Pools.Inc1.Get(entity);
+                var physics2DComponent = enabledFilter.Pools.Inc1.Get(entity);
 
-                if (physics2dComponent.gameObject != null) 
+                if (physics2DComponent.gameObject) 
                 {
-                    if (!physics2dComponent.gameObject.activeSelf)
+                    if (!physics2DComponent.gameObject.activeSelf)
                     {
-                        physics2dComponent.gameObject.SetActive(true);
+                        physics2DComponent.gameObject.SetActive(true);
                     }
 
-                    if (physics2dComponent.collideWithDynamicCollider != null)
+                    if (physics2DComponent.collideWithDynamicCollider)
                     {
-                        physics2dComponent.collideWithDynamicCollider.enabled = 
-                            !physics2dComponent.disableCollisions;
+                        physics2DComponent.collideWithDynamicCollider.enabled = 
+                            !physics2DComponent.disableCollisions;
                     }
                     
-                    if (physics2dComponent.collideWithStaticCollider != null)
+                    if (physics2DComponent.collideWithStaticCollider)
                     {
-                        physics2dComponent.collideWithStaticCollider.enabled = 
-                            !physics2dComponent.disableCollisions;
+                        physics2DComponent.collideWithStaticCollider.enabled = 
+                            !physics2DComponent.disableCollisions;
                     }
 
-                    for (var i = 0; i < physics2dComponent.colliders.Count; i++)
+                    for (var i = 0; i < physics2DComponent.colliders.Count; i++)
                     {
-                        var collider = physics2dComponent.colliders[i];
-                        collider.enabled = !physics2dComponent.disableCollisions;
+                        var collider = physics2DComponent.colliders[i];
+                        collider.enabled = !physics2DComponent.disableCollisions;
                     }
                 }
             }
             
             foreach (var entity in disabledFilter.Value)
             {
-                var physics2dComponent = disabledFilter.Pools.Inc1.Get(entity);
+                var physics2DComponent = disabledFilter.Pools.Inc1.Get(entity);
 
-                if (physics2dComponent.gameObject != null && physics2dComponent.gameObject.activeSelf) 
+                if (physics2DComponent.gameObject && physics2DComponent.gameObject.activeSelf) 
                 {
-                    physics2dComponent.gameObject.SetActive(false);
+                    physics2DComponent.gameObject.SetActive(false);
                 }
             }
         }

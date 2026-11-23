@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Systems;
 using Game.Utilities;
 using Gemserk.Leopotam.Ecs;
 using MyBox;
@@ -204,6 +205,8 @@ namespace Game.Components
 
         public bool disableContactsCalculations;
 
+        public bool autoSyncEnable;
+
         public override void Apply(World world, Entity entity)
         {
             if (physicsComponentType == PhysicsComponentType.Physics3d)
@@ -270,6 +273,11 @@ namespace Game.Components
                         disableContactsCalculations = disableContactsCalculations
                     });
                 }
+            }
+
+            if (autoSyncEnable)
+            {
+                entity.Add(new PhysicsEnablerComponent());
             }
         }
     }
