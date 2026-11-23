@@ -24,8 +24,6 @@ namespace Game.Systems
                 {
                     continue;
                 }
-
-                timerComponent.wasReady = timerComponent.timer.IsReady;
                 
                 timerComponent.timer.Increase(deltaTime);
 
@@ -33,6 +31,8 @@ namespace Game.Systems
                 {
                     onTimerCompletedSignal.Signal(world.GetEntity(e));
                 } 
+                
+                timerComponent.wasReady = timerComponent.timer.IsReady;
             }
         }
     }

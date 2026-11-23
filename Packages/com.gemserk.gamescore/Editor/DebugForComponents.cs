@@ -1,6 +1,5 @@
 ﻿using Game.Components;
 using Game.Components.Abilities;
-using Game.Utilities;
 using Leopotam.EcsLite.UnityEditor;
 using UnityEditor;
 using UnityEngine;
@@ -373,6 +372,36 @@ namespace Game.Editor
                     
                     EditorGUI.indentLevel--;
                 }
+
+                return true;
+            }
+        }
+
+        sealed class TimerComponentInspector : EcsComponentInspectorTyped<TimerComponent>
+        {
+            public override bool OnGuiTyped(string label, ref TimerComponent timer, EcsEntityDebugView entityView)
+            {
+
+                if (entityView)
+                {
+                    EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
+                }
+
+                EditorGUI.indentLevel++;
+
+                EditorGUI.BeginDisabledGroup(true);
+                EditorGUILayout.LabelField("Timer", timer.timer.ToString());
+                // EditorGUILayout.Toggle("Was Ready", timer.wasReady);
+                EditorGUI.EndDisabledGroup();
+
+                if (GUILayout.Button("Fill"))
+                {
+                    timer.timer.Fill();
+                }
+                
+                timer.paused = EditorGUILayout.Toggle("Paused", timer.paused);
+                
+                EditorGUI.indentLevel--;
 
                 return true;
             }
