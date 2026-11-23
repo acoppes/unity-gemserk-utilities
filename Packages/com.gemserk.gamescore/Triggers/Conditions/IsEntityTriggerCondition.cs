@@ -1,6 +1,5 @@
 ﻿using Gemserk.Leopotam.Ecs;
 using Gemserk.Triggers;
-using UnityEngine.Pool;
 
 namespace Game.Triggers.Conditions
 {
@@ -20,16 +19,7 @@ namespace Game.Triggers.Conditions
                 return false;
             }
             
-            var results = ListPool<Entity>.Get();
-            var isEntity = false;
-            
-            if (target.Get(results, world, activator))
-            {
-                isEntity = results.Contains((Entity)activator);
-            }
-            
-            ListPool<Entity>.Release(results);
-            return isEntity;
+            return target.IsMatch(world, (Entity)activator, activator);
         }
     }
 }
