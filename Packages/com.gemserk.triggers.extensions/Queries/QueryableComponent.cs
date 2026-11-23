@@ -2,7 +2,7 @@
 
 namespace Gemserk.Triggers.Queries
 {
-    public struct QueryableComponent : IEntityComponent
+    public struct QueryableComponent : ITagComponent
     {
 
     }
