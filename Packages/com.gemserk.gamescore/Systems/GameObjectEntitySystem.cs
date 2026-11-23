@@ -75,6 +75,11 @@ namespace Game.Systems
                             disableContactsCalculations = true,
                             colliders = new List<Collider2D>()
                         });
+
+                        if (entity.Has<CopyPositionFromGameObjectComponent>())
+                        {
+                            entity.Get<Physics2dComponent>().syncType = PhysicsComponent.SyncType.FromPhysics;
+                        }
                     }
                 }
             }
