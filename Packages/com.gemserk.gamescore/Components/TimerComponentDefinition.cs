@@ -1,5 +1,6 @@
 ﻿using Gemserk.Leopotam.Ecs;
 using Gemserk.Utilities;
+using UnityEngine.Serialization;
 
 namespace Game.Components
 {
@@ -12,7 +13,9 @@ namespace Game.Components
     
     public class TimerComponentDefinition : ComponentDefinitionBase, IEntityInstanceParameter
     {
-        public float startingTime;
+        [FormerlySerializedAs("startingTime")] 
+        public float totalTime;
+        
         public bool startsPaused;
         
         public override void Apply(World world, Entity entity)
@@ -23,7 +26,7 @@ namespace Game.Components
             }
 
             ref var timer = ref entity.Get<TimerComponent>();
-            timer.timer = new Cooldown(startingTime);
+            timer.timer = new Cooldown(totalTime);
             timer.paused = startsPaused;
         }
     }
