@@ -54,7 +54,7 @@ namespace Game.Editor
                         EditorGUILayout.LabelField("Duration",$"{ability.duration.current:0.0}/{ability.duration.Total:0.0}");
                     }
 
-                    if (ability.autoTarget)
+                    if (ability.autoTargetType != Ability.AutoTargetType.None)
                     {
                         foldout = EditorGUILayout.Foldout(foldout, "Targeting");
                         if (foldout)

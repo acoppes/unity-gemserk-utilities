@@ -107,26 +107,40 @@ namespace Game.Systems
                         ability.cooldown.Increase(dt);
                     }
 
-                    if (ability.autoTarget && !ability.targetsLocked)
+                    if (!ability.targetsLocked)
                     {
-                        temporaryTargets.Clear();
-                        var runtimeTargetingParameters = ability.GetRuntimeTargetingParameters();
-                        
-                        foreach (var targetEntity in targetsFilter.Value)
+                        var recalculateTargets = false;
+
+                        if (ability.autoTargetType == Ability.AutoTargetType.OnCooldownReady)
                         {
-                            var targetComponent = targetsFilter.Pools.Inc1.Get(targetEntity);
-                            if (TargetingUtils.ValidateTarget(targetComponent.target, runtimeTargetingParameters))
-                            {
-                                temporaryTargets.Add(targetComponent.target);
-                            }
+                            recalculateTargets = ability.cooldown.IsReady;
+                        } else if (ability.autoTargetType == Ability.AutoTargetType.Always)
+                        {
+                            recalculateTargets = true;
                         }
                         
-                        // world.GetTargetsFromHitboxes(ability.GetRuntimeTargetingParameters(), temporaryTargets);
+                        if (recalculateTargets)
+                        {
+                            temporaryTargets.Clear();
+                            var runtimeTargetingParameters = ability.GetRuntimeTargetingParameters();
+                        
+                            foreach (var targetEntity in targetsFilter.Value)
+                            {
+                                var targetComponent = targetsFilter.Pools.Inc1.Get(targetEntity);
+                                if (TargetingUtils.ValidateTarget(targetComponent.target, runtimeTargetingParameters))
+                                {
+                                    temporaryTargets.Add(targetComponent.target);
+                                }
+                            }
+                        
+                            // world.GetTargetsFromHitboxes(ability.GetRuntimeTargetingParameters(), temporaryTargets);
 
-                        runtimeTargetingParameters.filter.sorter?.Sort(temporaryTargets, runtimeTargetingParameters);
+                            runtimeTargetingParameters.filter.sorter?.Sort(temporaryTargets, runtimeTargetingParameters);
 
-                        ability.CopyTargets(temporaryTargets);
+                            ability.CopyTargets(temporaryTargets);
+                        }
                     }
+                   
 
                     if (ability.targetsLocked)
                     {

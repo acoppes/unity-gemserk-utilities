@@ -41,6 +41,13 @@ namespace Game.Components.Abilities
             Interrupted,
             Cancelled
         }
+
+        public enum AutoTargetType
+        {
+            None = 0, 
+            Always = 1,
+            OnCooldownReady = 2
+        }
         
         public string name;
         
@@ -54,7 +61,7 @@ namespace Game.Components.Abilities
         public bool isLoaded => (totalCharges == 0 || currentCharges > 0);
         public bool isFullyLoaded => totalCharges == 0 || currentCharges == totalCharges;
 
-        public bool autoTarget;
+        public AutoTargetType autoTargetType;
         // public ITargeting targeting;
 
         public TargetingFilter targeting;

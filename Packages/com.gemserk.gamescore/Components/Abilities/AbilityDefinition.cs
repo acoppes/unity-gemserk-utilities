@@ -40,7 +40,7 @@ namespace Game.Components.Abilities
                 startTime = new Cooldown(startTime),
                 cooldownType = cooldownType,
                 resetCooldownType = resetCooldownType,
-                autoTarget = autoTarget,
+                autoTargetType = autoTarget ? Ability.AutoTargetType.Always : Ability.AutoTargetType.None,
                 targeting = targeting ? targeting.targetingFilter : new TargetingFilter(),
                 currentCharges = charges,
                 totalCharges = charges,
