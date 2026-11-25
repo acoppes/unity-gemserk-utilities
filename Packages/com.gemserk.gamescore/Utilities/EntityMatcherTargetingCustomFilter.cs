@@ -10,10 +10,7 @@ namespace Game.Utilities
         
         public bool Filter(Target target, RuntimeTargetingParameters runtimeTargetingParameters)
         {
-            if (!target.entity.Exists())
-                return false;
-            
-            return matcher.Match(target.entity);
+            return target.entity.Exists() && matcher.Match(target.entity);
         }
     }
 }
