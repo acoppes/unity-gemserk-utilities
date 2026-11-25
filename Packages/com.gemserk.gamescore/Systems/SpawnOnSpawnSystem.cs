@@ -28,6 +28,10 @@ namespace Game.Systems
                         {
                             source = entity
                         });
+                        e.AddOrSet(new StartingPositionComponent()
+                        {
+                            value = position.value
+                        });
                     });
                     
                     spawnedEntity.Get<PositionComponent>().value = position.value;
