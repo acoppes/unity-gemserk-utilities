@@ -117,6 +117,9 @@ namespace Game.Systems
                         } else if (ability.autoTargetType == Ability.AutoTargetType.Always)
                         {
                             recalculateTargets = true;
+                        } else if (ability.autoTargetType == Ability.AutoTargetType.OnCooldownReadyNoActionsExecuting)
+                        {
+                            recalculateTargets = ability.cooldown.IsReady && !abilitiesComponent.hasExecutingAbility;
                         }
                         
                         if (recalculateTargets)

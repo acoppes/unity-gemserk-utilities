@@ -46,7 +46,8 @@ namespace Game.Components.Abilities
         {
             None = 0, 
             Always = 1,
-            OnCooldownReady = 2
+            OnCooldownReady = 2,
+            OnCooldownReadyNoActionsExecuting = 3
         }
         
         public string name;
