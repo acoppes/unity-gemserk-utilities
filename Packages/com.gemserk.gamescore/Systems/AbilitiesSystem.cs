@@ -123,15 +123,35 @@ namespace Game.Systems
                         {
                             temporaryTargets.Clear();
                             var runtimeTargetingParameters = ability.GetRuntimeTargetingParameters();
-                        
-                            foreach (var targetEntity in targetsFilter.Value)
+
+                            // stop target search if no sorter
+                            if (ability.maxTargets > 0 && runtimeTargetingParameters.filter.sorter == null)
                             {
-                                var targetComponent = targetsFilter.Pools.Inc1.Get(targetEntity);
-                                if (TargetingUtils.ValidateTarget(targetComponent.target, runtimeTargetingParameters))
+                                foreach (var targetEntity in targetsFilter.Value)
                                 {
-                                    temporaryTargets.Add(targetComponent.target);
+                                    var targetComponent = targetsFilter.Pools.Inc1.Get(targetEntity);
+                                    if (TargetingUtils.ValidateTarget(targetComponent.target, runtimeTargetingParameters))
+                                    {
+                                        temporaryTargets.Add(targetComponent.target);
+                                        if (temporaryTargets.Count >= ability.maxTargets)
+                                        {
+                                            break;
+                                        }
+                                    }
                                 }
                             }
+                            else
+                            {
+                                foreach (var targetEntity in targetsFilter.Value)
+                                {
+                                    var targetComponent = targetsFilter.Pools.Inc1.Get(targetEntity);
+                                    if (TargetingUtils.ValidateTarget(targetComponent.target, runtimeTargetingParameters))
+                                    {
+                                        temporaryTargets.Add(targetComponent.target);
+                                    }
+                                }
+                            }
+
                         
                             // world.GetTargetsFromHitboxes(ability.GetRuntimeTargetingParameters(), temporaryTargets);
 
