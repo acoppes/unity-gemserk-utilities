@@ -20,7 +20,7 @@ namespace Game.Components.Abilities
 
         public bool startsLoaded;
 
-        public bool autoTarget;
+        public Ability.AutoTargetType autoTarget;
         
         [FormerlySerializedAs("autoTargeting")] 
         public Targeting targeting;
@@ -40,7 +40,7 @@ namespace Game.Components.Abilities
                 startTime = new Cooldown(startTime),
                 cooldownType = cooldownType,
                 resetCooldownType = resetCooldownType,
-                autoTargetType = autoTarget ? Ability.AutoTargetType.Always : Ability.AutoTargetType.None,
+                autoTargetType = autoTarget,
                 targeting = targeting ? targeting.targetingFilter : new TargetingFilter(),
                 currentCharges = charges,
                 totalCharges = charges,
